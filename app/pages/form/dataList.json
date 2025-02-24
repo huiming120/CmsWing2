@@ -1,0 +1,533 @@
+{
+    "type": "page",
+    "initApi": {
+        "method": "post",
+        "url": "/graphql",
+        "graphql": "query($id:ID!){formInfo:Form_findByPk(id:$id){id,title}}",
+        "data": {
+            "id": "${params.form_id}"
+        },
+        "requestAdaptor": "",
+        "adaptor": "",
+        "messages": {}
+    },
+    "title": "${formInfo.title}-数据列表管理",
+    "body": [
+        {
+            "type": "crud",
+            "syncLocation": false,
+            "api": {
+                "method": "get",
+                "url": "/admin/form/dataList/${params.form_id}",
+                "data": {
+                    "&": "$$"
+                },
+                "requestAdaptor": "",
+                "adaptor": "",
+                "messages": {}
+            },
+            "bulkActions": [
+                {
+                    "type": "button",
+                    "level": "danger",
+                    "label": "批量删除",
+                    "actionType": "ajax",
+                    "confirmText": "确定要删除选中的${COUNT(SPLIT(ids,','))}项数据？",
+                    "api": {
+                        "method": "post",
+                        "url": "/graphql",
+                        "graphql": "mutation($ids:[ID!]){FormData_destroy(where:{id:{op_in:$ids}}){count}}",
+                        "data": {
+                            "ids": "${ids|split}"
+                        },
+                        "requestAdaptor": "",
+                        "adaptor": "",
+                        "messages": {}
+                    },
+                    "editorSetting": {
+                        "behavior": "bulkDelete"
+                    },
+                    "id": "u:9130d05ed991"
+                },
+                {
+                    "type": "button",
+                    "label": "批量审核",
+                    "actionType": "dialog",
+                    "editorSetting": {
+                        "behavior": "bulkUpdate"
+                    },
+                    "dialog": {
+                        "title": "批量审核",
+                        "body": [
+                            {
+                                "type": "form",
+                                "api": {
+                                    "method": "post",
+                                    "url": "/admin/form/dataEdit",
+                                    "requestAdaptor": "",
+                                    "adaptor": "",
+                                    "messages": {},
+                                    "data": {
+                                        "&": "$$",
+                                        "ids": "${ids}",
+                                        "form_id": "${params.form_id}"
+                                    }
+                                },
+                                "body": [
+                                    {
+                                        "type": "select",
+                                        "label": "审核状态",
+                                        "name": "status",
+                                        "options": [
+                                            {
+                                                "label": "未审核",
+                                                "value": 0
+                                            },
+                                            {
+                                                "label": "审核中",
+                                                "value": 1
+                                            },
+                                            {
+                                                "label": "审核通过",
+                                                "value": 2
+                                            },
+                                            {
+                                                "label": "审核失败",
+                                                "value": 3
+                                            }
+                                        ],
+                                        "id": "u:c6103838d9b3",
+                                        "multiple": false
+                                    }
+                                ],
+                                "id": "u:578d87d66a2f",
+                                "actions": [
+                                    {
+                                        "type": "submit",
+                                        "label": "提交",
+                                        "primary": true
+                                    }
+                                ],
+                                "feat": "Insert",
+                                "dsType": "api",
+                                "labelAlign": "left"
+                            }
+                        ],
+                        "type": "dialog",
+                        "id": "u:95e64a8df677",
+                        "actions": [
+                            {
+                                "type": "button",
+                                "actionType": "cancel",
+                                "label": "取消",
+                                "id": "u:15a2dc14a251"
+                            },
+                            {
+                                "type": "button",
+                                "actionType": "confirm",
+                                "label": "确定",
+                                "primary": true,
+                                "id": "u:c9e1387c0792"
+                            }
+                        ],
+                        "showCloseButton": true,
+                        "closeOnOutside": false,
+                        "closeOnEsc": false,
+                        "showErrorMsg": true,
+                        "showLoading": true,
+                        "draggable": false
+                    },
+                    "id": "u:0d28eb032f3b",
+                    "confirmText": "批量审核会带给服务器一定的压力，每次尽量不要超过20条！"
+                }
+            ],
+            "itemActions": [],
+            "id": "u:bee18f140988",
+            "perPageAvailable": [
+                5,
+                10,
+                20,
+                50,
+                100,
+                200,
+                500,
+                1000
+            ],
+            "messages": {},
+            "alwaysShowPagination": true,
+            "autoFillHeight": true,
+            "headerToolbar": [
+                {
+                    "type": "bulk-actions"
+                },
+                {
+                    "type": "export-excel",
+                    "tpl": "内容",
+                    "wrapperComponent": "",
+                    "id": "u:f9d8daee05bb",
+                    "align": "right",
+                    "api": "/admin/form/dataList/${params.form_id}?isExport=true",
+                    "label": "导出全部数据",
+                    "filename": "表单${params.form_id}全部数据",
+                    "confirmText": "确认导出全部数据吗？此操作会增加服务器压力，请不要过多操作"
+                },
+                {
+                    "type": "export-excel",
+                    "align": "right",
+                    "id": "u:f14131705205",
+                    "tpl": "内容",
+                    "wrapperComponent": "",
+                    "filename": "表单${params.form_id}部分数据",
+                    "label": "导出当页数据"
+                },
+                {
+                    "type": "reload",
+                    "id": "u:2d2122433999",
+                    "align": "right",
+                    "icon": "iconfont icon-refresh"
+                }
+            ],
+            "footerToolbar": [
+                {
+                    "type": "statistics"
+                },
+                {
+                    "type": "pagination"
+                },
+                {
+                    "type": "switch-per-page",
+                    "tpl": "内容",
+                    "wrapperComponent": "",
+                    "id": "u:f7536e2d0221",
+                    "align": "right"
+                }
+            ],
+            "columns": [
+                {
+                    "name": "id",
+                    "label": "ID",
+                    "type": "text",
+                    "id": "u:9c15268ddfce",
+                    "placeholder": "-",
+                    "sortable": true,
+                    "searchable": {
+                        "type": "group",
+                        "body": [
+                            {
+                                "type": "input-number",
+                                "name": "id",
+                                "label": "ID"
+                            },
+                            {
+                                "type": "input-text",
+                                "name": "keyword",
+                                "label": "关键词"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "type": "date",
+                    "label": "提交时间",
+                    "name": "createdAt",
+                    "id": "u:d769d2094a4e",
+                    "placeholder": "-",
+                    "sortable": true,
+                    "format": "YYYY-MM-DD HH:mm:ss"
+                },
+                {
+                    "type": "text",
+                    "label": "用户uuid",
+                    "name": "member_uuid",
+                    "id": "u:86cd40fc3e0f",
+                    "placeholder": "-",
+                    "copyable": true,
+                    "searchable": true
+                },
+                {
+                    "type": "text",
+                    "label": "用户名",
+                    "name": "member_name",
+                    "id": "u:f88f474d4901",
+                    "placeholder": "-",
+                    "copyable": true,
+                    "searchable": true
+                },
+                {
+                    "type": "text",
+                    "label": "用户ip",
+                    "name": "ip",
+                    "id": "u:b16cbf475ed3",
+                    "placeholder": "-",
+                    "copyable": true,
+                    "searchable": true
+                },
+                {
+                    "type": "mapping",
+                    "label": "状态",
+                    "name": "status",
+                    "id": "u:a39720f4f8d1",
+                    "map": {
+                        "0": "<span class='label label-default'>未审核</span>",
+                        "1": "<span class='label label-info'>审核中</span>",
+                        "2": "<span class='label label-success'>审核通过</span>",
+                        "3": "<span class='label label-danger'>审核失败</span>"
+                    },
+                    "searchable": {
+                        "type": "select",
+                        "options": [
+                            {
+                                "label": "未审核",
+                                "value": 0
+                            },
+                            {
+                                "label": "审核中",
+                                "value": 1
+                            },
+                            {
+                                "label": "审核通过",
+                                "value": 2
+                            },
+                            {
+                                "label": "审核失败",
+                                "value": 3
+                            }
+                        ]
+                    },
+                    "quickEdit": {
+                        "type": "select",
+                        "options": [
+                            {
+                                "label": "未审核",
+                                "value": 0
+                            },
+                            {
+                                "label": "审核中",
+                                "value": 1
+                            },
+                            {
+                                "label": "审核通过",
+                                "value": 2
+                            },
+                            {
+                                "label": "审核失败",
+                                "value": 3
+                            }
+                        ],
+                        "saveImmediately": {
+                            "api": {
+                                "method": "post",
+                                "url": "/admin/form/dataEdit",
+                                "data": {
+                                    "form_id": "${form_id}",
+                                    "ids": "${id}",
+                                    "status": "${status}"
+                                }
+                            }
+                        },
+                        "mode": "popOver"
+                    },
+                    "placeholder": "-"
+                },
+                {
+                    "type": "text",
+                    "label": "字符串",
+                    "name": "data.name",
+                    "id": "u:83284f1dee12",
+                    "placeholder": "-",
+                    "className": "text-primary",
+                    "copyable": true
+                },
+                {
+                    "type": "text",
+                    "label": "数字",
+                    "name": "data.age",
+                    "id": "u:467bfdeb65a0",
+                    "className": "text-primary",
+                    "placeholder": "-",
+                    "copyable": true
+                },
+                {
+                    "type": "mapping",
+                    "map": {
+                        "true": "是",
+                        "false": "否"
+                    },
+                    "name": "data.school",
+                    "label": "是否",
+                    "id": "u:af2761cc790e",
+                    "className": "text-primary"
+                },
+                {
+                    "type": "text",
+                    "label": "手机号",
+                    "name": "data.mobile",
+                    "id": "u:f7ba04a38de5",
+                    "className": "text-primary",
+                    "placeholder": "-",
+                    "copyable": true
+                },
+                {
+                    "type": "text",
+                    "label": "邮箱",
+                    "name": "data.email",
+                    "id": "u:1175376e55e0",
+                    "className": "text-primary",
+                    "placeholder": "-",
+                    "copyable": true
+                },
+                {
+                    "type": "link",
+                    "name": "data.img",
+                    "label": "网络地址",
+                    "id": "u:d69bfdfb08f0",
+                    "className": "text-primary",
+                    "placeholder": "-",
+                    "copyable": true,
+                    "inline": true,
+                    "blank": true,
+                    "innerClassName": "underline"
+                },
+                {
+                    "type": "text",
+                    "label": "身份证号",
+                    "name": "data.idCard",
+                    "id": "u:1b4d885effbf",
+                    "className": "text-primary",
+                    "placeholder": "-",
+                    "copyable": true
+                },
+                {
+                    "type": "date",
+                    "label": "日期",
+                    "name": "data.date",
+                    "id": "u:2ba35bc3f1ae",
+                    "className": "text-primary"
+                },
+                {
+                    "type": "dateTime",
+                    "label": "日期时间",
+                    "name": "data.dateTime",
+                    "id": "u:cfa25bcba536",
+                    "className": "text-primary"
+                },
+                {
+                    "type": "each",
+                    "name": "data.files",
+                    "items": {
+                        "type": "tpl",
+                        "id": "u:d6ab585e869c",
+                        "tpl": "<p><a href='${item}' class='underline' target='_blank'>${item}</a></p>"
+                    },
+                    "placeholder": "",
+                    "id": "u:e3a85053b27d",
+                    "label": "文件上传",
+                    "className": "text-primary"
+                },
+                {
+                    "type": "images",
+                    "imageGallaryClassName": "app-popover :AMISCSSWrapper",
+                    "name": "data.imgs",
+                    "label": "图片上传",
+                    "className": "text-primary",
+                    "enlargeAble": true,
+                    "showToolbar": true,
+                    "id": "u:61a9a8908a67"
+                },
+                {
+                    "type": "mapping",
+                    "label": "单选",
+                    "name": "data.class",
+                    "id": "u:0a2c601f5d0a",
+                    "className": "text-primary",
+                    "map": {
+                        "1": "一班",
+                        "2": "二班",
+                        "3": "三班"
+                    }
+                },
+                {
+                    "type": "mapping",
+                    "map": {
+                        "1": "一班",
+                        "2": "二班",
+                        "3": "三班",
+                        "4": "四班",
+                        "5": "五班"
+                    },
+                    "className": "text-primary",
+                    "name": "data.classes",
+                    "label": "多选",
+                    "id": "u:1f722bd8dcce"
+                },
+                {
+                    "type": "tpl",
+                    "label": "富文本",
+                    "name": "data.html",
+                    "id": "u:79ca1c8ae8f8",
+                    "className": "text-primary",
+                    "placeholder": "-",
+                    "copyable": true,
+                    "popOver": {
+                        "mode": "dialog",
+                        "type": "panel",
+                        "title": "查看详情",
+                        "body": [
+                            {
+                                "type": "tpl",
+                                "tpl": "${data.html|raw}",
+                                "wrapperComponent": "",
+                                "inline": false,
+                                "id": "u:6abaef4e45a0"
+                            }
+                        ],
+                        "id": "u:b572147e9439",
+                        "actions": [],
+                        "affixFooter": false
+                    }
+                },
+                {
+                    "type": "operation",
+                    "label": "操作",
+                    "buttons": [
+                        {
+                            "type": "button",
+                            "label": "删除",
+                            "actionType": "ajax",
+                            "level": "link",
+                            "className": "text-danger",
+                            "confirmText": "确定要删除？",
+                            "api": {
+                                "method": "post",
+                                "url": "/graphql",
+                                "graphql": "mutation($id:ID!){FormData_destroy(where:{id:{op_eq:$id}}){count}}",
+                                "requestAdaptor": "",
+                                "adaptor": "",
+                                "messages": {}
+                            },
+                            "editorSetting": {
+                                "behavior": "delete"
+                            },
+                            "id": "u:1826f82b3b07"
+                        }
+                    ],
+                    "id": "u:fbd95bc4ff38"
+                }
+            ]
+        }
+    ],
+    "id": "u:da9f2bd161a1",
+    "asideResizor": false,
+    "pullRefresh": {
+        "disabled": true
+    },
+    "regions": [
+        "body",
+        "header"
+    ],
+    "wrapperCustomStyle": {
+        ".child-block *": {
+            "display": "block"
+        }
+    }
+}

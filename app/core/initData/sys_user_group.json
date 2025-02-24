@@ -1,6 +1,8 @@
 {
   "RECORDS": [
     {
+      "createdAt": "2024-11-19T02:04:13.000Z",
+      "updatedAt": "2024-11-19T02:04:13.000Z",
       "name": "管理员",
       "uuid": "9decbce5-3006-482b-9c0a-c85aa534c766",
       "desc": null,
@@ -8,6 +10,8 @@
       "sort": 0
     },
     {
+      "createdAt": "2024-11-19T02:04:13.000Z",
+      "updatedAt": "2024-11-19T02:04:13.000Z",
       "name": "编辑",
       "uuid": "984a0cba-7e19-49a3-92b3-6aa497367a66",
       "desc": null,
@@ -15,6 +19,8 @@
       "sort": 0
     },
     {
+      "createdAt": "2024-11-19T02:04:13.000Z",
+      "updatedAt": "2024-11-19T02:04:13.000Z",
       "name": "游客",
       "uuid": "7e0e06c5-dd3e-4779-89bf-646c49fd5c6b",
       "desc": null,

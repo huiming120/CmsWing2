@@ -1,237 +1,457 @@
 {
-  "type": "page",
-  "asideSticky": true,
-  "cssVars": {
-    "--Page-aside-width": "260px",
-    "--Page-body-padding": 0
-  },
-  "css": {
-    ".cxd-AppBcn": {
-      "display": "none"
+    "type": "page",
+    "asideSticky": true,
+    "cssVars": {
+        "--Page-aside-width": "260px",
+        "--Page-body-padding": 0
     },
-    ".amis-scope .cxd-TableCell-searchPopOver": {
-      "min-width": "auto"
-    }
-  },
-  "aside": [
-    {
-      "type": "service",
-      "debug":true,
-      "data":{"apps":"all"},
-      "id":"models-reload",
-      "body": {
-        "type": "picker",
-        "name": "models_id",
-        "joinValues": true,
-        "valueField": "id",
-        "labelField": "name",
-        "label": false,
-        "onEvent": {
-          "change": {
-            "actions": [
-              {
-                "actionType": "setValue",
-                "componentId": "models-detail",
-                "args": {
-                  "value":{"models_id":"$event.data.value"}
-                }
-              }
-            ]
-          }
+    "css": {
+        ".cxd-AppBcn": {
+            "display": "none"
         },
-        "source": {"url":"/admin/sys/models?app=$apps","data":{"&": "$$"}},
-        "value": "${models_id}",
-        "embed": true,
-        "pickerSchema": {
-          "mode": "table",
-          "name": "thelist",
-          "autoFillHeight": true,
-          "footerToolbar": [
-            {
-              "type": "tpl",
-              "tpl": "当前有 ${COUNT(item)} 个模型。",
-              "className": "v-middle pl-3"
-            }
-          ],
-          "headerToolbar": [
-            {
-              "type": "select",
-              "name": "app",
-             "source":"/admin/sys/models/application?type=all",
-             "selectFirst": true,
-              "onEvent": {
-                "change": {
-                  "actions": [
-                    {
-                      "actionType": "setValue",
-                      "componentId": "models-reload",
-                      "args": {
-                        "value":{"apps":"$event.data.value","models_id":""}
-                      }
-                    }
-                  ]
-                }
-              }
+        ".amis-scope .cxd-TableCell-searchPopOver": {
+            "min-width": "auto"
+        }
+    },
+    "aside": [
+        {
+            "type": "service",
+            "debug": true,
+            "data": {
+                "apps": "all"
             },
-            {
-              "type": "button",
-              "actionType": "dialog",
-              "label": "新增",
-              "align": "right",
-              "icon": "fa fa-plus pull-left",
-              "primary": true,
-              "disabledOn": "${models_id}",
-              "dialog": {
-                "title": "新增模型",
-                "body": {
-                  "type": "form",
-                  "name": "addModels",
-                  "debug":false,
-                  "api": "/admin/sys/models/addModels",
-                  "body": [
-                    {
-                      "type": "input-text",
-                      "name": "name",
-                      "label": "模型名称",
-                      "required": true,
-                      "description": "命名格式 应用标识_表名 例如:sys_models"
-                    },
-                    {
-                      "type": "divider"
-                    },
-                    {
-                      "type": "input-text",
-                      "name": "desc",
-                      "label": "模型描述",
-                      "required": true,
-                      "description": "模型说明"
-                    },
-                    {
-                      "type": "divider"
-                    },
-                    {
-                    "label": "应用标识",
-                    "type": "select",
-                    "name": "app",
-                     "source":"/admin/sys/models/application",
-                     "required": true,
-                     "description": "选择的应用的标识就是模型名称的前缀"
-                    },
-                    {
-                      "type": "divider"
-                    },
-                    {
-                      "name": "paranoid",
-                      "type": "switch",
-                      "label": "偏执表",
-                      "value": false,
-                      "labelRemark": "paranoid",
-                      "description": "Sequelize 支持 paranoid 表的概念. 一个 paranoid 表是一个被告知删除记录时不会真正删除它的表.反而一个名为 deletedAt 的特殊列会将其值设置为该删除请求的时间戳."
-                    }
-                  ]
-                }
-              }
-            }
-          ],
-          "columns": [
-            {
-              "name": "name",
-              "label": "模型",
-              "sortable": true,
-              "searchable": true,
-              "type": "text"
-            },
-            {
-              "type": "operation",
-              "label": "",
-              "width": 10,
-              "className": "text-center",
-              "buttons": [
+            "id": "models-reload",
+            "body": [
                 {
-                  "type": "button",
-                  "disabledOn": "${models_id}",
-                  "icon": "fa fa-times text-danger",
-                  "actionType": "ajax",
-                  "confirmText": "您确认要删除 $name 吗？删除后可能会导致程序错误！",
-                  "tooltip": "删除",
-                  "api": {
-                    "url": "/graphql",
-                    "method": "post",
-                    "graphql": "mutation($id:ID!){SysModels_destroy(where:{id:{op_eq:$id}}){count}}",
-                    "data": {
-                      "id": "${id}"
-                    }
-                  }
+                    "type": "picker",
+                    "name": "models_id",
+                    "joinValues": true,
+                    "valueField": "id",
+                    "labelField": "name",
+                    "label": false,
+                    "onEvent": {
+                        "change": {
+                            "actions": [
+                                {
+                                    "actionType": "setValue",
+                                    "componentId": "models-detail",
+                                    "args": {
+                                        "value": {
+                                            "models_id": "$event.data.value"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "source": {
+                        "url": "/admin/sys/models?app=$apps",
+                        "data": {
+                            "&": "$$"
+                        }
+                    },
+                    "value": "${models_id}",
+                    "embed": true,
+                    "pickerSchema": {
+                        "mode": "table",
+                        "name": "thelist",
+                        "autoFillHeight": true,
+                        "footerToolbar": [
+                            {
+                                "type": "tpl",
+                                "tpl": "当前有 ${COUNT(item)} 个模型。",
+                                "className": "v-middle pl-3",
+                                "id": "u:cb9be5cbe2e9"
+                            }
+                        ],
+                        "headerToolbar": [
+                            {
+                                "type": "select",
+                                "name": "app",
+                                "source": "/admin/sys/models/application?type=all",
+                                "selectFirst": true,
+                                "onEvent": {
+                                    "change": {
+                                        "actions": [
+                                            {
+                                                "actionType": "setValue",
+                                                "componentId": "models-reload",
+                                                "args": {
+                                                    "value": {
+                                                        "apps": "$event.data.value",
+                                                        "models_id": ""
+                                                    }
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                "id": "u:24d99b039550"
+                            },
+                            {
+                                "type": "button",
+                                "actionType": "dialog",
+                                "label": "新增",
+                                "align": "right",
+                                "icon": "fa fa-plus pull-left",
+                                "primary": true,
+                                "disabledOn": "${models_id}",
+                                "dialog": {
+                                    "title": "新增模型",
+                                    "body": {
+                                        "type": "form",
+                                        "name": "addModels",
+                                        "debug": false,
+                                        "api": "/admin/sys/models/addModels",
+                                        "body": [
+                                            {
+                                                "type": "input-text",
+                                                "name": "name",
+                                                "label": "模型名称",
+                                                "required": true,
+                                                "description": "命名格式 应用标识_表名 例如:sys_models"
+                                            },
+                                            {
+                                                "type": "divider"
+                                            },
+                                            {
+                                                "type": "input-text",
+                                                "name": "desc",
+                                                "label": "模型描述",
+                                                "required": true,
+                                                "description": "模型说明"
+                                            },
+                                            {
+                                                "type": "divider"
+                                            },
+                                            {
+                                                "label": "应用标识",
+                                                "type": "select",
+                                                "name": "app",
+                                                "source": "/admin/sys/models/application",
+                                                "required": true,
+                                                "description": "选择的应用的标识就是模型名称的前缀"
+                                            },
+                                            {
+                                                "type": "divider"
+                                            },
+                                            {
+                                                "name": "paranoid",
+                                                "type": "switch",
+                                                "label": "偏执表",
+                                                "value": false,
+                                                "labelRemark": "paranoid",
+                                                "description": "Sequelize 支持 paranoid 表的概念. 一个 paranoid 表是一个被告知删除记录时不会真正删除它的表.反而一个名为 deletedAt 的特殊列会将其值设置为该删除请求的时间戳."
+                                            }
+                                        ]
+                                    },
+                                    "type": "dialog",
+                                    "actionType": "dialog"
+                                },
+                                "id": "u:d78e1476c24f"
+                            }
+                        ],
+                        "columns": [
+                            {
+                                "name": "name",
+                                "label": "模型",
+                                "sortable": true,
+                                "searchable": true,
+                                "type": "text",
+                                "id": "u:c76431cfa3ca"
+                            },
+                            {
+                                "type": "operation",
+                                "label": "",
+                                "width": "",
+                                "className": "text-center",
+                                "buttons": [
+                                    {
+                                        "type": "button",
+                                        "label": "",
+                                        "onEvent": {
+                                            "click": {
+                                                "actions": [
+                                                    {
+                                                        "ignoreError": false,
+                                                        "actionType": "dialog",
+                                                        "dialog": {
+                                                            "type": "dialog",
+                                                            "title": "导出数据",
+                                                            "body": [
+                                                                {
+                                                                    "id": "u:9411328afe02",
+                                                                    "type": "form",
+                                                                    "title": "表单",
+                                                                    "mode": "flex",
+                                                                    "labelAlign": "top",
+                                                                    "dsType": "api",
+                                                                    "feat": "Insert",
+                                                                    "body": [
+                                                                        {
+                                                                            "name": "name",
+                                                                            "label": "数据表",
+                                                                            "row": 0,
+                                                                            "type": "input-text",
+                                                                            "id": "u:82a76e388893",
+                                                                            "readOnly": true,
+                                                                            "required": true
+                                                                        },
+                                                                        {
+                                                                            "type": "input-tag",
+                                                                            "label": "不导出字段",
+                                                                            "name": "exclude",
+                                                                            "options": [
+                                                                                {
+                                                                                    "label": "id",
+                                                                                    "value": "id"
+                                                                                },
+                                                                                {
+                                                                                    "label": "createdAt",
+                                                                                    "value": "createdAt"
+                                                                                },
+                                                                                {
+                                                                                    "label": "updatedAt",
+                                                                                    "value": "updatedAt"
+                                                                                }
+                                                                            ],
+                                                                            "row": 1,
+                                                                            "id": "u:af8831d5f21e",
+                                                                            "optionsTip": "",
+                                                                            "value": "id,createdAt,updatedAt"
+                                                                        },
+                                                                        {
+                                                                            "type": "condition-builder",
+                                                                            "label": "条件组件",
+                                                                            "name": "where",
+                                                                            "builderMode": "simple",
+                                                                            "showANDOR": true,
+                                                                            "description": "适合让用户自己拼查询条件，然后后端根据数据生成 query where",
+                                                                            "source": {
+                                                                                "method": "post",
+                                                                                "url": "/graphql",
+                                                                                "graphql": "query{SysModelsFields_findAll(where:{models_uuid:{op_eq: \"09023791-7045-4e86-b4da-6ac0072ef574\"}}){id name type}}",
+                                                                                "data": {
+                                                                                    "id": "${id}"
+                                                                                },
+                                                                                "responseData": {
+                                                                                    "fields": "${SysModelsFields_findAll}"
+                                                                                },
+                                                                                "adaptor": "for (let i = 0; i < payload.data.SysModelsFields_findAll.length; i++) {\r\n    var item = payload.data.SysModelsFields_findAll[i];\r\n    item.label = item.name;\r\n    if (item.type == \"INTEGER\" || item.type == \"BIGINT\" || item.type == \"FLOAT\" || item.type == \"DOUBLE\" || item.type == \"DECIMAL\") {\r\n        item.type = \"number\";\r\n    } else if (item.type == \"DATE\") {\r\n        item.type = \"datetime\";\r\n    } else if (item.type == \"DATEONLY\") {\r\n        item.type = \"date\";\r\n    } else if (item.type == \"BOOLEAN\") {\r\n        item.type = \"boolean\";\r\n    } else {\r\n        item.type = \"text\";\r\n    }\r\n}\r\nreturn payload;"
+                                                                            },
+                                                                            "row": 2,
+                                                                            "id": "u:75b7d1a67aed"
+                                                                        }
+                                                                    ],
+                                                                    "api": {
+                                                                        "url": "/admin/sys/models/exportData",
+                                                                        "method": "post",
+                                                                        "requestAdaptor": "",
+                                                                        "adaptor": "",
+                                                                        "messages": {},
+                                                                        "responseType": "blob",
+                                                                        "data": {
+                                                                            "&": "$$"
+                                                                        }
+                                                                    },
+                                                                    "actions": [
+                                                                        {
+                                                                            "type": "button",
+                                                                            "label": "提交",
+                                                                            "onEvent": {
+                                                                                "click": {
+                                                                                    "actions": [
+                                                                                        {
+                                                                                            "actionType": "submit",
+                                                                                            "componentId": "u:9411328afe02"
+                                                                                        }
+                                                                                    ]
+                                                                                }
+                                                                            },
+                                                                            "level": "primary"
+                                                                        }
+                                                                    ],
+                                                                    "resetAfterSubmit": true
+                                                                }
+                                                            ],
+                                                            "id": "u:0ff580de0190",
+                                                            "actions": [
+                                                                {
+                                                                    "type": "button",
+                                                                    "actionType": "cancel",
+                                                                    "label": "取消",
+                                                                    "id": "u:26db6fb033c8"
+                                                                },
+                                                                {
+                                                                    "type": "button",
+                                                                    "actionType": "confirm",
+                                                                    "label": "确定",
+                                                                    "primary": true,
+                                                                    "id": "u:d298c44bb408"
+                                                                }
+                                                            ],
+                                                            "showCloseButton": true,
+                                                            "closeOnOutside": false,
+                                                            "closeOnEsc": false,
+                                                            "showErrorMsg": true,
+                                                            "showLoading": true,
+                                                            "draggable": false,
+                                                            "actionType": "dialog"
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        "id": "u:ba968b849e58",
+                                        "icon": "fa fa-download",
+                                        "size": "xs",
+                                        "tooltip": "导出数据"
+                                    },
+                                    {
+                                        "type": "button",
+                                        "icon": "fa fa-rotate",
+                                        "actionType": "ajax",
+                                        "confirmText": "您确认要同步 $name 结构到数据库吗！",
+                                        "tooltip": "结构同步",
+                                        "api": {
+                                            "url": "/admin/sys/models/sync",
+                                            "method": "post",
+                                            "data": {
+                                                "&": "$$"
+                                            }
+                                        },
+                                        "id": "u:8386de82951e",
+                                        "disabled": false
+                                    },
+                                    {
+                                        "type": "button",
+                                        "disabledOn": "${models_id}",
+                                        "icon": "fa fa-times text-danger",
+                                        "actionType": "ajax",
+                                        "confirmText": "您确认要删除 $name 吗？删除后可能会导致程序错误！",
+                                        "tooltip": "删除",
+                                        "api": {
+                                            "url": "/graphql",
+                                            "method": "post",
+                                            "graphql": "mutation($id:ID!){SysModels_destroy(where:{id:{op_eq:$id}}){count}}",
+                                            "data": {
+                                                "id": "${id}"
+                                            }
+                                        },
+                                        "id": "u:9ec9a14f053b"
+                                    }
+                                ],
+                                "id": "u:e852432f3373",
+                                "placeholder": "-"
+                            }
+                        ],
+                        "id": "u:b98e1172f0ab",
+                        "perPageAvailable": [
+                            5,
+                            10,
+                            20,
+                            50,
+                            100
+                        ],
+                        "messages": {}
+                    },
+                    "id": "u:6af85b3f1bcc"
                 }
-              ]
-            }
-          ]
+            ],
+            "dsType": "api"
         }
-      }
-    }
-  ],
-  "body": [
-    {
-      "type": "service",
-      "id":"models-detail",
-      "body": [
+    ],
+    "body": [
         {
-          "type": "tabs",
-          "visibleOn": "${models_id>0}",
-          "tabsMode": "sidebar",
-          "sidePosition": "right",
-          "showTip": true,
-          "tabs": [
-            {
-              "title": "基础",
-              "icon": "fa-solid fa-table",
-              "body": {
-                "type": "service",
-                "schemaApi": "get:/pages/sys/models/editModels.json?models_id=${models_id}"
-              }
-            },
-            {
-              "title": "字段",
-              "icon": "fa-solid fa-table-columns",
-              "body": {
-                "type": "service",
-                "schemaApi": "get:/pages/sys/models/fieldModels.json?models_id=${models_id}"
-              }
-            },
-            {
-              "title": "索引",
-              "icon": "fa-solid fa-trowel-bricks",
-              "body": {
-                "type": "service",
-                "schemaApi": "get:/pages/sys/models/indexesModels.json?models_id=${models_id}"
-              }
-            },
-            {
-              "title": "关联",
-              "icon": "fa-solid fa-arrows-down-to-people",
-              "body": {
-                "type": "service",
-                "schemaApi": "get:/pages/sys/models/associateModels.json?models_id=${models_id}"
-              }
-            }
-          ]
-        },
-       
-        {
-          "type": "wrapper",
-          "visibleOn": "${!models_id}",
-          "body": {
-            "type": "alert",
-            "title": "系统提示",
-            "body": {
-              "type":"tpl",
-              "tpl": "<p>请选择左侧的模型进行编辑&nbsp;</p><p>创建模型后会自动生成增、删、改、查的GraphQL接口，<br>具体语法请到<a title=\"GraphQL官网\" href=\"https://graphql.cn/\" target=\"_blank\" rel=\"noopener\">GraphQL官网</a>查询，具体方法和测试请点击系统顶部【GraphQL】按钮查询。</p>"
-            },
-            "level": "info",
-            "className": "mb-3"
-          }
+            "type": "service",
+            "id": "models-detail",
+            "body": [
+                {
+                    "type": "tabs",
+                    "visibleOn": "${models_id>0}",
+                    "tabsMode": "sidebar",
+                    "sidePosition": "right",
+                    "showTip": true,
+                    "tabs": [
+                        {
+                            "title": "基础",
+                            "icon": "fa-solid fa-table",
+                            "body": [
+                                {
+                                    "type": "service",
+                                    "schemaApi": "get:/pages/sys/models/editModels.json?models_id=${models_id}",
+                                    "id": "u:5c01e8af029e",
+                                    "dsType": "api"
+                                }
+                            ],
+                            "id": "u:410598800389"
+                        },
+                        {
+                            "title": "字段",
+                            "icon": "fa-solid fa-table-columns",
+                            "body": [
+                                {
+                                    "type": "service",
+                                    "schemaApi": "get:/pages/sys/models/fieldModels.json?models_id=${models_id}"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "索引",
+                            "icon": "fa-solid fa-trowel-bricks",
+                            "body": [
+                                {
+                                    "type": "service",
+                                    "schemaApi": "get:/pages/sys/models/indexesModels.json?models_id=${models_id}"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "关联",
+                            "icon": "fa-solid fa-arrows-down-to-people",
+                            "body": [
+                                {
+                                    "type": "service",
+                                    "schemaApi": "get:/pages/sys/models/associateModels.json?models_id=${models_id}"
+                                }
+                            ]
+                        }
+                    ],
+                    "id": "u:b1276834fc2e"
+                },
+                {
+                    "type": "wrapper",
+                    "visibleOn": "${!models_id}",
+                    "body": [
+                        {
+                            "type": "alert",
+                            "title": "系统提示",
+                            "body": [
+                                {
+                                    "type": "tpl",
+                                    "tpl": "<p>请选择左侧的模型进行编辑&nbsp;</p><p>创建模型后会自动生成增、删、改、查的GraphQL接口，<br>具体语法请到<a title=\"GraphQL官网\" href=\"https://graphql.cn/\" target=\"_blank\" rel=\"noopener\">GraphQL官网</a>查询，具体方法和测试请点击系统顶部【GraphQL】按钮查询。</p>",
+                                    "id": "u:3b130da2532f"
+                                }
+                            ],
+                            "level": "info",
+                            "className": "mb-3",
+                            "id": "u:725a65f5c95f"
+                        }
+                    ],
+                    "id": "u:a40c6949bb99"
+                }
+            ],
+            "dsType": "api"
         }
-      ]
-    }
-  ]
+    ],
+    "id": "u:5ed5a436e31c",
+    "asideResizor": false,
+    "pullRefresh": {
+        "disabled": true
+    },
+    "regions": [
+        "body",
+        "aside"
+    ],
+    "definitions": {}
 }

@@ -1,0 +1,149 @@
+
+	type Wall {
+		id:ID
+		createdAt:Date
+		updatedAt:Date
+		title:String
+		config:JSON
+
+		wall_award(order:[[String]],limit:Int,offset:Int): [WallAward]
+
+	}
+
+
+	input WhereWall_id {
+		op_eq: ID
+		op_ne: ID
+		op_or: [ID]
+		op_gt: ID
+		op_gte: ID
+		op_lt: ID
+		op_lte: ID
+		op_between: [ID]
+		op_notBetween: [ID]
+		op_in: [ID]
+		op_notIn: [ID]
+		op_like: String
+		op_notLike: String
+		op_startsWith: String
+		op_endsWith: String
+		op_substring: String
+	}
+	input WhereWall_createdAt {
+		op_eq: Date
+		op_ne: Date
+		op_or: [Date]
+		op_gt: Date
+		op_gte: Date
+		op_lt: Date
+		op_lte: Date
+		op_between: [Date]
+		op_notBetween: [Date]
+		op_in: [Date]
+		op_notIn: [Date]
+		op_like: String
+		op_notLike: String
+		op_startsWith: String
+		op_endsWith: String
+		op_substring: String
+	}
+	input WhereWall_updatedAt {
+		op_eq: Date
+		op_ne: Date
+		op_or: [Date]
+		op_gt: Date
+		op_gte: Date
+		op_lt: Date
+		op_lte: Date
+		op_between: [Date]
+		op_notBetween: [Date]
+		op_in: [Date]
+		op_notIn: [Date]
+		op_like: String
+		op_notLike: String
+		op_startsWith: String
+		op_endsWith: String
+		op_substring: String
+	}
+	input WhereWall_title {
+		op_eq: String
+		op_ne: String
+		op_or: [String]
+		op_gt: String
+		op_gte: String
+		op_lt: String
+		op_lte: String
+		op_between: [String]
+		op_notBetween: [String]
+		op_in: [String]
+		op_notIn: [String]
+		op_like: String
+		op_notLike: String
+		op_startsWith: String
+		op_endsWith: String
+		op_substring: String
+	}
+	input WhereWall_config {
+		op_eq: JSON
+		op_ne: JSON
+		op_or: [JSON]
+		op_gt: JSON
+		op_gte: JSON
+		op_lt: JSON
+		op_lte: JSON
+		op_between: [JSON]
+		op_notBetween: [JSON]
+		op_in: [JSON]
+		op_notIn: [JSON]
+		op_like: String
+		op_notLike: String
+		op_startsWith: String
+		op_endsWith: String
+		op_substring: String
+	}
+
+	input WhereFieldWall{
+		id:WhereWall_id
+		createdAt:WhereWall_createdAt
+		updatedAt:WhereWall_updatedAt
+		title:WhereWall_title
+		config:WhereWall_config
+
+	}
+
+	input WhereWall {
+		id:WhereWall_id
+		createdAt:WhereWall_createdAt
+		updatedAt:WhereWall_updatedAt
+		title:WhereWall_title
+		config:WhereWall_config
+
+		op_and: [WhereFieldWall]
+		op_or: [WhereFieldWall]
+		op_not: [WhereFieldWall]
+	}
+
+
+	input AddWall {
+		title: String!
+		config: JSON!
+
+	}
+
+
+	input EditWall {
+		title: String
+		config: JSON
+
+	}
+
+	type CountWall {
+		count: Int
+		rows: [Wall]
+	}
+	type ResDelWall {
+		count: Int
+	}
+	type ResEditWall {
+		ids: [Int]
+	}

@@ -8,192 +8,244 @@ const { Op } = require('sequelize');
 * @controller 系统入口
 */
 class IndexController extends Controller {
-  async index() {
-    const { ctx } = this;
-    await ctx.render('sys/index');
-  }
-  async login() {
-    const { ctx } = this;
-    if (ctx.session.adminToken) {
-      ctx.redirect('/admin');
-    }
-    await ctx.render('sys/login');
-  }
-  /**
-  * @summary 登录接口
-  * @description 登录接口
-  * @router post /admin/loginPost
-  * @request body sys_user_add *body desc
-  * @response 200 baseRes desc
-  */
-  async lginPost() {
-    const { ctx } = this;
-    let { username, password } = ctx.request.body;
-    password = ctx.helper.cipher(password);
-    const user = await ctx.model.SysUser.findOne({
-      where: {
-        username,
-        password,
-      },
-    });
-    if (user) {
-      const token = ctx.helper.generateToken(user);
-      // 设置 Session
-      ctx.session.adminToken = token;
-      console.log(token);
-      this.success('登录成功');
-    } else {
-      this.fail('账号密码错误');
-    }
-  }
-  /**
-  * @summary 退出登录
-  * @description 退出登录
-  * @router get /admin/logout
-  * @response 200 baseRes desc
-  */
-  async logout() {
-    const { ctx } = this;
-    ctx.session.adminToken = null;
-    ctx.redirect('/admin/login');
-  }
-  async getJson() {
-    const { ctx } = this;
-    const name = ctx.params[0];
-    console.log(name);
-    const jsonDir = path.join(this.app.baseDir, 'app', 'pages', name);
-    const json = await fs.readJson(jsonDir, { throws: false });
-    ctx.body = json;
-  }
-  // graphql接口暴漏
-  async graphql() {
-    const body = this.ctx.request.body;
-    const { model } = this.ctx.params;
-    // 后台接口
-    if (!model || model === 'admin') {
-      // 验证权限
-      const token = this.ctx.session.adminToken || this.ctx.get('token');
-      const userInfo = this.ctx.helper.deToken(token);
-      if (userInfo) {
-        if (!userInfo.admin) {
-          const check = await this.service.sys.rbac.graphql(body.query, userInfo.uuid);
-          if (!check) {
-            this.ctx.body = {
-              status: 403,
-              msg: '对不起，您无权访问此接口。',
-              data: {
-                path: this.ctx.url,
-              },
-            };
-            return false;
-          }
+	async index() {
+		const { ctx } = this;
+		await ctx.render('sys/index');
+	}
+	async login() {
+		const { ctx } = this;
+		if (ctx.session.adminToken) {
+			return ctx.redirect('/admin');
+		}
+		await ctx.render('sys/login');
+	}
+	/**
+	* @summary 登录接口
+	* @description 登录接口
+	* @router post /admin/loginPost
+	* @request body sys_user_add *body desc
+	* @response 200 baseRes desc
+	*/
+	async lginPost() {
+		const { ctx } = this;
+		let { username, password } = ctx.request.body;
+		password = ctx.helper.cipher(password);
+		const user = await ctx.model.SysUser.findOne({
+			where: {
+				username,
+				password,
+			},
+		});
+		if (user) {
+			const token = ctx.helper.generateToken(user);
+			// 设置 Session
+			ctx.session.adminToken = token;
+			// console.log(token);
+			this.success('登录成功');
+		} else {
+			this.fail('账号密码错误');
+		}
+	}
+	/**
+	* @summary 退出登录
+	* @description 退出登录
+	* @router get /admin/logout
+	* @response 200 baseRes desc
+	*/
+	async logout() {
+		const { ctx } = this;
+		ctx.session.adminToken = null;
+		ctx.redirect('/admin/login');
+	}
+    /**
+     * @summary 修改密码
+     * @description 修改管理账号密码
+     * @router post /admin/modifiedPassword
+     * @request body string oldpassword 旧密码
+     * @request body string password 新密码
+     * @response 200 baseRes desc
+     */
+    async modifiedPassword() {
+		const { ctx } = this;
+		const { oldpassword, password } = ctx.request.body;
+		const user = await ctx.model.SysUser.findOne({
+			where: {
+				uuid: ctx.userInfo.uuid,
+			},
+		});
+		if (user) {
+			const oldPassword = ctx.helper.cipher(oldpassword);
+			if (oldPassword !== user.password){
+                return this.fail('密码错误', 22);
+            }
+            await ctx.model.SysUser.update({ password: ctx.helper.cipher(password) }, { where: { uuid: user.uuid } });
+            ctx.session.adminToken = null;
+		    return this.success();
+		} else {
+            return this.fail('密码错误', 21);
         }
-      } else {
-        this.ctx.body = {
-          status: 401,
-          msg: '未登录',
-          data: { isLogin: false },
-        };
-        return false;
-      }
-    } else if (model === 'mc') {
-      // MCenter 验证权限
-      const token = this.ctx.session.mcToken || this.ctx.get('token');
-      const userInfo = this.ctx.helper.deToken(token);
-      if (!userInfo) {
-        this.ctx.body = {
-          status: 401,
-          msg: '未登录',
-          data: { isLogin: false },
-        };
-        return false;
-      }
-    } else if (model === 'open') {
-      // 开放接口
-      const check = await this.service.sys.rbac.openApi(body.query);
-      if (!check) {
-        this.ctx.body = {
-          status: 403,
-          msg: '对不起，您无权访问此接口。',
-          data: {
-            path: this.ctx.url,
-          },
-        };
-        return false;
-      }
-    } else {
-      this.ctx.body = {
-        status: 403,
-        msg: '对不起，您无权访问此接口。',
-        data: {
-          path: this.ctx.url,
-        },
-      };
-      return false;
     }
-    const res = await this.ctx.graphqlQuery(JSON.stringify(body));
-    // console.log(body);
-    // console.log(JSON.stringify(res.data, null, 2));
-    this.ctx.body = {
-      status: 0,
-      msg: '',
-      data: res.data,
-    };
-  }
-  async site() {
-    const map = {};
-    map.order = [[ 'sort', 'ASC' ]];
-    map.where = { admin: false, class_uuid: '8f5757a3-8af9-45db-8819-d767aaddfadb' };
-    const roleIds = await this.ctx.service.sys.rbac.getRoleIds(this.ctx.userInfo.uuid);
-    if (!this.ctx.helper._.isEmpty(roleIds)) {
-      map.where.uuid = { [Op.in]: roleIds };
-    }
-    const ml = await this.ctx.model.SysRoutes.findAll(map);
-    const arr = [];
-    for (const v of ml) {
-      const obj = {};
-      obj.label = v.name;
-      obj.uuid = v.uuid;
-      obj.puuid = v.puuid;
-      obj.visible = v.is_menu;
-      if (v.icon) {
-        obj.icon = v.icon;
-      }
-      if (v.path) {
-        obj.url = v.path;
-      }
-      if (v.link) {
-        obj[v.linkType] = v.link;
-      }
-      arr.push(obj);
-    }
-    const tree = this.ctx.helper.arr_to_tree(arr, '0', 'uuid', 'puuid');
-    this.success({ pages: tree });
-  }
-  async team() {
-    const items = [];
-    items.push({ name: '总策划&主开发', value: '<a href=\'https://www.cmswing.com\' target=\'_blank\'>阿特</a>' });
-    items.push({ name: '研发团队', value: '<a href=\'https://www.cmswing.com\' target=\'_blank\'>阿特</a>' });
-    items.push({ name: '开源贡献者', value: '-' });
-    items.push({ name: '开源协议', value: '<a href=\'https://gitee.com/cmswing/CmsWing/blob/master/LICENSE\' target=\'_blank\'> MulanPSL-2.0</a>' });
-    items.push({ name: '相关链接', value: '<a href=\'https://www.cmswing.com\' target=\'_blank\'>CmsWing官网</a>，<a href=\'https://www.eggjs.org/zh-CN\' target=\'_blank\'>EggJS官网</a>' });
-    this.success({ items });
-  }
-  async sysInfo() {
-    const items = [];
-    const packagePath = path.join(this.app.baseDir, 'package.json');
-    const packageInfo = await fs.readJson(packagePath, { throws: false });
-    items.push({ name: 'CmsWing 程序版本', value: packageInfo.version });
-    items.push({ name: 'egg 程序版本', value: packageInfo.dependencies.egg });
-    items.push({ name: 'Node.js 版本', value: process.version });
-    items.push({ name: '服务器系统', value: `${process.platform}/${process.arch}` });
-    items.push({ name: '服务器 MySQL 版本', value: (await this.ctx.model.query('select version()'))[0][0]['version()'] });
-    // console.log(packageInfo);
-    console.log((await this.ctx.model.query('select version()')));
-    this.success({ items });
-  }
-  async gitee() {
-    this.ctx.body = `<script src='https://gitee.com/cmswing/CmsWing/widget_preview' async defer></script>
+    async page() {
+        const { ctx } = this;
+        const lpath = '/' + ctx.params[0];
+        let router = await ctx.model.SysRoutes.findOne({ where: { path: lpath } });
+        const renderData = {};
+        if (!router) {
+            router = await ctx.model.SysRoutes.findOne({ where: { path: { [Op.startsWith]: lpath.substring(0, lpath.lastIndexOf('/')) + '/:' } } });
+            if (router) {
+                const paramsName = router.path.split(':')[1];
+                const paramsValue = lpath.substring(lpath.lastIndexOf('/') + 1);
+                renderData.params = { [paramsName]: paramsValue };
+            }
+        }
+        if (!router || router.admin || router.linkType != 'schemaApi' || !router.link) {
+            return this.notFound();
+        }
+        const check = await ctx.service.sys.rbac.check(router.path, ctx.userInfo.uuid);
+        if (!check) {
+            return this.notFound();
+        }
+        const jsonPath = path.join(this.app.baseDir, 'app', router.link);
+		const page = await fs.readJson(jsonPath, { throws: false });
+        renderData.router = router;
+        renderData.page = page;
+		await ctx.render('sys/page', renderData);
+	}
+	async getJson() {
+		const { ctx } = this;
+		const name = ctx.params[0];
+		// console.log(name);
+		const jsonDir = path.join(this.app.baseDir, 'app', 'pages', name);
+		const json = await fs.readJson(jsonDir, { throws: false });
+		ctx.body = json;
+	}
+	// graphql接口暴漏
+	async graphql() {
+		const body = this.ctx.request.body;
+		const { model } = this.ctx.params;
+		// 后台接口
+		if (!model || model === 'admin') {
+			// 验证权限
+			const token = this.ctx.session.adminToken || this.ctx.get('token');
+			const userInfo = this.ctx.helper.deToken(token);
+			if (userInfo) {
+				if (!userInfo.admin) {
+					const check = await this.service.sys.rbac.graphql(body.query, userInfo.uuid);
+					if (!check) {
+						this.ctx.body = {
+							status: 403,
+							msg: '对不起，您无权访问此接口。',
+							data: {
+								path: this.ctx.url,
+							},
+						};
+						return false;
+					}
+				}
+			} else {
+				this.ctx.body = {
+					status: 401,
+					msg: '未登录',
+					data: { isLogin: false },
+				};
+				return false;
+			}
+		}  /*else if (model === 'mc') {
+			// MCenter 验证权限
+			const token = this.ctx.session.mcToken || this.ctx.get('token');
+			const userInfo = this.ctx.helper.deToken(token);
+			if (!userInfo) {
+				this.ctx.body = {
+					status: 401,
+					msg: '未登录',
+					data: { isLogin: false },
+				};
+				return false;
+			}
+		}*/ else if (model === 'open') {
+			// 开放接口
+			const check = await this.service.sys.rbac.openApi(body.query);
+			if (!check) {
+				this.ctx.body = {
+					status: 403,
+					msg: '对不起，您无权访问此接口。',
+					data: {
+						path: this.ctx.url,
+					},
+				};
+				return false;
+			}
+		} else {
+			this.ctx.body = {
+				status: 403,
+				msg: '对不起，您无权访问此接口。',
+				data: {
+					path: this.ctx.url,
+				},
+			};
+			return false;
+		}
+		const res = await this.ctx.graphqlQuery(JSON.stringify(body));
+        if (res.errors && res.errors.length > 0) {
+            this.fail('graphql接口错误', 1002);
+        } else {
+            this.success(res.data);
+        }
+	}
+	async site() {
+		const map = {};
+		map.order = [['sort', 'ASC']];
+		map.where = { admin: false, class_uuid: '8f5757a3-8af9-45db-8819-d767aaddfadb' };
+		const roleIds = await this.ctx.service.sys.rbac.getRoleIds(this.ctx.userInfo.uuid);
+		if (!this.ctx.helper._.isEmpty(roleIds)) {
+			map.where.uuid = { [Op.in]: roleIds };
+		}
+		const ml = await this.ctx.model.SysRoutes.findAll(map);
+		const arr = [];
+		for (const v of ml) {
+			const obj = {};
+			obj.label = v.name;
+			obj.uuid = v.uuid;
+			obj.puuid = v.puuid;
+			obj.visible = v.is_menu;
+			if (v.icon) {
+				obj.icon = v.icon;
+			}
+			if (v.path) {
+				obj.url = v.path;
+			}
+			if (v.link) {
+				obj[v.linkType] = v.link;
+			}
+			arr.push(obj);
+		}
+		const tree = this.ctx.helper.arr_to_tree(arr, '0', 'uuid', 'puuid');
+		this.success({ pages: tree });
+	}
+	async team() {
+		const items = [];
+		items.push({ name: '总策划&主开发', value: '<a href=\'https://www.cmswing.net\' target=\'_blank\'>阿特</a>' });
+		items.push({ name: '研发团队', value: '<a href=\'https://www.cmswing.net\' target=\'_blank\'>阿特</a>' });
+		items.push({ name: '开源贡献者', value: '-' });
+		items.push({ name: '开源协议', value: '<a href=\'https://gitee.com/cmswing/CmsWing/blob/master/LICENSE\' target=\'_blank\'> MulanPSL-2.0</a>' });
+		items.push({ name: '相关链接', value: '<a href=\'https://www.cmswing.net\' target=\'_blank\'>CmsWing官网</a>，<a href=\'https://www.eggjs.org/zh-CN\' target=\'_blank\'>EggJS官网</a>' });
+		this.success({ items });
+	}
+	async sysInfo() {
+		const items = [];
+		const packagePath = path.join(this.app.baseDir, 'package.json');
+		const packageInfo = await fs.readJson(packagePath, { throws: false });
+		items.push({ name: '程序版本', value: packageInfo.version });
+		items.push({ name: 'egg 程序版本', value: packageInfo.dependencies.egg });
+		items.push({ name: 'Node.js 版本', value: process.version });
+		items.push({ name: '服务器系统', value: `${process.platform}/${process.arch}` });
+		items.push({ name: '服务器 MySQL 版本', value: (await this.ctx.model.query('select version()'))[0][0]['version()'] });
+		// console.log(packageInfo);
+		// console.log((await this.ctx.model.query('select version()')));
+		this.success({ items });
+	}
+	async gitee() {
+		this.ctx.body = `<script src='https://gitee.com/cmswing/CmsWing/widget_preview' async defer></script>
     <div id="osc-gitee-widget-tag"></div>
     <script>
     window.onload=function(){
@@ -216,9 +268,9 @@ class IndexController extends Controller {
     .osc_desc_color {color: #666666 !important;}
     .osc_link_color * {color: #9b9b9b !important;}
     </style>`;
-  }
-  async ceshi() {
-    this.ctx.body = this.config.objectStorage;
-  }
+	}
+	async ceshi() {
+		this.ctx.body = this.config.objectStorage;
+	}
 }
 module.exports = IndexController;

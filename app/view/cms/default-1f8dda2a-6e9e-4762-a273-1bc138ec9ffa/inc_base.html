@@ -1,6 +1,5 @@
 <!doctype html>
 <html lang="zh-CN" xmlns="http://www.w3.org/1999/xhtml">
-
 <head>
     <meta charset="UTF-8">
     <title>{{ctx.meta_title}}-{{ctx.app.config.cms.name}}</title>
@@ -8,20 +7,17 @@
     <meta name="description" content="{{ctx.description}}" />
     <meta name="viewport" content="width=device-width, maximum-scale=5, initial-scale=1">
     <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
-
     <!-- preloading icon font is helping to speed up a little bit -->
-    <link rel="preload" href="/public/assets/fonts/flaticon/Flaticon.woff2?v={{ctx.app.config.pkg.version}}" as="font" type="font/woff2" crossorigin>
+    <!-- <link rel="preload" href="/public/assets/fonts/flaticon/Flaticon.woff2?v={{ctx.app.config.pkg.version}}" as="font" type="font/woff2" crossorigin> -->
     <link rel="stylesheet" href="/public/assets/css/core.min.css?v={{ctx.app.config.pkg.version}}">
     <link rel="stylesheet" href="/public/assets/css/vendor_bundle.min.css?v={{ctx.app.config.pkg.version}}">
-
-
     <link rel="stylesheet" href="/public/cms/{{'cms'|@template('path')}}/css/app.css?v={{'cms'|@template('version')}}">
     <!-- favicon -->
     <link rel="shortcut icon" href="/public/cms/{{'cms'|@template('path')}}/favicon.ico?v={{'cms'|@template('version')}}">
     <link rel="apple-touch-icon" href="/public/cms/{{'cms'|@template('path')}}/logo/icon_512x512.png?v={{'cms'|@template('version')}}">
-{{ctx.app.config.cms.tongji|safe|e}}
+    {%block head_link%}{%endblock%}
+    {{ctx.app.config.cms.tongji|safe|e}}
 </head>
-
 <body {%block body%}{%endblock%}>
     <!-- wrapper -->
     <div id="wrapper">
@@ -39,33 +35,83 @@
     </div>
     <!-- /#wrapper -->
     <script src="/public/assets/js/core.min.js"></script>
+    {%block body_link%}{%endblock%}
     <div id="page_js_files">
         <script>
             //登录
-        var mc_sign_callback = function(form,data){
-          if(data.status===1000){
-            $.SOW.core.toast.show('danger', 'Error', data.msg, 'top-end');
-          }else{
-            $.SOW.core.toast.show('success', 'Success', data.msg, 'top-end');
-            location.reload();
-          }
-        }
-        //注册
-        var mc_signup_callback = function(form,data){
-        if(data.status===1000){
-          $.SOW.core.toast.show('danger', 'Error', data.msg, 'top-end');
-        }else{
-          $.SOW.core.toast.show('success', 'Success', data.msg, 'top-end');
-          $(form)[0].reset();
-          $("#accordionAccountSignUp").removeClass('show');
-          $("#accordionAccountSignIn").addClass('show')
-        }
-        }
+            var mc_sign_callback = function (form, data) {
+                if (data.status === 1000) {
+                    $.SOW.core.toast.show('danger', 'Error', data.msg, 'top-end');
+                } else {
+                    $.SOW.core.toast.show('success', 'Success', data.msg, 'top-end');
+                    location.reload();
+                }
+            }
+            //注册
+            var mc_signup_callback = function (form, data) {
+                if (data.status === 1000) {
+                    $.SOW.core.toast.show('danger', 'Error', data.msg, 'top-end');
+                } else {
+                    $.SOW.core.toast.show('success', 'Success', data.msg, 'top-end');
+                    $(form)[0].reset();
+                    $("#accordionAccountSignUp").removeClass('show');
+                    $("#accordionAccountSignIn").addClass('show')
+                }
+            }
+
+            // 重置密码
+            var mc_reset_callback = function (form, data) {
+                if (data.status != 0) {
+                    $.SOW.core.toast.show('danger', '提示', data.msg, 'top-end');
+                } else {
+                    $.SOW.core.toast.show('success', '提示', data.msg, 'top-end');
+                }
+            }
+
+            // 发送短信功能
+            function onSendSMSBtnClick(el) {
+                var _this = $(el), id = _this.attr('id');
+                var target = _this.data('target');
+                if (!target) {
+                    return
+                }
+                var mobile = $(target).val().trim();
+                if (!mobile || mobile.length != 11) {
+                    return $.SOW.core.toast.show('warning', '提示', '请输入正确格式的手机号！', 'top-end');
+                }
+                
+                _this.data('timer-countdown-from', 59000);
+                var _endTargetHide = _this.data('timer-countdown-end-hide-target') || '';
+                if (_endTargetHide != '')
+                    $(_endTargetHide).removeClass('hide hide-force');
+                _this.prop('disabled', true);
+                $.SOW.core.timer_countdown.process(_this);
+
+                $.post('/mc/sendSms', { mobile: mobile }, function (data) {
+                    if (data.status == 0) {
+                        $.SOW.core.toast.show('success', '发送短信成功', '请在5分钟内操作完成', 'top-center');
+                    } else if (data.status == 21) {
+                        $.SOW.core.toast.show('warning', '提示', data.msg, 'top-center');
+                        $.SOW.core.timer_countdown.timer_compute_stop(id);
+                        _this.data('timer-countdown-from', (data.data.ttl - 240) * 1000);
+                        $.SOW.core.timer_countdown.process(_this);
+                    } else {
+                        $.SOW.core.toast.show('danger', '出错啦', data.msg, 'top-center');
+                        if (_endTargetHide != '')
+                            $(_endTargetHide).addClass('hide hide-force');
+                        $.SOW.core.timer_countdown.timer_compute_stop(id);
+                        sendSMSCountdownCallback(id);
+                    }
+                });
+            }
+            function sendSMSCountdownCallback(elID) {
+                var _this = $('#'+elID);
+                $('.s', _this).text('发送短信');
+                _this.prop('disabled', false);
+            }
         </script>
         <!-- additional javascripts inside here -->
         {%block script%}{%endblock%}
     </div>
-
 </body>
-
 </html>

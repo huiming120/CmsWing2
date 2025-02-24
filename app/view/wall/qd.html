@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{wallInfo.title}}</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="Shortcut Icon" href="/public/sys/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/public/assets/css/bootstrap5.3.3.min.css"></link>
+    <style>
+        html,body {width: 100%;height: 100%;overflow: hidden;}
+        body {
+            background-size: 100% auto;
+            padding-top: 60%;
+            background-image: -webkit-linear-gradient(90deg, rgb(255, 0, 0) 2%, rgb(255, 75, 31) 100%);
+            {%if wallInfo.config.v_bg %}
+            background-image: url({{wallInfo.config.v_bg}});
+            {%endif%}
+        }
+    </style>
+</head>
+<body>
+    <div class="d-flex flex-column justify-content-center align-items-center px-4">
+        <img src="{{ctx.wxUserInfo.headimgurl}}" class="img-thumbnail rounded-circle" width="100" height="100">
+        <div class="text-warning my-2" data-bs-toggle="collapse" data-bs-target="#u-openid" onclick="document.getElementById('u-openid').classList.remove('d-none')">{{ctx.wxUserInfo.nickname}}</div>
+        <div id="u-openid" class="text-warning mb-2 d-none">{{ctx.wxUserInfo.openid}}</div>
+        {%if signInfo%}
+        <div class="mt-2 fw-bold text-warning" style="font-size: 40px;">签到成功</div>
+        {%else%}
+        <form id="signForm" action="/wall/sign" method="post">
+            <input type="hidden" name="id" value="{{wallInfo.id}}"></input>
+            <input type="text" class="form-control rounded-0 mb-2" placeholder="请输入姓名" name="data.name" required>
+            <div class="input-group">
+                <span class="input-group-text rounded-0">+86</span>
+                <input type="tel" class="form-control rounded-0" placeholder="请输入手机号码" name="data.mobile" required>
+                {%if not wallInfo.config.verification%}
+                <button type="submit" class="btn btn-primary rounded-0">签到</button>
+                {%endif%}
+            </div>
+            {%if wallInfo.config.verification%}
+            <div class="input-group mt-2">
+                <input type="number" class="form-control rounded-0" placeholder="请输入短信验证码" name="data.verification" required>
+                <button type="submit" class="btn btn-primary rounded-0">签到</button>
+            </div>
+            {%endif%}
+        </form>
+        {%endif%}
+    </div>
+    <script>
+        {%if not signInfo%}
+        // 辅助函数：将 FormData 转换为 JSON 对象
+        function formDataToJson(formData) {
+            var object = {};
+            formData.forEach(function(value, key) {
+                // 处理嵌套对象
+                var keys = key.split('.');
+                var obj = object;
+                for (var i = 0; i < keys.length - 1; i++) {
+                    if (!obj[keys[i]]) {
+                        obj[keys[i]] = {};
+                    }
+                    obj = obj[keys[i]];
+                }
+                obj[keys[keys.length - 1]] = value;
+            });
+            return object;
+        }
+        document.getElementById('signForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // 阻止表单默认提交行为
+            var formData = new FormData(this); // 获取表单数据
+            var jsonData = formDataToJson(formData);
+            var xhr = new XMLHttpRequest();
+            xhr.open(this.method, this.action, true);
+            xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+            xhr.onload = function () {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    try {
+                        var data = JSON.parse(xhr.responseText);
+                        if (data.status == 0) {
+                            alert('签到成功！');
+                            location.reload();
+                        } else {
+                            alert(data.msg);
+                            if (data.status != 1000) {
+                                location.reload();
+                            }
+                        }
+                    } catch (e) {
+                        console.error('Error parsing JSON:', e);
+                        alert('签到失败，请重试。');
+                    }
+                } else {
+                    console.error('Request failed. Returned status of ' + xhr.status);
+                    alert('签到失败，请重试。');
+                }
+            };
+            xhr.onerror = function () {
+                console.error('Network error');
+                alert('签到失败，请重试。');
+            };
+            xhr.send(JSON.stringify(jsonData));
+        });
+        {%endif%}
+    </script>
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{formInfo.title}}</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="Shortcut Icon" href="/public/sys/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" title="default" href="/public/sys/amis/sdk.css" />
+    <link rel="stylesheet" href="/public/sys/amis/iconfont.css" />
+    <style>
+        html,body,.app-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="root" class="app-wrapper"></div>
+    <script src="/public/sys/amis/sdk.js"></script>
+    <script>
+        const page = {{ formInfo.amis | dump | safe }};
+        {%if formInfo.config.login_type==1%}
+            {%if not ctx.wxUserInfo%}
+                page.body.unshift({
+                    type: "alert",
+                    body: [
+                        {
+                            type: "tpl",
+                            tpl: `<p>温馨提示：需要登录才能参与活动哟，<a href="/mc/login?loginType=wechat&onlyWechat=1&retUrl=${encodeURIComponent(location.href)}">点击前往登录</a></p>`,
+                            inline: false,
+                            id: "u:e66a0f1adc70"
+                        }
+                    ],
+                    level: "info",
+                    id: "u:0b3a2aab0da3"
+                })
+            {%endif%}
+        {%elif formInfo.config.login_type==2%}
+            {%if ctx.userInfo%}
+                {%if formInfo.config.bind_mobile and not ctx.userInfo.mobile%}
+                page.body.unshift({
+                    type: "alert",
+                    body: [
+                        {
+                            type: "tpl",
+                            tpl: `<p>温馨提示：需要绑定手机号才能参与活动哟，<a href="/mc/setup">点击前往绑定</a></p>`,
+                            inline: false,
+                            id: "u:e66a0f1adc70"
+                        }
+                    ],
+                    level: "info",
+                    id: "u:0b3a2aab0da3"
+                })
+                {%endif%}
+
+                {%if formInfo.config.bind_email and not ctx.userInfo.email%}
+                page.body.unshift({
+                    type: "alert",
+                    body: [
+                        {
+                            type: "tpl",
+                            tpl: `<p>温馨提示：需要绑定邮箱才能参与活动哟，<a href="/mc/setup">点击前往绑定</a></p>`,
+                            inline: false,
+                            id: "u:e66a0f1adc70"
+                        }
+                    ],
+                    level: "info",
+                    id: "u:0b3a2aab0da3"
+                })
+                {%endif%}
+
+                {%if formInfo.config.bind_wechat and (not ctx.userInfo.third or not ctx.userInfo.third.wechat or not ctx.userInfo.third.wechat.openid)%}
+                page.body.unshift({
+                    type: "alert",
+                    body: [
+                        {
+                            type: "tpl",
+                            tpl: `<p>温馨提示：需要绑定微信才能参与活动哟，<a href="/mc/setup">点击前往绑定</a></p>`,
+                            inline: false,
+                            id: "u:e66a0f1adc70"
+                        }
+                    ],
+                    level: "info",
+                    id: "u:0b3a2aab0da3"
+                })
+                {%endif%}
+            {%else%}
+                page.body.unshift({
+                    type: "alert",
+                    body: [
+                        {
+                            type: "tpl",
+                            tpl: `<p>温馨提示：需要登录才能参与活动哟，<a href="/mc/login?retUrl=${encodeURIComponent(location.href)}">点击前往登录</a></p>`,
+                            inline: false,
+                            id: "u:e66a0f1adc70"
+                        }
+                    ],
+                    level: "info",
+                    id: "u:0b3a2aab0da3"
+                })
+            {%endif%}
+        {%endif%}
+        function checkCanSubmit() {
+            {%if formInfo.config.login_type==1%}
+                {%if not ctx.wxUserInfo%}
+                alert('请先登录');
+                location.href = '/mc/login?loginType=wechat&onlyWechat=1&retUrl=' + encodeURIComponent(location.href);
+                return false;
+                {%endif%}
+            {%elif formInfo.config.login_type==2%}
+                {%if ctx.userInfo%}
+                    {%if formInfo.config.bind_mobile and not ctx.userInfo.mobile%}
+                    alert('请先绑定手机号');
+                    location.href = '/mc/setup';
+                    return false;
+                    {%endif%}
+
+                    {%if formInfo.config.bind_email and not ctx.userInfo.email%}
+                    alert('请先绑定邮箱');
+                    location.href = '/mc/setup';
+                    return false;
+                    {%endif%}
+
+                    {%if formInfo.config.bind_wechat and (not ctx.userInfo.third or not ctx.userInfo.third.wechat or not ctx.userInfo.third.wechat.openid)%}
+                    alert('请先绑定微信');
+                    location.href = '/mc/setup';
+                    return false;
+                    {%endif%}
+                {%else%}
+                alert('请先登录');
+                location.href = '/mc/login?retUrl=' + encodeURIComponent(location.href);
+                return false;
+                {%endif%}
+            {%endif%}
+            return true;
+        }
+        (function () {
+            let amis = amisRequire("amis/embed");
+            {%if formDataInfo%}
+            var renderData = {{formDataInfo.data|dump|safe}};
+            renderData.presets_info = { id: {{formDataInfo.id}} }
+            {%endif%}
+            let amisInstance = amis.embed(
+                "#root",
+                page,
+                {%if formDataInfo%}
+                {
+                    data: renderData
+                }
+                {%endif%}
+            );
+        })();
+    </script>
+</body>
+</html>

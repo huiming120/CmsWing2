@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, maximum-scale=5, initial-scale=1">
+    <title>请登录</title>
+    <meta name="keywords" content="{{ctx.app.config.cms.keywords}}" />
+    <meta name="description" content="{{ctx.app.config.cms.description}}" />
+    <link rel="stylesheet" href="/public/assets/css/core.min.css">
+    <style>
+        #mc_login .modal-header {
+            display: none;
+        }
+    </style>
+</head>
+<body style="backdrop-filter: blur(4px);background-color: rgba(19, 31, 67, 0.6);height: 100vh;">
+    {%if ctx.query.loginType == 'wechat' %}
+    <div class="pt-5">
+        {%if ctx.wxUserInfo %}
+        <div class="alert alert-danger w-50 mx-auto text-center" role="alert">此微信未绑定过账号，请先注册账号！</div>
+        {%else%}
+        <div class="alert alert-danger w-50 mx-auto" role="alert">您未授权微信登录，无法使用微信登录账号！</div>
+        {%endif%}
+    </div>
+    {%endif%}
+    <div id="mc_login" class="modal" data-bs-backdrop="static" tabindex="-1" style="display: block;">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                {% include "./mc_login_modal.html" %}
+            </div>
+        </div>
+    </div>
+    <script src="/public/assets/js/core.min.js"></script>
+    <script>
+        var retUrl = '{{ctx.query.retUrl}}'
+        //登录
+        function mc_sign_callback(form, data) {
+            if (data.status === 1000) {
+                alert(data.msg);
+            } else {
+                if (retUrl) {
+                    location.href = decodeURIComponent(retUrl);
+                } else {
+                    location.reload();
+                }
+            }
+        }
+        //注册
+        function mc_signup_callback(form, data) {
+            if (data.status === 1000) {
+                alert(data.msg);
+            } else {
+                form.reset();
+                $("#accordionAccountSignUp").removeClass('show');
+                $("#accordionAccountSignIn").addClass('show')
+                alert('注册成功');
+            }
+        }
+
+        // 重置密码
+        function mc_reset_callback(form, data) {
+            if (data.status != 0) {
+                $.SOW.core.toast.show('danger', '提示', data.msg, 'top-end');
+            } else {
+                $.SOW.core.toast.show('success', '提示', data.msg, 'top-end');
+            }
+        }
+
+        // 发送短信功能
+        function onSendSMSBtnClick(el) {
+            var _this = $(el), id = _this.attr('id');
+            var target = _this.data('target');
+            if (!target) {
+                return
+            }
+            var mobile = $(target).val().trim();
+            if (!mobile || mobile.length != 11) {
+                return $.SOW.core.toast.show('warning', '提示', '请输入正确格式的手机号！', 'top-end');
+            }
+            
+            _this.data('timer-countdown-from', 59000);
+            var _endTargetHide = _this.data('timer-countdown-end-hide-target') || '';
+            if (_endTargetHide != '')
+                $(_endTargetHide).removeClass('hide hide-force');
+            _this.prop('disabled', true);
+            $.SOW.core.timer_countdown.process(_this);
+
+            $.post('/mc/sendSms', { mobile: mobile }, function (data) {
+                if (data.status == 0) {
+                    $.SOW.core.toast.show('success', '发送短信成功', '请在5分钟内操作完成', 'top-center');
+                } else if (data.status == 21) {
+                    $.SOW.core.toast.show('warning', '提示', data.msg, 'top-center');
+                    $.SOW.core.timer_countdown.timer_compute_stop(id);
+                    _this.data('timer-countdown-from', (data.data.ttl - 240) * 1000);
+                    $.SOW.core.timer_countdown.process(_this);
+                } else {
+                    $.SOW.core.toast.show('danger', '出错啦', data.msg, 'top-center');
+                    if (_endTargetHide != '')
+                        $(_endTargetHide).addClass('hide hide-force');
+                    $.SOW.core.timer_countdown.timer_compute_stop(id);
+                    sendSMSCountdownCallback(id);
+                }
+            });
+        }
+        function sendSMSCountdownCallback(elID) {
+            var _this = $('#'+elID);
+            $('.s', _this).text('发送短信');
+            _this.prop('disabled', false);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1258 @@
+{
+    "type": "page",
+    "title": "表单列表",
+    "body": [
+        {
+            "type": "crud",
+            "syncLocation": false,
+            "api": {
+                "method": "get",
+                "url": "/admin/form/list",
+                "requestAdaptor": "",
+                "adaptor": "",
+                "messages": {}
+            },
+            "bulkActions": [],
+            "itemActions": [],
+            "headerToolbar": [
+                {
+                    "label": "新增",
+                    "type": "button",
+                    "actionType": "dialog",
+                    "level": "primary",
+                    "editorSetting": {
+                        "behavior": "create"
+                    },
+                    "dialog": {
+                        "type": "dialog",
+                        "title": "新增表单",
+                        "body": [
+                            {
+                                "type": "form",
+                                "api": {
+                                    "method": "post",
+                                    "url": "/admin/form/add",
+                                    "requestAdaptor": "",
+                                    "adaptor": "",
+                                    "messages": {}
+                                },
+                                "body": [
+                                    {
+                                        "type": "input-text",
+                                        "label": "活动标题",
+                                        "name": "title",
+                                        "clearable": true,
+                                        "maxLength": 200,
+                                        "required": true,
+                                        "id": "u:3fe44675b261"
+                                    },
+                                    {
+                                        "type": "input-datetime-range",
+                                        "label": "活动时间",
+                                        "name": "begin_at",
+                                        "extraName": "end_at",
+                                        "displayFormat": "YYYY-MM-DD HH:mm:ss",
+                                        "placeholder": "请选择日期时间范围",
+                                        "valueFormat": "YYYY-MM-DD HH:mm:ss",
+                                        "minDate": "",
+                                        "maxDate": "",
+                                        "value": "",
+                                        "shortcuts": [
+                                            "yesterday",
+                                            "7daysago",
+                                            "prevweek",
+                                            "thismonth",
+                                            "prevmonth",
+                                            "prevquarter"
+                                        ],
+                                        "required": true,
+                                        "id": "u:fbf004458953"
+                                    },
+                                    {
+                                        "type": "group",
+                                        "body": [
+                                            {
+                                                "type": "select",
+                                                "label": "",
+                                                "name": "config.login_type",
+                                                "options": [
+                                                    {
+                                                        "label": "不需要登录",
+                                                        "value": 0
+                                                    },
+                                                    {
+                                                        "label": "微信登录",
+                                                        "value": 1
+                                                    },
+                                                    {
+                                                        "label": "账号登陆",
+                                                        "value": 2
+                                                    }
+                                                ],
+                                                "multiple": false,
+                                                "selectFirst": true,
+                                                "id": "u:a6977a7daa02"
+                                            },
+                                            {
+                                                "type": "checkbox",
+                                                "option": "需绑定邮箱",
+                                                "name": "config.bind_email",
+                                                "id": "u:4ae901cfedda",
+                                                "value": false,
+                                                "visibleOn": "${config.login_type==2}"
+                                            },
+                                            {
+                                                "type": "checkbox",
+                                                "option": "需绑定手机",
+                                                "name": "config.bind_mobile",
+                                                "id": "u:f9a6d45c4933",
+                                                "value": false,
+                                                "visibleOn": "${config.login_type==2}"
+                                            },
+                                            {
+                                                "type": "checkbox",
+                                                "option": "需绑定微信",
+                                                "name": "config.bind_wechat",
+                                                "id": "u:b3e155f2a179",
+                                                "value": false,
+                                                "visibleOn": "${config.login_type==2}"
+                                            }
+                                        ],
+                                        "id": "u:d98248bf131f",
+                                        "subFormMode": "normal",
+                                        "label": "限制登录"
+                                    },
+                                    {
+                                        "type": "group",
+                                        "body": [
+                                            {
+                                                "type": "checkbox",
+                                                "option": "提交数据需要图形验证码",
+                                                "name": "config.need_verification",
+                                                "id": "u:657e81b039e0"
+                                            },
+                                            {
+                                                "type": "checkbox",
+                                                "option": "只在活动期间内打开",
+                                                "name": "config.open_in_active_only",
+                                                "id": "u:f1ecb0ef57f6"
+                                            },
+                                            {
+                                                "type": "checkbox",
+                                                "option": "数据提交后可否再修改",
+                                                "name": "config.can_edit",
+                                                "value": true,
+                                                "visibleOn": "${config.login_type!=0}",
+                                                "id": "u:0eae152e209d"
+                                            }
+                                        ],
+                                        "id": "u:b7ba5a694ce8",
+                                        "subFormMode": "normal",
+                                        "label": ""
+                                    },
+                                    {
+                                        "type": "fieldset",
+                                        "title": "限制次数设置(0表示不限制)",
+                                        "collapsable": true,
+                                        "body": [
+                                            {
+                                                "type": "input-number",
+                                                "label": "限制每天参与次数",
+                                                "name": "config.limit_day",
+                                                "keyboard": true,
+                                                "id": "u:909c691c963b",
+                                                "step": 1,
+                                                "value": 1,
+                                                "min": 0,
+                                                "required": true
+                                            },
+                                            {
+                                                "type": "input-number",
+                                                "label": "限制每周参与次数",
+                                                "name": "config.limit_week",
+                                                "keyboard": true,
+                                                "id": "u:8e0203887f16",
+                                                "step": 1,
+                                                "value": 1,
+                                                "min": 0,
+                                                "required": true
+                                            },
+                                            {
+                                                "type": "input-number",
+                                                "label": "限制每月参与次数",
+                                                "name": "config.limit_month",
+                                                "keyboard": true,
+                                                "id": "u:7604f94dc179",
+                                                "step": 1,
+                                                "value": 1,
+                                                "min": 0,
+                                                "required": true
+                                            },
+                                            {
+                                                "type": "input-number",
+                                                "label": "限制总共参与次数",
+                                                "name": "config.limit_total",
+                                                "keyboard": true,
+                                                "id": "u:ff9ff2caf57c",
+                                                "step": 1,
+                                                "value": 1,
+                                                "min": 0,
+                                                "required": true
+                                            }
+                                        ],
+                                        "id": "u:7dab5e59fec1",
+                                        "subFormMode": "inline",
+                                        "bodyClassName": "m-l-lg p-l-lg"
+                                    },
+                                    {
+                                        "type": "select",
+                                        "label": "模板",
+                                        "name": "temp",
+                                        "id": "u:091fde55c644",
+                                        "searchable": true,
+                                        "description": "模板在/app/view/cms内,命名规则 form_模板名称.html",
+                                        "source": {
+                                            "method": "get",
+                                            "url": "/admin/cms/template/getTemplate?type=form",
+                                            "requestAdaptor": "",
+                                            "adaptor": "",
+                                            "messages": {}
+                                        },
+                                        "placeholder": "",
+                                        "selectFirst": true
+                                    },
+                                    {
+                                        "type": "combo",
+                                        "label": "表单字段集",
+                                        "name": "fields",
+                                        "multiple": true,
+                                        "addable": true,
+                                        "removable": true,
+                                        "removableMode": "icon",
+                                        "addBtn": {
+                                            "label": "新增",
+                                            "icon": "fa fa-plus",
+                                            "level": "primary",
+                                            "size": "sm",
+                                            "id": "u:b777e7911f69"
+                                        },
+                                        "items": [
+                                            {
+                                                "type": "group",
+                                                "mode": "inline",
+                                                "body": [
+                                                    {
+                                                        "type": "input-text",
+                                                        "name": "name",
+                                                        "id": "u:b8e4177457eb",
+                                                        "label": "字段名",
+                                                        "labelRemark": {
+                                                            "icon": "fa fa-question-circle",
+                                                            "trigger": [
+                                                                "hover"
+                                                            ],
+                                                            "className": "Remark--warning",
+                                                            "placement": "top",
+                                                            "title": "不可重复,为字符串或数字的组合,不能是特殊字符"
+                                                        },
+                                                        "required": true,
+                                                        "validations": {
+                                                            "maxLength": 20,
+                                                            "isAlphanumeric": true
+                                                        }
+                                                    },
+                                                    {
+                                                        "type": "select",
+                                                        "name": "type",
+                                                        "placeholder": "选项",
+                                                        "options": [
+                                                            {
+                                                                "label": "数字",
+                                                                "value": "number"
+                                                            },
+                                                            {
+                                                                "label": "字符串",
+                                                                "value": "string"
+                                                            },
+                                                            {
+                                                                "label": "是否",
+                                                                "value": "boolean"
+                                                            },
+                                                            {
+                                                                "label": "手机号码",
+                                                                "value": "mobile"
+                                                            },
+                                                            {
+                                                                "label": "邮箱",
+                                                                "value": "email"
+                                                            },
+                                                            {
+                                                                "label": "网址",
+                                                                "value": "url"
+                                                            },
+                                                            {
+                                                                "label": "身份证号码",
+                                                                "value": "idCard"
+                                                            },
+                                                            {
+                                                                "label": "日期",
+                                                                "value": "date"
+                                                            },
+                                                            {
+                                                                "label": "日期时间",
+                                                                "value": "dateTime"
+                                                            },
+                                                            {
+                                                                "label": "文件上传",
+                                                                "value": "upload"
+                                                            },
+                                                            {
+                                                                "label": "图片上传",
+                                                                "value": "image"
+                                                            },
+                                                            {
+                                                                "label": "选项单选",
+                                                                "value": "radios"
+                                                            },
+                                                            {
+                                                                "label": "下拉单选",
+                                                                "value": "selectS"
+                                                            },
+                                                            {
+                                                                "label": "选项多选",
+                                                                "value": "checkboxes"
+                                                            },
+                                                            {
+                                                                "label": "下拉多选",
+                                                                "value": "selectM"
+                                                            },
+                                                            {
+                                                                "label": "富文本",
+                                                                "value": "editor"
+                                                            }
+                                                        ],
+                                                        "id": "u:4db4e2dd1503",
+                                                        "multiple": false,
+                                                        "label": "字段类型",
+                                                        "required": true,
+                                                        "size": "sm"
+                                                    },
+                                                    {
+                                                        "type": "checkbox",
+                                                        "option": "是否必填",
+                                                        "name": "required",
+                                                        "id": "u:bb6ba165269f",
+                                                        "value": false
+                                                    }
+                                                ],
+                                                "id": "u:ef6cdc4e3573"
+                                            },
+                                            {
+                                                "type": "textarea",
+                                                "label": "字段标题",
+                                                "name": "label",
+                                                "id": "u:7657f5099b5e",
+                                                "minRows": 1,
+                                                "maxRows": 3,
+                                                "maxLength": 200,
+                                                "required": true
+                                            },
+                                            {
+                                                "type": "checkbox",
+                                                "option": "发送验证码",
+                                                "name": "verification",
+                                                "id": "u:6f23bddb1f37",
+                                                "visibleOn": "${type=='mobile'}",
+                                                "clearValueOnHidden": true
+                                            },
+                                            {
+                                                "type": "group",
+                                                "mode": "inline",
+                                                "body": [
+                                                    {
+                                                        "type": "input-number",
+                                                        "label": "最小",
+                                                        "name": "min",
+                                                        "keyboard": true,
+                                                        "id": "u:20d7d67415a7",
+                                                        "step": 1,
+                                                        "clearValueOnHidden": true,
+                                                        "visibleOn": "${OR(type=='string',type=='number',type=='upload',type=='image',type=='editor')}",
+                                                        "size": "sm"
+                                                    },
+                                                    {
+                                                        "type": "input-number",
+                                                        "label": "最大",
+                                                        "name": "max",
+                                                        "keyboard": true,
+                                                        "id": "u:bd725581c6b1",
+                                                        "step": 1,
+                                                        "clearValueOnHidden": true,
+                                                        "visibleOn": "${OR(type=='string',type=='number',type=='upload',type=='image',type=='editor')}",
+                                                        "size": "sm"
+                                                    },
+                                                    {
+                                                        "type": "input-number",
+                                                        "label": "小数位数",
+                                                        "name": "precision",
+                                                        "keyboard": true,
+                                                        "id": "u:2105c4f3af03",
+                                                        "step": 1,
+                                                        "clearValueOnHidden": true,
+                                                        "visibleOn": "${type=='number'}",
+                                                        "size": "sm",
+                                                        "value": 0,
+                                                        "min": 0
+                                                    }
+                                                ],
+                                                "id": "u:40101c8d7def",
+                                                "subFormMode": "normal"
+                                            },
+                                            {
+                                                "type": "combo",
+                                                "label": "选项",
+                                                "name": "options",
+                                                "multiple": true,
+                                                "addable": true,
+                                                "removable": true,
+                                                "removableMode": "icon",
+                                                "addBtn": {
+                                                    "label": "新增",
+                                                    "icon": "fa fa-plus",
+                                                    "level": "primary",
+                                                    "size": "sm",
+                                                    "id": "u:6a8e22766a2c"
+                                                },
+                                                "items": [
+                                                    {
+                                                        "type": "input-text",
+                                                        "name": "label",
+                                                        "placeholder": "",
+                                                        "id": "u:dae586ac33d7",
+                                                        "label": "选项标题",
+                                                        "maxLength": 200,
+                                                        "required": true
+                                                    },
+                                                    {
+                                                        "type": "input-number",
+                                                        "label": "选项值",
+                                                        "name": "value",
+                                                        "keyboard": true,
+                                                        "id": "u:9aa0783d633c",
+                                                        "multiple": false,
+                                                        "step": 1,
+                                                        "precision": "",
+                                                        "required": true
+                                                    }
+                                                ],
+                                                "id": "u:950fc209b769",
+                                                "strictMode": true,
+                                                "syncFields": [],
+                                                "draggable": true,
+                                                "visibleOn": "${OR(type=='radios',type=='selectS',type=='checkboxes',type=='selectM')}"
+                                            }
+                                        ],
+                                        "id": "u:1a24cdd5a0a6",
+                                        "strictMode": true,
+                                        "syncFields": [],
+                                        "draggable": true,
+                                        "draggableTip": "拖动排序",
+                                        "tabsMode": false,
+                                        "multiLine": true
+                                    }
+                                ],
+                                "id": "u:806105d5b00d",
+                                "actions": [
+                                    {
+                                        "type": "submit",
+                                        "label": "提交",
+                                        "primary": true
+                                    }
+                                ],
+                                "feat": "Insert",
+                                "dsType": "api",
+                                "labelAlign": "right",
+                                "title": "",
+                                "mode": "horizontal"
+                            }
+                        ],
+                        "actionType": "dialog",
+                        "id": "u:09c194309412",
+                        "actions": [
+                            {
+                                "type": "button",
+                                "actionType": "cancel",
+                                "label": "取消",
+                                "id": "u:36d97353ffa1"
+                            },
+                            {
+                                "type": "button",
+                                "actionType": "confirm",
+                                "label": "确定",
+                                "primary": true,
+                                "id": "u:c1b1e130eb8b"
+                            }
+                        ],
+                        "showCloseButton": true,
+                        "closeOnOutside": false,
+                        "closeOnEsc": false,
+                        "showErrorMsg": true,
+                        "showLoading": true,
+                        "draggable": false,
+                        "size": "md"
+                    },
+                    "id": "u:1140edb42e08"
+                },
+                "bulkActions"
+            ],
+            "id": "u:cc6348ca2079",
+            "perPageAvailable": [
+                5,
+                10,
+                20,
+                50,
+                100
+            ],
+            "messages": {},
+            "columns": [
+                {
+                    "name": "id",
+                    "label": "ID",
+                    "type": "text",
+                    "id": "u:cff9157638ce",
+                    "placeholder": "-",
+                    "sortable": true
+                },
+                {
+                    "name": "title",
+                    "label": "活动标题",
+                    "type": "tpl",
+                    "tpl": "<a href='/form/index?id=${id}' target='_blank'>${title}</a>",
+                    "id": "u:d5546cada12a",
+                    "placeholder": "-",
+                    "copyable": true,
+                    "popOver": true
+                },
+                {
+                    "type": "date",
+                    "label": "活动开始时间",
+                    "name": "begin_at",
+                    "id": "u:847207f40967",
+                    "format": "YYYY-MM-DD HH:mm:ss"
+                },
+                {
+                    "type": "date",
+                    "label": "活动结束时间",
+                    "name": "end_at",
+                    "id": "u:6b35c1d5643f",
+                    "format": "YYYY-MM-DD HH:mm:ss"
+                },
+                {
+                    "type": "mapping",
+                    "label": "限制登录方式",
+                    "name": "config.login_type",
+                    "id": "u:fa7a3db657e5",
+                    "map": {
+                        "0": "不限制",
+                        "1": "微信登录",
+                        "2": "账号登录"
+                    }
+                },
+                {
+                    "type": "mapping",
+                    "label": "限制参与次数",
+                    "name": "config.limit_count",
+                    "id": "u:539126912581",
+                    "map": {
+                        "0": "不限制",
+                        "*": "${config.limit_count}次"
+                    }
+                },
+                {
+                    "type": "json",
+                    "label": "字段配置",
+                    "name": "fields",
+                    "id": "u:497abff05d22",
+                    "placeholder": "-",
+                    "copyable": {
+                        "content": "${fields|json}"
+                    }
+                },
+                {
+                    "type": "json",
+                    "label": "ui配置",
+                    "name": "amis",
+                    "id": "u:63e6fb23f2c7",
+                    "placeholder": "-",
+                    "copyable": {
+                        "content": "${amis|json}"
+                    }
+                },
+                {
+                    "type": "text",
+                    "label": "模板",
+                    "name": "temp",
+                    "id": "u:9dec07f5f500",
+                    "placeholder": "-",
+                    "copyable": true
+                },
+                {
+                    "type": "operation",
+                    "label": "操作",
+                    "buttons": [
+                        {
+                            "label": "编辑",
+                            "type": "button",
+                            "actionType": "dialog",
+                            "level": "link",
+                            "editorSetting": {
+                                "behavior": "update"
+                            },
+                            "dialog": {
+                                "type": "dialog",
+                                "title": "编辑表单",
+                                "body": [
+                                    {
+                                        "type": "form",
+                                        "api": {
+                                            "method": "post",
+                                            "url": "/admin/form/edit",
+                                            "requestAdaptor": "",
+                                            "adaptor": "",
+                                            "messages": {},
+                                            "data": {
+                                                "&": "$$",
+                                                "begin_at": "${DATETOSTR(begin_at)}",
+                                                "end_at": "${DATETOSTR(end_at)}"
+                                            }
+                                        },
+                                        "initApi": "",
+                                        "body": [
+                                            {
+                                                "type": "hidden",
+                                                "name": "id",
+                                                "id": "u:0ff8d2836d07",
+                                                "label": "id"
+                                            },
+                                            {
+                                                "type": "input-text",
+                                                "label": "活动标题",
+                                                "name": "title",
+                                                "clearable": true,
+                                                "maxLength": 200,
+                                                "required": true,
+                                                "id": "u:3fe44675b261"
+                                            },
+                                            {
+                                                "type": "input-datetime-range",
+                                                "label": "活动时间",
+                                                "name": "begin_at",
+                                                "id": "u:ae28b9bfad77",
+                                                "extraName": "end_at",
+                                                "displayFormat": "YYYY-MM-DD HH:mm:ss",
+                                                "placeholder": "请选择日期时间范围",
+                                                "valueFormat": "YYYY-MM-DD HH:mm:ss",
+                                                "minDate": "",
+                                                "maxDate": "",
+                                                "value": "",
+                                                "shortcuts": [
+                                                    "yesterday",
+                                                    "7daysago",
+                                                    "prevweek",
+                                                    "thismonth",
+                                                    "prevmonth",
+                                                    "prevquarter"
+                                                ],
+                                                "required": true
+                                            },
+                                            {
+                                                "type": "group",
+                                                "body": [
+                                                    {
+                                                        "type": "select",
+                                                        "label": "",
+                                                        "name": "config.login_type",
+                                                        "options": [
+                                                            {
+                                                                "label": "不需要登录",
+                                                                "value": 0
+                                                            },
+                                                            {
+                                                                "label": "微信登录",
+                                                                "value": 1
+                                                            },
+                                                            {
+                                                                "label": "账号登陆",
+                                                                "value": 2
+                                                            }
+                                                        ],
+                                                        "multiple": false,
+                                                        "selectFirst": true,
+                                                        "id": "u:a6977a7daa02"
+                                                    },
+                                                    {
+                                                        "type": "checkbox",
+                                                        "option": "需绑定邮箱",
+                                                        "name": "config.bind_email",
+                                                        "id": "u:4ae901cfedda",
+                                                        "value": false,
+                                                        "visibleOn": "${config.login_type==2}"
+                                                    },
+                                                    {
+                                                        "type": "checkbox",
+                                                        "option": "需绑定手机",
+                                                        "name": "config.bind_mobile",
+                                                        "id": "u:f9a6d45c4933",
+                                                        "value": false,
+                                                        "visibleOn": "${config.login_type==2}"
+                                                    },
+                                                    {
+                                                        "type": "checkbox",
+                                                        "option": "需绑定微信",
+                                                        "name": "config.bind_wechat",
+                                                        "id": "u:b3e155f2a179",
+                                                        "value": false,
+                                                        "visibleOn": "${config.login_type==2}"
+                                                    }
+                                                ],
+                                                "id": "u:d98248bf131f",
+                                                "subFormMode": "normal",
+                                                "label": "限制登录"
+                                            },
+                                            {
+                                                "type": "group",
+                                                "body": [
+                                                    {
+                                                        "type": "checkbox",
+                                                        "option": "提交数据需要图形验证码",
+                                                        "name": "config.need_verification",
+                                                        "id": "u:08acf39c8c4c"
+                                                    },
+                                                    {
+                                                        "type": "checkbox",
+                                                        "option": "只在活动期间内打开",
+                                                        "name": "config.open_in_active_only",
+                                                        "id": "u:e9b791aa9c01"
+                                                    },
+                                                    {
+                                                        "type": "checkbox",
+                                                        "option": "数据提交后可否再修改",
+                                                        "name": "config.can_edit",
+                                                        "id": "u:7e756d3f4991",
+                                                        "value": true,
+                                                        "visibleOn": "${config.login_type!=0}"
+                                                    }
+                                                ],
+                                                "subFormMode": "normal",
+                                                "id": "u:b9b84bce0096",
+                                                "label": ""
+                                            },
+                                            {
+                                                "type": "fieldset",
+                                                "title": "限制次数设置(0表示不限制)",
+                                                "collapsable": true,
+                                                "body": [
+                                                    {
+                                                        "type": "input-number",
+                                                        "label": "限制每天参与次数",
+                                                        "name": "config.limit_day",
+                                                        "keyboard": true,
+                                                        "id": "u:909c691c963b",
+                                                        "step": 1,
+                                                        "value": 1,
+                                                        "min": 0,
+                                                        "required": true
+                                                    },
+                                                    {
+                                                        "type": "input-number",
+                                                        "label": "限制每周参与次数",
+                                                        "name": "config.limit_week",
+                                                        "keyboard": true,
+                                                        "id": "u:8e0203887f16",
+                                                        "step": 1,
+                                                        "value": 1,
+                                                        "min": 0,
+                                                        "required": true
+                                                    },
+                                                    {
+                                                        "type": "input-number",
+                                                        "label": "限制每月参与次数",
+                                                        "name": "config.limit_month",
+                                                        "keyboard": true,
+                                                        "id": "u:7604f94dc179",
+                                                        "step": 1,
+                                                        "value": 1,
+                                                        "min": 0,
+                                                        "required": true
+                                                    },
+                                                    {
+                                                        "type": "input-number",
+                                                        "label": "限制总共参与次数",
+                                                        "name": "config.limit_total",
+                                                        "keyboard": true,
+                                                        "id": "u:ff9ff2caf57c",
+                                                        "step": 1,
+                                                        "value": 1,
+                                                        "min": 0,
+                                                        "required": true
+                                                    }
+                                                ],
+                                                "id": "u:7dab5e59fec1",
+                                                "subFormMode": "inline",
+                                                "bodyClassName": "m-l-lg p-l-lg"
+                                            },
+                                            {
+                                                "type": "select",
+                                                "label": "模板",
+                                                "name": "temp",
+                                                "searchable": true,
+                                                "description": "模板在/app/view/cms内,命名规则 form_模板名称.html",
+                                                "source": {
+                                                    "method": "get",
+                                                    "url": "/admin/cms/template/getTemplate?type=form",
+                                                    "requestAdaptor": "",
+                                                    "adaptor": "",
+                                                    "messages": {}
+                                                },
+                                                "selectFirst": true,
+                                                "id": "u:d5e33d4c6ba2"
+                                            },
+                                            {
+                                                "type": "fieldset",
+                                                "title": "表单字段集",
+                                                "collapsable": true,
+                                                "body": [
+                                                    {
+                                                        "type": "combo",
+                                                        "label": "",
+                                                        "name": "fields",
+                                                        "multiple": true,
+                                                        "addable": true,
+                                                        "removable": true,
+                                                        "removableMode": "icon",
+                                                        "addBtn": {
+                                                            "label": "新增",
+                                                            "icon": "fa fa-plus",
+                                                            "level": "primary",
+                                                            "size": "sm",
+                                                            "id": "u:b777e7911f69"
+                                                        },
+                                                        "items": [
+                                                            {
+                                                                "type": "group",
+                                                                "mode": "inline",
+                                                                "body": [
+                                                                    {
+                                                                        "type": "input-text",
+                                                                        "name": "name",
+                                                                        "id": "u:b8e4177457eb",
+                                                                        "label": "字段名",
+                                                                        "labelRemark": {
+                                                                            "icon": "fa fa-question-circle",
+                                                                            "trigger": [
+                                                                                "hover"
+                                                                            ],
+                                                                            "className": "Remark--warning",
+                                                                            "placement": "top",
+                                                                            "title": "不可重复,为字符串或数字的组合,不能是特殊字符"
+                                                                        },
+                                                                        "required": true,
+                                                                        "validations": {
+                                                                            "maxLength": 20,
+                                                                            "isAlphanumeric": true
+                                                                        }
+                                                                    },
+                                                                    {
+                                                                        "type": "select",
+                                                                        "name": "type",
+                                                                        "placeholder": "选项",
+                                                                        "options": [
+                                                                            {
+                                                                                "label": "数字",
+                                                                                "value": "number"
+                                                                            },
+                                                                            {
+                                                                                "label": "字符串",
+                                                                                "value": "string"
+                                                                            },
+                                                                            {
+                                                                                "label": "是否",
+                                                                                "value": "boolean"
+                                                                            },
+                                                                            {
+                                                                                "label": "手机号码",
+                                                                                "value": "mobile"
+                                                                            },
+                                                                            {
+                                                                                "label": "邮箱",
+                                                                                "value": "email"
+                                                                            },
+                                                                            {
+                                                                                "label": "网址",
+                                                                                "value": "url"
+                                                                            },
+                                                                            {
+                                                                                "label": "身份证号码",
+                                                                                "value": "idCard"
+                                                                            },
+                                                                            {
+                                                                                "label": "日期",
+                                                                                "value": "date"
+                                                                            },
+                                                                            {
+                                                                                "label": "日期时间",
+                                                                                "value": "dateTime"
+                                                                            },
+                                                                            {
+                                                                                "label": "文件上传",
+                                                                                "value": "upload"
+                                                                            },
+                                                                            {
+                                                                                "label": "图片上传",
+                                                                                "value": "image"
+                                                                            },
+                                                                            {
+                                                                                "label": "选项单选",
+                                                                                "value": "radios"
+                                                                            },
+                                                                            {
+                                                                                "label": "下拉单选",
+                                                                                "value": "selectS"
+                                                                            },
+                                                                            {
+                                                                                "label": "选项多选",
+                                                                                "value": "checkboxes"
+                                                                            },
+                                                                            {
+                                                                                "label": "下拉多选",
+                                                                                "value": "selectM"
+                                                                            },
+                                                                            {
+                                                                                "label": "富文本",
+                                                                                "value": "editor"
+                                                                            }
+                                                                        ],
+                                                                        "id": "u:4db4e2dd1503",
+                                                                        "multiple": false,
+                                                                        "label": "字段类型",
+                                                                        "required": true,
+                                                                        "size": "sm"
+                                                                    },
+                                                                    {
+                                                                        "type": "checkbox",
+                                                                        "option": "是否必填",
+                                                                        "name": "required",
+                                                                        "id": "u:bb6ba165269f",
+                                                                        "value": false
+                                                                    }
+                                                                ],
+                                                                "id": "u:ef6cdc4e3573"
+                                                            },
+                                                            {
+                                                                "type": "textarea",
+                                                                "label": "字段标题",
+                                                                "name": "label",
+                                                                "id": "u:7657f5099b5e",
+                                                                "minRows": 1,
+                                                                "maxRows": 3,
+                                                                "maxLength": 200,
+                                                                "required": true
+                                                            },
+                                                            {
+                                                                "type": "checkbox",
+                                                                "option": "发送验证码",
+                                                                "name": "verification",
+                                                                "visibleOn": "${type=='mobile'}",
+                                                                "clearValueOnHidden": true,
+                                                                "id": "u:cdaf705634ab"
+                                                            },
+                                                            {
+                                                                "type": "group",
+                                                                "mode": "inline",
+                                                                "body": [
+                                                                    {
+                                                                        "type": "input-number",
+                                                                        "label": "最小",
+                                                                        "name": "min",
+                                                                        "keyboard": true,
+                                                                        "id": "u:20d7d67415a7",
+                                                                        "step": 1,
+                                                                        "clearValueOnHidden": true,
+                                                                        "visibleOn": "${OR(type=='string',type=='number',type=='upload',type=='image',type=='editor')}",
+                                                                        "size": "sm"
+                                                                    },
+                                                                    {
+                                                                        "type": "input-number",
+                                                                        "label": "最大",
+                                                                        "name": "max",
+                                                                        "keyboard": true,
+                                                                        "id": "u:bd725581c6b1",
+                                                                        "step": 1,
+                                                                        "clearValueOnHidden": true,
+                                                                        "visibleOn": "${OR(type=='string',type=='number',type=='upload',type=='image',type=='editor')}",
+                                                                        "size": "sm"
+                                                                    },
+                                                                    {
+                                                                        "type": "input-number",
+                                                                        "label": "小数位数",
+                                                                        "name": "precision",
+                                                                        "keyboard": true,
+                                                                        "id": "u:2105c4f3af03",
+                                                                        "step": 1,
+                                                                        "clearValueOnHidden": true,
+                                                                        "visibleOn": "${type=='number'}",
+                                                                        "size": "xs",
+                                                                        "value": 0,
+                                                                        "min": 0
+                                                                    }
+                                                                ],
+                                                                "id": "u:40101c8d7def",
+                                                                "subFormMode": "normal"
+                                                            },
+                                                            {
+                                                                "type": "combo",
+                                                                "label": "选项",
+                                                                "name": "options",
+                                                                "multiple": true,
+                                                                "addable": true,
+                                                                "removable": true,
+                                                                "removableMode": "icon",
+                                                                "addBtn": {
+                                                                    "label": "新增",
+                                                                    "icon": "fa fa-plus",
+                                                                    "level": "primary",
+                                                                    "size": "sm",
+                                                                    "id": "u:6a8e22766a2c"
+                                                                },
+                                                                "items": [
+                                                                    {
+                                                                        "type": "input-text",
+                                                                        "name": "label",
+                                                                        "placeholder": "",
+                                                                        "id": "u:dae586ac33d7",
+                                                                        "label": "选项标题",
+                                                                        "maxLength": 200,
+                                                                        "required": true
+                                                                    },
+                                                                    {
+                                                                        "type": "input-number",
+                                                                        "label": "选项值",
+                                                                        "name": "value",
+                                                                        "keyboard": true,
+                                                                        "id": "u:9aa0783d633c",
+                                                                        "multiple": false,
+                                                                        "step": 1,
+                                                                        "precision": "",
+                                                                        "required": true
+                                                                    }
+                                                                ],
+                                                                "id": "u:950fc209b769",
+                                                                "strictMode": true,
+                                                                "syncFields": [],
+                                                                "draggable": true,
+                                                                "visibleOn": "${OR(type=='radios',type=='selectS',type=='checkboxes',type=='selectM')}"
+                                                            }
+                                                        ],
+                                                        "id": "u:1a24cdd5a0a6",
+                                                        "strictMode": true,
+                                                        "syncFields": [],
+                                                        "draggable": true,
+                                                        "draggableTip": "拖动排序",
+                                                        "tabsMode": false,
+                                                        "multiLine": true,
+                                                        "noBorder": false
+                                                    }
+                                                ],
+                                                "id": "u:f86b9db23422",
+                                                "collapsed": true
+                                            },
+                                            {
+                                                "type": "checkbox",
+                                                "option": "是否生成ui配置(注意：如果勾选会重新生成ui配置覆盖现在的)",
+                                                "name": "generateAmis",
+                                                "id": "u:7179c2cadb12"
+                                            }
+                                        ],
+                                        "id": "u:9aa52010a8bf",
+                                        "actions": [
+                                            {
+                                                "type": "submit",
+                                                "label": "提交",
+                                                "primary": true
+                                            }
+                                        ],
+                                        "feat": "Edit",
+                                        "dsType": "api",
+                                        "labelAlign": "right"
+                                    }
+                                ],
+                                "actionType": "dialog",
+                                "id": "u:fb6a7932ee4f",
+                                "actions": [
+                                    {
+                                        "type": "button",
+                                        "actionType": "cancel",
+                                        "label": "取消",
+                                        "id": "u:2d23edcbd067"
+                                    },
+                                    {
+                                        "type": "button",
+                                        "actionType": "confirm",
+                                        "label": "确定",
+                                        "primary": true,
+                                        "id": "u:c732f25f114d"
+                                    }
+                                ],
+                                "showCloseButton": true,
+                                "closeOnOutside": false,
+                                "closeOnEsc": false,
+                                "showErrorMsg": true,
+                                "showLoading": true,
+                                "draggable": false,
+                                "size": "md"
+                            },
+                            "id": "u:9e63add1e13b"
+                        },
+                        {
+                            "label": "设计ui",
+                            "type": "button",
+                            "level": "link",
+                            "onEvent": {
+                                "click": {
+                                    "actions": [
+                                        {
+                                            "actionType": "custom",
+                                            "script": "window.localStorage.setItem(event.data.id, JSON.stringify(event.data.amis))"
+                                        },
+                                        {
+                                            "actionType": "drawer",
+                                            "data": {
+                                                "id": "${event.data.id}"
+                                            },
+                                            "drawer": {
+                                                "type": "drawer",
+                                                "title": false,
+                                                "width": "100%",
+                                                "bodyClassName": "pa-0",
+                                                "showCloseButton": false,
+                                                "headerClassName": "hidden",
+                                                "data": {
+                                                    "id": "${id}"
+                                                },
+                                                "body": [
+                                                    {
+                                                        "type": "iframe",
+                                                        "src": "/public/amis-editor/index.html#/edit/${id}",
+                                                        "id": "u:2dec590aa8e9"
+                                                    }
+                                                ],
+                                                "onEvent": {
+                                                    "cancel": {
+                                                        "actions": [
+                                                            {
+                                                                "actionType": "custom",
+                                                                "script": "window.localStorage.removeItem(event.data.id)"
+                                                            }
+                                                        ]
+                                                    },
+                                                    "confirm": {
+                                                        "actions": [
+                                                            {
+                                                                "actionType": "custom",
+                                                                "script": "event.setData({id:event.data.id,amis:JSON.parse(window.localStorage.getItem(event.data.id))})"
+                                                            },
+                                                            {
+                                                                "actionType": "ajax",
+                                                                "args": {
+                                                                    "api": {
+                                                                        "url": "/graphql",
+                                                                        "method": "post",
+                                                                        "graphql": "mutation($id:ID!,$amis:JSON){Form_update(data:{amis:$amis},where:{id:{op_eq:$id}}){ids}}",
+                                                                        "data": {
+                                                                            "id": "${event.data.id}",
+                                                                            "amis": "${event.data.amis}"
+                                                                        }
+                                                                    },
+                                                                    "messages": {
+                                                                        "success": "成功了！欧耶",
+                                                                        "failed": "失败了呢。。"
+                                                                    }
+                                                                }
+                                                            },
+                                                            {
+                                                                "componentId": "u:cc6348ca2079",
+                                                                "groupType": "component",
+                                                                "actionType": "reload"
+                                                            }
+                                                        ]
+                                                    }
+                                                },
+                                                "actionType": "drawer",
+                                                "id": "u:db030e5788b9",
+                                                "resizable": false
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            "id": "u:5621550d6675"
+                        },
+                        {
+                            "type": "button",
+                            "label": "管理数据",
+                            "onEvent": {
+                                "click": {
+                                    "actions": [
+                                        {
+                                            "ignoreError": false,
+                                            "actionType": "url",
+                                            "args": {
+                                                "url": "/admin#/admin/form/dataList/${id}",
+                                                "blank": false
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            "id": "u:4a81d63622da",
+                            "level": "link"
+                        },
+                        {
+                            "type": "button",
+                            "label": "删除",
+                            "actionType": "ajax",
+                            "level": "link",
+                            "className": "text-danger",
+                            "confirmText": "确定要删除？",
+                            "api": {
+                                "method": "post",
+                                "url": "/admin/form/del",
+                                "requestAdaptor": "",
+                                "adaptor": "",
+                                "messages": {},
+                                "data": {
+                                    "id": "${id}"
+                                }
+                            },
+                            "editorSetting": {
+                                "behavior": "delete"
+                            },
+                            "id": "u:a139e3408056"
+                        }
+                    ],
+                    "id": "u:009957971f59"
+                }
+            ]
+        }
+    ],
+    "id": "u:9dc0e8fe229b",
+    "asideResizor": false,
+    "pullRefresh": {
+        "disabled": true
+    },
+    "regions": [
+        "body",
+        "header"
+    ],
+    "definitions": {}
+}

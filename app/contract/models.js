@@ -1,869 +1,1083 @@
-
 'use strict';
 // 本文件由Cmswing系统生成，请勿修改！
 module.exports = {
-  
-  // 模型管理
-  sys_models_item: {
-    app: { type: 'string', description: '所属应用' },
-    createdAt: { type: 'string', description: '创建时间' },
-    desc: { type: 'string', description: '模型说明' },
-    id: { type: 'string', description: '主键' },
-    name: { type: 'string', description: '模型名称' },
-    oldName: { type: 'string', description: '改变后的模型名称' },
-    paranoid: { type: 'boolean', description: '偏执表' },
-    updatedAt: { type: 'string', description: '更新时间' },
-    uuid: { type: 'string', description: 'uuid' },
-    
-  },
-  sys_models_add: {
-    app: { type: 'string', description: '所属应用', required: false },
-    desc: { type: 'string', description: '模型说明', required: true },
-    name: { type: 'string', description: '模型名称', required: true },
-    oldName: { type: 'string', description: '改变后的模型名称', required: false },
-    paranoid: { type: 'boolean', description: '偏执表', required: false },
-    
-  },
-  sys_models_edit: {
-    app: { type: 'string', description: '所属应用' },
-    desc: { type: 'string', description: '模型说明' },
-    name: { type: 'string', description: '模型名称' },
-    oldName: { type: 'string', description: '改变后的模型名称' },
-    paranoid: { type: 'boolean', description: '偏执表' },
-    
-  },
+		// 模型管理
+	sys_models_item: {
+		app: { type: 'string', description: '所属应用' },
+		createdAt: { type: 'string', description: '创建时间' },
+		desc: { type: 'string', description: '模型说明' },
+		id: { type: 'string', description: '主键' },
+		name: { type: 'string', description: '模型名称' },
+		oldName: { type: 'string', description: '改变后的模型名称' },
+		paranoid: { type: 'boolean', description: '偏执表' },
+		updatedAt: { type: 'string', description: '更新时间' },
+		uuid: { type: 'string', description: 'uuid' },
 
-  // 系统用户
-  sys_user_item: {
-    admin: { type: 'boolean', description: '系统管理员' },
-    createdAt: { type: 'string', description: '创建时间' },
-    email: { type: 'string', description: '邮箱' },
-    group_uuid: { type: 'string', description: '组织id' },
-    id: { type: 'string', description: '主键' },
-    mobile: { type: 'string', description: '手机号' },
-    password: { type: 'string', description: '密码' },
-    state: { type: 'boolean', description: '状态false禁用true正常' },
-    updatedAt: { type: 'string', description: '更新时间' },
-    username: { type: 'string', description: '用户名' },
-    uuid: { type: 'string', description: 'uuid' },
-    
-  },
-  sys_user_add: {
-    admin: { type: 'boolean', description: '系统管理员', required: false },
-    email: { type: 'string', description: '邮箱', required: false },
-    group_uuid: { type: 'string', description: '组织id', required: false },
-    mobile: { type: 'string', description: '手机号', required: false },
-    password: { type: 'string', description: '密码', required: true },
-    state: { type: 'boolean', description: '状态false禁用true正常', required: false },
-    username: { type: 'string', description: '用户名', required: true },
-    uuid: { type: 'string', description: 'uuid', required: true },
-    
-  },
-  sys_user_edit: {
-    admin: { type: 'boolean', description: '系统管理员' },
-    email: { type: 'string', description: '邮箱' },
-    group_uuid: { type: 'string', description: '组织id' },
-    mobile: { type: 'string', description: '手机号' },
-    password: { type: 'string', description: '密码' },
-    state: { type: 'boolean', description: '状态false禁用true正常' },
-    username: { type: 'string', description: '用户名' },
-    
-  },
+	},
+	sys_models_add: {
+		app: { type: 'string', description: '所属应用', required: false },
+		desc: { type: 'string', description: '模型说明', required: true },
+		name: { type: 'string', description: '模型名称', required: true },
+		oldName: { type: 'string', description: '改变后的模型名称', required: false },
+		paranoid: { type: 'boolean', description: '偏执表', required: false },
 
-  // 模型字段表
-  sys_models_fields_item: {
-    add: { type: 'boolean', description: '添加' },
-    allowNull: { type: 'boolean', description: '必填' },
-    autoIncrement: { type: 'boolean', description: '自动递增' },
-    booleantype: { type: 'string', description: 'BOOLEAN类型' },
-    comment: { type: 'string', description: '字段说明' },
-    createdAt: { type: 'string', description: '创建时间' },
-    defaulttonow: { type: 'boolean', description: '默认当前时间' },
-    defaultValue: { type: 'string', description: '默认值' },
-    edit: { type: 'boolean', description: '编辑' },
-    enumValue: { type: 'string', description: '枚举值' },
-    id: { type: 'string', description: '主键' },
-    lengths: { type: 'string', description: '长度' },
-    models_uuid: { type: 'string', description: '关联sys_models的uuid' },
-    name: { type: 'string', description: '字段名' },
-    point: { type: 'string', description: '小数点' },
-    primaryKey: { type: 'boolean', description: '主键' },
-    sort: { type: 'string', description: '排序' },
-    type: { type: 'string', description: '字段类型' },
-    unsigned: { type: 'boolean', description: '无符号' },
-    updatedAt: { type: 'string', description: '更新时间' },
-    uuid: { type: 'string', description: 'uuid' },
-    uuidtype: { type: 'string', description: 'uuid类型' },
-    where: { type: 'boolean', description: '查询' },
-    zerofill: { type: 'boolean', description: '零填充' },
-    
-  },
-  sys_models_fields_add: {
-    add: { type: 'boolean', description: '添加', required: false },
-    allowNull: { type: 'boolean', description: '必填', required: false },
-    autoIncrement: { type: 'boolean', description: '自动递增', required: false },
-    booleantype: { type: 'string', description: 'BOOLEAN类型', required: false },
-    comment: { type: 'string', description: '字段说明', required: true },
-    defaulttonow: { type: 'boolean', description: '默认当前时间', required: false },
-    defaultValue: { type: 'string', description: '默认值', required: false },
-    edit: { type: 'boolean', description: '编辑', required: false },
-    enumValue: { type: 'string', description: '枚举值', required: false },
-    lengths: { type: 'string', description: '长度', required: false },
-    models_uuid: { type: 'string', description: '关联sys_models的uuid', required: true },
-    name: { type: 'string', description: '字段名', required: true },
-    point: { type: 'string', description: '小数点', required: false },
-    primaryKey: { type: 'boolean', description: '主键', required: false },
-    sort: { type: 'string', description: '排序', required: true },
-    type: { type: 'string', description: '字段类型', required: false },
-    unsigned: { type: 'boolean', description: '无符号', required: false },
-    uuidtype: { type: 'string', description: 'uuid类型', required: false },
-    where: { type: 'boolean', description: '查询', required: false },
-    zerofill: { type: 'boolean', description: '零填充', required: false },
-    
-  },
-  sys_models_fields_edit: {
-    add: { type: 'boolean', description: '添加' },
-    allowNull: { type: 'boolean', description: '必填' },
-    autoIncrement: { type: 'boolean', description: '自动递增' },
-    booleantype: { type: 'string', description: 'BOOLEAN类型' },
-    comment: { type: 'string', description: '字段说明' },
-    defaulttonow: { type: 'boolean', description: '默认当前时间' },
-    defaultValue: { type: 'string', description: '默认值' },
-    edit: { type: 'boolean', description: '编辑' },
-    enumValue: { type: 'string', description: '枚举值' },
-    lengths: { type: 'string', description: '长度' },
-    models_uuid: { type: 'string', description: '关联sys_models的uuid' },
-    name: { type: 'string', description: '字段名' },
-    point: { type: 'string', description: '小数点' },
-    primaryKey: { type: 'boolean', description: '主键' },
-    sort: { type: 'string', description: '排序' },
-    type: { type: 'string', description: '字段类型' },
-    unsigned: { type: 'boolean', description: '无符号' },
-    uuidtype: { type: 'string', description: 'uuid类型' },
-    where: { type: 'boolean', description: '查询' },
-    zerofill: { type: 'boolean', description: '零填充' },
-    
-  },
+	},
+	sys_models_edit: {
+		app: { type: 'string', description: '所属应用' },
+		desc: { type: 'string', description: '模型说明' },
+		name: { type: 'string', description: '模型名称' },
+		oldName: { type: 'string', description: '改变后的模型名称' },
+		paranoid: { type: 'boolean', description: '偏执表' },
 
-  // 模型索引
-  sys_models_indexes_item: {
-    createdAt: { type: 'string', description: '创建时间' },
-    fields: { type: 'string', description: '索引字段' },
-    id: { type: 'string', description: '主键' },
-    models_uuid: { type: 'string', description: '关联模型uuid' },
-    sort: { type: 'string', description: '排序' },
-    unique: { type: 'boolean', description: '唯一' },
-    updatedAt: { type: 'string', description: '更新时间' },
-    uuid: { type: 'string', description: 'uuid' },
-    
-  },
-  sys_models_indexes_add: {
-    fields: { type: 'string', description: '索引字段', required: false },
-    models_uuid: { type: 'string', description: '关联模型uuid', required: true },
-    sort: { type: 'string', description: '排序', required: true },
-    unique: { type: 'boolean', description: '唯一', required: true },
-    
-  },
-  sys_models_indexes_edit: {
-    fields: { type: 'string', description: '索引字段' },
-    models_uuid: { type: 'string', description: '关联模型uuid' },
-    sort: { type: 'string', description: '排序' },
-    unique: { type: 'boolean', description: '唯一' },
-    
-  },
+	},
+	// 系统用户
+	sys_user_item: {
+		admin: { type: 'boolean', description: '系统管理员' },
+		createdAt: { type: 'string', description: '创建时间' },
+		email: { type: 'string', description: '邮箱' },
+		group_uuid: { type: 'string', description: '组织id' },
+		id: { type: 'string', description: '主键' },
+		mobile: { type: 'string', description: '手机号' },
+		password: { type: 'string', description: '密码' },
+		state: { type: 'boolean', description: '状态false禁用true正常' },
+		updatedAt: { type: 'string', description: '更新时间' },
+		username: { type: 'string', description: '用户名' },
+		uuid: { type: 'string', description: 'uuid' },
 
-  // 模型关联
-  sys_models_associate_item: {
-    child_uuid: { type: 'string', description: '子表' },
-    constraints: { type: 'boolean', description: '约束' },
-    createdAt: { type: 'string', description: '创建时间' },
-    foreignKey: { type: 'string', description: '子键' },
-    id: { type: 'string', description: '主键' },
-    models_uuid: { type: 'string', description: 'models_uuid' },
-    parent_uuid: { type: 'string', description: '父表' },
-    sort: { type: 'string', description: '排序' },
-    targetKey: { type: 'string', description: '父键' },
-    through_uuid: { type: 'string', description: '中间表' },
-    throughKey: { type: 'string', description: '中间键' },
-    type: { type: 'string', description: '关联类型' },
-    updatedAt: { type: 'string', description: '更新时间' },
-    uuid: { type: 'string', description: 'uuid' },
-    
-  },
-  sys_models_associate_add: {
-    child_uuid: { type: 'string', description: '子表', required: true },
-    constraints: { type: 'boolean', description: '约束', required: true },
-    foreignKey: { type: 'string', description: '子键', required: true },
-    models_uuid: { type: 'string', description: 'models_uuid', required: true },
-    parent_uuid: { type: 'string', description: '父表', required: true },
-    sort: { type: 'string', description: '排序', required: true },
-    targetKey: { type: 'string', description: '父键', required: true },
-    through_uuid: { type: 'string', description: '中间表', required: false },
-    throughKey: { type: 'string', description: '中间键', required: false },
-    type: { type: 'string', description: '关联类型', required: true },
-    
-  },
-  sys_models_associate_edit: {
-    child_uuid: { type: 'string', description: '子表' },
-    constraints: { type: 'boolean', description: '约束' },
-    foreignKey: { type: 'string', description: '子键' },
-    models_uuid: { type: 'string', description: 'models_uuid' },
-    parent_uuid: { type: 'string', description: '父表' },
-    sort: { type: 'string', description: '排序' },
-    targetKey: { type: 'string', description: '父键' },
-    through_uuid: { type: 'string', description: '中间表' },
-    throughKey: { type: 'string', description: '中间键' },
-    type: { type: 'string', description: '关联类型' },
-    
-  },
+	},
+	sys_user_add: {
+		admin: { type: 'boolean', description: '系统管理员', required: false },
+		email: { type: 'string', description: '邮箱', required: false },
+		group_uuid: { type: 'string', description: '组织id', required: false },
+		mobile: { type: 'string', description: '手机号', required: false },
+		password: { type: 'string', description: '密码', required: true },
+		state: { type: 'boolean', description: '状态false禁用true正常', required: false },
+		username: { type: 'string', description: '用户名', required: true },
+		uuid: { type: 'string', description: 'uuid', required: true },
 
-  // 路由管理
-  sys_routes_item: {
-    action: { type: 'string', description: '控制器方法' },
-    admin: { type: 'boolean', description: '控制器/页面' },
-    app: { type: 'string', description: '应用标识' },
-    class_uuid: { type: 'string', description: '关联classify的uuid' },
-    controller: { type: 'string', description: '控制器' },
-    createdAt: { type: 'string', description: '创建时间' },
-    icon: { type: 'string', description: '配置菜单的图标' },
-    id: { type: 'string', description: '主键' },
-    ignoreMiddleware: { type: 'string', description: '排除模块统一设置的middleware' },
-    is_menu: { type: 'boolean', description: '是否是菜单' },
-    link: { type: 'string', description: '页面地址' },
-    linkType: { type: 'string', description: '链接类型' },
-    middleware: { type: 'string', description: '在 Router 里面可以配置多个 Middleware' },
-    name: { type: 'string', description: '名称' },
-    path: { type: 'string', description: '路由 URL 路径' },
-    puuid: { type: 'string', description: '路由父uuid' },
-    role: { type: 'boolean', description: '是否为角色权限节点' },
-    sort: { type: 'string', description: '排序' },
-    updatedAt: { type: 'string', description: '更新时间' },
-    uuid: { type: 'string', description: 'uuid' },
-    verb: { type: 'string', description: '用户触发动作，支持 get，post 等所有 HTTP 方法' },
-    
-  },
-  sys_routes_add: {
-    action: { type: 'string', description: '控制器方法', required: false },
-    admin: { type: 'boolean', description: '控制器/页面', required: false },
-    app: { type: 'string', description: '应用标识', required: true },
-    class_uuid: { type: 'string', description: '关联classify的uuid', required: true },
-    controller: { type: 'string', description: '控制器', required: false },
-    createdAt: { type: 'string', description: '创建时间', required: true },
-    icon: { type: 'string', description: '配置菜单的图标', required: false },
-    ignoreMiddleware: { type: 'string', description: '排除模块统一设置的middleware', required: false },
-    is_menu: { type: 'boolean', description: '是否是菜单', required: false },
-    link: { type: 'string', description: '页面地址', required: false },
-    linkType: { type: 'string', description: '链接类型', required: false },
-    middleware: { type: 'string', description: '在 Router 里面可以配置多个 Middleware', required: false },
-    name: { type: 'string', description: '名称', required: true },
-    path: { type: 'string', description: '路由 URL 路径', required: true },
-    puuid: { type: 'string', description: '路由父uuid', required: false },
-    role: { type: 'boolean', description: '是否为角色权限节点', required: false },
-    sort: { type: 'string', description: '排序', required: false },
-    verb: { type: 'string', description: '用户触发动作，支持 get，post 等所有 HTTP 方法', required: true },
-    
-  },
-  sys_routes_edit: {
-    action: { type: 'string', description: '控制器方法' },
-    admin: { type: 'boolean', description: '控制器/页面' },
-    app: { type: 'string', description: '应用标识' },
-    class_uuid: { type: 'string', description: '关联classify的uuid' },
-    controller: { type: 'string', description: '控制器' },
-    icon: { type: 'string', description: '配置菜单的图标' },
-    ignoreMiddleware: { type: 'string', description: '排除模块统一设置的middleware' },
-    is_menu: { type: 'boolean', description: '是否是菜单' },
-    link: { type: 'string', description: '页面地址' },
-    linkType: { type: 'string', description: '链接类型' },
-    middleware: { type: 'string', description: '在 Router 里面可以配置多个 Middleware' },
-    name: { type: 'string', description: '名称' },
-    path: { type: 'string', description: '路由 URL 路径' },
-    puuid: { type: 'string', description: '路由父uuid' },
-    role: { type: 'boolean', description: '是否为角色权限节点' },
-    sort: { type: 'string', description: '排序' },
-    updatedAt: { type: 'string', description: '更新时间' },
-    verb: { type: 'string', description: '用户触发动作，支持 get，post 等所有 HTTP 方法' },
-    
-  },
+	},
+	sys_user_edit: {
+		admin: { type: 'boolean', description: '系统管理员' },
+		email: { type: 'string', description: '邮箱' },
+		group_uuid: { type: 'string', description: '组织id' },
+		mobile: { type: 'string', description: '手机号' },
+		password: { type: 'string', description: '密码' },
+		state: { type: 'boolean', description: '状态false禁用true正常' },
+		username: { type: 'string', description: '用户名' },
 
-  // 路由分类
-  sys_routes_classify_item: {
-    createdAt: { type: 'string', description: '创建时间' },
-    id: { type: 'string', description: '主键' },
-    middleware: { type: 'string', description: '在 Router 里面可以配置多个 Middleware' },
-    name: { type: 'string', description: '分类名称' },
-    remarks: { type: 'string', description: '备注' },
-    sort: { type: 'string', description: '越小越靠前' },
-    sys: { type: 'boolean', description: '是否系统' },
-    updatedAt: { type: 'string', description: '更新时间' },
-    uuid: { type: 'string', description: 'uuid' },
-    
-  },
-  sys_routes_classify_add: {
-    middleware: { type: 'string', description: '在 Router 里面可以配置多个 Middleware', required: false },
-    name: { type: 'string', description: '分类名称', required: true },
-    remarks: { type: 'string', description: '备注', required: false },
-    sort: { type: 'string', description: '越小越靠前', required: false },
-    
-  },
-  sys_routes_classify_edit: {
-    middleware: { type: 'string', description: '在 Router 里面可以配置多个 Middleware' },
-    name: { type: 'string', description: '分类名称' },
-    remarks: { type: 'string', description: '备注' },
-    sort: { type: 'string', description: '越小越靠前' },
-    
-  },
+	},
+	// 模型字段表
+	sys_models_fields_item: {
+		add: { type: 'boolean', description: '添加' },
+		allowNull: { type: 'boolean', description: '必填' },
+		autoIncrement: { type: 'boolean', description: '自动递增' },
+		booleantype: { type: 'string', description: 'BOOLEAN类型' },
+		comment: { type: 'string', description: '字段说明' },
+		createdAt: { type: 'string', description: '创建时间' },
+		defaulttonow: { type: 'boolean', description: '默认当前时间' },
+		defaultValue: { type: 'string', description: '默认值' },
+		edit: { type: 'boolean', description: '编辑' },
+		enumValue: { type: 'string', description: '枚举值' },
+		id: { type: 'string', description: '主键' },
+		lengths: { type: 'string', description: '长度' },
+		models_uuid: { type: 'string', description: '关联sys_models的uuid' },
+		name: { type: 'string', description: '字段名' },
+		point: { type: 'string', description: '小数点' },
+		primaryKey: { type: 'boolean', description: '主键' },
+		sort: { type: 'string', description: '排序' },
+		type: { type: 'string', description: '字段类型' },
+		unsigned: { type: 'boolean', description: '无符号' },
+		updatedAt: { type: 'string', description: '更新时间' },
+		uuid: { type: 'string', description: 'uuid' },
+		uuidtype: { type: 'string', description: 'uuid类型' },
+		where: { type: 'boolean', description: '查询' },
+		zerofill: { type: 'boolean', description: '零填充' },
 
-  // 系统用户组
-  sys_user_group_item: {
-    createdAt: { type: 'string', description: '创建时间' },
-    desc: { type: 'string', description: '分组说明' },
-    id: { type: 'string', description: '主键' },
-    name: { type: 'string', description: '分组名称' },
-    puuid: { type: 'string', description: '父uuid' },
-    sort: { type: 'string', description: '排序' },
-    updatedAt: { type: 'string', description: '更新时间' },
-    uuid: { type: 'string', description: 'uuid' },
-    
-  },
-  sys_user_group_add: {
-    desc: { type: 'string', description: '分组说明', required: false },
-    name: { type: 'string', description: '分组名称', required: true },
-    puuid: { type: 'string', description: '父uuid', required: false },
-    sort: { type: 'string', description: '排序', required: false },
-    uuid: { type: 'string', description: 'uuid', required: true },
-    
-  },
-  sys_user_group_edit: {
-    desc: { type: 'string', description: '分组说明' },
-    name: { type: 'string', description: '分组名称' },
-    puuid: { type: 'string', description: '父uuid' },
-    sort: { type: 'string', description: '排序' },
-    uuid: { type: 'string', description: 'uuid' },
-    
-  },
+	},
+	sys_models_fields_add: {
+		add: { type: 'boolean', description: '添加', required: false },
+		allowNull: { type: 'boolean', description: '必填', required: false },
+		autoIncrement: { type: 'boolean', description: '自动递增', required: false },
+		booleantype: { type: 'string', description: 'BOOLEAN类型', required: false },
+		comment: { type: 'string', description: '字段说明', required: true },
+		defaulttonow: { type: 'boolean', description: '默认当前时间', required: false },
+		defaultValue: { type: 'string', description: '默认值', required: false },
+		edit: { type: 'boolean', description: '编辑', required: false },
+		enumValue: { type: 'string', description: '枚举值', required: false },
+		lengths: { type: 'string', description: '长度', required: false },
+		models_uuid: { type: 'string', description: '关联sys_models的uuid', required: true },
+		name: { type: 'string', description: '字段名', required: true },
+		point: { type: 'string', description: '小数点', required: false },
+		primaryKey: { type: 'boolean', description: '主键', required: false },
+		sort: { type: 'string', description: '排序', required: true },
+		type: { type: 'string', description: '字段类型', required: false },
+		unsigned: { type: 'boolean', description: '无符号', required: false },
+		uuidtype: { type: 'string', description: 'uuid类型', required: false },
+		where: { type: 'boolean', description: '查询', required: false },
+		zerofill: { type: 'boolean', description: '零填充', required: false },
 
-  // 角色表
-  sys_role_item: {
-    createdAt: { type: 'string', description: '创建时间' },
-    desc: { type: 'string', description: '角色说明' },
-    g_uuids: { type: 'string', description: 'graphql节点' },
-    id: { type: 'string', description: '主键' },
-    name: { type: 'string', description: '角色名称' },
-    r_uuids: { type: 'string', description: '路由节点' },
-    state: { type: 'boolean', description: '状态' },
-    updatedAt: { type: 'string', description: '更新时间' },
-    uuid: { type: 'string', description: 'uuid' },
-    
-  },
-  sys_role_add: {
-    desc: { type: 'string', description: '角色说明', required: false },
-    g_uuids: { type: 'string', description: 'graphql节点', required: false },
-    name: { type: 'string', description: '角色名称', required: true },
-    r_uuids: { type: 'string', description: '路由节点', required: false },
-    state: { type: 'boolean', description: '状态', required: false },
-    uuid: { type: 'string', description: 'uuid', required: true },
-    
-  },
-  sys_role_edit: {
-    desc: { type: 'string', description: '角色说明' },
-    g_uuids: { type: 'string', description: 'graphql节点' },
-    name: { type: 'string', description: '角色名称' },
-    r_uuids: { type: 'string', description: '路由节点' },
-    state: { type: 'boolean', description: '状态' },
-    
-  },
+	},
+	sys_models_fields_edit: {
+		add: { type: 'boolean', description: '添加' },
+		allowNull: { type: 'boolean', description: '必填' },
+		autoIncrement: { type: 'boolean', description: '自动递增' },
+		booleantype: { type: 'string', description: 'BOOLEAN类型' },
+		comment: { type: 'string', description: '字段说明' },
+		defaulttonow: { type: 'boolean', description: '默认当前时间' },
+		defaultValue: { type: 'string', description: '默认值' },
+		edit: { type: 'boolean', description: '编辑' },
+		enumValue: { type: 'string', description: '枚举值' },
+		lengths: { type: 'string', description: '长度' },
+		models_uuid: { type: 'string', description: '关联sys_models的uuid' },
+		name: { type: 'string', description: '字段名' },
+		point: { type: 'string', description: '小数点' },
+		primaryKey: { type: 'boolean', description: '主键' },
+		sort: { type: 'string', description: '排序' },
+		type: { type: 'string', description: '字段类型' },
+		unsigned: { type: 'boolean', description: '无符号' },
+		uuidtype: { type: 'string', description: 'uuid类型' },
+		where: { type: 'boolean', description: '查询' },
+		zerofill: { type: 'boolean', description: '零填充' },
 
-  // 用户角色中间表
-  sys_user_role_item: {
-    createdAt: { type: 'string', description: '创建时间' },
-    id: { type: 'string', description: '主键' },
-    role_uuid: { type: 'string', description: '角色uuid' },
-    updatedAt: { type: 'string', description: '更新时间' },
-    user_uuid: { type: 'string', description: '用户uuid' },
-    
-  },
-  sys_user_role_add: {
-    role_uuid: { type: 'string', description: '角色uuid', required: true },
-    user_uuid: { type: 'string', description: '用户uuid', required: true },
-    
-  },
-  sys_user_role_edit: {
-    role_uuid: { type: 'string', description: '角色uuid' },
-    user_uuid: { type: 'string', description: '用户uuid' },
-    
-  },
+	},
+	// 模型索引
+	sys_models_indexes_item: {
+		createdAt: { type: 'string', description: '创建时间' },
+		fields: { type: 'string', description: '索引字段' },
+		id: { type: 'string', description: '主键' },
+		models_uuid: { type: 'string', description: '关联模型uuid' },
+		sort: { type: 'string', description: '排序' },
+		unique: { type: 'boolean', description: '唯一' },
+		updatedAt: { type: 'string', description: '更新时间' },
+		uuid: { type: 'string', description: 'uuid' },
 
-  // 开放接口
-  sys_openApi_item: {
-    createdAt: { type: 'string', description: '创建时间' },
-    id: { type: 'string', description: '主键' },
-    open_uuids: { type: 'string', description: '开放接口节点' },
-    updatedAt: { type: 'string', description: '更新时间' },
-    uuid: { type: 'string', description: 'uuid' },
-    
-  },
-  sys_openApi_add: {
-    open_uuids: { type: 'string', description: '开放接口节点', required: false },
-    uuid: { type: 'string', description: 'uuid', required: false },
-    
-  },
-  sys_openApi_edit: {
-    open_uuids: { type: 'string', description: '开放接口节点' },
-    uuid: { type: 'string', description: 'uuid' },
-    
-  },
+	},
+	sys_models_indexes_add: {
+		fields: { type: 'string', description: '索引字段', required: false },
+		models_uuid: { type: 'string', description: '关联模型uuid', required: true },
+		sort: { type: 'string', description: '排序', required: true },
+		unique: { type: 'boolean', description: '唯一', required: true },
 
-  // cms内容主表
-  cms_doc_item: {
-    classify_id: { type: 'string', description: '分类ID' },
-    classify_sub: { type: 'string', description: '子分类' },
-    cover_url: { type: 'string', description: '封面' },
-    createdAt: { type: 'string', description: '创建时间' },
-    deadline: { type: 'string', description: '截止时间' },
-    description: { type: 'string', description: '描述' },
-    display: { type: 'boolean', description: '可见性' },
-    ext_link: { type: 'string', description: '如果填写链接,会跳转到这个链接,不填不跳转' },
-    id: { type: 'string', description: '主键' },
-    level: { type: 'string', description: '优先级（越高排序越靠前）' },
-    models_uuid: { type: 'string', description: '模型UUID' },
-    pid: { type: 'string', description: '所属ID' },
-    position: { type: 'string', description: '推荐位(1-列表推荐，2-频道页推荐，4-首页推荐）' },
-    root: { type: 'string', description: '根节点' },
-    sort: { type: 'string', description: '排序同级有效越小越靠前' },
-    status: { type: 'string', description: '数据状态（0-禁用，1-正常，2-待审核，3-草稿）' },
-    tags: { type: 'string', description: '标签' },
-    template: { type: 'string', description: '模板详情' },
-    title: { type: 'string', description: '内容标题' },
-    type: { type: 'string', description: '内容类型（1-目录，2-主题，3-段落）' },
-    updatedAt: { type: 'string', description: '更新时间' },
-    user_uuid: { type: 'string', description: '作者uuid' },
-    view: { type: 'string', description: '浏览量' },
-    
-  },
-  cms_doc_add: {
-    classify_id: { type: 'string', description: '分类ID', required: false },
-    classify_sub: { type: 'string', description: '子分类', required: false },
-    cover_url: { type: 'string', description: '封面', required: false },
-    deadline: { type: 'string', description: '截止时间', required: false },
-    description: { type: 'string', description: '描述', required: false },
-    display: { type: 'boolean', description: '可见性', required: false },
-    ext_link: { type: 'string', description: '如果填写链接,会跳转到这个链接,不填不跳转', required: false },
-    level: { type: 'string', description: '优先级（越高排序越靠前）', required: false },
-    models_uuid: { type: 'string', description: '模型UUID', required: true },
-    pid: { type: 'string', description: '所属ID', required: false },
-    position: { type: 'string', description: '推荐位(1-列表推荐，2-频道页推荐，4-首页推荐）', required: false },
-    root: { type: 'string', description: '根节点', required: false },
-    sort: { type: 'string', description: '排序同级有效越小越靠前', required: false },
-    status: { type: 'string', description: '数据状态（0-禁用，1-正常，2-待审核，3-草稿）', required: false },
-    tags: { type: 'string', description: '标签', required: false },
-    template: { type: 'string', description: '模板详情', required: false },
-    title: { type: 'string', description: '内容标题', required: false },
-    type: { type: 'string', description: '内容类型（1-目录，2-主题，3-段落）', required: true },
-    user_uuid: { type: 'string', description: '作者uuid', required: false },
-    view: { type: 'string', description: '浏览量', required: false },
-    
-  },
-  cms_doc_edit: {
-    classify_id: { type: 'string', description: '分类ID' },
-    classify_sub: { type: 'string', description: '子分类' },
-    cover_url: { type: 'string', description: '封面' },
-    deadline: { type: 'string', description: '截止时间' },
-    description: { type: 'string', description: '描述' },
-    display: { type: 'boolean', description: '可见性' },
-    ext_link: { type: 'string', description: '如果填写链接,会跳转到这个链接,不填不跳转' },
-    level: { type: 'string', description: '优先级（越高排序越靠前）' },
-    models_uuid: { type: 'string', description: '模型UUID' },
-    pid: { type: 'string', description: '所属ID' },
-    position: { type: 'string', description: '推荐位(1-列表推荐，2-频道页推荐，4-首页推荐）' },
-    root: { type: 'string', description: '根节点' },
-    sort: { type: 'string', description: '排序同级有效越小越靠前' },
-    status: { type: 'string', description: '数据状态（0-禁用，1-正常，2-待审核，3-草稿）' },
-    tags: { type: 'string', description: '标签' },
-    template: { type: 'string', description: '模板详情' },
-    title: { type: 'string', description: '内容标题' },
-    type: { type: 'string', description: '内容类型（1-目录，2-主题，3-段落）' },
-    user_uuid: { type: 'string', description: '作者uuid' },
-    view: { type: 'string', description: '浏览量' },
-    
-  },
+	},
+	sys_models_indexes_edit: {
+		fields: { type: 'string', description: '索引字段' },
+		models_uuid: { type: 'string', description: '关联模型uuid' },
+		sort: { type: 'string', description: '排序' },
+		unique: { type: 'boolean', description: '唯一' },
 
-  // cms分类
-  cms_classify_item: {
-    allow_publish: { type: 'boolean', description: '是否允许发布内容' },
-    check: { type: 'boolean', description: '发布的文章是否需要审核' },
-    createdAt: { type: 'string', description: '创建时间' },
-    description: { type: 'string', description: '描述' },
-    display: { type: 'string', description: '可见性' },
-    icon: { type: 'string', description: '分类图片' },
-    id: { type: 'string', description: '主键' },
-    keywords: { type: 'string', description: '关键字' },
-    list_row: { type: 'string', description: '列表每页行数' },
-    meta_title: { type: 'string', description: 'SEO的网页标题' },
-    models_uuid: { type: 'string', description: '关联模型UUID' },
-    name: { type: 'string', description: '标识' },
-    pid: { type: 'string', description: '上级分类ID' },
-    reply: { type: 'boolean', description: '是否允许回复' },
-    sort: { type: 'string', description: '排序（同级有效）' },
-    status: { type: 'boolean', description: '状态' },
-    sub: { type: 'string', description: '子分类' },
-    template_detail: { type: 'string', description: '详情页模板' },
-    template_index: { type: 'string', description: '频道页模板' },
-    template_lists: { type: 'string', description: '列表页模板' },
-    title: { type: 'string', description: '标题' },
-    type: { type: 'string', description: '允许发布的内容类型' },
-    updatedAt: { type: 'string', description: '更新时间' },
-    
-  },
-  cms_classify_add: {
-    allow_publish: { type: 'boolean', description: '是否允许发布内容', required: false },
-    check: { type: 'boolean', description: '发布的文章是否需要审核', required: false },
-    description: { type: 'string', description: '描述', required: false },
-    display: { type: 'string', description: '可见性', required: false },
-    icon: { type: 'string', description: '分类图片', required: false },
-    keywords: { type: 'string', description: '关键字', required: false },
-    list_row: { type: 'string', description: '列表每页行数', required: false },
-    meta_title: { type: 'string', description: 'SEO的网页标题', required: false },
-    models_uuid: { type: 'string', description: '关联模型UUID', required: true },
-    name: { type: 'string', description: '标识', required: false },
-    pid: { type: 'string', description: '上级分类ID', required: false },
-    reply: { type: 'boolean', description: '是否允许回复', required: false },
-    sort: { type: 'string', description: '排序（同级有效）', required: false },
-    status: { type: 'boolean', description: '状态', required: false },
-    sub: { type: 'string', description: '子分类', required: false },
-    template_detail: { type: 'string', description: '详情页模板', required: false },
-    template_index: { type: 'string', description: '频道页模板', required: false },
-    template_lists: { type: 'string', description: '列表页模板', required: false },
-    title: { type: 'string', description: '标题', required: true },
-    type: { type: 'string', description: '允许发布的内容类型', required: false },
-    
-  },
-  cms_classify_edit: {
-    allow_publish: { type: 'boolean', description: '是否允许发布内容' },
-    check: { type: 'boolean', description: '发布的文章是否需要审核' },
-    description: { type: 'string', description: '描述' },
-    display: { type: 'string', description: '可见性' },
-    icon: { type: 'string', description: '分类图片' },
-    keywords: { type: 'string', description: '关键字' },
-    list_row: { type: 'string', description: '列表每页行数' },
-    meta_title: { type: 'string', description: 'SEO的网页标题' },
-    models_uuid: { type: 'string', description: '关联模型UUID' },
-    name: { type: 'string', description: '标识' },
-    pid: { type: 'string', description: '上级分类ID' },
-    reply: { type: 'boolean', description: '是否允许回复' },
-    sort: { type: 'string', description: '排序（同级有效）' },
-    status: { type: 'boolean', description: '状态' },
-    sub: { type: 'string', description: '子分类' },
-    template_detail: { type: 'string', description: '详情页模板' },
-    template_index: { type: 'string', description: '频道页模板' },
-    template_lists: { type: 'string', description: '列表页模板' },
-    title: { type: 'string', description: '标题' },
-    type: { type: 'string', description: '允许发布的内容类型' },
-    
-  },
+	},
+	// 模型关联
+	sys_models_associate_item: {
+		alias: { type: 'string', description: '别名(多态关联时名字要唯一)' },
+		child_uuid: { type: 'string', description: '子表' },
+		constraints: { type: 'boolean', description: '约束' },
+		createdAt: { type: 'string', description: '创建时间' },
+		foreignKey: { type: 'string', description: '子键' },
+		id: { type: 'string', description: '主键' },
+		models_uuid: { type: 'string', description: 'models_uuid' },
+		parent_uuid: { type: 'string', description: '父表' },
+		sort: { type: 'string', description: '排序' },
+		targetKey: { type: 'string', description: '父键' },
+		through_uuid: { type: 'string', description: '中间表' },
+		throughKey: { type: 'string', description: '中间键' },
+		type: { type: 'string', description: '关联类型' },
+		updatedAt: { type: 'string', description: '更新时间' },
+		uuid: { type: 'string', description: 'uuid' },
 
-  // 文章
-  cms_doc_article_item: {
-    content: { type: 'string', description: '文章内容' },
-    createdAt: { type: 'string', description: '创建时间' },
-    doc_id: { type: 'string', description: '主表id' },
-    id: { type: 'string', description: '主键' },
-    updatedAt: { type: 'string', description: '更新时间' },
-    
-  },
-  cms_doc_article_add: {
-    content: { type: 'string', description: '文章内容', required: true },
-    
-  },
-  cms_doc_article_edit: {
-    content: { type: 'string', description: '文章内容' },
-    
-  },
+	},
+	sys_models_associate_add: {
+		alias: { type: 'string', description: '别名(多态关联时名字要唯一)', required: false },
+		child_uuid: { type: 'string', description: '子表', required: true },
+		constraints: { type: 'boolean', description: '约束', required: true },
+		foreignKey: { type: 'string', description: '子键', required: true },
+		models_uuid: { type: 'string', description: 'models_uuid', required: true },
+		parent_uuid: { type: 'string', description: '父表', required: true },
+		sort: { type: 'string', description: '排序', required: true },
+		targetKey: { type: 'string', description: '父键', required: true },
+		through_uuid: { type: 'string', description: '中间表', required: false },
+		throughKey: { type: 'string', description: '中间键', required: false },
+		type: { type: 'string', description: '关联类型', required: true },
 
-  // 图片
-  cms_doc_picture_item: {
-    content: { type: 'string', description: '图片内容' },
-    createdAt: { type: 'string', description: '创建时间' },
-    doc_id: { type: 'string', description: '主表id' },
-    id: { type: 'string', description: '主键' },
-    updatedAt: { type: 'string', description: '更新时间' },
-    
-  },
-  cms_doc_picture_add: {
-    content: { type: 'string', description: '图片内容', required: false },
-    
-  },
-  cms_doc_picture_edit: {
-    content: { type: 'string', description: '图片内容' },
-    
-  },
+	},
+	sys_models_associate_edit: {
+		alias: { type: 'string', description: '别名(多态关联时名字要唯一)' },
+		child_uuid: { type: 'string', description: '子表' },
+		constraints: { type: 'boolean', description: '约束' },
+		foreignKey: { type: 'string', description: '子键' },
+		models_uuid: { type: 'string', description: 'models_uuid' },
+		parent_uuid: { type: 'string', description: '父表' },
+		sort: { type: 'string', description: '排序' },
+		targetKey: { type: 'string', description: '父键' },
+		through_uuid: { type: 'string', description: '中间表' },
+		throughKey: { type: 'string', description: '中间键' },
+		type: { type: 'string', description: '关联类型' },
 
-  // 下载
-  cms_doc_download_item: {
-    content: { type: 'string', description: '下载内容' },
-    createdAt: { type: 'string', description: '创建时间' },
-    desc: { type: 'string', description: '下载介绍' },
-    doc_id: { type: 'string', description: '主表id' },
-    id: { type: 'string', description: '主键' },
-    updatedAt: { type: 'string', description: '更新时间' },
-    
-  },
-  cms_doc_download_add: {
-    content: { type: 'string', description: '下载内容', required: false },
-    desc: { type: 'string', description: '下载介绍', required: false },
-    
-  },
-  cms_doc_download_edit: {
-    content: { type: 'string', description: '下载内容' },
-    desc: { type: 'string', description: '下载介绍' },
-    
-  },
+	},
+	// 路由管理
+	sys_routes_item: {
+		action: { type: 'string', description: '控制器方法' },
+		admin: { type: 'boolean', description: '控制器/页面' },
+		app: { type: 'string', description: '应用标识' },
+		class_uuid: { type: 'string', description: '关联classify的uuid' },
+		controller: { type: 'string', description: '控制器' },
+		createdAt: { type: 'string', description: '创建时间' },
+		icon: { type: 'string', description: '配置菜单的图标' },
+		id: { type: 'string', description: '主键' },
+		ignoreMiddleware: { type: 'string', description: '排除模块统一设置的middleware' },
+		is_menu: { type: 'boolean', description: '是否是菜单' },
+		link: { type: 'string', description: '页面地址' },
+		linkType: { type: 'string', description: '链接类型' },
+		middleware: { type: 'string', description: '在 Router 里面可以配置多个 Middleware' },
+		name: { type: 'string', description: '名称' },
+		path: { type: 'string', description: '路由 URL 路径' },
+		puuid: { type: 'string', description: '路由父uuid' },
+		role: { type: 'boolean', description: '是否为角色权限节点' },
+		sort: { type: 'string', description: '排序' },
+		updatedAt: { type: 'string', description: '更新时间' },
+		uuid: { type: 'string', description: 'uuid' },
+		verb: { type: 'string', description: '用户触发动作，支持 get，post 等所有 HTTP 方法' },
 
-  // 系统导航
-  sys_navigation_item: {
-    createdAt: { type: 'string', description: '创建时间' },
-    id: { type: 'string', description: '主键' },
-    pid: { type: 'string', description: '上级导航ID' },
-    sort: { type: 'string', description: '排序' },
-    status: { type: 'boolean', description: '状态' },
-    target: { type: 'boolean', description: '是否新窗口打开' },
-    title: { type: 'string', description: '导航标题' },
-    type: { type: 'string', description: '位置类型' },
-    updatedAt: { type: 'string', description: '更新时间' },
-    url: { type: 'string', description: '导航链接' },
-    
-  },
-  sys_navigation_add: {
-    sort: { type: 'string', description: '排序', required: false },
-    status: { type: 'boolean', description: '状态', required: false },
-    target: { type: 'boolean', description: '是否新窗口打开', required: false },
-    title: { type: 'string', description: '导航标题', required: false },
-    type: { type: 'string', description: '位置类型', required: false },
-    url: { type: 'string', description: '导航链接', required: false },
-    
-  },
-  sys_navigation_edit: {
-    sort: { type: 'string', description: '排序' },
-    status: { type: 'boolean', description: '状态' },
-    target: { type: 'boolean', description: '是否新窗口打开' },
-    title: { type: 'string', description: '导航标题' },
-    type: { type: 'string', description: '位置类型' },
-    url: { type: 'string', description: '导航链接' },
-    
-  },
+	},
+	sys_routes_add: {
+		action: { type: 'string', description: '控制器方法', required: false },
+		admin: { type: 'boolean', description: '控制器/页面', required: false },
+		app: { type: 'string', description: '应用标识', required: true },
+		class_uuid: { type: 'string', description: '关联classify的uuid', required: true },
+		controller: { type: 'string', description: '控制器', required: false },
+		createdAt: { type: 'string', description: '创建时间', required: true },
+		icon: { type: 'string', description: '配置菜单的图标', required: false },
+		ignoreMiddleware: { type: 'string', description: '排除模块统一设置的middleware', required: false },
+		is_menu: { type: 'boolean', description: '是否是菜单', required: false },
+		link: { type: 'string', description: '页面地址', required: false },
+		linkType: { type: 'string', description: '链接类型', required: false },
+		middleware: { type: 'string', description: '在 Router 里面可以配置多个 Middleware', required: false },
+		name: { type: 'string', description: '名称', required: true },
+		path: { type: 'string', description: '路由 URL 路径', required: true },
+		puuid: { type: 'string', description: '路由父uuid', required: false },
+		role: { type: 'boolean', description: '是否为角色权限节点', required: false },
+		sort: { type: 'string', description: '排序', required: false },
+		verb: { type: 'string', description: '用户触发动作，支持 get，post 等所有 HTTP 方法', required: true },
 
-  // 会员管理
-  mc_member_item: {
-    avatar: { type: 'string', description: '头像' },
-    createdAt: { type: 'string', description: '创建时间' },
-    email: { type: 'string', description: '邮箱' },
-    id: { type: 'string', description: '主键' },
-    mobile: { type: 'string', description: '手机' },
-    password: { type: 'string', description: '密码' },
-    state: { type: 'boolean', description: '状态' },
-    third: { type: 'string', description: '第三方扩展' },
-    updatedAt: { type: 'string', description: '更新时间' },
-    username: { type: 'string', description: '用户名' },
-    uuid: { type: 'string', description: 'UUid' },
-    
-  },
-  mc_member_add: {
-    avatar: { type: 'string', description: '头像', required: false },
-    email: { type: 'string', description: '邮箱', required: false },
-    mobile: { type: 'string', description: '手机', required: false },
-    password: { type: 'string', description: '密码', required: false },
-    state: { type: 'boolean', description: '状态', required: false },
-    third: { type: 'string', description: '第三方扩展', required: false },
-    username: { type: 'string', description: '用户名', required: false },
-    uuid: { type: 'string', description: 'UUid', required: true },
-    
-  },
-  mc_member_edit: {
-    avatar: { type: 'string', description: '头像' },
-    email: { type: 'string', description: '邮箱' },
-    mobile: { type: 'string', description: '手机' },
-    password: { type: 'string', description: '密码' },
-    state: { type: 'boolean', description: '状态' },
-    third: { type: 'string', description: '第三方扩展' },
-    username: { type: 'string', description: '用户名' },
-    uuid: { type: 'string', description: 'UUid' },
-    
-  },
+	},
+	sys_routes_edit: {
+		action: { type: 'string', description: '控制器方法' },
+		admin: { type: 'boolean', description: '控制器/页面' },
+		app: { type: 'string', description: '应用标识' },
+		class_uuid: { type: 'string', description: '关联classify的uuid' },
+		controller: { type: 'string', description: '控制器' },
+		icon: { type: 'string', description: '配置菜单的图标' },
+		ignoreMiddleware: { type: 'string', description: '排除模块统一设置的middleware' },
+		is_menu: { type: 'boolean', description: '是否是菜单' },
+		link: { type: 'string', description: '页面地址' },
+		linkType: { type: 'string', description: '链接类型' },
+		middleware: { type: 'string', description: '在 Router 里面可以配置多个 Middleware' },
+		name: { type: 'string', description: '名称' },
+		path: { type: 'string', description: '路由 URL 路径' },
+		puuid: { type: 'string', description: '路由父uuid' },
+		role: { type: 'boolean', description: '是否为角色权限节点' },
+		sort: { type: 'string', description: '排序' },
+		updatedAt: { type: 'string', description: '更新时间' },
+		verb: { type: 'string', description: '用户触发动作，支持 get，post 等所有 HTTP 方法' },
 
-  // cms评论
-  cms_comments_item: {
-    content: { type: 'string', description: '内容' },
-    createdAt: { type: 'string', description: '创建时间' },
-    doc_id: { type: 'string', description: '文档关联id' },
-    id: { type: 'string', description: '主键' },
-    member_uuid: { type: 'string', description: '用户关联uuid' },
-    updatedAt: { type: 'string', description: '更新时间' },
-    
-  },
-  cms_comments_add: {
-    content: { type: 'string', description: '内容', required: false },
-    doc_id: { type: 'string', description: '文档关联id', required: true },
-    member_uuid: { type: 'string', description: '用户关联uuid', required: true },
-    
-  },
-  cms_comments_edit: {
-    content: { type: 'string', description: '内容' },
-    doc_id: { type: 'string', description: '文档关联id' },
-    member_uuid: { type: 'string', description: '用户关联uuid' },
-    
-  },
+	},
+	// 路由分类
+	sys_routes_classify_item: {
+		createdAt: { type: 'string', description: '创建时间' },
+		id: { type: 'string', description: '主键' },
+		middleware: { type: 'string', description: '在 Router 里面可以配置多个 Middleware' },
+		name: { type: 'string', description: '分类名称' },
+		remarks: { type: 'string', description: '备注' },
+		sort: { type: 'string', description: '越小越靠前' },
+		sys: { type: 'boolean', description: '是否系统' },
+		updatedAt: { type: 'string', description: '更新时间' },
+		uuid: { type: 'string', description: 'uuid' },
 
-  // cms评论回复
-  cms_comments_reply_item: {
-    comments_id: { type: 'string', description: '评论关联id' },
-    content: { type: 'string', description: '回复内容' },
-    createdAt: { type: 'string', description: '创建时间' },
-    id: { type: 'string', description: '主键' },
-    member_uuid: { type: 'string', description: '用户关联uuid' },
-    updatedAt: { type: 'string', description: '更新时间' },
-    
-  },
-  cms_comments_reply_add: {
-    comments_id: { type: 'string', description: '评论关联id', required: false },
-    content: { type: 'string', description: '回复内容', required: false },
-    member_uuid: { type: 'string', description: '用户关联uuid', required: false },
-    
-  },
-  cms_comments_reply_edit: {
-    comments_id: { type: 'string', description: '评论关联id' },
-    content: { type: 'string', description: '回复内容' },
-    member_uuid: { type: 'string', description: '用户关联uuid' },
-    
-  },
+	},
+	sys_routes_classify_add: {
+		middleware: { type: 'string', description: '在 Router 里面可以配置多个 Middleware', required: false },
+		name: { type: 'string', description: '分类名称', required: true },
+		remarks: { type: 'string', description: '备注', required: false },
+		sort: { type: 'string', description: '越小越靠前', required: false },
 
-  // cms模板管理
-  cms_template_item: {
-    author: { type: 'string', description: '作者' },
-    createdAt: { type: 'string', description: '创建时间' },
-    id: { type: 'string', description: '主键' },
-    isu: { type: 'boolean', description: '正在使用' },
-    name: { type: 'string', description: '模板名称' },
-    path: { type: 'string', description: '模板目录' },
-    sys: { type: 'boolean', description: '系统模板' },
-    updatedAt: { type: 'string', description: '更新时间' },
-    uuid: { type: 'string', description: 'uuid' },
-    version: { type: 'string', description: '版本号' },
-    
-  },
-  cms_template_add: {
-    author: { type: 'string', description: '作者', required: true },
-    isu: { type: 'boolean', description: '正在使用', required: false },
-    name: { type: 'string', description: '模板名称', required: true },
-    path: { type: 'string', description: '模板目录', required: true },
-    sys: { type: 'boolean', description: '系统模板', required: false },
-    uuid: { type: 'string', description: 'uuid', required: true },
-    version: { type: 'string', description: '版本号', required: true },
-    
-  },
-  cms_template_edit: {
-    author: { type: 'string', description: '作者' },
-    isu: { type: 'boolean', description: '正在使用' },
-    name: { type: 'string', description: '模板名称' },
-    path: { type: 'string', description: '模板目录' },
-    sys: { type: 'boolean', description: '系统模板' },
-    uuid: { type: 'string', description: 'uuid' },
-    version: { type: 'string', description: '版本号' },
-    
-  },
+	},
+	sys_routes_classify_edit: {
+		middleware: { type: 'string', description: '在 Router 里面可以配置多个 Middleware' },
+		name: { type: 'string', description: '分类名称' },
+		remarks: { type: 'string', description: '备注' },
+		sort: { type: 'string', description: '越小越靠前' },
 
-  // 模板文件
-  cms_template_list_item: {
-    createdAt: { type: 'string', description: '创建时间' },
-    html: { type: 'string', description: '文件内容' },
-    id: { type: 'string', description: '主键' },
-    isd: { type: 'boolean', description: '是否默认' },
-    isu: { type: 'boolean', description: '使用中' },
-    name: { type: 'string', description: '文件名称' },
-    template_uuid: { type: 'string', description: '模板UUID' },
-    title: { type: 'string', description: '模板名称' },
-    type: { type: 'string', description: '类型' },
-    updatedAt: { type: 'string', description: '更新时间' },
-    uuid: { type: 'string', description: 'UUID' },
-    
-  },
-  cms_template_list_add: {
-    html: { type: 'string', description: '文件内容', required: false },
-    isd: { type: 'boolean', description: '是否默认', required: false },
-    isu: { type: 'boolean', description: '使用中', required: false },
-    name: { type: 'string', description: '文件名称', required: true },
-    template_uuid: { type: 'string', description: '模板UUID', required: true },
-    title: { type: 'string', description: '模板名称', required: true },
-    type: { type: 'string', description: '类型', required: true },
-    uuid: { type: 'string', description: 'UUID', required: true },
-    
-  },
-  cms_template_list_edit: {
-    html: { type: 'string', description: '文件内容' },
-    isd: { type: 'boolean', description: '是否默认' },
-    isu: { type: 'boolean', description: '使用中' },
-    name: { type: 'string', description: '文件名称' },
-    template_uuid: { type: 'string', description: '模板UUID' },
-    title: { type: 'string', description: '模板名称' },
-    type: { type: 'string', description: '类型' },
-    uuid: { type: 'string', description: 'UUID' },
-    
-  },
+	},
+	// 系统用户组
+	sys_user_group_item: {
+		createdAt: { type: 'string', description: '创建时间' },
+		desc: { type: 'string', description: '分组说明' },
+		id: { type: 'string', description: '主键' },
+		name: { type: 'string', description: '分组名称' },
+		puuid: { type: 'string', description: '父uuid' },
+		sort: { type: 'string', description: '排序' },
+		updatedAt: { type: 'string', description: '更新时间' },
+		uuid: { type: 'string', description: 'uuid' },
 
-  // 应用表
-  sys_application_item: {
-    author: { type: 'string', description: '作者' },
-    createdAt: { type: 'string', description: '创建时间' },
-    explain: { type: 'string', description: '说明' },
-    id: { type: 'string', description: '主键' },
-    intro: { type: 'string', description: 'intro' },
-    name: { type: 'string', description: '应用标识' },
-    sys: { type: 'boolean', description: '是否系统' },
-    title: { type: 'string', description: '应用名称' },
-    updatedAt: { type: 'string', description: '更新时间' },
-    version: { type: 'string', description: '版本' },
-    
-  },
-  sys_application_add: {
-    author: { type: 'string', description: '作者', required: false },
-    explain: { type: 'string', description: '说明', required: false },
-    intro: { type: 'string', description: 'intro', required: false },
-    name: { type: 'string', description: '应用标识', required: true },
-    sys: { type: 'boolean', description: '是否系统', required: false },
-    title: { type: 'string', description: '应用名称', required: true },
-    version: { type: 'string', description: '版本', required: false },
-    
-  },
-  sys_application_edit: {
-    author: { type: 'string', description: '作者' },
-    explain: { type: 'string', description: '说明' },
-    intro: { type: 'string', description: 'intro' },
-    name: { type: 'string', description: '应用标识' },
-    sys: { type: 'boolean', description: '是否系统' },
-    title: { type: 'string', description: '应用名称' },
-    version: { type: 'string', description: '版本' },
-    
-  },
+	},
+	sys_user_group_add: {
+		desc: { type: 'string', description: '分组说明', required: false },
+		name: { type: 'string', description: '分组名称', required: true },
+		puuid: { type: 'string', description: '父uuid', required: false },
+		sort: { type: 'string', description: '排序', required: false },
+		uuid: { type: 'string', description: 'uuid', required: true },
 
-  // 系统配置
-  sys_config_item: {
-    createdAt: { type: 'string', description: '创建时间' },
-    id: { type: 'string', description: '主键' },
-    label: { type: 'string', description: '配置名称' },
-    name: { type: 'string', description: '配置key' },
-    updatedAt: { type: 'string', description: '更新时间' },
-    value: { type: 'string', description: '配置value' },
-    
-  },
-  sys_config_add: {
-    label: { type: 'string', description: '配置名称', required: true },
-    name: { type: 'string', description: '配置key', required: true },
-    value: { type: 'string', description: '配置value', required: true },
-    
-  },
-  sys_config_edit: {
-    label: { type: 'string', description: '配置名称' },
-    name: { type: 'string', description: '配置key' },
-    value: { type: 'string', description: '配置value' },
-    
-  },
+	},
+	sys_user_group_edit: {
+		desc: { type: 'string', description: '分组说明' },
+		name: { type: 'string', description: '分组名称' },
+		puuid: { type: 'string', description: '父uuid' },
+		sort: { type: 'string', description: '排序' },
+		uuid: { type: 'string', description: 'uuid' },
+
+	},
+	// 角色表
+	sys_role_item: {
+		createdAt: { type: 'string', description: '创建时间' },
+		desc: { type: 'string', description: '角色说明' },
+		g_uuids: { type: 'string', description: 'graphql节点' },
+		id: { type: 'string', description: '主键' },
+		name: { type: 'string', description: '角色名称' },
+		r_uuids: { type: 'string', description: '路由节点' },
+		state: { type: 'boolean', description: '状态' },
+		updatedAt: { type: 'string', description: '更新时间' },
+		uuid: { type: 'string', description: 'uuid' },
+
+	},
+	sys_role_add: {
+		desc: { type: 'string', description: '角色说明', required: false },
+		g_uuids: { type: 'string', description: 'graphql节点', required: false },
+		name: { type: 'string', description: '角色名称', required: true },
+		r_uuids: { type: 'string', description: '路由节点', required: false },
+		state: { type: 'boolean', description: '状态', required: false },
+		uuid: { type: 'string', description: 'uuid', required: true },
+
+	},
+	sys_role_edit: {
+		desc: { type: 'string', description: '角色说明' },
+		g_uuids: { type: 'string', description: 'graphql节点' },
+		name: { type: 'string', description: '角色名称' },
+		r_uuids: { type: 'string', description: '路由节点' },
+		state: { type: 'boolean', description: '状态' },
+
+	},
+	// 用户角色中间表
+	sys_user_role_item: {
+		createdAt: { type: 'string', description: '创建时间' },
+		id: { type: 'string', description: '主键' },
+		role_uuid: { type: 'string', description: '角色uuid' },
+		updatedAt: { type: 'string', description: '更新时间' },
+		user_uuid: { type: 'string', description: '用户uuid' },
+
+	},
+	sys_user_role_add: {
+		role_uuid: { type: 'string', description: '角色uuid', required: true },
+		user_uuid: { type: 'string', description: '用户uuid', required: true },
+
+	},
+	sys_user_role_edit: {
+		role_uuid: { type: 'string', description: '角色uuid' },
+		user_uuid: { type: 'string', description: '用户uuid' },
+
+	},
+	// 开放接口
+	sys_openApi_item: {
+		createdAt: { type: 'string', description: '创建时间' },
+		id: { type: 'string', description: '主键' },
+		open_uuids: { type: 'string', description: '开放接口节点' },
+		updatedAt: { type: 'string', description: '更新时间' },
+		uuid: { type: 'string', description: 'uuid' },
+
+	},
+	sys_openApi_add: {
+		open_uuids: { type: 'string', description: '开放接口节点', required: false },
+		uuid: { type: 'string', description: 'uuid', required: false },
+
+	},
+	sys_openApi_edit: {
+		open_uuids: { type: 'string', description: '开放接口节点' },
+		uuid: { type: 'string', description: 'uuid' },
+
+	},
+	// cms内容主表
+	cms_doc_item: {
+		classify_id: { type: 'string', description: '分类ID' },
+		classify_sub: { type: 'string', description: '子分类' },
+		cover_url: { type: 'string', description: '封面' },
+		createdAt: { type: 'string', description: '创建时间' },
+		deadline: { type: 'string', description: '截止时间' },
+		description: { type: 'string', description: '描述' },
+		display: { type: 'boolean', description: '可见性' },
+		ext_link: { type: 'string', description: '如果填写链接,会跳转到这个链接,不填不跳转' },
+		id: { type: 'string', description: '主键' },
+		level: { type: 'string', description: '优先级（越高排序越靠前）' },
+		models_uuid: { type: 'string', description: '模型UUID' },
+		pid: { type: 'string', description: '所属ID' },
+		position: { type: 'string', description: '推荐位(1-列表推荐，2-频道页推荐，4-首页推荐）' },
+		root: { type: 'string', description: '根节点' },
+		sort: { type: 'string', description: '排序同级有效越小越靠前' },
+		status: { type: 'string', description: '数据状态（0-禁用，1-正常，2-待审核，3-草稿）' },
+		tags: { type: 'string', description: '标签' },
+		template: { type: 'string', description: '模板详情' },
+		title: { type: 'string', description: '内容标题' },
+		type: { type: 'string', description: '内容类型（1-目录，2-主题，3-段落）' },
+		updatedAt: { type: 'string', description: '更新时间' },
+		user_uuid: { type: 'string', description: '作者uuid' },
+		view: { type: 'string', description: '浏览量' },
+
+	},
+	cms_doc_add: {
+		classify_id: { type: 'string', description: '分类ID', required: true },
+		classify_sub: { type: 'string', description: '子分类', required: false },
+		cover_url: { type: 'string', description: '封面', required: false },
+		deadline: { type: 'string', description: '截止时间', required: false },
+		description: { type: 'string', description: '描述', required: false },
+		display: { type: 'boolean', description: '可见性', required: false },
+		ext_link: { type: 'string', description: '如果填写链接,会跳转到这个链接,不填不跳转', required: false },
+		level: { type: 'string', description: '优先级（越高排序越靠前）', required: true },
+		models_uuid: { type: 'string', description: '模型UUID', required: true },
+		pid: { type: 'string', description: '所属ID', required: false },
+		position: { type: 'string', description: '推荐位(1-列表推荐，2-频道页推荐，4-首页推荐）', required: false },
+		root: { type: 'string', description: '根节点', required: false },
+		sort: { type: 'string', description: '排序同级有效越小越靠前', required: true },
+		status: { type: 'string', description: '数据状态（0-禁用，1-正常，2-待审核，3-草稿）', required: true },
+		tags: { type: 'string', description: '标签', required: false },
+		template: { type: 'string', description: '模板详情', required: false },
+		title: { type: 'string', description: '内容标题', required: true },
+		type: { type: 'string', description: '内容类型（1-目录，2-主题，3-段落）', required: true },
+		user_uuid: { type: 'string', description: '作者uuid', required: false },
+		view: { type: 'string', description: '浏览量', required: true },
+
+	},
+	cms_doc_edit: {
+		classify_id: { type: 'string', description: '分类ID' },
+		classify_sub: { type: 'string', description: '子分类' },
+		cover_url: { type: 'string', description: '封面' },
+		deadline: { type: 'string', description: '截止时间' },
+		description: { type: 'string', description: '描述' },
+		display: { type: 'boolean', description: '可见性' },
+		ext_link: { type: 'string', description: '如果填写链接,会跳转到这个链接,不填不跳转' },
+		level: { type: 'string', description: '优先级（越高排序越靠前）' },
+		models_uuid: { type: 'string', description: '模型UUID' },
+		pid: { type: 'string', description: '所属ID' },
+		position: { type: 'string', description: '推荐位(1-列表推荐，2-频道页推荐，4-首页推荐）' },
+		root: { type: 'string', description: '根节点' },
+		sort: { type: 'string', description: '排序同级有效越小越靠前' },
+		status: { type: 'string', description: '数据状态（0-禁用，1-正常，2-待审核，3-草稿）' },
+		tags: { type: 'string', description: '标签' },
+		template: { type: 'string', description: '模板详情' },
+		title: { type: 'string', description: '内容标题' },
+		type: { type: 'string', description: '内容类型（1-目录，2-主题，3-段落）' },
+		user_uuid: { type: 'string', description: '作者uuid' },
+		view: { type: 'string', description: '浏览量' },
+
+	},
+	// cms分类
+	cms_classify_item: {
+		allow_publish: { type: 'boolean', description: '是否允许发布内容' },
+		check: { type: 'boolean', description: '发布的文章是否需要审核' },
+		createdAt: { type: 'string', description: '创建时间' },
+		description: { type: 'string', description: '描述' },
+		display: { type: 'string', description: '可见性' },
+		icon: { type: 'string', description: '分类图片' },
+		id: { type: 'string', description: '主键' },
+		keywords: { type: 'string', description: '关键字' },
+		list_row: { type: 'string', description: '列表每页行数' },
+		meta_title: { type: 'string', description: 'SEO的网页标题' },
+		models_uuid: { type: 'string', description: '关联模型UUID' },
+		name: { type: 'string', description: '标识' },
+		pid: { type: 'string', description: '上级分类ID' },
+		reply: { type: 'boolean', description: '是否允许回复' },
+		sort: { type: 'string', description: '排序（同级有效）' },
+		status: { type: 'boolean', description: '状态' },
+		sub: { type: 'string', description: '子分类' },
+		template_detail: { type: 'string', description: '详情页模板' },
+		template_index: { type: 'string', description: '频道页模板' },
+		template_lists: { type: 'string', description: '列表页模板' },
+		title: { type: 'string', description: '标题' },
+		type: { type: 'string', description: '允许发布的内容类型' },
+		updatedAt: { type: 'string', description: '更新时间' },
+
+	},
+	cms_classify_add: {
+		allow_publish: { type: 'boolean', description: '是否允许发布内容', required: false },
+		check: { type: 'boolean', description: '发布的文章是否需要审核', required: false },
+		description: { type: 'string', description: '描述', required: false },
+		display: { type: 'string', description: '可见性', required: false },
+		icon: { type: 'string', description: '分类图片', required: false },
+		keywords: { type: 'string', description: '关键字', required: false },
+		list_row: { type: 'string', description: '列表每页行数', required: false },
+		meta_title: { type: 'string', description: 'SEO的网页标题', required: false },
+		models_uuid: { type: 'string', description: '关联模型UUID', required: true },
+		name: { type: 'string', description: '标识', required: false },
+		pid: { type: 'string', description: '上级分类ID', required: false },
+		reply: { type: 'boolean', description: '是否允许回复', required: false },
+		sort: { type: 'string', description: '排序（同级有效）', required: false },
+		status: { type: 'boolean', description: '状态', required: false },
+		sub: { type: 'string', description: '子分类', required: false },
+		template_detail: { type: 'string', description: '详情页模板', required: false },
+		template_index: { type: 'string', description: '频道页模板', required: false },
+		template_lists: { type: 'string', description: '列表页模板', required: false },
+		title: { type: 'string', description: '标题', required: true },
+		type: { type: 'string', description: '允许发布的内容类型', required: false },
+
+	},
+	cms_classify_edit: {
+		allow_publish: { type: 'boolean', description: '是否允许发布内容' },
+		check: { type: 'boolean', description: '发布的文章是否需要审核' },
+		description: { type: 'string', description: '描述' },
+		display: { type: 'string', description: '可见性' },
+		icon: { type: 'string', description: '分类图片' },
+		keywords: { type: 'string', description: '关键字' },
+		list_row: { type: 'string', description: '列表每页行数' },
+		meta_title: { type: 'string', description: 'SEO的网页标题' },
+		models_uuid: { type: 'string', description: '关联模型UUID' },
+		name: { type: 'string', description: '标识' },
+		pid: { type: 'string', description: '上级分类ID' },
+		reply: { type: 'boolean', description: '是否允许回复' },
+		sort: { type: 'string', description: '排序（同级有效）' },
+		status: { type: 'boolean', description: '状态' },
+		sub: { type: 'string', description: '子分类' },
+		template_detail: { type: 'string', description: '详情页模板' },
+		template_index: { type: 'string', description: '频道页模板' },
+		template_lists: { type: 'string', description: '列表页模板' },
+		title: { type: 'string', description: '标题' },
+		type: { type: 'string', description: '允许发布的内容类型' },
+
+	},
+	// 文章
+	cms_doc_article_item: {
+		content: { type: 'string', description: '文章内容' },
+		content_type: { type: 'string', description: '文章内容类型(html|amis)' },
+		createdAt: { type: 'string', description: '创建时间' },
+		doc_id: { type: 'string', description: '主表id' },
+		id: { type: 'string', description: '主键' },
+		updatedAt: { type: 'string', description: '更新时间' },
+
+	},
+	cms_doc_article_add: {
+		content: { type: 'string', description: '文章内容', required: true },
+
+	},
+	cms_doc_article_edit: {
+		content: { type: 'string', description: '文章内容' },
+
+	},
+	// 图片
+	cms_doc_picture_item: {
+		content: { type: 'string', description: '图片内容' },
+		createdAt: { type: 'string', description: '创建时间' },
+		doc_id: { type: 'string', description: '主表id' },
+		id: { type: 'string', description: '主键' },
+		updatedAt: { type: 'string', description: '更新时间' },
+
+	},
+	cms_doc_picture_add: {
+		content: { type: 'string', description: '图片内容', required: true },
+
+	},
+	cms_doc_picture_edit: {
+		content: { type: 'string', description: '图片内容' },
+
+	},
+	// 下载
+	cms_doc_download_item: {
+		content: { type: 'string', description: '下载内容' },
+		createdAt: { type: 'string', description: '创建时间' },
+		desc: { type: 'string', description: '下载介绍' },
+		doc_id: { type: 'string', description: '主表id' },
+		id: { type: 'string', description: '主键' },
+		updatedAt: { type: 'string', description: '更新时间' },
+
+	},
+	cms_doc_download_add: {
+		content: { type: 'string', description: '下载内容', required: true },
+		desc: { type: 'string', description: '下载介绍', required: false },
+
+	},
+	cms_doc_download_edit: {
+		content: { type: 'string', description: '下载内容' },
+		desc: { type: 'string', description: '下载介绍' },
+
+	},
+	// 系统导航
+	sys_navigation_item: {
+		createdAt: { type: 'string', description: '创建时间' },
+		id: { type: 'string', description: '主键' },
+		pid: { type: 'string', description: '上级导航ID' },
+		sort: { type: 'string', description: '排序' },
+		status: { type: 'boolean', description: '状态' },
+		target: { type: 'boolean', description: '是否新窗口打开' },
+		title: { type: 'string', description: '导航标题' },
+		type: { type: 'string', description: '位置类型' },
+		updatedAt: { type: 'string', description: '更新时间' },
+		url: { type: 'string', description: '导航链接' },
+
+	},
+	sys_navigation_add: {
+		sort: { type: 'string', description: '排序', required: false },
+		status: { type: 'boolean', description: '状态', required: false },
+		target: { type: 'boolean', description: '是否新窗口打开', required: false },
+		title: { type: 'string', description: '导航标题', required: true },
+		type: { type: 'string', description: '位置类型', required: false },
+		url: { type: 'string', description: '导航链接', required: true },
+
+	},
+	sys_navigation_edit: {
+		sort: { type: 'string', description: '排序' },
+		status: { type: 'boolean', description: '状态' },
+		target: { type: 'boolean', description: '是否新窗口打开' },
+		title: { type: 'string', description: '导航标题' },
+		type: { type: 'string', description: '位置类型' },
+		url: { type: 'string', description: '导航链接' },
+
+	},
+	// 会员管理
+	mc_member_item: {
+		avatar: { type: 'string', description: '头像' },
+		createdAt: { type: 'string', description: '创建时间' },
+		email: { type: 'string', description: '邮箱' },
+		id: { type: 'string', description: '主键' },
+		mobile: { type: 'string', description: '手机' },
+		password: { type: 'string', description: '密码' },
+		state: { type: 'boolean', description: '状态' },
+		sys_user_uuid: { type: 'string', description: '绑定的管理员账号uuid' },
+		third: { type: 'string', description: '第三方扩展' },
+		updatedAt: { type: 'string', description: '更新时间' },
+		username: { type: 'string', description: '用户名' },
+		uuid: { type: 'string', description: 'UUid' },
+
+	},
+	mc_member_add: {
+		avatar: { type: 'string', description: '头像', required: false },
+		email: { type: 'string', description: '邮箱', required: false },
+		mobile: { type: 'string', description: '手机', required: false },
+		password: { type: 'string', description: '密码', required: false },
+		state: { type: 'boolean', description: '状态', required: false },
+		third: { type: 'string', description: '第三方扩展', required: false },
+		username: { type: 'string', description: '用户名', required: false },
+		uuid: { type: 'string', description: 'UUid', required: true },
+
+	},
+	mc_member_edit: {
+		avatar: { type: 'string', description: '头像' },
+		email: { type: 'string', description: '邮箱' },
+		mobile: { type: 'string', description: '手机' },
+		password: { type: 'string', description: '密码' },
+		state: { type: 'boolean', description: '状态' },
+		third: { type: 'string', description: '第三方扩展' },
+		username: { type: 'string', description: '用户名' },
+		uuid: { type: 'string', description: 'UUid' },
+
+	},
+	// cms评论
+	cms_comments_item: {
+		content: { type: 'string', description: '内容' },
+		createdAt: { type: 'string', description: '创建时间' },
+		doc_id: { type: 'string', description: '文档关联id' },
+		id: { type: 'string', description: '主键' },
+		member_uuid: { type: 'string', description: '用户关联uuid' },
+		updatedAt: { type: 'string', description: '更新时间' },
+
+	},
+	cms_comments_add: {
+		content: { type: 'string', description: '内容', required: true },
+		doc_id: { type: 'string', description: '文档关联id', required: true },
+		member_uuid: { type: 'string', description: '用户关联uuid', required: true },
+
+	},
+	cms_comments_edit: {
+		content: { type: 'string', description: '内容' },
+		doc_id: { type: 'string', description: '文档关联id' },
+		member_uuid: { type: 'string', description: '用户关联uuid' },
+
+	},
+	// cms评论回复
+	cms_comments_reply_item: {
+		comments_id: { type: 'string', description: '评论关联id' },
+		content: { type: 'string', description: '回复内容' },
+		createdAt: { type: 'string', description: '创建时间' },
+		id: { type: 'string', description: '主键' },
+		member_uuid: { type: 'string', description: '用户关联uuid' },
+		updatedAt: { type: 'string', description: '更新时间' },
+
+	},
+	cms_comments_reply_add: {
+		comments_id: { type: 'string', description: '评论关联id', required: true },
+		content: { type: 'string', description: '回复内容', required: true },
+		member_uuid: { type: 'string', description: '用户关联uuid', required: true },
+
+	},
+	cms_comments_reply_edit: {
+		comments_id: { type: 'string', description: '评论关联id' },
+		content: { type: 'string', description: '回复内容' },
+		member_uuid: { type: 'string', description: '用户关联uuid' },
+
+	},
+	// cms模板管理
+	cms_template_item: {
+		author: { type: 'string', description: '作者' },
+		createdAt: { type: 'string', description: '创建时间' },
+		id: { type: 'string', description: '主键' },
+		isu: { type: 'boolean', description: '正在使用' },
+		name: { type: 'string', description: '模板名称' },
+		path: { type: 'string', description: '模板目录' },
+		sys: { type: 'boolean', description: '系统模板' },
+		updatedAt: { type: 'string', description: '更新时间' },
+		uuid: { type: 'string', description: 'uuid' },
+		version: { type: 'string', description: '版本号' },
+
+	},
+	cms_template_add: {
+		author: { type: 'string', description: '作者', required: true },
+		isu: { type: 'boolean', description: '正在使用', required: false },
+		name: { type: 'string', description: '模板名称', required: true },
+		path: { type: 'string', description: '模板目录', required: true },
+		sys: { type: 'boolean', description: '系统模板', required: false },
+		uuid: { type: 'string', description: 'uuid', required: true },
+		version: { type: 'string', description: '版本号', required: true },
+
+	},
+	cms_template_edit: {
+		author: { type: 'string', description: '作者' },
+		isu: { type: 'boolean', description: '正在使用' },
+		name: { type: 'string', description: '模板名称' },
+		path: { type: 'string', description: '模板目录' },
+		sys: { type: 'boolean', description: '系统模板' },
+		uuid: { type: 'string', description: 'uuid' },
+		version: { type: 'string', description: '版本号' },
+
+	},
+	// 模板文件
+	cms_template_list_item: {
+		createdAt: { type: 'string', description: '创建时间' },
+		id: { type: 'string', description: '主键' },
+		isd: { type: 'boolean', description: '是否默认' },
+		isu: { type: 'boolean', description: '使用中' },
+		name: { type: 'string', description: '文件名称' },
+		template_uuid: { type: 'string', description: '模板UUID' },
+		title: { type: 'string', description: '模板名称' },
+		type: { type: 'string', description: '类型' },
+		updatedAt: { type: 'string', description: '更新时间' },
+		uuid: { type: 'string', description: 'UUID' },
+
+	},
+	cms_template_list_add: {
+		isd: { type: 'boolean', description: '是否默认', required: false },
+		isu: { type: 'boolean', description: '使用中', required: false },
+		name: { type: 'string', description: '文件名称', required: true },
+		template_uuid: { type: 'string', description: '模板UUID', required: true },
+		title: { type: 'string', description: '模板名称', required: true },
+		type: { type: 'string', description: '类型', required: true },
+		uuid: { type: 'string', description: 'UUID', required: true },
+
+	},
+	cms_template_list_edit: {
+		isd: { type: 'boolean', description: '是否默认' },
+		isu: { type: 'boolean', description: '使用中' },
+		name: { type: 'string', description: '文件名称' },
+		template_uuid: { type: 'string', description: '模板UUID' },
+		title: { type: 'string', description: '模板名称' },
+		type: { type: 'string', description: '类型' },
+		uuid: { type: 'string', description: 'UUID' },
+
+	},
+	// 应用表
+	sys_application_item: {
+		author: { type: 'string', description: '作者' },
+		createdAt: { type: 'string', description: '创建时间' },
+		explain: { type: 'string', description: '说明' },
+		id: { type: 'string', description: '主键' },
+		intro: { type: 'string', description: 'intro' },
+		name: { type: 'string', description: '应用标识' },
+		sys: { type: 'boolean', description: '是否系统' },
+		title: { type: 'string', description: '应用名称' },
+		updatedAt: { type: 'string', description: '更新时间' },
+		version: { type: 'string', description: '版本' },
+
+	},
+	sys_application_add: {
+		author: { type: 'string', description: '作者', required: false },
+		explain: { type: 'string', description: '说明', required: false },
+		intro: { type: 'string', description: 'intro', required: false },
+		name: { type: 'string', description: '应用标识', required: true },
+		sys: { type: 'boolean', description: '是否系统', required: false },
+		title: { type: 'string', description: '应用名称', required: true },
+		version: { type: 'string', description: '版本', required: false },
+
+	},
+	sys_application_edit: {
+		author: { type: 'string', description: '作者' },
+		explain: { type: 'string', description: '说明' },
+		intro: { type: 'string', description: 'intro' },
+		name: { type: 'string', description: '应用标识' },
+		sys: { type: 'boolean', description: '是否系统' },
+		title: { type: 'string', description: '应用名称' },
+		version: { type: 'string', description: '版本' },
+
+	},
+	// 系统配置
+	sys_config_item: {
+		createdAt: { type: 'string', description: '创建时间' },
+		id: { type: 'string', description: '主键' },
+		label: { type: 'string', description: '配置名称' },
+		name: { type: 'string', description: '配置key' },
+		updatedAt: { type: 'string', description: '更新时间' },
+		value: { type: 'string', description: '配置value' },
+
+	},
+	sys_config_add: {
+		label: { type: 'string', description: '配置名称', required: true },
+		name: { type: 'string', description: '配置key', required: true },
+		value: { type: 'string', description: '配置value', required: true },
+
+	},
+	sys_config_edit: {
+		label: { type: 'string', description: '配置名称' },
+		name: { type: 'string', description: '配置key' },
+		value: { type: 'string', description: '配置value' },
+
+	},
+	// 附件表
+	cms_attachment_item: {
+		createdAt: { type: 'string', description: '创建时间' },
+		description: { type: 'string', description: '附件描述' },
+		id: { type: 'string', description: '主键' },
+		location: { type: 'string', description: '文件上传类型(local、kodo、obs、oss、cos)' },
+		mime: { type: 'string', description: '文件类型' },
+		name: { type: 'string', description: '文件名字' },
+		path: { type: 'string', description: '文件存储地址' },
+		remark: { type: 'string', description: '备注信息,方便审核通过时更新相应信息{from:上传来源(admin,avatar,form),其他信息}' },
+		size: { type: 'string', description: '文件大小(kb)' },
+		status: { type: 'boolean', description: '状态' },
+		updatedAt: { type: 'string', description: '更新时间' },
+		upload_ip: { type: 'string', description: '上传者ip地址' },
+		upload_user_uuid: { type: 'string', description: '上传者uuid' },
+		url: { type: 'string', description: '文件网络地址' },
+
+	},
+	cms_attachment_add: {
+		description: { type: 'string', description: '附件描述', required: true },
+		location: { type: 'string', description: '文件上传类型(local、kodo、obs、oss、cos)', required: true },
+		mime: { type: 'string', description: '文件类型', required: false },
+		name: { type: 'string', description: '文件名字', required: true },
+		path: { type: 'string', description: '文件存储地址', required: true },
+		remark: { type: 'string', description: '备注信息,方便审核通过时更新相应信息{from:上传来源(admin,avatar,form),其他信息}', required: false },
+		size: { type: 'string', description: '文件大小(kb)', required: true },
+		status: { type: 'boolean', description: '状态', required: false },
+		upload_user_uuid: { type: 'string', description: '上传者uuid', required: false },
+		url: { type: 'string', description: '文件网络地址', required: true },
+
+	},
+	cms_attachment_edit: {
+		description: { type: 'string', description: '附件描述' },
+		location: { type: 'string', description: '文件上传类型(local、kodo、obs、oss、cos)' },
+		mime: { type: 'string', description: '文件类型' },
+		name: { type: 'string', description: '文件名字' },
+		path: { type: 'string', description: '文件存储地址' },
+		remark: { type: 'string', description: '备注信息,方便审核通过时更新相应信息{from:上传来源(admin,avatar,form),其他信息}' },
+		size: { type: 'string', description: '文件大小(kb)' },
+		status: { type: 'boolean', description: '状态' },
+		upload_user_uuid: { type: 'string', description: '上传者uuid' },
+		url: { type: 'string', description: '文件网络地址' },
+
+	},
+	// 表单表
+	form_item: {
+		amis: { type: 'string', description: 'amis框架页面json配置' },
+		begin_at: { type: 'string', description: '活动开始时间' },
+		config: { type: 'string', description: '活动配置' },
+		createdAt: { type: 'string', description: '创建时间' },
+		end_at: { type: 'string', description: '活动结束时间' },
+		fields: { type: 'string', description: '字段数组' },
+		id: { type: 'string', description: '主键' },
+		temp: { type: 'string', description: '模板' },
+		title: { type: 'string', description: '活动名字' },
+		updatedAt: { type: 'string', description: '更新时间' },
+
+	},
+	form_add: {
+		amis: { type: 'string', description: 'amis框架页面json配置', required: false },
+		begin_at: { type: 'string', description: '活动开始时间', required: true },
+		config: { type: 'string', description: '活动配置', required: true },
+		end_at: { type: 'string', description: '活动结束时间', required: true },
+		fields: { type: 'string', description: '字段数组', required: true },
+		temp: { type: 'string', description: '模板', required: false },
+		title: { type: 'string', description: '活动名字', required: true },
+
+	},
+	form_edit: {
+		amis: { type: 'string', description: 'amis框架页面json配置' },
+		begin_at: { type: 'string', description: '活动开始时间' },
+		config: { type: 'string', description: '活动配置' },
+		end_at: { type: 'string', description: '活动结束时间' },
+		fields: { type: 'string', description: '字段数组' },
+		temp: { type: 'string', description: '模板' },
+		title: { type: 'string', description: '活动名字' },
+
+	},
+	// 表单数据表
+	form_data_item: {
+		createdAt: { type: 'string', description: '创建时间' },
+		data: { type: 'string', description: '数据' },
+		form_id: { type: 'string', description: '所属表单id' },
+		id: { type: 'string', description: '主键' },
+		ip: { type: 'string', description: '提交者ip地址' },
+		member_name: { type: 'string', description: '用户名' },
+		member_uuid: { type: 'string', description: '用户关联uuid(如果表单没限制登录默认36个0)' },
+		status: { type: 'string', description: '状态(0-未审核 1-审核中 2-审核成功 3-审核失败)' },
+		updatedAt: { type: 'string', description: '更新时间' },
+
+	},
+	form_data_add: {
+		data: { type: 'string', description: '数据', required: true },
+		form_id: { type: 'string', description: '所属表单id', required: true },
+		ip: { type: 'string', description: '提交者ip地址', required: true },
+		member_name: { type: 'string', description: '用户名', required: false },
+		member_uuid: { type: 'string', description: '用户关联uuid(如果表单没限制登录默认36个0)', required: true },
+		status: { type: 'string', description: '状态(0-未审核 1-审核中 2-审核成功 3-审核失败)', required: true },
+
+	},
+	form_data_edit: {
+		data: { type: 'string', description: '数据' },
+		form_id: { type: 'string', description: '所属表单id' },
+		ip: { type: 'string', description: '提交者ip地址' },
+		member_name: { type: 'string', description: '用户名' },
+		member_uuid: { type: 'string', description: '用户关联uuid(如果表单没限制登录默认36个0)' },
+		status: { type: 'string', description: '状态(0-未审核 1-审核中 2-审核成功 3-审核失败)' },
+
+	},
+	// 专题表
+	special_item: {
+		banners: { type: 'string', description: '轮播图' },
+		createdAt: { type: 'string', description: '创建时间' },
+		description: { type: 'string', description: '描述' },
+		id: { type: 'string', description: '主键' },
+		sort: { type: 'string', description: '排序(越大越靠前)' },
+		status: { type: 'boolean', description: '状态(未上线前端不可见)' },
+		temp: { type: 'string', description: '模板' },
+		thumb: { type: 'string', description: '封面图' },
+		title: { type: 'string', description: '专题标题' },
+		updatedAt: { type: 'string', description: '更新时间' },
+
+	},
+	special_add: {
+		banners: { type: 'string', description: '轮播图', required: false },
+		description: { type: 'string', description: '描述', required: false },
+		sort: { type: 'string', description: '排序(越大越靠前)', required: true },
+		status: { type: 'boolean', description: '状态(未上线前端不可见)', required: true },
+		temp: { type: 'string', description: '模板', required: false },
+		thumb: { type: 'string', description: '封面图', required: false },
+		title: { type: 'string', description: '专题标题', required: true },
+
+	},
+	special_edit: {
+		banners: { type: 'string', description: '轮播图' },
+		description: { type: 'string', description: '描述' },
+		sort: { type: 'string', description: '排序(越大越靠前)' },
+		status: { type: 'boolean', description: '状态(未上线前端不可见)' },
+		temp: { type: 'string', description: '模板' },
+		thumb: { type: 'string', description: '封面图' },
+		title: { type: 'string', description: '专题标题' },
+
+	},
+	// 专题稿件数据
+	special_data_item: {
+		createdAt: { type: 'string', description: '创建时间' },
+		doc_id: { type: 'string', description: '稿件id' },
+		id: { type: 'string', description: '主键' },
+		sort: { type: 'string', description: '排序(越大越靠前)' },
+		special_id: { type: 'string', description: '所属专题id' },
+		updatedAt: { type: 'string', description: '更新时间' },
+
+	},
+	special_data_add: {
+		doc_id: { type: 'string', description: '稿件id', required: true },
+		sort: { type: 'string', description: '排序(越大越靠前)', required: true },
+		special_id: { type: 'string', description: '所属专题id', required: true },
+
+	},
+	special_data_edit: {
+		doc_id: { type: 'string', description: '稿件id' },
+		sort: { type: 'string', description: '排序(越大越靠前)' },
+		special_id: { type: 'string', description: '所属专题id' },
+
+	},
+	// 签到墙活动表
+	wall_item: {
+		config: { type: 'string', description: '活动配置' },
+		createdAt: { type: 'string', description: '创建时间' },
+		id: { type: 'string', description: '主键' },
+		title: { type: 'string', description: '活动标题' },
+		updatedAt: { type: 'string', description: '更新时间' },
+
+	},
+	wall_add: {
+		config: { type: 'string', description: '活动配置', required: true },
+		title: { type: 'string', description: '活动标题', required: true },
+
+	},
+	wall_edit: {
+		config: { type: 'string', description: '活动配置' },
+		title: { type: 'string', description: '活动标题' },
+
+	},
+	// 签到墙奖品表
+	wall_award_item: {
+		config: { type: 'string', description: '奖品其他配置' },
+		count: { type: 'string', description: '奖品数量' },
+		createdAt: { type: 'string', description: '创建时间' },
+		id: { type: 'string', description: '主键' },
+		index: { type: 'string', description: '抽奖轮次' },
+		name: { type: 'string', description: '奖品名字' },
+		updatedAt: { type: 'string', description: '更新时间' },
+		wall_id: { type: 'string', description: '签到墙活动id' },
+
+	},
+	wall_award_add: {
+		config: { type: 'string', description: '奖品其他配置', required: true },
+		count: { type: 'string', description: '奖品数量', required: true },
+		index: { type: 'string', description: '抽奖轮次', required: true },
+		name: { type: 'string', description: '奖品名字', required: true },
+		wall_id: { type: 'string', description: '签到墙活动id', required: true },
+
+	},
+	wall_award_edit: {
+		config: { type: 'string', description: '奖品其他配置' },
+		count: { type: 'string', description: '奖品数量' },
+		index: { type: 'string', description: '抽奖轮次' },
+		name: { type: 'string', description: '奖品名字' },
+		wall_id: { type: 'string', description: '签到墙活动id' },
+
+	},
+	// 签到墙签到数据
+	wall_qd_data_item: {
+		award_id: { type: 'string', description: '中奖奖品id(未中奖为0)' },
+		createdAt: { type: 'string', description: '创建时间' },
+		data: { type: 'string', description: '用户数据' },
+		id: { type: 'string', description: '主键' },
+		openid: { type: 'string', description: '用户微信id' },
+		updatedAt: { type: 'string', description: '更新时间' },
+		wall_id: { type: 'string', description: '签到墙活动id' },
+
+	},
+	wall_qd_data_add: {
+		award_id: { type: 'string', description: '中奖奖品id(未中奖为0)', required: true },
+		data: { type: 'string', description: '用户数据', required: true },
+		openid: { type: 'string', description: '用户微信id', required: true },
+		wall_id: { type: 'string', description: '签到墙活动id', required: true },
+
+	},
+	wall_qd_data_edit: {
+		award_id: { type: 'string', description: '中奖奖品id(未中奖为0)' },
+		data: { type: 'string', description: '用户数据' },
+		openid: { type: 'string', description: '用户微信id' },
+		wall_id: { type: 'string', description: '签到墙活动id' },
+
+	},
 
 };

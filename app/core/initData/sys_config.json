@@ -1,93 +1,146 @@
 {
   "RECORDS": [
     {
+      "createdAt": "2024-11-19T02:04:12.000Z",
+      "updatedAt": "2024-12-30T02:07:34.000Z",
       "name": "objectStorage",
       "label": "对象储存配置",
       "value": {
         "cos": {
-            "path": "upload"
+          "path": "upload"
         },
         "obs": {
-            "path": "upload",
-            "Bucket": ""
+          "path": "upload",
+          "Bucket": "",
+          "AccessKey": "小明"
         },
         "oss": {
-            "path": "upload",
-            "Bucket": "cmswing",
-            "Region": "oss-cn-shanghai",
-            "domain": "",
-            "AccessKey": "",
-            "SecretKey": ""
+          "path": "upload",
+          "Bucket": "cmswing",
+          "Region": "oss-cn-shanghai",
+          "domain": "",
+          "AccessKey": "",
+          "SecretKey": ""
         },
         "kodo": {
-            "path": "upload"
+          "path": "upload",
+          "AccessKey": "123456"
         },
         "type": "local",
         "local": {
-            "path": "upload",
-            "domain": "http://127.0.0.1:7001"
+          "path": "upload",
+          "domain": ""
         }
-    }
+      }
     },
     {
+      "createdAt": "2024-11-19T02:04:12.000Z",
+      "updatedAt": "2025-02-21T03:39:02.000Z",
       "name": "egg",
       "label": "Config 配置",
       "value": {
         "cors": {
-            "origin": "*",
-            "allowMethods": "GET, PUT, POST, DELETE, PATCH"
+          "origin": "*",
+          "allowMethods": "GET, PUT, POST, DELETE, PATCH"
         },
-        "keys": "gjkfldsifjerkfhsdjkahfuids",
+        "keys": "CMSWING_1728858853816_3360",
         "cluster": {
-            "listen": {
-                "port": 7001,
-                "hostname": "0.0.0.0"
-            }
+          "listen": {
+            "port": 7001,
+            "hostname": "127.0.0.1"
+          }
         },
         "multipart": {
-            "mode": "file",
-            "fileSize": "100mb",
-            "whitelist": [
-                ".jpg",
-                ".jpeg",
-                ".png",
-                ".gif",
-                ".bmp",
-                ".wbmp",
-                ".webp",
-                ".tif",
-                ".psd",
-                ".svg",
-                ".js",
-                ".jsx",
-                ".json",
-                ".css",
-                ".less",
-                ".html",
-                ".htm",
-                ".xml",
-                ".zip",
-                ".gz",
-                ".tgz",
-                ".gzip",
-                ".mp3",
-                ".mp4",
-                ".avi",
-                ".tar"
-            ]
+          "mode": "file",
+          "fileSize": "100mb",
+          "whitelist": [
+            ".jpg",
+            ".jpeg",
+            ".png",
+            ".gif",
+            ".bmp",
+            ".wbmp",
+            ".webp",
+            ".tif",
+            ".psd",
+            ".svg",
+            ".js",
+            ".jsx",
+            ".json",
+            ".css",
+            ".less",
+            ".html",
+            ".htm",
+            ".xml",
+            ".zip",
+            ".gz",
+            ".tgz",
+            ".gzip",
+            ".mp3",
+            ".mp4",
+            ".avi",
+            ".tar",
+            ".pdf",
+            ".xlsx",
+            ".txt"
+          ]
         }
-    }
+      }
     },
     {
+      "createdAt": "2024-11-19T02:04:12.000Z",
+      "updatedAt": "2025-02-21T03:30:29.000Z",
       "name": "cms",
       "label": "CMS配置",
       "value": {
-        "icp": "陕ICP备19013609号-6",
-        "name": "CmsWing",
-        "tongji": "<script>\n    var _hmt = _hmt || [];\n    (function() {\n  var hm = document.createElement(\"script\");\n    hm.src = \"https://hm.baidu.com/hm.js?c479407a5725732813bcd8384c174467\";\n    var s = document.getElementsByTagName(\"script\")[0];\n    s.parentNode.insertBefore(hm, s);\n})();\n</script>",
+        "icp": "湘ICP备xxxxxxxxx号",
+        "name": "cmswing",
+        "tongji": "",
         "keywords": "nodejs,cms,eggjs",
-        "description": "企业级 Node.js WEB开发框架,使用 Egg.js 和 GraphQ 构建更好的 NodeJS 应用程序，帮助开发人员降低开发和维护成本！"
-    }
+        "grayTheme": false,
+        "openLogin": true,
+        "openSearch": true,
+        "description": "企业级 Node.js WEB开发框架,使用 Egg.js 和 GraphQ 构建更好的 NodeJS 应用程序，帮助开发人员降低开发和维护成本！",
+        "agreementUrl": "/",
+        "openRegister": true
+      }
+    },
+    {
+      "createdAt": "2025-01-24T03:14:40.000Z",
+      "updatedAt": "2025-02-21T03:31:39.000Z",
+      "name": "sms",
+      "label": "短信配置",
+      "value": {
+        "enable": false,
+        "SignName": "测试",
+        "accessKeyId": "短信accessKeyId",
+        "TemplateCode": "通用短信模板id",
+        "secretAccessKey": "短信secretAccessKey"
+      }
+    },
+    {
+      "createdAt": "2025-01-24T03:15:09.000Z",
+      "updatedAt": "2025-02-21T03:31:57.000Z",
+      "name": "nodemailer",
+      "label": "邮箱配置",
+      "value": {
+        "auth": {
+          "pass": "邮箱服务授权码",
+          "user": "邮箱服务账号"
+        },
+        "enable": false,
+        "service": "qq"
+      }
+    },
+    {
+      "createdAt": "2025-01-24T03:15:43.000Z",
+      "updatedAt": "2025-02-21T03:32:13.000Z",
+      "name": "wxauth",
+      "label": "微信公众号配置",
+      "value": {
+        "appid": "公众号appid",
+        "appsecret": "公众号appsecret"
+      }
     }
   ]
 }

@@ -1,0 +1,564 @@
+{
+    "type": "page",
+    "title": "${title}-数据列表管理",
+    "body": [
+        {
+            "type": "crud",
+            "syncLocation": false,
+            "api": {
+                "method": "get",
+                "url": "/admin/special/dataList/${params.special_id}",
+                "data": {
+                    "&": "$$"
+                },
+                "requestAdaptor": "",
+                "adaptor": "",
+                "messages": {}
+            },
+            "bulkActions": [
+                {
+                    "type": "button",
+                    "level": "danger",
+                    "label": "批量删除",
+                    "actionType": "ajax",
+                    "confirmText": "确定要删除选中的${COUNT(SPLIT(ids,','))}项数据？",
+                    "api": {
+                        "method": "post",
+                        "url": "/graphql",
+                        "graphql": "mutation($ids:[ID!]){SpecialData_destroy(where:{id:{op_in:$ids}}){count}}",
+                        "data": {
+                            "ids": "${ARRAYMAP(selectedItems,item => item.special_data.id)}"
+                        },
+                        "requestAdaptor": "",
+                        "adaptor": "",
+                        "messages": {}
+                    },
+                    "editorSetting": {
+                        "behavior": "bulkDelete"
+                    },
+                    "id": "u:a8c56cec3d90"
+                }
+            ],
+            "itemActions": [],
+            "id": "u:9cbf235dca7c",
+            "perPageAvailable": [
+                5,
+                10,
+                20,
+                50,
+                100
+            ],
+            "messages": {},
+            "autoFillHeight": true,
+            "source": "cms_docs",
+            "alwaysShowPagination": true,
+            "footerToolbar": [
+                {
+                    "type": "statistics"
+                }
+            ],
+            "onEvent": {
+                "fetchInited": {
+                    "weight": 0,
+                    "actions": [
+                        {
+                            "componentId": "u:5d76606b5812",
+                            "groupType": "component",
+                            "actionType": "setValue",
+                            "args": {
+                                "value": {
+                                    "title": "${event.data.responseData.title}"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            "columns": [
+                {
+                    "name": "id",
+                    "label": "稿件id",
+                    "type": "text",
+                    "id": "u:efecb046a9b6",
+                    "placeholder": "-",
+                    "sortable": true
+                },
+                {
+                    "type": "tpl",
+                    "tpl": "<a href='/cms/detail/${id}.html' target='_blank'>${title}</a>",
+                    "inline": true,
+                    "wrapperComponent": "",
+                    "name": "title",
+                    "label": "稿件标题",
+                    "id": "u:4c884d1a7af1",
+                    "placeholder": "-",
+                    "copyable": true,
+                    "themeCss": {
+                        "baseControlClassName": {
+                            "font:default": {
+                                "text-decoration": "underline",
+                                "color": "var(--colors-brand-5)"
+                            }
+                        }
+                    }
+                },
+                {
+                    "type": "text",
+                    "label": "稿件摘要",
+                    "name": "description",
+                    "id": "u:6381b336b151",
+                    "placeholder": "-",
+                    "copyable": true
+                },
+                {
+                    "type": "datetime",
+                    "format": "YYYY-MM-DD HH:mm:ss",
+                    "value": 1737358719,
+                    "name": "createdAt",
+                    "label": "建稿时间",
+                    "id": "u:1e1628cdb7dc",
+                    "placeholder": "-",
+                    "sortable": true
+                },
+                {
+                    "type": "datetime",
+                    "format": "YYYY-MM-DD HH:mm:ss",
+                    "value": 1737358719,
+                    "name": "updatedAt",
+                    "label": "最后修改时间",
+                    "id": "u:b4406a901c47",
+                    "placeholder": "-",
+                    "sortable": true
+                },
+                {
+                    "type": "text",
+                    "label": "所属分类",
+                    "name": "cms_classify.title",
+                    "id": "u:0d7f1793fc61"
+                },
+                {
+                    "type": "text",
+                    "label": "排序",
+                    "name": "special_data.sort",
+                    "id": "u:a7021eed16b7",
+                    "placeholder": "-",
+                    "sortable": true,
+                    "quickEdit": {
+                        "mode": "popOver",
+                        "saveImmediately": {
+                            "api": {
+                                "method": "post",
+                                "url": "/graphql",
+                                "graphql": "mutation($id:ID!, $sort:Int!){SpecialData_update(data:{sort:$sort},where:{id:{op_eq:$id}}){ids}}",
+                                "data": {
+                                    "id": "${special_data.id}",
+                                    "sort": "${special_data.sort}"
+                                }
+                            }
+                        },
+                        "type": "wrapper",
+                        "body": [
+                            {
+                                "type": "input-number",
+                                "label": "",
+                                "name": "special_data.sort",
+                                "keyboard": true,
+                                "id": "u:b9cbb22b0420",
+                                "step": 1
+                            }
+                        ],
+                        "id": "u:5f6b5f243a3d",
+                        "style": {
+                            "position": "static",
+                            "display": "block"
+                        },
+                        "isFixedHeight": false,
+                        "isFixedWidth": false
+                    }
+                },
+                {
+                    "type": "mapping",
+                    "label": "稿件状态",
+                    "name": "status",
+                    "id": "u:7f83ebda938e",
+                    "map": {
+                        "0": "禁用",
+                        "1": "审核通过",
+                        "2": "待审核",
+                        "3": "草稿"
+                    },
+                    "searchable": {
+                        "type": "select",
+                        "options": [
+                            {
+                                "label": "禁用",
+                                "value": 0
+                            },
+                            {
+                                "label": "审核通过",
+                                "value": 1
+                            },
+                            {
+                                "label": "待审核",
+                                "value": 2
+                            },
+                            {
+                                "label": "草稿",
+                                "value": 3
+                            }
+                        ]
+                    }
+                },
+                {
+                    "type": "operation",
+                    "label": "操作",
+                    "buttons": [
+                        {
+                            "type": "button",
+                            "label": "删除",
+                            "actionType": "ajax",
+                            "level": "link",
+                            "className": "text-danger",
+                            "confirmText": "确定要删除数据吗？",
+                            "api": {
+                                "method": "post",
+                                "url": "/graphql",
+                                "graphql": "mutation($id:ID!){SpecialData_destroy(where:{id:{op_eq:$id}}){count}}",
+                                "data": {
+                                    "id": "${special_data.id}"
+                                },
+                                "requestAdaptor": "",
+                                "adaptor": "",
+                                "messages": {}
+                            },
+                            "editorSetting": {
+                                "behavior": "delete"
+                            },
+                            "id": "u:03a2dae7f053"
+                        }
+                    ],
+                    "id": "u:54bc8015208e"
+                }
+            ],
+            "headerToolbar": [
+                {
+                    "type": "bulk-actions"
+                },
+                {
+                    "type": "button",
+                    "tpl": "内容",
+                    "wrapperComponent": "",
+                    "id": "u:be9593331151",
+                    "label": "添加稿件",
+                    "align": "right",
+                    "level": "primary",
+                    "onEvent": {
+                        "click": {
+                            "weight": 0,
+                            "actions": [
+                                {
+                                    "ignoreError": false,
+                                    "actionType": "dialog",
+                                    "dialog": {
+                                        "type": "dialog",
+                                        "title": "",
+                                        "body": [
+                                            {
+                                                "type": "crud",
+                                                "syncLocation": false,
+                                                "api": {
+                                                    "method": "get",
+                                                    "url": "/admin/cms/doc/index",
+                                                    "requestAdaptor": "",
+                                                    "adaptor": "",
+                                                    "messages": {}
+                                                },
+                                                "data": {
+                                                    "loopName": "selectedItems"
+                                                },
+                                                "itemActions": [],
+                                                "columns": [
+                                                    {
+                                                        "name": "id",
+                                                        "label": "ID",
+                                                        "type": "tpl",
+                                                        "id": "u:6d57d1ee06f7",
+                                                        "placeholder": "-",
+                                                        "sortable": true,
+                                                        "badge": {
+                                                            "mode": "ribbon",
+                                                            "text": "on",
+                                                            "position": "top-left",
+                                                            "level": "info",
+                                                            "animation": true,
+                                                            "visibleOn": "${ARRAYINCLUDES(cms_doc_ids, id)}"
+                                                        },
+                                                        "innerClassName": "p-l"
+                                                    },
+                                                    {
+                                                        "type": "tpl",
+                                                        "tpl": "<a href='/cms/detail/${id}.html' target='_blank'>${title}</a>",
+                                                        "inline": true,
+                                                        "wrapperComponent": "",
+                                                        "name": "title",
+                                                        "label": "标题",
+                                                        "id": "u:c0ba517c4da0",
+                                                        "searchable": {
+                                                            "type": "input-text",
+                                                            "name": "doc_title"
+                                                        },
+                                                        "themeCss": {
+                                                            "baseControlClassName": {
+                                                                "font:default": {
+                                                                    "color": "var(--colors-brand-5)",
+                                                                    "text-decoration": "underline"
+                                                                }
+                                                            }
+                                                        }
+                                                    },
+                                                    {
+                                                        "type": "text",
+                                                        "name": "pathTitle",
+                                                        "label": "分类",
+                                                        "id": "u:b85acd83dffb"
+                                                    },
+                                                    {
+                                                        "type": "text",
+                                                        "name": "modelName",
+                                                        "label": "模型",
+                                                        "id": "u:d3a285ac2de5"
+                                                    },
+                                                    {
+                                                        "type": "datetime",
+                                                        "format": "YYYY-MM-DD HH:mm:ss",
+                                                        "value": 1737440225,
+                                                        "name": "updatedAt",
+                                                        "label": "最后更新时间",
+                                                        "id": "u:4632d7cdedcf",
+                                                        "placeholder": "-",
+                                                        "sortable": true
+                                                    },
+                                                    {
+                                                        "type": "mapping",
+                                                        "name": "status",
+                                                        "label": "状态",
+                                                        "id": "u:f2139b10104e",
+                                                        "map": {
+                                                            "0": "<span class='label label-danger'>禁用</span>",
+                                                            "1": "<span class='label label-success'>审核通过</span>",
+                                                            "2": "<span class='label label-warning'>待审核</span>",
+                                                            "3": "<span class='label label-info'>草稿</span>",
+                                                            "*": "其他：${type}"
+                                                        },
+                                                        "searchable": {
+                                                            "type": "select",
+                                                            "name": "doc_status",
+                                                            "options": [
+                                                                {
+                                                                    "label": "禁用",
+                                                                    "value": 0
+                                                                },
+                                                                {
+                                                                    "label": "审核通过",
+                                                                    "value": 1
+                                                                },
+                                                                {
+                                                                    "label": "待审核",
+                                                                    "value": 2
+                                                                },
+                                                                {
+                                                                    "label": "草稿",
+                                                                    "value": 3
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                ],
+                                                "id": "u:ef76712ff4ad",
+                                                "defaultParams": {
+                                                    "pid": "0",
+                                                    "classifyId": "0"
+                                                },
+                                                "headerToolbar": [
+                                                    {
+                                                        "type": "pagination",
+                                                        "tpl": "内容",
+                                                        "wrapperComponent": "",
+                                                        "id": "u:59c9f7876f2f",
+                                                        "align": "right"
+                                                    },
+                                                    {
+                                                        "type": "statistics",
+                                                        "tpl": "内容",
+                                                        "wrapperComponent": "",
+                                                        "id": "u:00e3bb10c4dd",
+                                                        "align": "right"
+                                                    },
+                                                    {
+                                                        "type": "form",
+                                                        "wrapWithPanel": false,
+                                                        "target": "u:ef76712ff4ad",
+                                                        "body": [
+                                                            {
+                                                                "type": "tree-select",
+                                                                "label": "稿件分类",
+                                                                "name": "classifyId",
+                                                                "source": "/admin/cms/doc/topClassify",
+                                                                "id": "u:7d7d1296b065",
+                                                                "clearable": false,
+                                                                "multiple": false,
+                                                                "submitOnChange": true,
+                                                                "selectFirst": true,
+                                                                "enableNodePath": false,
+                                                                "showIcon": true,
+                                                                "initiallyOpen": true
+                                                            }
+                                                        ],
+                                                        "feat": "Insert",
+                                                        "id": "u:a884099bf1ee",
+                                                        "dsType": "api",
+                                                        "labelAlign": "left",
+                                                        "mode": "inline"
+                                                    }
+                                                ],
+                                                "keepItemSelectionOnPageChange": true,
+                                                "columnsTogglable": false,
+                                                "footerToolbar": [
+                                                    {
+                                                        "type": "bulk-actions",
+                                                        "tpl": "内容",
+                                                        "wrapperComponent": "",
+                                                        "id": "u:f9d1b09ed9c9",
+                                                        "align": "right"
+                                                    },
+                                                    {
+                                                        "type": "button",
+                                                        "tpl": "内容",
+                                                        "wrapperComponent": "",
+                                                        "id": "u:05b6ee0aab58",
+                                                        "label": "取消",
+                                                        "align": "right",
+                                                        "onEvent": {
+                                                            "click": {
+                                                                "weight": 0,
+                                                                "actions": [
+                                                                    {
+                                                                        "ignoreError": false,
+                                                                        "actionType": "closeDialog"
+                                                                    }
+                                                                ]
+                                                            }
+                                                        }
+                                                    }
+                                                ],
+                                                "alwaysShowPagination": true,
+                                                "itemCheckableOn": "${!ARRAYINCLUDES(cms_doc_ids, id)}",
+                                                "bulkActions": [
+                                                    {
+                                                        "label": "确认添加",
+                                                        "type": "button",
+                                                        "id": "u:674657c9b514",
+                                                        "level": "primary",
+                                                        "onEvent": {
+                                                            "click": {
+                                                                "weight": 0,
+                                                                "actions": [
+                                                                    {
+                                                                        "actionType": "loop",
+                                                                        "args": {
+                                                                            "loopName": "${loopName}"
+                                                                        },
+                                                                        "children": [
+                                                                            {
+                                                                                "actionType": "ajax",
+                                                                                "args": {
+                                                                                    "api": {
+                                                                                        "method": "post",
+                                                                                        "url": "/graphql",
+                                                                                        "graphql": "mutation($special_id:Int!,$doc_id:Int!){SpecialData_create(data:{special_id:$special_id,doc_id:$doc_id,sort:0}){id}}",
+                                                                                        "data": {
+                                                                                            "special_id": "${special_id}",
+                                                                                            "doc_id": "${id}"
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        ]
+                                                                    },
+                                                                    {
+                                                                        "actionType": "reload",
+                                                                        "componentId": "u:9cbf235dca7c",
+                                                                        "args": {},
+                                                                        "groupType": "component"
+                                                                    },
+                                                                    {
+                                                                        "actionType": "closeDialog",
+                                                                        "ignoreError": false
+                                                                    }
+                                                                ]
+                                                            }
+                                                        }
+                                                    }
+                                                ],
+                                                "perPageAvailable": [
+                                                    5,
+                                                    10,
+                                                    20,
+                                                    50,
+                                                    100
+                                                ],
+                                                "messages": {}
+                                            }
+                                        ],
+                                        "id": "u:c34732de1df0",
+                                        "actions": [
+                                            {
+                                                "type": "button",
+                                                "actionType": "cancel",
+                                                "label": "取消",
+                                                "id": "u:ccf01ea634e7"
+                                            },
+                                            {
+                                                "type": "button",
+                                                "actionType": "confirm",
+                                                "label": "确定",
+                                                "primary": true,
+                                                "id": "u:693588d0f9ca"
+                                            }
+                                        ],
+                                        "actionType": "dialog",
+                                        "showCloseButton": true,
+                                        "closeOnOutside": false,
+                                        "closeOnEsc": false,
+                                        "showErrorMsg": true,
+                                        "showLoading": true,
+                                        "draggable": true,
+                                        "editorSetting": {
+                                            "displayName": "添加稿件"
+                                        },
+                                        "size": "lg",
+                                        "hideActions": true
+                                    },
+                                    "data": {
+                                        "cms_doc_ids": "${ARRAYMAP(cms_docs,item => item.id)}",
+                                        "special_id": "${params.special_id}"
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        }
+    ],
+    "id": "u:5d76606b5812",
+    "asideResizor": false,
+    "pullRefresh": {
+        "disabled": true
+    },
+    "regions": [
+        "body",
+        "header"
+    ],
+    "definitions": {}
+}

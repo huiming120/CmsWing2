@@ -1,185 +1,362 @@
 {
-  "type": "page",
-  "body": [
-    {
-      "type": "alert",
-      "title": "特别提醒",
-      "body": "如果您要修改模板，不要使用默认模板,可以点击【添加模板】会从默认模板复制一份新的模板，请在新的模板上进行制作修改！",
-      "level": "info",
-      "showIcon": true,
-      "className": "mb-3"
-    },
-    {
-      "type": "crud",
-      "api": "/admin/cms/template",
-      "mode": "cards",
-      "columnsCount": 3,
-      "defaultParams": {
-        "perPage": 15
-      },
-      "headerToolbar": [
+    "type": "page",
+    "body": [
         {
-          "label": "新增模板",
-          "type": "button",
-          "actionType": "dialog",
-          "level": "primary",
-          "align": "right",
-          "dialog": {
-            "title": "新增模板",
-            "body": {
-              "type": "form",
-              "api": "/admin/cms/template/add",
-              "body": [
+            "type": "alert",
+            "title": "特别提醒",
+            "body": [
                 {
-                  "type": "input-text",
-                  "name": "name",
-                  "label": "模板名称",
-                  "required": true
-                },
-                {
-                  "type": "divider"
-                },
-                {
-                  "type": "input-text",
-                  "name": "path",
-                  "label": "模板目录前缀",
-                  "required": true,
-                  "description": "实际模板目录 view/cms/${path}-{uuid}"
-                },
-                {
-                  "type": "divider"
-                },
-                {
-                  "type": "input-text",
-                  "name": "author",
-                  "label": "模板作者",
-                  "required": true
-                },
-                {
-                  "type": "divider"
-                },
-                {
-                  "type": "input-text",
-                  "name": "version",
-                  "label": "版本号",
-                  "required": true
+                    "type": "tpl",
+                    "tpl": "如果您要修改模板，不要使用默认模板,可以点击【添加模板】会从默认模板复制一份新的模板，请在新的模板上进行制作修改！",
+                    "wrapperComponent": "",
+                    "inline": false,
+                    "id": "u:2113135e28f0"
                 }
-              ]
-            }
-          }
-        },{
-          "label": "导入模板",
-          "type": "button",
-          "actionType": "dialog",
-          "level": "success",
-          "align": "right",
-          "dialog": {
-            "title": "导入模板",
-            "body":  {
-              "type": "form",
-              "api": "/admin/cms/template/import",
-              "debug": false,
-              "body": [
-                {
-                  "type": "input-file",
-                  "name": "file",
-                  "label": "模板文件",
-                  "accept": "*",
-                  "asBlob": true
-                }
-              ]
-            }
-          }
-        }
-      ],
-      "card": {
-        "toolbar": [
-          {
-            "type": "tpl",
-            "tpl": "使用中",
-            "className": "label label-danger",
-            "visibleOn": "${isu}"
-          }
-        ],
-        "header": {
-          "title": "$name",
-          "subTitle": "${path}-${uuid}",
-          "subTitlePlaceholder": "暂无说明",
-          "avatar": "$avatar",
-          "avatarClassName": "pull-left thumb b-3x m-r"
+            ],
+            "level": "info",
+            "showIcon": true,
+            "className": "mb-3",
+            "id": "u:f8bd224e9d3b"
         },
-        "actions": [
-          {
-            "type": "button",
-            "label": "查看",
-            "actionType": "dialog",
-            "dialog": {
-              "title": "查看",
-              "body": [
+        {
+            "type": "crud",
+            "api": "/admin/cms/template",
+            "mode": "cards",
+            "columnsCount": 3,
+            "defaultParams": {
+                "perPage": 15
+            },
+            "headerToolbar": [
                 {
-                  "type": "image",
-                  "src": "/public/cms/${path}-${uuid}/images/index.png",
-                  "enlargeAble": true
-                },{
-                  "type": "image",
-                  "src": "/public/cms/${path}-${uuid}/images/list.png",
-                  "className":"ml-5",
-                  "enlargeAble": true
-                },{
-                  "type": "image",
-                  "src": "/public/cms/${path}-${uuid}/images/detail.png",
-                  "className":"ml-5",
-                  "enlargeAble": true
+                    "label": "新增模板",
+                    "type": "button",
+                    "level": "primary",
+                    "align": "right",
+                    "id": "u:0a0cf8877d71",
+                    "onEvent": {
+                        "click": {
+                            "weight": 0,
+                            "actions": [
+                                {
+                                    "ignoreError": false,
+                                    "actionType": "dialog",
+                                    "dialog": {
+                                        "$ref": "modal-ref-2"
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "label": "导入模板",
+                    "type": "button",
+                    "level": "success",
+                    "align": "right",
+                    "id": "u:db5265dec2f5",
+                    "onEvent": {
+                        "click": {
+                            "weight": 0,
+                            "actions": [
+                                {
+                                    "ignoreError": false,
+                                    "actionType": "dialog",
+                                    "dialog": {
+                                        "$ref": "modal-ref-1"
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "label": "更新模板缓存",
+                    "type": "button",
+                    "align": "right",
+                    "onEvent": {
+                        "click": {
+                            "actions": [
+                                {
+                                    "ignoreError": false,
+                                    "outputVar": "responseResult",
+                                    "actionType": "ajax",
+                                    "options": {},
+                                    "api": {
+                                        "url": "/admin/sys/server/reloadCache/template",
+                                        "method": "post",
+                                        "requestAdaptor": "",
+                                        "adaptor": "",
+                                        "messages": {
+                                            "success": "更新成功",
+                                            "failed": "更新失败"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "id": "u:293419e45897",
+                    "confirmText": "确认更新模板缓存？一般是在模板数据有修改的情况才做此操作！",
+                    "tooltip": "如果模板数据有修改记得需要点此操作哦"
                 }
-              ]
-            }
-          },
-          {
-            "type": "button",
-            "label": "编辑",
-            "actionType": "link",
-            "link": "/cms/template/${uuid}"
-          },
-         
-          {
-            "type": "button",
-            "label": "删除",
-            "actionType": "ajax",
-            "confirmText": "您确认要删除?",
-            "api": "get:/admin/cms/template/del?uuid=$uuid",
-            "visibleOn": "${!sys && !isu}"
-          },{
-            "label": "导出",
-            "type": "button",
-            "actionType": "download",
-            "api": "/admin/cms/template/export?uuid=$uuid"
-          }, {
-            "type": "button",
-            "label": "使用",
-            "actionType": "ajax",
-            "level": "link",
-            "className": "text-danger",
-            "confirmText": "确定要使用该模板吗？使用后请检查栏目和详情的模板！",
-            "api": "get:/admin/cms/template/use?uuid=$uuid",
-            "visibleOn": "${!isu}"
-          }
-        ],
-        "body": [
-          {
-            "name": "uuid",
-            "label": "UUID"
-          },
-          {
-            "name": "author",
-            "label": "作者"
-          },
-
-          {
-            "name": "version",
-            "label": "版本号"
-          }
-        ]
-      }
+            ],
+            "card": {
+                "toolbar": [
+                    {
+                        "type": "tpl",
+                        "tpl": "使用中",
+                        "className": "label label-danger",
+                        "visibleOn": "${isu}",
+                        "id": "u:e43eb652e4f4"
+                    }
+                ],
+                "header": {
+                    "title": "$name",
+                    "subTitle": "${path}-${uuid}",
+                    "subTitlePlaceholder": "暂无说明",
+                    "avatar": "$avatar",
+                    "avatarClassName": "pull-left thumb b-3x m-r"
+                },
+                "actions": [
+                    {
+                        "type": "button",
+                        "label": "查看",
+                        "id": "u:aafcfc08f3be",
+                        "onEvent": {
+                            "click": {
+                                "weight": 0,
+                                "actions": [
+                                    {
+                                        "ignoreError": false,
+                                        "actionType": "dialog",
+                                        "dialog": {
+                                            "$ref": "modal-ref-3"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "type": "button",
+                        "label": "编辑",
+                        "id": "u:9d3a7f0dccbc",
+                        "onEvent": {
+                            "click": {
+                                "weight": 0,
+                                "actions": [
+                                    {
+                                        "ignoreError": false,
+                                        "actionType": "url",
+                                        "args": {
+                                            "url": "/admin#/cms/template/${uuid}",
+                                            "blank": false
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "type": "button",
+                        "label": "删除",
+                        "actionType": "ajax",
+                        "confirmText": "您确认要删除?",
+                        "api": "get:/admin/cms/template/del?uuid=$uuid",
+                        "visibleOn": "${!sys && !isu}",
+                        "id": "u:d199d90c88c5"
+                    },
+                    {
+                        "label": "导出",
+                        "type": "button",
+                        "actionType": "download",
+                        "api": "/admin/cms/template/export?uuid=$uuid",
+                        "id": "u:c60a4a1cc27f"
+                    },
+                    {
+                        "type": "button",
+                        "label": "使用",
+                        "actionType": "ajax",
+                        "level": "link",
+                        "className": "text-danger",
+                        "confirmText": "确定要使用该模板吗？使用后请检查栏目和详情的模板！",
+                        "api": "get:/admin/cms/template/use?uuid=$uuid",
+                        "visibleOn": "${!isu}",
+                        "id": "u:4004442221a6"
+                    }
+                ],
+                "body": [
+                    {
+                        "name": "uuid",
+                        "label": "UUID",
+                        "id": "u:f73920b56675"
+                    },
+                    {
+                        "name": "author",
+                        "label": "作者",
+                        "id": "u:b33267186b87"
+                    },
+                    {
+                        "name": "version",
+                        "label": "版本号",
+                        "id": "u:a9c853be6023"
+                    }
+                ],
+                "id": "u:68d8c11ffa50"
+            },
+            "id": "u:3b8e89da3427",
+            "perPageAvailable": [
+                5,
+                10,
+                20,
+                50,
+                100
+            ],
+            "messages": {}
+        }
+    ],
+    "id": "u:9dce620e31d0",
+    "asideResizor": false,
+    "pullRefresh": {
+        "disabled": true
+    },
+    "regions": [
+        "body"
+    ],
+    "definitions": {
+        "modal-ref-1": {
+            "type": "dialog",
+            "body": [
+                {
+                    "type": "form",
+                    "api": "/admin/cms/template/import",
+                    "debug": false,
+                    "body": [
+                        {
+                            "type": "input-file",
+                            "name": "file",
+                            "label": "模板文件",
+                            "accept": "*",
+                            "asBlob": true,
+                            "id": "u:5b4a2a2bf0dd",
+                            "btnLabel": "文件上传",
+                            "multiple": false,
+                            "uploadType": "fileReceptor",
+                            "proxy": true,
+                            "autoUpload": true,
+                            "useChunk": false,
+                            "drag": false,
+                            "required": true
+                        }
+                    ],
+                    "id": "u:ca5eb191bb86",
+                    "actions": [
+                        {
+                            "type": "submit",
+                            "label": "提交",
+                            "primary": true
+                        }
+                    ],
+                    "feat": "Insert"
+                }
+            ],
+            "title": "导入模板",
+            "actionType": "dialog",
+            "$$originId": "67007961023c",
+            "$$ref": "modal-ref-1",
+            "id": "u:c2870016b2dd",
+            "actions": [
+                {
+                    "type": "button",
+                    "actionType": "cancel",
+                    "label": "取消",
+                    "id": "u:474291e47199"
+                },
+                {
+                    "type": "button",
+                    "actionType": "confirm",
+                    "label": "确定",
+                    "primary": true,
+                    "id": "u:491c090c160f"
+                }
+            ],
+            "showCloseButton": true,
+            "closeOnOutside": false,
+            "closeOnEsc": false,
+            "showErrorMsg": true,
+            "showLoading": true,
+            "draggable": false
+        },
+        "modal-ref-2": {
+            "type": "dialog",
+            "body": {
+                "type": "form",
+                "api": "/admin/cms/template/add",
+                "body": [
+                    {
+                        "type": "input-text",
+                        "name": "name",
+                        "label": "模板名称",
+                        "required": true
+                    },
+                    {
+                        "type": "divider"
+                    },
+                    {
+                        "type": "input-text",
+                        "name": "path",
+                        "label": "模板目录前缀",
+                        "required": true,
+                        "description": "实际模板目录 view/cms/${path}-{uuid}"
+                    },
+                    {
+                        "type": "divider"
+                    },
+                    {
+                        "type": "input-text",
+                        "name": "author",
+                        "label": "模板作者",
+                        "required": true
+                    },
+                    {
+                        "type": "divider"
+                    },
+                    {
+                        "type": "input-text",
+                        "name": "version",
+                        "label": "版本号",
+                        "required": true
+                    }
+                ]
+            },
+            "title": "新增模板",
+            "actionType": "dialog",
+            "$$originId": "164fe7366db9"
+        },
+        "modal-ref-3": {
+            "type": "dialog",
+            "body": [
+                {
+                    "type": "image",
+                    "src": "/public/cms/${path}-${uuid}/images/index.png",
+                    "enlargeAble": true
+                },
+                {
+                    "type": "image",
+                    "src": "/public/cms/${path}-${uuid}/images/list.png",
+                    "className": "ml-5",
+                    "enlargeAble": true
+                },
+                {
+                    "type": "image",
+                    "src": "/public/cms/${path}-${uuid}/images/detail.png",
+                    "className": "ml-5",
+                    "enlargeAble": true
+                }
+            ],
+            "title": "查看",
+            "actionType": "dialog",
+            "$$originId": "32943036ddc1"
+        }
     }
-  ]
 }

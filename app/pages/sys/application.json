@@ -1,270 +1,564 @@
 {
-  "type":"page",
-  "body": {
-    "type": "crud",
-    "api": "/admin/sys/application",
-    "mode": "cards",
-    "columnsCount": 3,
-    "defaultParams": {
-      "perPage": 12
-    },
-    "headerToolbar": [
-      {
-        "type": "search-box",
-        "name": "keywords",
-        "placeholder": "应用标识或名称",
-        "clearable": true
-      },
-      {
-        "label": "新增应用",
-        "type": "button",
-        "actionType": "dialog",
-        "level": "primary",
-        "align": "right",
-        "dialog": {
-          "title": "新增应用",
-          "size": "lg",
-          "body": {
-            "type": "form",
-            "debug":true,
-            "api": "/admin/sys/application/add",
-            "body": [
-              {
-                "type": "group",
+    "type": "page",
+    "body": [
+        {
+            "type": "crud",
+            "api": {
+                "method": "get",
+                "url": "/admin/sys/application"
+            },
+            "mode": "cards",
+            "columnsCount": 3,
+            "defaultParams": {
+                "perPage": 12
+            },
+            "headerToolbar": [
+                {
+                    "type": "search-box",
+                    "name": "keywords",
+                    "placeholder": "应用标识或名称",
+                    "clearable": true,
+                    "id": "u:8951489a64c0"
+                },
+                {
+                    "label": "新增应用",
+                    "type": "button",
+                    "actionType": "dialog",
+                    "level": "primary",
+                    "align": "right",
+                    "dialog": {
+                        "title": "新增应用",
+                        "size": "lg",
+                        "body": {
+                            "type": "form",
+                            "api": "/admin/sys/application/add",
+                            "body": [
+                                {
+                                    "type": "group",
+                                    "body": [
+                                        {
+                                            "type": "input-text",
+                                            "name": "name",
+                                            "label": "应用标识",
+                                            "required": true
+                                        },
+                                        {
+                                            "type": "input-text",
+                                            "name": "title",
+                                            "label": "应用名称",
+                                            "required": true
+                                        },
+                                        {
+                                            "type": "input-text",
+                                            "name": "author",
+                                            "label": "应用作者",
+                                            "required": true
+                                        },
+                                        {
+                                            "type": "input-text",
+                                            "name": "version",
+                                            "label": "应用版本",
+                                            "required": true
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "divider"
+                                },
+                                {
+                                    "type": "input-text",
+                                    "name": "intro",
+                                    "label": "应用简介",
+                                    "required": true
+                                },
+                                {
+                                    "type": "divider"
+                                },
+                                {
+                                    "type": "group",
+                                    "label": "应用说明",
+                                    "mode": "normal",
+                                    "body": [
+                                        {
+                                            "type": "editor",
+                                            "name": "explain",
+                                            "language": "markdown"
+                                        },
+                                        {
+                                            "type": "markdown",
+                                            "name": "explain"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        "type": "dialog",
+                        "actionType": "dialog",
+                        "$$ref": "modal-ref-1"
+                    },
+                    "id": "u:4823f6adce55"
+                },
+                {
+                    "label": "导入应用",
+                    "type": "button",
+                    "actionType": "dialog",
+                    "level": "success",
+                    "align": "right",
+                    "dialog": {
+                        "type": "dialog",
+                        "title": "导入应用",
+                        "body": [
+                            {
+                                "type": "form",
+                                "api": {
+                                    "method": "post",
+                                    "url": "/admin/sys/application/import",
+                                    "requestAdaptor": "",
+                                    "adaptor": "",
+                                    "messages": {
+                                        "success": ""
+                                    }
+                                },
+                                "debug": false,
+                                "body": [
+                                    {
+                                        "type": "input-file",
+                                        "name": "file",
+                                        "label": "应用压缩包",
+                                        "accept": ".tar",
+                                        "asBlob": true,
+                                        "id": "u:272e6d32bbbb",
+                                        "btnLabel": "点击上传",
+                                        "multiple": false,
+                                        "uploadType": "asForm",
+                                        "proxy": true,
+                                        "autoUpload": true,
+                                        "useChunk": false,
+                                        "drag": false,
+                                        "formType": "asBlob",
+                                        "required": true
+                                    }
+                                ],
+                                "id": "u:1f707e8fd1e9",
+                                "actions": [
+                                    {
+                                        "type": "submit",
+                                        "label": "提交",
+                                        "primary": true
+                                    }
+                                ],
+                                "feat": "Insert",
+                                "dsType": "api",
+                                "labelAlign": "left",
+                                "onEvent": {
+                                    "submitSucc": {
+                                        "weight": 0,
+                                        "actions": [
+                                            {
+                                                "ignoreError": false,
+                                                "actionType": "confirmDialog",
+                                                "dialog": {
+                                                    "type": "dialog",
+                                                    "title": "提示",
+                                                    "body": [
+                                                        {
+                                                            "type": "tpl",
+                                                            "tpl": "${event.data.result.msg}",
+                                                            "id": "u:d4988fcf3032"
+                                                        }
+                                                    ],
+                                                    "id": "u:30b9c0db5161",
+                                                    "actions": [
+                                                        {
+                                                            "type": "button",
+                                                            "actionType": "confirm",
+                                                            "label": "确定",
+                                                            "primary": true,
+                                                            "id": "u:a40c7f7a7cce"
+                                                        }
+                                                    ],
+                                                    "showCloseButton": false,
+                                                    "closeOnOutside": false,
+                                                    "closeOnEsc": false,
+                                                    "showErrorMsg": true,
+                                                    "showLoading": true,
+                                                    "draggable": false,
+                                                    "actionType": "confirmDialog",
+                                                    "editorSetting": {
+                                                        "displayName": "导入应用成功提示框"
+                                                    }
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        ],
+                        "actionType": "dialog",
+                        "id": "u:73840984a671",
+                        "actions": [
+                            {
+                                "type": "button",
+                                "actionType": "cancel",
+                                "label": "取消",
+                                "id": "u:7fd2ea6ae161"
+                            },
+                            {
+                                "type": "button",
+                                "actionType": "confirm",
+                                "label": "确定",
+                                "primary": true,
+                                "id": "u:334f4b7e0c68"
+                            }
+                        ]
+                    },
+                    "id": "u:d0c1afda8722"
+                }
+            ],
+            "id": "u:d94e0c3a56e4",
+            "perPageAvailable": [
+                5,
+                10,
+                20,
+                50,
+                100
+            ],
+            "messages": {},
+            "bulkActions": [],
+            "card": {
+                "type": "card",
+                "header": {
+                    "title": "${title}",
+                    "subTitle": "${intro}",
+                    "avatarText": "${name}"
+                },
                 "body": [
-                  {
-                    "type": "input-text",
-                    "name": "name",
-                    "label": "应用标识",
-                    "required":true
-                  },
-                  {
-                    "type": "input-text",
-                    "name": "title",
-                    "label": "应用名称",
-                    "required":true
-                  },
-                  {
-                    "type": "input-text",
-                    "name": "author",
-                    "label": "应用作者",
-                    "required":true
-                  },
-                  {
-                    "type": "input-text",
-                    "name": "version",
-                    "label": "应用版本",
-                    "required":true
-                  }
+                    {
+                        "name": "name",
+                        "label": "标识",
+                        "id": "u:a2f4bcf4d0f6",
+                        "type": "text"
+                    },
+                    {
+                        "name": "author",
+                        "label": "作者",
+                        "id": "u:f2b6297b30ca",
+                        "type": "text"
+                    },
+                    {
+                        "name": "version",
+                        "label": "版本",
+                        "id": "u:6ad9ac651c1f",
+                        "type": "text"
+                    }
+                ],
+                "actions": [
+                    {
+                        "label": "查看",
+                        "type": "button",
+                        "actionType": "dialog",
+                        "level": "link",
+                        "editorSetting": {
+                            "behavior": "view"
+                        },
+                        "dialog": {
+                            "type": "dialog",
+                            "title": "查看详情",
+                            "body": [
+                                {
+                                    "type": "form",
+                                    "body": [
+                                        {
+                                            "name": "name",
+                                            "label": "标识",
+                                            "id": "u:d0cfcf3ef6bb",
+                                            "type": "static"
+                                        },
+                                        {
+                                            "type": "static",
+                                            "label": "名字",
+                                            "id": "u:3537a410c2db",
+                                            "quickEdit": false,
+                                            "popOver": false,
+                                            "copyable": false,
+                                            "name": "title"
+                                        },
+                                        {
+                                            "type": "static",
+                                            "label": "简介",
+                                            "id": "u:c4cdb93be262",
+                                            "quickEdit": false,
+                                            "popOver": false,
+                                            "copyable": false,
+                                            "name": "intro"
+                                        },
+                                        {
+                                            "type": "static-markdown",
+                                            "label": "说明",
+                                            "id": "u:11ada8eac8ed",
+                                            "quickEdit": false,
+                                            "popOver": false,
+                                            "copyable": false,
+                                            "name": "explain"
+                                        },
+                                        {
+                                            "name": "author",
+                                            "label": "作者",
+                                            "id": "u:f533ded610c2",
+                                            "type": "static"
+                                        },
+                                        {
+                                            "name": "version",
+                                            "label": "版本",
+                                            "id": "u:760483dddbc6",
+                                            "type": "static",
+                                            "quickEdit": false,
+                                            "popOver": false,
+                                            "copyable": false
+                                        },
+                                        {
+                                            "type": "static-mapping",
+                                            "map": {
+                                                "true": "<span class='label label-info'>是</span>",
+                                                "false": "<span class='label label-default'>否</span>"
+                                            },
+                                            "id": "u:af452301082d",
+                                            "name": "sys",
+                                            "label": "是否系统应用"
+                                        }
+                                    ],
+                                    "id": "u:2e7bfc562c8f",
+                                    "actions": [
+                                        {
+                                            "type": "submit",
+                                            "label": "提交",
+                                            "primary": true
+                                        }
+                                    ],
+                                    "feat": "View"
+                                }
+                            ],
+                            "actionType": "dialog",
+                            "id": "u:5e9d3c07f6f5",
+                            "actions": [
+                                {
+                                    "type": "button",
+                                    "actionType": "confirm",
+                                    "label": "确定",
+                                    "primary": true,
+                                    "id": "u:392b15323312"
+                                }
+                            ],
+                            "$$ref": "modal-ref-2"
+                        },
+                        "id": "u:1980d6b9f414"
+                    },
+                    {
+                        "label": "编辑",
+                        "type": "button",
+                        "actionType": "dialog",
+                        "level": "primary",
+                        "editorSetting": {
+                            "behavior": "update"
+                        },
+                        "dialog": {
+                            "type": "dialog",
+                            "title": "编辑",
+                            "size": "lg",
+                            "body": [
+                                {
+                                    "type": "form",
+                                    "api": "/admin/sys/application/edit",
+                                    "body": [
+                                        {
+                                            "type": "group",
+                                            "body": [
+                                                {
+                                                    "type": "input-text",
+                                                    "name": "name",
+                                                    "label": "应用标识",
+                                                    "required": true,
+                                                    "id": "u:b8d06d931f84",
+                                                    "readOnly": true
+                                                },
+                                                {
+                                                    "type": "input-text",
+                                                    "name": "title",
+                                                    "label": "应用名称",
+                                                    "required": true,
+                                                    "id": "u:e3cfdaedb4af"
+                                                },
+                                                {
+                                                    "type": "input-text",
+                                                    "name": "author",
+                                                    "label": "应用作者",
+                                                    "required": true,
+                                                    "id": "u:23753db17393"
+                                                },
+                                                {
+                                                    "type": "input-text",
+                                                    "name": "version",
+                                                    "label": "应用版本",
+                                                    "required": true,
+                                                    "id": "u:fcbfaac42ea6"
+                                                }
+                                            ],
+                                            "id": "u:d6126f5a5e01"
+                                        },
+                                        {
+                                            "type": "divider",
+                                            "id": "u:1702fd77eea5"
+                                        },
+                                        {
+                                            "type": "input-text",
+                                            "name": "intro",
+                                            "label": "应用简介",
+                                            "required": true,
+                                            "id": "u:f8a84aebc9a6"
+                                        },
+                                        {
+                                            "type": "divider",
+                                            "id": "u:eaa241d142b8"
+                                        },
+                                        {
+                                            "type": "group",
+                                            "label": "应用说明",
+                                            "mode": "normal",
+                                            "body": [
+                                                {
+                                                    "type": "editor",
+                                                    "name": "explain",
+                                                    "language": "markdown",
+                                                    "id": "u:b95547aec3cb"
+                                                },
+                                                {
+                                                    "type": "markdown",
+                                                    "name": "explain",
+                                                    "id": "u:d0b0a6268f31"
+                                                }
+                                            ],
+                                            "id": "u:93e6bf173c07"
+                                        }
+                                    ],
+                                    "id": "u:9ec0e9a8cfc0",
+                                    "actions": [
+                                        {
+                                            "type": "submit",
+                                            "label": "提交",
+                                            "primary": true
+                                        }
+                                    ],
+                                    "feat": "Insert"
+                                }
+                            ],
+                            "actionType": "dialog",
+                            "$$ref": "modal-ref-3",
+                            "id": "u:009e4de1da3d",
+                            "actions": [
+                                {
+                                    "type": "button",
+                                    "actionType": "cancel",
+                                    "label": "取消",
+                                    "id": "u:4b2c466f14c9"
+                                },
+                                {
+                                    "type": "button",
+                                    "actionType": "confirm",
+                                    "label": "确定",
+                                    "primary": true,
+                                    "id": "u:77e094822c17"
+                                }
+                            ]
+                        },
+                        "id": "u:97a021d00205",
+                        "visibleOn": "${!sys}"
+                    },
+                    {
+                        "type": "button",
+                        "label": "导出",
+                        "onEvent": {
+                            "click": {
+                                "actions": [
+                                    {
+                                        "ignoreError": false,
+                                        "actionType": "download",
+                                        "api": {
+                                            "url": "/admin/sys/application/export?name=${name}",
+                                            "method": "get",
+                                            "requestAdaptor": "",
+                                            "adaptor": "",
+                                            "messages": {},
+                                            "responseType": "blob"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        "id": "u:0eaca65066f3",
+                        "confirmText": "此操作会导出应用相关的数据表、路由数据、相关代码文件,确认导出?",
+                        "visibleOn": "${!sys}"
+                    },
+                    {
+                        "type": "button",
+                        "label": "删除",
+                        "actionType": "",
+                        "level": "danger",
+                        "className": "text-danger",
+                        "confirmText": "此操作会删除应用相关的数据表、路由数据、相关代码文件,确定要删除？",
+                        "api": {
+                            "method": "post",
+                            "url": "/admin/sys/application"
+                        },
+                        "editorSetting": {
+                            "behavior": "delete"
+                        },
+                        "id": "u:b656fc48f85b",
+                        "visibleOn": "${!sys}",
+                        "onEvent": {
+                            "click": {
+                                "weight": 0,
+                                "actions": [
+                                    {
+                                        "ignoreError": false,
+                                        "outputVar": "responseResult",
+                                        "actionType": "ajax",
+                                        "api": {
+                                            "url": "/admin/sys/application/del",
+                                            "method": "post",
+                                            "requestAdaptor": "",
+                                            "adaptor": "",
+                                            "messages": {},
+                                            "data": {
+                                                "name": "${name}"
+                                            }
+                                        },
+                                        "options": {}
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                ],
+                "id": "u:837ef3a5126a",
+                "toolbar": [
+                    {
+                        "type": "tpl",
+                        "tpl": "系统",
+                        "className": "label label-danger",
+                        "visibleOn": "${sys}",
+                        "id": "u:b556e1cfd739"
+                    }
                 ]
-              },
-              {
-                "type": "divider"
-              },
-              {
-                "type": "input-text",
-                "name": "intro",
-                "label": "应用简介",
-                "required": true
-              },
-              {
-                "type": "divider"
-              },
-              {
-                "type": "group",
-                "label":"应用说明",
-                "mode":"normal",
-                "body": [
-                  {
-                    "type": "editor",
-                    "name": "explain",
-                    "language": "markdown"
-                  },
-                  {
-                    "type": "markdown",
-                    "name": "explain"
-                  }
-                ]
-              }
-            ]
-          }
+            }
         }
-      },{
-        "label": "导入应用",
-        "type": "button",
-        "actionType": "dialog",
-        "level": "success",
-        "align": "right",
-        "dialog": {
-          "title": "导入应用",
-          "body":  {
-            "type": "form",
-            "api": "/admin/cms/template/import",
-            "debug": false,
-            "body": [
-              {
-                "type": "input-file",
-                "name": "file",
-                "label": "模板文件",
-                "accept": "*",
-                "asBlob": true
-              }
-            ]
-          }
-        }
-      }
     ],
-    "card": {
-      "toolbar": [
-        {
-          "type": "tpl",
-          "tpl": "系统",
-          "className": "label label-danger",
-          "visibleOn": "${sys}"
-        }
-      ],
-      "header": {
-        "title": "$title",
-        "subTitle": "$intro",
-        "avatarText": "$name"
-      },
-      "actions": [
-        {
-          "type": "button",
-          "label": "查看",
-          "actionType": "dialog",
-          "dialog": {
-            "title": "查看",
-            "body": {
-              "type": "form",
-              "body": [
-                {
-                  "type": "static",
-                  "name": "engine",
-                  "label": "Engine"
-                },
-                {
-                  "type": "divider"
-                },
-                {
-                  "type": "static",
-                  "name": "browser",
-                  "label": "Browser"
-                },
-                {
-                  "type": "divider"
-                },
-                {
-                  "type": "static",
-                  "name": "platform",
-                  "label": "Platform(s)"
-                },
-                {
-                  "type": "divider"
-                },
-                {
-                  "type": "static",
-                  "name": "version",
-                  "label": "Engine version"
-                },
-                {
-                  "type": "divider"
-                },
-                {
-                  "type": "static",
-                  "name": "grade",
-                  "label": "CSS grade"
-                },
-                {
-                  "type": "divider"
-                },
-                {
-                  "type": "html",
-                  "html": "<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>"
-                }
-              ]
-            }
-          }
-        },
-        {
-          "type": "button",
-          "label": "编辑",
-          "actionType": "dialog",
-          "visibleOn": "${!sys}",
-          "dialog": {
-            "title": "编辑",
-            "body": {
-              "type": "form",
-              "name": "sample-edit-form",
-              "api": "/amis/api/sample/$id",
-              "body": [
-                {
-                  "type": "input-text",
-                  "name": "engine",
-                  "label": "Engine",
-                  "required": true
-                },
-                {
-                  "type": "divider"
-                },
-                {
-                  "type": "input-text",
-                  "name": "browser",
-                  "label": "Browser",
-                  "required": true
-                },
-                {
-                  "type": "divider"
-                },
-                {
-                  "type": "input-text",
-                  "name": "platform",
-                  "label": "Platform(s)",
-                  "required": true
-                },
-                {
-                  "type": "divider"
-                },
-                {
-                  "type": "input-text",
-                  "name": "version",
-                  "label": "Engine version"
-                },
-                {
-                  "type": "divider"
-                },
-                {
-                  "type": "input-text",
-                  "name": "grade",
-                  "label": "CSS grade"
-                }
-              ]
-            }
-          }
-        },
-        {
-          "type": "button",
-          "label": "删除",
-          "visibleOn": "${!sys}",
-          "actionType": "ajax",
-          "confirmText": "您确认要删除?",
-          "api": "delete:/amis/api/sample/$id"
-        }
-      ],
-      "body": [
-        {
-          "name": "name",
-          "label": "标识"
-        },
-        {
-          "name": "author",
-          "label": "作者"
-        },
-        {
-          "name": "version",
-          "label": "版本"
-        }
-      ]
-    }
-  }
+    "id": "u:9abe7e3eeba6",
+    "asideResizor": false,
+    "pullRefresh": {
+        "disabled": true
+    },
+    "regions": [
+        "body"
+    ],
+    "definitions": {}
 }

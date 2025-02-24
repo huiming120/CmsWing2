@@ -1,0 +1,895 @@
+{
+    "type": "page",
+    "title": "签到墙活动列表管理",
+    "body": [
+        {
+            "type": "crud",
+            "syncLocation": false,
+            "api": {
+                "method": "post",
+                "url": "/graphql",
+                "graphql": "query($limit:Int!,$offset:Int!,$order:[String]){Wall_findAndCountAll(limit: $limit, offset: $offset, order: [$order]) {count rows {id title config}}}",
+                "data": {
+                    "limit": "${perPage}",
+                    "offset": "${(page - 1) * perPage}",
+                    "order": [
+                        "${orderBy|default:id}",
+                        "${orderDir|default:desc}"
+                    ]
+                },
+                "requestAdaptor": "",
+                "adaptor": "",
+                "messages": {},
+                "responseData": {
+                    "rows": "${Wall_findAndCountAll.rows}",
+                    "count": "${Wall_findAndCountAll.count}"
+                }
+            },
+            "bulkActions": [],
+            "itemActions": [],
+            "headerToolbar": [
+                {
+                    "label": "新增活动",
+                    "type": "button",
+                    "level": "primary",
+                    "id": "u:035940983780",
+                    "onEvent": {
+                        "click": {
+                            "weight": 0,
+                            "actions": [
+                                {
+                                    "ignoreError": false,
+                                    "actionType": "dialog",
+                                    "dialog": {
+                                        "$ref": "modal-ref-2",
+                                        "$$originId": "b4c5d54fa182"
+                                    },
+                                    "data": {
+                                        "&": "$$",
+                                        "graphql": "mutation(\\$data:AddWall!){Wall_create(data:\\$data){id}}",
+                                        "dialog_title": "新增活动"
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                },
+                "bulkActions"
+            ],
+            "id": "u:6ee60239bf29",
+            "perPageAvailable": [
+                5,
+                10,
+                20,
+                50,
+                100
+            ],
+            "messages": {},
+            "alwaysShowPagination": true,
+            "columns": [
+                {
+                    "name": "id",
+                    "label": "ID",
+                    "type": "text",
+                    "id": "u:aee3f29f05ac",
+                    "placeholder": "-",
+                    "sortable": true
+                },
+                {
+                    "name": "title",
+                    "label": "活动标题",
+                    "type": "tpl",
+                    "tpl": "<a href='/admin/wall/index?id=${id}' target='_blank'>${title}</a>",
+                    "id": "u:3faff8d2beee"
+                },
+                {
+                    "type": "tpl",
+                    "label": "签到时间段",
+                    "name": "config.qd_begin_at",
+                    "id": "u:063d7436fff5",
+                    "tpl": "<p>开始：${config.qd_begin_at}</p><p>结束：${config.qd_end_at}</p>"
+                },
+                {
+                    "type": "tpl",
+                    "label": "抽奖时间段",
+                    "name": "config.cj_begin_at",
+                    "id": "u:31cb6287ef66",
+                    "tpl": "<p>开始：${config.cj_begin_at}</p><p>结束：${config.cj_end_at}</p>"
+                },
+                {
+                    "type": "image",
+                    "label": "大屏背景图",
+                    "name": "config.h_bg",
+                    "id": "u:ead1861253ae",
+                    "enlargeAble": true,
+                    "showToolbar": true,
+                    "enlargeWithGallary": false,
+                    "maxScale": 200,
+                    "minScale": 50,
+                    "style": {
+                        "display": "inline-block"
+                    }
+                },
+                {
+                    "type": "image",
+                    "label": "手机背景图",
+                    "name": "config.v_bg",
+                    "id": "u:8555763e04dc",
+                    "enlargeAble": true,
+                    "showToolbar": true,
+                    "enlargeWithGallary": false,
+                    "maxScale": 200,
+                    "minScale": 50,
+                    "style": {
+                        "display": "inline-block"
+                    }
+                },
+                {
+                    "type": "image",
+                    "label": "缺省图标",
+                    "name": "config.icon",
+                    "id": "u:b92059a260dd",
+                    "enlargeAble": true,
+                    "showToolbar": true,
+                    "enlargeWithGallary": false,
+                    "maxScale": 200,
+                    "minScale": 50,
+                    "style": {
+                        "display": "inline-block"
+                    }
+                },
+                {
+                    "type": "mapping",
+                    "value": 1,
+                    "map": {
+                        "*": "${config.zj_field}",
+                        "nickname": "昵称",
+                        "name": "名字"
+                    },
+                    "name": "config.zj_field",
+                    "label": "中奖显示缺省字段",
+                    "id": "u:35c058556362",
+                    "inline": true
+                },
+                {
+                    "type": "mapping",
+                    "label": "大屏动画形式",
+                    "name": "config.ani",
+                    "id": "u:0b87aa7748ea",
+                    "map": {
+                        "table": "签到墙",
+                        "cube": "立方体",
+                        "sphere": "圆球",
+                        "torus": "漩涡",
+                        "helix": "环绕墙"
+                    }
+                },
+                {
+                    "type": "text",
+                    "label": "大屏模板",
+                    "name": "config.temp",
+                    "id": "u:4c107a4f9154"
+                },
+                {
+                    "type": "text",
+                    "label": "抽奖模板",
+                    "name": "config.cj_temp",
+                    "id": "u:07196386df8a"
+                },
+                {
+                    "type": "text",
+                    "label": "签到模板",
+                    "name": "config.qd_temp",
+                    "id": "u:5f8fbb060e6e"
+                },
+                {
+                    "type": "operation",
+                    "label": "操作",
+                    "buttons": [
+                        {
+                            "type": "button",
+                            "label": "编辑",
+                            "onEvent": {
+                                "click": {
+                                    "actions": [
+                                        {
+                                            "ignoreError": false,
+                                            "actionType": "dialog",
+                                            "dialog": {
+                                                "$ref": "modal-ref-2",
+                                                "$$originId": "b4c5d54fa182"
+                                            },
+                                            "data": {
+                                                "&": "$$",
+                                                "dialog_title": "编辑活动",
+                                                "graphql": "mutation(\\$data:EditWall!){Wall_update(data:\\$data,where:{id:{op_eq:${id}}}){ids}}"
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            "id": "u:da6cef442cfa",
+                            "level": "link"
+                        },
+                        {
+                            "type": "button",
+                            "label": "数据管理",
+                            "onEvent": {
+                                "click": {
+                                    "actions": [
+                                        {
+                                            "ignoreError": false,
+                                            "actionType": "url",
+                                            "args": {
+                                                "url": "/admin#/admin/wall/awardList/${id}",
+                                                "blank": false
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            "id": "u:86df47dc4c64",
+                            "level": "link"
+                        },
+                        {
+                            "type": "button",
+                            "label": "签到地址",
+                            "onEvent": {
+                                "click": {
+                                    "actions": [
+                                        {
+                                            "ignoreError": false,
+                                            "actionType": "url",
+                                            "args": {
+                                                "url": "/wall/index?id=${id}",
+                                                "blank": true
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            "level": "link",
+                            "id": "u:1a4688a43d81"
+                        },
+                        {
+                            "type": "button",
+                            "label": "删除",
+                            "actionType": "ajax",
+                            "level": "link",
+                            "className": "text-danger",
+                            "confirmText": "确定要删除此活动吗？",
+                            "api": {
+                                "method": "post",
+                                "url": "/graphql",
+                                "graphql": "mutation($id:ID!){Wall_destroy(where:{id:{op_eq:$id}}){count}}",
+                                "data": {
+                                    "id": "${id}"
+                                },
+                                "requestAdaptor": "",
+                                "adaptor": "",
+                                "messages": {}
+                            },
+                            "editorSetting": {
+                                "behavior": "delete"
+                            },
+                            "id": "u:03d7579a66a0"
+                        }
+                    ],
+                    "id": "u:16b5b3bc8eae"
+                }
+            ]
+        }
+    ],
+    "id": "u:be320ed8031d",
+    "asideResizor": false,
+    "pullRefresh": {
+        "disabled": true
+    },
+    "regions": [
+        "body",
+        "header"
+    ],
+    "definitions": {
+        "modal-ref-1": {
+            "type": "dialog",
+            "body": [
+                {
+                    "type": "iframe",
+                    "src": "/admin/page/cms/attachment/select",
+                    "id": "u:4c6d892f1ee7",
+                    "onEvent": {
+                        "attachment_sel": {
+                            "actions": [
+                                {
+                                    "actionType": "closeDialog",
+                                    "componentId": "attachment_sel_dialog"
+                                },
+                                {
+                                    "actionType": "broadcast",
+                                    "args": {
+                                        "eventName": "${event_name}"
+                                    },
+                                    "data": {
+                                        "eventData": "${event.data}",
+                                        "renderData": "${__rendererData}"
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            ],
+            "title": "附件选取",
+            "id": "attachment_sel_dialog",
+            "actions": [],
+            "showCloseButton": true,
+            "closeOnOutside": false,
+            "closeOnEsc": false,
+            "showErrorMsg": true,
+            "showLoading": true,
+            "draggable": false,
+            "size": "custom",
+            "editorSetting": {
+                "displayName": "附件选取"
+            },
+            "hideActions": true,
+            "actionType": "dialog",
+            "style": {
+                "width": "90%",
+                "height": "90%"
+            },
+            "$$ref": "modal-ref-1"
+        },
+        "modal-ref-2": {
+            "type": "dialog",
+            "body": [
+                {
+                    "type": "form",
+                    "api": {
+                        "method": "post",
+                        "url": "/graphql",
+                        "data": {
+                            "query": "${graphql}",
+                            "variables": {
+                                "data": {
+                                    "&": "$$"
+                                }
+                            }
+                        },
+                        "requestAdaptor": "",
+                        "adaptor": "",
+                        "messages": {}
+                    },
+                    "body": [
+                        {
+                            "type": "input-text",
+                            "label": "活动标题",
+                            "name": "title",
+                            "clearable": true,
+                            "maxLength": 200,
+                            "required": true,
+                            "id": "u:bc4c25f27d6f"
+                        },
+                        {
+                            "type": "input-datetime-range",
+                            "label": "签到时间段",
+                            "name": "config.qd_begin_at",
+                            "extraName": "config.qd_end_at",
+                            "displayFormat": "YYYY-MM-DD HH:mm:ss",
+                            "placeholder": "请选择日期时间范围",
+                            "valueFormat": "YYYY-MM-DD HH:mm:ss",
+                            "minDate": "",
+                            "maxDate": "",
+                            "value": "${DATETOSTR(NOW(),'YYYY-MM-DD HH:mm:ss')},${DATETOSTR(DATEMODIFY(NOW(),7,'days'),'YYYY-MM-DD HH:mm:ss')}",
+                            "shortcuts": [
+                                "yesterday",
+                                "7daysago",
+                                "prevweek",
+                                "thismonth",
+                                "prevmonth",
+                                "prevquarter"
+                            ],
+                            "required": true,
+                            "id": "u:895d03c8eb5d",
+                            "clearable": false
+                        },
+                        {
+                            "type": "input-datetime-range",
+                            "label": "抽奖时间段",
+                            "name": "config.cj_begin_at",
+                            "extraName": "config.cj_end_at",
+                            "displayFormat": "YYYY-MM-DD HH:mm:ss",
+                            "placeholder": "请选择日期时间范围",
+                            "valueFormat": "YYYY-MM-DD HH:mm:ss",
+                            "minDate": "",
+                            "maxDate": "",
+                            "value": "${DATETOSTR(NOW(),'YYYY-MM-DD HH:mm:ss')},${DATETOSTR(DATEMODIFY(NOW(),7,'days'),'YYYY-MM-DD HH:mm:ss')}",
+                            "shortcuts": [
+                                "yesterday",
+                                "7daysago",
+                                "prevweek",
+                                "thismonth",
+                                "prevmonth",
+                                "prevquarter"
+                            ],
+                            "required": true,
+                            "id": "u:553d2958a21e",
+                            "clearable": false
+                        },
+                        {
+                            "type": "checkbox",
+                            "option": "只在活动期间内打开",
+                            "name": "config.open_in_active_only",
+                            "id": "u:62c93f94237c",
+                            "label": "",
+                            "mode": "inline",
+                            "className": "m-l-lg p-l-lg",
+                            "inputClassName": "m-l-lg p-l-lg",
+                            "labelClassName": ""
+                        },
+                        {
+                            "type": "checkbox",
+                            "option": "手机号需要短信验证",
+                            "name": "config.verification",
+                            "id": "u:bb9309e65ab7",
+                            "mode": "inline"
+                        },
+                        {
+                            "type": "group",
+                            "body": [
+                                {
+                                    "type": "container",
+                                    "body": [
+                                        {
+                                            "type": "input-image",
+                                            "label": "大屏背景图",
+                                            "name": "config.h_bg",
+                                            "autoUpload": true,
+                                            "proxy": true,
+                                            "uploadType": "fileReceptor",
+                                            "imageClassName": "r w-full",
+                                            "id": "u:c55d4433d436",
+                                            "accept": ".jpeg, .jpg, .png, .gif",
+                                            "multiple": false,
+                                            "hideUploadButton": false,
+                                            "receiver": {
+                                                "url": "/upload/adminToken",
+                                                "method": "post",
+                                                "requestAdaptor": "",
+                                                "adaptor": "",
+                                                "messages": {}
+                                            },
+                                            "limit": true,
+                                            "maxSize": 20971520,
+                                            "mode": "normal"
+                                        },
+                                        {
+                                            "type": "button",
+                                            "label": "从附件选取",
+                                            "onEvent": {
+                                                "click": {
+                                                    "actions": [
+                                                        {
+                                                            "ignoreError": false,
+                                                            "actionType": "dialog",
+                                                            "dialog": {
+                                                                "$ref": "modal-ref-1"
+                                                            },
+                                                            "data": {
+                                                                "event_name": "attachment_sel_for_add_dialog",
+                                                                "filed_name": "h_bg"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            "level": "link",
+                                            "themeCss": {
+                                                "className": {
+                                                    "font:default": {
+                                                        "text-decoration": "underline"
+                                                    }
+                                                }
+                                            },
+                                            "id": "u:1ab495db784a"
+                                        }
+                                    ],
+                                    "style": {
+                                        "position": "relative",
+                                        "display": "flex",
+                                        "inset": "auto",
+                                        "flexWrap": "nowrap",
+                                        "flexDirection": "column",
+                                        "alignItems": "center"
+                                    },
+                                    "size": "none",
+                                    "wrapperBody": false,
+                                    "isFixedHeight": false,
+                                    "isFixedWidth": false,
+                                    "id": "u:c2f8dd1ea7da"
+                                },
+                                {
+                                    "type": "container",
+                                    "body": [
+                                        {
+                                            "type": "input-image",
+                                            "label": "手机背景图",
+                                            "name": "config.v_bg",
+                                            "autoUpload": true,
+                                            "proxy": true,
+                                            "uploadType": "fileReceptor",
+                                            "imageClassName": "r w-full",
+                                            "accept": ".jpeg, .jpg, .png, .gif",
+                                            "multiple": false,
+                                            "hideUploadButton": false,
+                                            "receiver": {
+                                                "url": "/upload/adminToken",
+                                                "method": "post",
+                                                "requestAdaptor": "",
+                                                "adaptor": "",
+                                                "messages": {}
+                                            },
+                                            "limit": true,
+                                            "maxSize": 20971520,
+                                            "id": "u:42b1a3c3b313",
+                                            "mode": "normal"
+                                        },
+                                        {
+                                            "type": "button",
+                                            "label": "从附件选取",
+                                            "onEvent": {
+                                                "click": {
+                                                    "actions": [
+                                                        {
+                                                            "ignoreError": false,
+                                                            "actionType": "dialog",
+                                                            "dialog": {
+                                                                "$ref": "modal-ref-1"
+                                                            },
+                                                            "data": {
+                                                                "event_name": "attachment_sel_for_add_dialog",
+                                                                "filed_name": "v_bg"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            "level": "link",
+                                            "themeCss": {
+                                                "className": {
+                                                    "font:default": {
+                                                        "text-decoration": "underline"
+                                                    }
+                                                }
+                                            },
+                                            "id": "u:7d3d7bc48ea9"
+                                        }
+                                    ],
+                                    "style": {
+                                        "position": "relative",
+                                        "display": "flex",
+                                        "inset": "auto",
+                                        "flexWrap": "nowrap",
+                                        "flexDirection": "column",
+                                        "alignItems": "center"
+                                    },
+                                    "size": "none",
+                                    "wrapperBody": false,
+                                    "isFixedHeight": false,
+                                    "isFixedWidth": false,
+                                    "id": "u:026974789e2e"
+                                },
+                                {
+                                    "type": "container",
+                                    "body": [
+                                        {
+                                            "type": "input-image",
+                                            "label": "缺省图标",
+                                            "name": "config.icon",
+                                            "autoUpload": true,
+                                            "proxy": true,
+                                            "uploadType": "fileReceptor",
+                                            "imageClassName": "r w-full",
+                                            "accept": ".jpeg, .jpg, .png, .gif",
+                                            "multiple": false,
+                                            "hideUploadButton": false,
+                                            "receiver": {
+                                                "url": "/upload/adminToken",
+                                                "method": "post",
+                                                "requestAdaptor": "",
+                                                "adaptor": "",
+                                                "messages": {}
+                                            },
+                                            "limit": true,
+                                            "maxSize": 20971520,
+                                            "id": "u:a425cfb342b6",
+                                            "mode": "normal"
+                                        },
+                                        {
+                                            "type": "button",
+                                            "label": "从附件选取",
+                                            "onEvent": {
+                                                "click": {
+                                                    "actions": [
+                                                        {
+                                                            "ignoreError": false,
+                                                            "actionType": "dialog",
+                                                            "dialog": {
+                                                                "$ref": "modal-ref-1"
+                                                            },
+                                                            "data": {
+                                                                "event_name": "attachment_sel_for_add_dialog",
+                                                                "filed_name": "icon"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            "id": "u:b2b6f1d87e2a",
+                                            "level": "link",
+                                            "themeCss": {
+                                                "className": {
+                                                    "font:default": {
+                                                        "text-decoration": "underline"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ],
+                                    "style": {
+                                        "position": "relative",
+                                        "display": "flex",
+                                        "inset": "auto",
+                                        "flexWrap": "nowrap",
+                                        "flexDirection": "column",
+                                        "alignItems": "center"
+                                    },
+                                    "size": "none",
+                                    "wrapperBody": false,
+                                    "id": "u:153e8ba3eeb4",
+                                    "isFixedHeight": false,
+                                    "isFixedWidth": false
+                                }
+                            ],
+                            "subFormMode": "inline",
+                            "id": "u:7e208ce72d7f",
+                            "label": "图片配置"
+                        },
+                        {
+                            "type": "group",
+                            "label": "大屏设置",
+                            "body": [
+                                {
+                                    "type": "input-number",
+                                    "label": "分辨率",
+                                    "name": "config.dp_width",
+                                    "keyboard": true,
+                                    "id": "u:4c3aad11d2bf",
+                                    "step": 1,
+                                    "value": 1920,
+                                    "columnRatio": "auto",
+                                    "size": "xs",
+                                    "required": true
+                                },
+                                {
+                                    "type": "input-number",
+                                    "label": "X",
+                                    "name": "config.dp_height",
+                                    "keyboard": true,
+                                    "id": "u:1b55e7b8d4de",
+                                    "step": 1,
+                                    "value": 1080,
+                                    "columnRatio": "auto",
+                                    "size": "xs",
+                                    "required": true
+                                },
+                                {
+                                    "type": "input-number",
+                                    "label": "相机高度",
+                                    "name": "config.camera_far",
+                                    "keyboard": true,
+                                    "id": "u:277e57563b3e",
+                                    "step": 1,
+                                    "size": "xs",
+                                    "value": 3000,
+                                    "columnRatio": "auto",
+                                    "required": true,
+                                    "themeCss": {
+                                        "labelClassName": {
+                                            "padding-and-margin:default": {
+                                                "marginLeft": "var(--sizes-base-8)"
+                                            }
+                                        }
+                                    }
+                                }
+                            ],
+                            "id": "u:637fc2ad9cad",
+                            "subFormMode": "inline",
+                            "gap": "xs"
+                        },
+                        {
+                            "type": "select",
+                            "label": "大屏动画形式",
+                            "name": "config.ani",
+                            "options": [
+                                {
+                                    "label": "签到墙",
+                                    "value": "table"
+                                },
+                                {
+                                    "label": "立方体",
+                                    "value": "cube"
+                                },
+                                {
+                                    "label": "圆球",
+                                    "value": "sphere"
+                                },
+                                {
+                                    "label": "漩涡",
+                                    "value": "torus"
+                                },
+                                {
+                                    "label": "环绕墙",
+                                    "value": "helix"
+                                }
+                            ],
+                            "id": "u:f7eaf6be110b",
+                            "multiple": true,
+                            "clearable": true,
+                            "checkAll": true,
+                            "defaultCheckAll": true,
+                            "checkAllLabel": "全选",
+                            "required": true,
+                            "joinValues": false,
+                            "extractValue": true,
+                            "valuesNoWrap": true
+                        },
+                        {
+                            "type": "input-text",
+                            "label": "中奖显示字段",
+                            "name": "config.zj_field",
+                            "id": "u:d284cd81b704",
+                            "value": "nickname",
+                            "maxLength": 50,
+                            "description": "如果不清楚配置默认即可",
+                            "options": [
+                                {
+                                    "label": "昵称",
+                                    "value": "nickname"
+                                },
+                                {
+                                    "label": "名字",
+                                    "value": "name"
+                                }
+                            ],
+                            "required": true
+                        },
+                        {
+                            "type": "fieldset",
+                            "title": "模板设置",
+                            "collapsable": true,
+                            "body": [
+                                {
+                                    "type": "select",
+                                    "label": "大屏页面模板",
+                                    "name": "config.temp",
+                                    "searchable": true,
+                                    "description": "模板在/app/view/cms内,命名规则 wall_index_模板名称.html",
+                                    "source": {
+                                        "method": "get",
+                                        "url": "/admin/cms/template/getTemplate?type=wall&name=index",
+                                        "requestAdaptor": "",
+                                        "adaptor": "",
+                                        "messages": {}
+                                    },
+                                    "placeholder": "",
+                                    "selectFirst": true,
+                                    "id": "u:e162e85d01df"
+                                },
+                                {
+                                    "type": "select",
+                                    "label": "抽奖页面模板",
+                                    "name": "config.cj_temp",
+                                    "searchable": true,
+                                    "description": "模板在/app/view/cms内,命名规则 wall_cj_模板名称.html",
+                                    "source": {
+                                        "method": "get",
+                                        "url": "/admin/cms/template/getTemplate?type=wall&name=cj",
+                                        "requestAdaptor": "",
+                                        "adaptor": "",
+                                        "messages": {}
+                                    },
+                                    "placeholder": "",
+                                    "selectFirst": true,
+                                    "id": "u:73e1ce1bddb8"
+                                },
+                                {
+                                    "type": "select",
+                                    "label": "签到页面模板",
+                                    "name": "config.qd_temp",
+                                    "searchable": true,
+                                    "description": "模板在/app/view/cms内,命名规则 wall_qd_模板名称.html",
+                                    "source": {
+                                        "method": "get",
+                                        "url": "/admin/cms/template/getTemplate?type=wall&name=qd",
+                                        "requestAdaptor": "",
+                                        "adaptor": "",
+                                        "messages": {}
+                                    },
+                                    "placeholder": "",
+                                    "selectFirst": true,
+                                    "id": "u:7ca5afceaf12"
+                                }
+                            ],
+                            "bodyClassName": "p-l-lg",
+                            "id": "u:98f55114cf37"
+                        }
+                    ],
+                    "id": "u:e2dda018258e",
+                    "actions": [
+                        {
+                            "type": "submit",
+                            "label": "提交",
+                            "primary": true
+                        }
+                    ],
+                    "onEvent": {
+                        "attachment_sel_for_add_dialog": {
+                            "actions": [
+                                {
+                                    "actionType": "custom",
+                                    "script": "var values = context.getValues();\nvar config = values.config;\nvar filed_name = event.data.renderData.filed_name;\nconfig[filed_name] = event.data.eventData.url;\ndoAction({ actionType: 'setValue', args: { value: { config: config } } });",
+                                    "ignoreError": false,
+                                    "args": {}
+                                }
+                            ]
+                        },
+                        "submitSucc": {
+                            "weight": 0,
+                            "actions": [
+                                {
+                                    "componentId": "u:6ee60239bf29",
+                                    "ignoreError": false,
+                                    "actionType": "reload"
+                                }
+                            ]
+                        }
+                    },
+                    "feat": "Insert",
+                    "dsType": "api",
+                    "labelAlign": "right"
+                }
+            ],
+            "title": "${dialog_title}",
+            "size": "md",
+            "actionType": "dialog",
+            "id": "u:cd4235d0dcfd",
+            "actions": [
+                {
+                    "type": "button",
+                    "actionType": "cancel",
+                    "label": "取消",
+                    "id": "u:e73297439d94"
+                },
+                {
+                    "type": "button",
+                    "actionType": "confirm",
+                    "label": "确定",
+                    "primary": true,
+                    "id": "u:9faeb421a40a"
+                }
+            ],
+            "showCloseButton": true,
+            "closeOnOutside": false,
+            "closeOnEsc": false,
+            "showErrorMsg": true,
+            "showLoading": true,
+            "draggable": false,
+            "editorSetting": {
+                "displayName": "活动弹框"
+            },
+            "$$originId": "b4c5d54fa182",
+            "$$ref": "modal-ref-2"
+        }
+    }
+}

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{formInfo.title}}</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="Shortcut Icon" href="/public/sys/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" title="default" href="/public/sys/amis/sdk.css" />
+    <link rel="stylesheet" href="/public/sys/amis/iconfont.css" />
+    <style>
+        html,body,.app-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        .child-block * {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div id="root" class="app-wrapper"></div>
+    <script src="/public/sys/amis/sdk.js"></script>
+    <script>
+        (function () {
+            var amis = amisRequire("amis/embed");
+            var columns = {{columns|dump|safe}};
+            for (let i = 0; i < columns.length; i++) {
+                const column = columns[i];
+                delete column.sortable;
+                delete column.searchable;
+                delete column.copyable;
+                delete column.quickEdit;
+            }
+            var statusTmp = columns[5];
+            columns.splice(0, 6);
+            columns.pop();
+            let page = {
+                type: "page",
+                data: {
+                    page: {{ctx.query.page}}, perPage: {{ctx.query.perPage}},
+                    dataList: {{dataList|dump|safe}}
+                },
+                body: [
+                    {
+                        type: "cards",
+                        source: "${dataList.rows}",
+                        card: {
+                            body: columns,
+                            header: {
+                                avatarText: "${id}",
+                                title: "提交时间：${DATETOSTR(createdAt)}",
+                                subTitle: statusTmp
+                            },
+                            toolbar: [
+                                {
+                                    type: "button",
+                                    label: "编辑",
+                                    actionType: "url",
+                                    url: "/form/index?id=${form_id}&did=${id}",
+                                    {%if formInfo.config.can_edit%}
+                                    visibleOn: "${status==0}"
+                                    {%endif%}
+                                },
+                                {
+                                    type: "button",
+                                    label: "删除",
+                                    className: "text-danger",
+                                    confirmText: "确定要删除？",
+                                    visibleOn: "${status==0}",
+                                    onEvent: {
+                                        click: {
+                                            actions: [
+                                                {
+                                                    actionType: "ajax",
+                                                    api: {
+                                                        method: "post",
+                                                        url: "/form/del",
+                                                        data: {
+                                                            id: "${id}",
+                                                            form_id: "${form_id}"
+                                                        },
+                                                        requestAdaptor: "",
+                                                        adaptor: "",
+                                                        messages: {}
+                                                    },
+                                                },
+                                                {
+                                                    actionType: "refresh"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "type": "pagination",
+                        "layout": "total,pager",
+                        "mode": "normal",
+                        "activePage": '${page}',
+                        "total": '${dataList.count}',
+                        "perPage": '${perPage}',
+                        "onEvent": {
+                            "change": {
+                                "weight": 0,
+                                "actions": [
+                                    {
+                                        "ignoreError": false,
+                                        "actionType": "url",
+                                        "args": {
+                                            "blank": false,
+                                            "url": "/form/list?form_id=${form_id}&page=${page}"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                ]
+            };
+            var amisInstance = amis.embed(
+                "#root",
+                page
+            );
+        })();
+    </script>
+</body>
+</html>

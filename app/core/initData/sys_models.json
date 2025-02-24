@@ -1,6 +1,8 @@
 {
   "RECORDS": [
     {
+      "createdAt": "2024-11-19T02:04:12.000Z",
+      "updatedAt": "2024-11-19T02:04:12.000Z",
       "uuid": "1796faf3-5ec8-42ee-8db9-9cf86af0fe12",
       "name": "sys_models",
       "desc": "模型管理",
@@ -9,6 +11,8 @@
       "app": "sys"
     },
     {
+      "createdAt": "2024-11-19T02:04:12.000Z",
+      "updatedAt": "2024-11-19T02:04:12.000Z",
       "uuid": "440166cc-cf10-44af-b8b5-b51ad699ffb3",
       "name": "sys_user",
       "desc": "系统用户",
@@ -17,6 +21,8 @@
       "app": "sys"
     },
     {
+      "createdAt": "2024-11-19T02:04:12.000Z",
+      "updatedAt": "2024-11-19T02:04:12.000Z",
       "uuid": "ef0a5dad-2ec1-41d2-9b50-ac9633e5f3a8",
       "name": "sys_models_fields",
       "desc": "模型字段表",
@@ -25,6 +31,8 @@
       "app": "sys"
     },
     {
+      "createdAt": "2024-11-19T02:04:12.000Z",
+      "updatedAt": "2024-11-19T02:04:12.000Z",
       "uuid": "b19cea90-d4c1-45b2-9e1e-e9ccb91ccc4e",
       "name": "sys_models_indexes",
       "desc": "模型索引",
@@ -33,6 +41,8 @@
       "app": "sys"
     },
     {
+      "createdAt": "2024-11-19T02:04:12.000Z",
+      "updatedAt": "2024-11-19T02:04:12.000Z",
       "uuid": "67218318-57ca-41e0-9ce0-95d6e3bd01c4",
       "name": "sys_models_associate",
       "desc": "模型关联",
@@ -41,6 +51,8 @@
       "app": "sys"
     },
     {
+      "createdAt": "2024-11-19T02:04:12.000Z",
+      "updatedAt": "2024-11-19T02:04:12.000Z",
       "uuid": "bff1476c-5357-4d00-9a04-f18e1d8c7eae",
       "name": "sys_routes",
       "desc": "路由管理",
@@ -49,6 +61,8 @@
       "app": "sys"
     },
     {
+      "createdAt": "2024-11-19T02:04:12.000Z",
+      "updatedAt": "2024-11-19T02:04:12.000Z",
       "uuid": "a6142c33-b86a-4e0a-ab45-6ea68c03d321",
       "name": "sys_routes_classify",
       "desc": "路由分类",
@@ -57,6 +71,8 @@
       "app": "sys"
     },
     {
+      "createdAt": "2024-11-19T02:04:12.000Z",
+      "updatedAt": "2024-11-19T02:04:12.000Z",
       "uuid": "161f3657-96b0-4a44-b872-92e42f446039",
       "name": "sys_user_group",
       "desc": "系统用户组",
@@ -65,6 +81,8 @@
       "app": "sys"
     },
     {
+      "createdAt": "2024-11-19T02:04:12.000Z",
+      "updatedAt": "2024-11-19T02:04:12.000Z",
       "uuid": "c6f54355-e957-4f8c-93f8-c8357dd78088",
       "name": "sys_role",
       "desc": "角色表",
@@ -73,6 +91,8 @@
       "app": "sys"
     },
     {
+      "createdAt": "2024-11-19T02:04:12.000Z",
+      "updatedAt": "2024-11-19T02:04:12.000Z",
       "uuid": "603a57cd-64c0-49bf-8019-05676ae6622f",
       "name": "sys_user_role",
       "desc": "用户角色中间表",
@@ -81,6 +101,8 @@
       "app": "sys"
     },
     {
+      "createdAt": "2024-11-19T02:04:12.000Z",
+      "updatedAt": "2024-11-19T02:04:12.000Z",
       "uuid": "ca731164-4846-4fb9-a9d4-a7741b0bfafd",
       "name": "sys_openApi",
       "desc": "开放接口",
@@ -89,6 +111,8 @@
       "app": "sys"
     },
     {
+      "createdAt": "2024-11-19T02:04:12.000Z",
+      "updatedAt": "2024-11-19T02:04:12.000Z",
       "uuid": "d0806a84-19fa-43cd-b85b-18a1999acbe8",
       "name": "cms_doc",
       "desc": "cms内容主表",
@@ -97,6 +121,8 @@
       "app": "cms"
     },
     {
+      "createdAt": "2024-11-19T02:04:12.000Z",
+      "updatedAt": "2024-11-19T02:04:12.000Z",
       "uuid": "a73f9f46-bcb7-4816-a2b8-f12d9082721b",
       "name": "cms_classify",
       "desc": "cms分类",
@@ -105,6 +131,8 @@
       "app": "cms"
     },
     {
+      "createdAt": "2024-11-19T02:04:12.000Z",
+      "updatedAt": "2024-11-19T02:04:12.000Z",
       "uuid": "e86401ba-85cb-47f7-9f53-853e26b939bd",
       "name": "cms_doc_article",
       "desc": "文章",
@@ -113,6 +141,8 @@
       "app": "cms"
     },
     {
+      "createdAt": "2024-11-19T02:04:12.000Z",
+      "updatedAt": "2024-11-19T02:04:12.000Z",
       "uuid": "4e0da60c-13af-4965-8f35-e2b13742398e",
       "name": "cms_doc_picture",
       "desc": "图片",
@@ -121,6 +151,8 @@
       "app": "cms"
     },
     {
+      "createdAt": "2024-11-19T02:04:12.000Z",
+      "updatedAt": "2024-11-19T02:04:12.000Z",
       "uuid": "aac4b5a3-89f2-4c41-9213-39f43dcc0860",
       "name": "cms_doc_download",
       "desc": "下载",
@@ -129,6 +161,8 @@
       "app": "cms"
     },
     {
+      "createdAt": "2024-11-19T02:04:12.000Z",
+      "updatedAt": "2024-11-19T02:04:12.000Z",
       "uuid": "12595142-74b1-40c3-ab20-b76ea941bcfa",
       "name": "sys_navigation",
       "desc": "系统导航",
@@ -137,6 +171,8 @@
       "app": "sys"
     },
     {
+      "createdAt": "2024-11-19T02:04:12.000Z",
+      "updatedAt": "2024-11-19T02:04:12.000Z",
       "uuid": "bbd1ba38-99cb-4c6f-84ba-23e438638a26",
       "name": "mc_member",
       "desc": "会员管理",
@@ -145,6 +181,8 @@
       "app": "mc"
     },
     {
+      "createdAt": "2024-11-19T02:04:12.000Z",
+      "updatedAt": "2024-11-19T02:04:12.000Z",
       "uuid": "6f45d480-ac5d-49fd-a36b-1265aa65c07e",
       "name": "cms_comments",
       "desc": "cms评论",
@@ -153,6 +191,8 @@
       "app": "cms"
     },
     {
+      "createdAt": "2024-11-19T02:04:12.000Z",
+      "updatedAt": "2024-11-19T02:04:12.000Z",
       "uuid": "7d611f59-0461-4a81-a9ad-6ceaa578d89b",
       "name": "cms_comments_reply",
       "desc": "cms评论回复",
@@ -161,6 +201,8 @@
       "app": "cms"
     },
     {
+      "createdAt": "2024-11-19T02:04:12.000Z",
+      "updatedAt": "2024-11-19T02:04:12.000Z",
       "uuid": "0f4dcc6a-defa-4046-a106-6a4c4a7b9c9c",
       "name": "cms_template",
       "desc": "cms模板管理",
@@ -169,6 +211,8 @@
       "app": "cms"
     },
     {
+      "createdAt": "2024-11-19T02:04:12.000Z",
+      "updatedAt": "2024-11-19T02:04:12.000Z",
       "uuid": "53b2557e-7e75-4480-a97a-dd451b206f2e",
       "name": "cms_template_list",
       "desc": "模板文件",
@@ -177,6 +221,8 @@
       "app": "cms"
     },
     {
+      "createdAt": "2024-11-19T02:04:12.000Z",
+      "updatedAt": "2024-11-19T02:04:12.000Z",
       "uuid": "8940f820-eb65-41e6-af3e-e958ac77edd7",
       "name": "sys_application",
       "desc": "应用表",
@@ -185,12 +231,94 @@
       "app": "sys"
     },
     {
+      "createdAt": "2024-11-19T02:04:12.000Z",
+      "updatedAt": "2024-11-19T02:04:12.000Z",
       "uuid": "d749c0ee-f449-45c8-a5b1-0cf5f07d6d64",
       "name": "sys_config",
       "desc": "系统配置",
-      "oldName": null,
+      "oldName": "",
       "paranoid": 0,
       "app": "sys"
+    },
+    {
+      "createdAt": "2024-11-19T02:04:12.000Z",
+      "updatedAt": "2024-11-19T02:04:12.000Z",
+      "uuid": "d347e0b9-a113-4051-addb-2a0db8f36c78",
+      "name": "cms_attachment",
+      "desc": "附件表",
+      "oldName": "",
+      "paranoid": 0,
+      "app": "cms"
+    },
+    {
+      "createdAt": "2024-12-30T08:33:01.000Z",
+      "updatedAt": "2025-01-06T06:08:23.000Z",
+      "uuid": "3ec9af37-5fa3-46d1-8b79-b4da5db4eab2",
+      "name": "form",
+      "desc": "表单表",
+      "oldName": "form_form",
+      "paranoid": 0,
+      "app": "form"
+    },
+    {
+      "createdAt": "2025-01-06T06:29:57.000Z",
+      "updatedAt": "2025-01-06T06:29:57.000Z",
+      "uuid": "a351c95e-aeaf-4326-8ce0-9567c2c7af30",
+      "name": "form_data",
+      "desc": "表单数据表",
+      "oldName": null,
+      "paranoid": 0,
+      "app": "form"
+    },
+    {
+      "createdAt": "2025-01-15T02:23:07.000Z",
+      "updatedAt": "2025-01-15T02:23:07.000Z",
+      "uuid": "bdf63bd8-6471-4311-8755-ad148e0a0bd0",
+      "name": "special",
+      "desc": "专题表",
+      "oldName": null,
+      "paranoid": 0,
+      "app": "special"
+    },
+    {
+      "createdAt": "2025-01-15T02:37:36.000Z",
+      "updatedAt": "2025-01-15T02:37:36.000Z",
+      "uuid": "92e665fa-2592-4834-92b3-f4249f0f65bc",
+      "name": "special_data",
+      "desc": "专题稿件数据",
+      "oldName": null,
+      "paranoid": 0,
+      "app": "special"
+    },
+    {
+      "createdAt": "2025-01-26T06:59:19.000Z",
+      "updatedAt": "2025-01-26T06:59:19.000Z",
+      "uuid": "b124c6e9-3856-412d-a146-1d80fe5079d5",
+      "name": "wall",
+      "desc": "签到墙活动表",
+      "oldName": null,
+      "paranoid": 0,
+      "app": "wall"
+    },
+    {
+      "createdAt": "2025-02-06T11:03:37.000Z",
+      "updatedAt": "2025-02-06T11:03:37.000Z",
+      "uuid": "09023791-7045-4e86-b4da-6ac0072ef574",
+      "name": "wall_award",
+      "desc": "签到墙奖品表",
+      "oldName": null,
+      "paranoid": 0,
+      "app": "wall"
+    },
+    {
+      "createdAt": "2025-02-06T11:15:41.000Z",
+      "updatedAt": "2025-02-06T11:15:41.000Z",
+      "uuid": "0261456c-3801-4e0d-a6fe-db79e9df7d14",
+      "name": "wall_qd_data",
+      "desc": "签到墙签到数据",
+      "oldName": null,
+      "paranoid": 0,
+      "app": "wall"
     }
   ]
 }

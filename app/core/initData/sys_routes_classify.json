@@ -1,6 +1,8 @@
 {
   "RECORDS": [
     {
+      "createdAt": "2024-11-19T02:04:13.000Z",
+      "updatedAt": "2024-11-19T02:04:13.000Z",
       "name": "后台",
       "uuid": "8f5757a3-8af9-45db-8819-d767aaddfadb",
       "middleware": "sys.authAdminToken,sys.rbac",
@@ -9,6 +11,8 @@
       "sys": 1
     },
     {
+      "createdAt": "2024-11-19T02:04:13.000Z",
+      "updatedAt": "2024-11-19T02:04:13.000Z",
       "name": "前台",
       "uuid": "dc92053d-d9cf-48ae-b0c1-6c237b5010ca",
       "middleware": null,
@@ -17,6 +21,8 @@
       "sys": 1
     },
     {
+      "createdAt": "2024-11-19T02:04:13.000Z",
+      "updatedAt": "2024-11-19T02:04:13.000Z",
       "name": "MCenter",
       "uuid": "1cfc8cb1-ca26-4d5e-8499-cc0222bbc4c9",
       "middleware": "mc.authMcToken",

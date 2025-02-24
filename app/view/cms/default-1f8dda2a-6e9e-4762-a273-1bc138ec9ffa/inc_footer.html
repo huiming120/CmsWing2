@@ -4,7 +4,7 @@
     <!-- expandable : hidden by default -->
     <div id="footer_expand" class="collapse">
         <div class="container py-3">
-      {%set footernav = 'footer'|@navigation%}
+      {%set footernav = 'footer'|@navigation(ctx)%}
       {%if footernav|length>0%}
             <ul class="mt-3 mb-0 breadcrumb bg-transparent p-0 block-xs">
                 {%for item in footernav%}

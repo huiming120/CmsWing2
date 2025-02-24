@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>专题列表</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="Shortcut Icon" href="/public/sys/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" title="default" href="/public/sys/amis/sdk.css" />
+    <link rel="stylesheet" href="/public/sys/amis/iconfont.css" />
+    <style>
+        html,body,.app-wrapper {
+            position: relative;
+            margin: 0;
+            padding: 0;
+        }
+        h2 a {
+            font-size: unset !important
+        }
+    </style>
+</head>
+<body>
+    <div id="root" class="app-wrapper"></div>
+    <script src="/public/sys/amis/sdk.js"></script>
+    <script>
+        var page = {
+            "type": "page",
+            "body": [
+                {
+                    "type": "each",
+                    "name": "${list.rows}",
+                    "items": {
+                        "type": "container",
+                        "body": [
+                            {
+                                "type": "image",
+                                "id": "u:9d6f71720113",
+                                "style": {
+                                    "display": "inline-block"
+                                },
+                                "imageMode": "thumb",
+                                "width": 160,
+                                "height": 160,
+                                "src": "${item.thumb}",
+                                "href": "/special/${item.id}.html",
+                                "enlargeAble": false,
+                                "maxScale": 200,
+                                "minScale": 50,
+                                "thumbMode": "cover",
+                                "themeCss": {
+                                    "imageControlClassName": {
+                                        "padding-and-margin:default": {
+                                            "marginRight": "20px"
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "type": "container",
+                                "body": [
+                                    {
+                                        "type": "tpl",
+                                        "tpl": "<a href='/special/${item.id}.html'>${item.title}</a>",
+                                        "inline": true,
+                                        "wrapperComponent": "h2",
+                                        "id": "u:0f1207c4c903"
+                                    },
+                                    {
+                                        "type": "datetime",
+                                        "format": "YYYY-MM-DD HH:mm:ss",
+                                        "value": "${item.createdAt}",
+                                        "id": "u:2d913483f0da"
+                                    }
+                                ],
+                                "style": {
+                                    "position": "static",
+                                    "display": "flex",
+                                    "flexWrap": "nowrap",
+                                    "flexDirection": "column",
+                                    "alignItems": "flex-start",
+                                    "flex": "1 1 auto",
+                                    "flexGrow": 1
+                                },
+                                "size": "none",
+                                "wrapperBody": false,
+                                "id": "u:4573505143ce",
+                                "isFixedHeight": false,
+                                "themeCss": {
+                                    "baseControlClassName": {
+                                        "padding-and-margin:default": {
+                                            "paddingTop": "6px"
+                                        }
+                                    }
+                                }
+                            }
+                        ],
+                        "size": "none",
+                        "style": {
+                            "position": "static",
+                            "display": "flex",
+                            "flex": "0 0 auto",
+                            "width": "100%",
+                            "overflowX": "hidden",
+                            "flexWrap": "nowrap",
+                            "alignItems": "flex-start"
+                        },
+                        "wrapperBody": false,
+                        "isFixedHeight": false,
+                        "themeCss": {
+                            "baseControlClassName": {
+                                "radius:default": {},
+                                "padding-and-margin:default": {
+                                    "marginRight": "0",
+                                    "paddingTop": "20px",
+                                    "paddingRight": "15px",
+                                    "paddingBottom": "20px",
+                                    "paddingLeft": "15px",
+                                    "marginBottom": "5px"
+                                },
+                                "border:default": {
+                                    "top-border-style": "var(--borders-style-1)",
+                                    "left-border-style": "var(--borders-style-1)",
+                                    "right-border-style": "var(--borders-style-1)",
+                                    "bottom-border-style": "var(--borders-style-2)",
+                                    "bottom-border-width": "var(--borders-width-2)",
+                                    "bottom-border-color": "rgba(204, 190, 190, 0.63)"
+                                },
+                                "background:default": "transparent"
+                            }
+                        },
+                        "id": "u:0a51f698357b",
+                        "isFixedWidth": true
+                    },
+                    "placeholder": "",
+                    "style": {
+                        "position": "static",
+                        "display": "flex",
+                        "flexWrap": "nowrap",
+                        "justifyContent": "flex-start",
+                        "alignItems": "center",
+                        "marginTop": "10px",
+                        "marginBottom": "10px",
+                        "flexDirection": "column",
+                        "width": "100%",
+                        "overflowX": "hidden",
+                        "margin": "0px auto"
+                    },
+                    "isFixedHeight": false,
+                    "isFixedWidth": true,
+                    "size": "none",
+                    "id": "specialListWrap",
+                    "themeCss": {
+                        "baseControlClassName": {
+                            "background:default": "transparent"
+                        }
+                    }
+                },
+                {
+                    "type": "pagination",
+                    "mode": "normal",
+                    "layout": [
+                        "total",
+                        "pager",
+                        "go"
+                    ],
+                    "activePage": "${page}",
+                    "lastPage": 1,
+                    "total": "${list.count}",
+                    "hasNext": false,
+                    "disabled": false,
+                    "perPage": 10,
+                    "maxButtons": 7,
+                    "ellipsisPageGap": 5,
+                    "id": "pagination",
+                    "size": "",
+                    "className": "m-t-md text-right",
+                    "onEvent": {
+                        "change": {
+                            "weight": 0,
+                            "actions": [
+                                {
+                                    "ignoreError": false,
+                                    "actionType": "url",
+                                    "args": {
+                                        "blank": false,
+                                        "url": "/special.html?page=${page}"
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            ],
+            "id": "u:47dbec27192d",
+            "asideResizor": false,
+            "pullRefresh": {
+                "disabled": true
+            },
+            "regions": [
+                "body"
+            ],
+            "data": {
+                "list": {{ list | dump | safe }},
+                "page": {{ ctx.query.page | default (1) }}
+            }
+        };
+        (function () {
+            let amis = amisRequire("amis/embed");
+            let amisInstance = amis.embed(
+                "#root",
+                page
+            );
+        })();
+    </script>
+</body>
+</html>

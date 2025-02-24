@@ -1,6 +1,8 @@
 {
   "RECORDS": [
     {
+      "createdAt": "2024-11-19T02:04:12.000Z",
+      "updatedAt": "2024-11-19T02:04:12.000Z",
       "name": "sys",
       "title": "系统应用",
       "intro": "系统应用",
@@ -10,20 +12,57 @@
       "sys": 1
     },
     {
+      "createdAt": "2024-11-19T02:04:12.000Z",
+      "updatedAt": "2024-12-26T06:16:57.000Z",
       "name": "mc",
       "title": "用户中心",
-      "intro": "用户中心",
-      "explain": "用户中心",
+      "intro": "用户注册、登录相关",
+      "explain": "用户注册、登录相关",
       "author": "arterli",
       "version": "1.0",
       "sys": 0
     },
     {
+      "createdAt": "2024-11-19T02:04:12.000Z",
+      "updatedAt": "2024-12-26T06:17:40.000Z",
       "name": "cms",
       "title": "内容管理系统",
-      "intro": "内容管理系统",
-      "explain": "内容管理系统",
+      "intro": "对外网站功能",
+      "explain": "对外网站功能",
       "author": "arterli",
+      "version": "1.0",
+      "sys": 0
+    },
+    {
+      "createdAt": "2024-12-30T08:19:42.000Z",
+      "updatedAt": "2025-01-15T02:17:08.000Z",
+      "name": "form",
+      "title": "表单",
+      "intro": "表单相关功能应用,如问卷、报名、联系我们等功能",
+      "explain": "表单功能相关(依赖mc应用)\r\n\r\n模型\r\n\r\nform、formData\r\n\r\n文件\r\n\r\napp/controller/form/*\r\napp/pages/form/*\r\napp/view/form/*\r\n",
+      "author": "ph",
+      "version": "1.0",
+      "sys": 0
+    },
+    {
+      "createdAt": "2025-01-15T02:19:05.000Z",
+      "updatedAt": "2025-01-15T02:19:05.000Z",
+      "name": "special",
+      "title": "专题",
+      "intro": "专题相关功能",
+      "explain": "专题相关功能(依赖cms应用)",
+      "author": "ph",
+      "version": "1.0",
+      "sys": 0
+    },
+    {
+      "createdAt": "2025-01-26T06:28:59.000Z",
+      "updatedAt": "2025-01-26T06:28:59.000Z",
+      "name": "wall",
+      "title": "签到墙活动",
+      "intro": "签到墙活动应用",
+      "explain": null,
+      "author": "ph",
       "version": "1.0",
       "sys": 0
     }

@@ -1,0 +1,926 @@
+{
+    "type": "page",
+    "title": "${Wall_findByPk.title} 数据管理",
+    "body": [
+        {
+            "type": "table",
+            "columns": [
+                {
+                    "label": "ID",
+                    "name": "id",
+                    "type": "text",
+                    "id": "u:51441e541b69"
+                },
+                {
+                    "type": "text",
+                    "label": "奖品名字",
+                    "name": "name",
+                    "id": "u:c608edd58306"
+                },
+                {
+                    "type": "image",
+                    "label": "奖品图片",
+                    "name": "config.icon",
+                    "id": "u:e54266442f5c"
+                },
+                {
+                    "type": "text",
+                    "label": "奖品数量",
+                    "name": "count",
+                    "id": "u:5f73fa03aa4c"
+                },
+                {
+                    "type": "text",
+                    "label": "抽奖轮次",
+                    "name": "index",
+                    "id": "u:39e482fa0f6f"
+                },
+                {
+                    "type": "status",
+                    "label": "指定中奖状态",
+                    "name": "config.winner_state",
+                    "id": "u:b64b9768cda7",
+                    "placeholder": "-",
+                    "align": "center",
+                    "quickEdit": {
+                        "mode": "popOver",
+                        "saveImmediately": {
+                            "api": {
+                                "method": "post",
+                                "url": "/graphql",
+                                "graphql": "mutation($id:ID!,$config:JSON!){WallAward_update(where:{id:{op_eq:$id}},data:{config:$config}){ids}}",
+                                "data": {
+                                    "id": "${id}",
+                                    "config": "${config}"
+                                }
+                            }
+                        },
+                        "type": "wrapper",
+                        "body": [
+                            {
+                                "type": "switch",
+                                "label": "",
+                                "option": "是否指定中奖者",
+                                "name": "config.winner_state",
+                                "falseValue": false,
+                                "trueValue": true,
+                                "id": "u:2092e052b822"
+                            }
+                        ],
+                        "id": "u:594af2ef8532"
+                    }
+                },
+                {
+                    "type": "text",
+                    "label": "指定中奖者id",
+                    "name": "config.winners",
+                    "id": "u:374b41f0abdd",
+                    "placeholder": "-",
+                    "quickEdit": {
+                        "mode": "popOver",
+                        "saveImmediately": {
+                            "api": {
+                                "method": "post",
+                                "url": "/graphql",
+                                "graphql": "mutation($id:ID!,$config:JSON!){WallAward_update(where:{id:{op_eq:$id}},data:{config:$config}){ids}}",
+                                "data": {
+                                    "id": "${id}",
+                                    "config": "${config}"
+                                }
+                            }
+                        },
+                        "type": "wrapper",
+                        "body": [
+                            {
+                                "type": "input-text",
+                                "name": "config.winners",
+                                "id": "u:dbeb2ae707ba",
+                                "multiple": true,
+                                "joinValues": false,
+                                "extractValue": true,
+                                "searchable": true,
+                                "source": {
+                                    "url": "/graphql",
+                                    "graphql": "query($id:ID!){WallQdData_findAll(where:{wall_id:{op_eq:$id}}){id,openid,data}}",
+                                    "data": {
+                                        "id": "${params.wall_id}"
+                                    },
+                                    "method": "post",
+                                    "requestAdaptor": "",
+                                    "adaptor": "",
+                                    "messages": {},
+                                    "responseData": {
+                                        "options": "${ARRAYMAP(WallQdData_findAll, item => {value: item.openid, label: item.data.nickname + '-' + item.openid})}"
+                                    }
+                                }
+                            }
+                        ],
+                        "id": "u:1772031545e4",
+                        "style": {
+                            "position": "static",
+                            "display": "block"
+                        },
+                        "isFixedHeight": false,
+                        "isFixedWidth": false
+                    }
+                },
+                {
+                    "type": "operation",
+                    "label": "操作",
+                    "id": "u:df1683c05fb9",
+                    "buttons": [
+                        {
+                            "type": "button",
+                            "label": "编辑",
+                            "onEvent": {
+                                "click": {
+                                    "actions": [
+                                        {
+                                            "ignoreError": false,
+                                            "actionType": "dialog",
+                                            "dialog": {
+                                                "$ref": "modal-ref-2",
+                                                "$$originId": "190395f3049f"
+                                            },
+                                            "data": {
+                                                "&": "$$",
+                                                "title": "编辑奖品",
+                                                "graphql": "mutation(\\$data:EditWallAward!){WallAward_update(data:\\$data,where:{id:{op_eq:${id}}}){ids}}"
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            "id": "u:4a4a2b1232ba",
+                            "level": "link"
+                        },
+                        {
+                            "type": "button",
+                            "label": "中奖名单",
+                            "onEvent": {
+                                "click": {
+                                    "actions": [
+                                        {
+                                            "ignoreError": false,
+                                            "actionType": "dialog",
+                                            "dialog": {
+                                                "$ref": "modal-ref-3"
+                                            },
+                                            "data": {
+                                                "title": "${name}-中奖名单",
+                                                "graphql": "query(\\$order:[String],\\$keywords:String){WallQdData_findAll(where:{wall_id:{op_eq:${params.wall_id}},op_or: [{data: {op_substring: \\$keywords}},{openid: {op_substring: \\$keywords}}],award_id:{op_eq:${id}}},order: [\\$order]){id,openid,createdAt,award_id,data}}"
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            "id": "u:6eccd8a06e53",
+                            "level": "link"
+                        },
+                        {
+                            "type": "button",
+                            "label": "清除中奖名单",
+                            "onEvent": {
+                                "click": {
+                                    "actions": [
+                                        {
+                                            "ignoreError": false,
+                                            "outputVar": "responseResult",
+                                            "actionType": "ajax",
+                                            "options": {},
+                                            "api": {
+                                                "url": "/graphql",
+                                                "graphql": "mutation($wall_id:Int!,$award_id:Int!){WallQdData_update(where:{wall_id:{op_eq:$wall_id},award_id:{op_eq:$award_id}},data:{award_id:0}){ids}}",
+                                                "data": {
+                                                    "wall_id": "${params.wall_id}",
+                                                    "award_id": "${id}"
+                                                },
+                                                "method": "post",
+                                                "requestAdaptor": "",
+                                                "adaptor": "",
+                                                "messages": {
+                                                    "success": "清除成功",
+                                                    "failed": "操作失败"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            "id": "u:bae7068e4f72",
+                            "level": "link",
+                            "themeCss": {
+                                "className": {
+                                    "font:default": {
+                                        "color": "var(--colors-error-5)"
+                                    }
+                                }
+                            },
+                            "confirmText": "确认要清除此奖品的中奖名单吗?"
+                        },
+                        {
+                            "type": "button",
+                            "label": "删除",
+                            "onEvent": {
+                                "click": {
+                                    "actions": [
+                                        {
+                                            "ignoreError": false,
+                                            "outputVar": "responseResult",
+                                            "actionType": "ajax",
+                                            "options": {},
+                                            "api": {
+                                                "url": "/graphql",
+                                                "graphql": "mutation($id:ID!,$iid:Int!,$wall_id:Int!){WallAward_destroy(where:{id:{op_eq:$id}}){count}WallQdData_update(where:{award_id:{op_eq:$iid},wall_id:{op_eq:$wall_id}},data:{award_id:0}){ids}}",
+                                                "data": {
+                                                    "id": "${id}",
+                                                    "iid": "${id}",
+                                                    "wall_id": "${params.wall_id}"
+                                                },
+                                                "method": "post",
+                                                "requestAdaptor": "",
+                                                "adaptor": "",
+                                                "messages": {}
+                                            }
+                                        },
+                                        {
+                                            "componentId": "u:a848cb29b3b6",
+                                            "ignoreError": false,
+                                            "actionType": "reload"
+                                        }
+                                    ]
+                                }
+                            },
+                            "id": "u:49180064bba1",
+                            "level": "link",
+                            "className": "text-danger",
+                            "confirmText": "此操作会删除奖品信息和此奖品中奖名单,确定删除吗？"
+                        }
+                    ]
+                }
+            ],
+            "id": "u:81156e9f55f4",
+            "title": "",
+            "source": "${Wall_findByPk.wall_award}",
+            "columnsTogglable": false,
+            "header": [
+                {
+                    "type": "tpl",
+                    "tpl": "奖品数据",
+                    "wrapperComponent": "",
+                    "id": "u:4edafa5377cc"
+                },
+                {
+                    "type": "button",
+                    "label": "新增奖品",
+                    "onEvent": {
+                        "click": {
+                            "actions": [
+                                {
+                                    "ignoreError": false,
+                                    "actionType": "dialog",
+                                    "dialog": {
+                                        "$ref": "modal-ref-2",
+                                        "$$originId": "190395f3049f"
+                                    },
+                                    "data": {
+                                        "&": "$$",
+                                        "graphql": "mutation(\\$data:AddWallAward){WallAward_create(data:\\$data){id}}",
+                                        "title": "新增奖品",
+                                        "wall_id": "${params.wall_id}"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "id": "u:7dea06dd6c29",
+                    "level": "primary",
+                    "themeCss": {
+                        "className": {
+                            "padding-and-margin:default": {
+                                "marginLeft": "var(--sizes-size-7)"
+                            }
+                        }
+                    }
+                }
+            ]
+        }
+    ],
+    "id": "u:a848cb29b3b6",
+    "asideResizor": false,
+    "pullRefresh": {
+        "disabled": true
+    },
+    "regions": [
+        "body",
+        "header",
+        "toolbar"
+    ],
+    "initApi": {
+        "url": "/graphql",
+        "graphql": "query($id:ID!){Wall_findByPk(id:$id){id,title,wall_award(order:[[\"index\",\"asc\"]]){id,name,count,wall_id,index,config}}}",
+        "data": {
+            "id": "${params.wall_id}"
+        },
+        "method": "post",
+        "requestAdaptor": "",
+        "adaptor": "",
+        "messages": {}
+    },
+    "toolbar": [
+        {
+            "type": "button",
+            "label": "签到数据",
+            "onEvent": {
+                "click": {
+                    "actions": [
+                        {
+                            "ignoreError": false,
+                            "actionType": "dialog",
+                            "dialog": {
+                                "$ref": "modal-ref-3"
+                            },
+                            "data": {
+                                "title": "签到数据列表",
+                                "graphql": "query(\\$order:[String],\\$keywords:String){WallQdData_findAll(where:{wall_id:{op_eq:${params.wall_id}},op_or: [{data: {op_substring: \\$keywords}},{openid: {op_substring: \\$keywords}}]},order: [\\$order]){id,openid,createdAt,award_id,data}}"
+                            }
+                        }
+                    ]
+                }
+            },
+            "id": "u:9f41f8831997",
+            "level": "primary"
+        },
+        {
+            "type": "button",
+            "label": "清除签到数据",
+            "onEvent": {
+                "click": {
+                    "actions": [
+                        {
+                            "ignoreError": false,
+                            "outputVar": "responseResult",
+                            "actionType": "ajax",
+                            "options": {},
+                            "api": {
+                                "url": "/graphql",
+                                "graphql": "mutation($wall_id:Int!){WallQdData_destroy(where:{wall_id:{op_eq:$wall_id}}){count}}",
+                                "data": {
+                                    "wall_id": "${params.wall_id}"
+                                },
+                                "method": "post",
+                                "requestAdaptor": "",
+                                "adaptor": "",
+                                "messages": {
+                                    "success": "清除成功",
+                                    "failed": "操作失败"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            "id": "u:550715bbd1e3",
+            "level": "danger",
+            "confirmText": "此操作会清除所有签到数据和中奖名单,是否要清除?"
+        },
+        {
+            "type": "button",
+            "label": "清除中所有奖数据",
+            "onEvent": {
+                "click": {
+                    "actions": [
+                        {
+                            "ignoreError": false,
+                            "outputVar": "responseResult",
+                            "actionType": "ajax",
+                            "options": {},
+                            "api": {
+                                "url": "/graphql",
+                                "graphql": "mutation($wall_id:Int!){WallQdData_update(where:{wall_id:{op_eq:$wall_id}},data:{award_id:0}){ids}}",
+                                "data": {
+                                    "wall_id": "${params.wall_id}"
+                                },
+                                "method": "post",
+                                "requestAdaptor": "",
+                                "adaptor": "",
+                                "messages": {
+                                    "success": "清除成功",
+                                    "failed": "操作失败"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            "id": "u:533b2a98123d",
+            "level": "danger",
+            "confirmText": "此操作会删除所有的中奖名单,是否要清除?"
+        }
+    ],
+    "definitions": {
+        "modal-ref-1": {
+            "type": "dialog",
+            "body": [
+                {
+                    "type": "iframe",
+                    "src": "/admin/page/cms/attachment/select",
+                    "id": "u:4c6d892f1ee7",
+                    "onEvent": {
+                        "attachment_sel": {
+                            "actions": [
+                                {
+                                    "actionType": "closeDialog",
+                                    "componentId": "attachment_sel_dialog"
+                                },
+                                {
+                                    "actionType": "broadcast",
+                                    "args": {
+                                        "eventName": "${event_name}"
+                                    },
+                                    "data": {
+                                        "eventData": "${event.data}",
+                                        "renderData": "${__rendererData}"
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            ],
+            "title": "附件选取",
+            "id": "attachment_sel_dialog",
+            "actions": [],
+            "showCloseButton": true,
+            "closeOnOutside": false,
+            "closeOnEsc": false,
+            "showErrorMsg": true,
+            "showLoading": true,
+            "draggable": false,
+            "size": "custom",
+            "editorSetting": {
+                "displayName": "附件选取"
+            },
+            "hideActions": true,
+            "actionType": "dialog",
+            "style": {
+                "width": "90%",
+                "height": "90%"
+            },
+            "$$ref": "modal-ref-1"
+        },
+        "modal-ref-2": {
+            "type": "dialog",
+            "body": [
+                {
+                    "id": "u:667f57a0f590",
+                    "type": "form",
+                    "title": "表单",
+                    "mode": "flex",
+                    "labelAlign": "right",
+                    "dsType": "api",
+                    "feat": "Insert",
+                    "body": [
+                        {
+                            "type": "hidden",
+                            "name": "wall_id",
+                            "id": "u:38902979e4ef"
+                        },
+                        {
+                            "name": "name",
+                            "label": "奖品名字",
+                            "type": "input-text",
+                            "id": "u:aeef75b66804",
+                            "maxLength": 50,
+                            "required": true,
+                            "clearValueOnEmpty": true
+                        },
+                        {
+                            "type": "group",
+                            "body": [
+                                {
+                                    "type": "container",
+                                    "body": [
+                                        {
+                                            "name": "config.icon",
+                                            "type": "input-image",
+                                            "id": "u:c9c6b40ac092",
+                                            "accept": ".jpeg, .jpg, .png, .gif",
+                                            "uploadType": "fileReceptor",
+                                            "proxy": true,
+                                            "multiple": false,
+                                            "hideUploadButton": false,
+                                            "autoUpload": true,
+                                            "receiver": {
+                                                "url": "/upload/adminToken",
+                                                "method": "post",
+                                                "requestAdaptor": "",
+                                                "adaptor": "",
+                                                "messages": {}
+                                            },
+                                            "limit": true,
+                                            "maxSize": 20971520
+                                        },
+                                        {
+                                            "type": "button",
+                                            "label": "从附件选取",
+                                            "onEvent": {
+                                                "click": {
+                                                    "actions": [
+                                                        {
+                                                            "ignoreError": false,
+                                                            "actionType": "dialog",
+                                                            "dialog": {
+                                                                "$ref": "modal-ref-1"
+                                                            },
+                                                            "data": {
+                                                                "event_name": "attachment_sel_for_add_dialog"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            "level": "link",
+                                            "id": "u:17b0b0b49e06",
+                                            "themeCss": {
+                                                "className": {
+                                                    "font:default": {
+                                                        "text-decoration": "underline"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ],
+                                    "size": "none",
+                                    "style": {
+                                        "position": "static",
+                                        "display": "flex",
+                                        "flex": "1 1 auto",
+                                        "flexGrow": 1,
+                                        "flexBasis": "0px",
+                                        "flexWrap": "nowrap",
+                                        "alignItems": "center"
+                                    },
+                                    "wrapperBody": false,
+                                    "isFixedHeight": false,
+                                    "isFixedWidth": false,
+                                    "id": "u:55b90e592908"
+                                }
+                            ],
+                            "subFormMode": "inline",
+                            "label": "奖品图片",
+                            "id": "u:b6dad24682ec"
+                        },
+                        {
+                            "name": "count",
+                            "label": "奖品数量",
+                            "type": "input-number",
+                            "id": "u:c21077ac6b6e",
+                            "keyboard": true,
+                            "step": 1,
+                            "value": 1,
+                            "required": true,
+                            "clearValueOnEmpty": true
+                        },
+                        {
+                            "name": "index",
+                            "label": "抽奖轮次",
+                            "type": "input-number",
+                            "id": "u:92372d4bb46b",
+                            "keyboard": true,
+                            "step": 1,
+                            "value": 1,
+                            "required": true
+                        },
+                        {
+                            "name": "config.winner_state",
+                            "label": "指定中奖状态",
+                            "type": "switch",
+                            "id": "u:d99a740b8a51",
+                            "value": false
+                        },
+                        {
+                            "name": "config.winners",
+                            "label": "指定中奖者openid",
+                            "type": "input-text",
+                            "id": "u:f934aeeef7d5",
+                            "multiple": true,
+                            "joinValues": false,
+                            "extractValue": true,
+                            "searchable": true,
+                            "source": {
+                                "url": "/graphql",
+                                "graphql": "query($id:ID!){WallQdData_findAll(where:{wall_id:{op_eq:$id}}){id,openid,data}}",
+                                "data": {
+                                    "id": "${wall_id}"
+                                },
+                                "method": "post",
+                                "requestAdaptor": "",
+                                "adaptor": "",
+                                "messages": {},
+                                "responseData": {
+                                    "options": "${ARRAYMAP(WallQdData_findAll, item => {value: item.openid, label: item.data.nickname + '-' + item.openid})}"
+                                }
+                            }
+                        }
+                    ],
+                    "api": {
+                        "url": "/graphql",
+                        "data": {
+                            "query": "${graphql}",
+                            "variables": {
+                                "data": {
+                                    "&": "$$"
+                                }
+                            }
+                        },
+                        "method": "post",
+                        "requestAdaptor": "",
+                        "adaptor": "",
+                        "messages": {}
+                    },
+                    "actions": [
+                        {
+                            "type": "button",
+                            "label": "提交",
+                            "onEvent": {
+                                "click": {
+                                    "actions": [
+                                        {
+                                            "actionType": "submit",
+                                            "componentId": "u:667f57a0f590"
+                                        }
+                                    ]
+                                }
+                            },
+                            "level": "primary"
+                        }
+                    ],
+                    "onEvent": {
+                        "attachment_sel_for_add_dialog": {
+                            "actions": [
+                                {
+                                    "actionType": "custom",
+                                    "script": "var values = context.getValues();\nvar config = values.config;\nconfig.icon = event.data.eventData.url;\ndoAction({ actionType: 'setValue', args: { value: { config: config } } });",
+                                    "ignoreError": false,
+                                    "args": {}
+                                }
+                            ]
+                        },
+                        "submitSucc": {
+                            "weight": 0,
+                            "actions": [
+                                {
+                                    "componentId": "u:a848cb29b3b6",
+                                    "ignoreError": false,
+                                    "actionType": "reload"
+                                }
+                            ]
+                        }
+                    },
+                    "resetAfterSubmit": true
+                }
+            ],
+            "title": "${title}",
+            "id": "u:e49faa86c891",
+            "actions": [
+                {
+                    "type": "button",
+                    "actionType": "cancel",
+                    "label": "取消",
+                    "id": "u:01d7318f5171"
+                },
+                {
+                    "type": "button",
+                    "actionType": "confirm",
+                    "label": "确定",
+                    "primary": true,
+                    "id": "u:84eef2ad3013"
+                }
+            ],
+            "showCloseButton": true,
+            "closeOnOutside": false,
+            "closeOnEsc": false,
+            "showErrorMsg": true,
+            "showLoading": true,
+            "draggable": false,
+            "actionType": "dialog",
+            "size": "md",
+            "$$originId": "190395f3049f",
+            "$$ref": "modal-ref-2",
+            "editorSetting": {
+                "displayName": "奖品编辑弹框"
+            }
+        },
+        "modal-ref-3": {
+            "type": "dialog",
+            "body": [
+                {
+                    "type": "crud",
+                    "syncLocation": false,
+                    "api": {
+                        "method": "post",
+                        "url": "/graphql",
+                        "data": {
+                            "variables": {
+                                "order": [
+                                    "${orderBy|default:id}",
+                                    "${orderDir|default:asc}"
+                                ],
+                                "keywords": "${keywords}"
+                            },
+                            "query": "${graphql}"
+                        },
+                        "requestAdaptor": "",
+                        "adaptor": "const data = payload.data.WallQdData_findAll;\r\nfor (const item of data) {\r\n    item.headimgurl = item.data.headimgurl;\r\n    delete item.data.headimgurl;\r\n    item.nickname = item.data.nickname;\r\n    delete item.data.nickname;\r\n    item.name = item.data.name;\r\n    delete item.data.name;\r\n    item.mobile = item.data.mobile;\r\n    delete item.data.mobile;\r\n}\r\nreturn payload;",
+                        "messages": {}
+                    },
+                    "bulkActions": [],
+                    "itemActions": [],
+                    "id": "u:0ec567c42527",
+                    "perPageAvailable": [
+                        5,
+                        10,
+                        20,
+                        50,
+                        100
+                    ],
+                    "messages": {},
+                    "autoFillHeight": true,
+                    "columns": [
+                        {
+                            "name": "id",
+                            "label": "ID",
+                            "type": "text",
+                            "id": "u:591b1cd0eb9c",
+                            "placeholder": "-",
+                            "sortable": true
+                        },
+                        {
+                            "type": "tpl",
+                            "tpl": "${DATETOSTR(createdAt)}",
+                            "inline": true,
+                            "wrapperComponent": "",
+                            "label": "签到时间",
+                            "id": "u:a421da7afcec"
+                        },
+                        {
+                            "type": "text",
+                            "label": "用户openid",
+                            "name": "openid",
+                            "id": "u:2b09d88ddb7a"
+                        },
+                        {
+                            "type": "text",
+                            "label": "用户昵称",
+                            "name": "nickname",
+                            "id": "u:a18f727f713b"
+                        },
+                        {
+                            "type": "image",
+                            "label": "用户头像",
+                            "name": "headimgurl",
+                            "id": "u:e3a1e16efbf0"
+                        },
+                        {
+                            "type": "text",
+                            "label": "用户姓名",
+                            "name": "name",
+                            "id": "u:f805c858d8d5"
+                        },
+                        {
+                            "type": "text",
+                            "label": "用户手机号",
+                            "name": "mobile",
+                            "id": "u:98754b7be314"
+                        },
+                        {
+                            "type": "json",
+                            "name": "data",
+                            "label": "其他签到数据",
+                            "id": "u:ee4e0c8b1f81"
+                        },
+                        {
+                            "type": "text",
+                            "label": "中奖奖品id",
+                            "name": "award_id",
+                            "id": "u:a311f428df0f"
+                        },
+                        {
+                            "type": "operation",
+                            "label": "操作",
+                            "buttons": [
+                                {
+                                    "type": "button",
+                                    "label": "删除",
+                                    "actionType": "ajax",
+                                    "level": "link",
+                                    "className": "text-danger",
+                                    "confirmText": "确定要删除此条签到数据吗?",
+                                    "api": {
+                                        "method": "post",
+                                        "url": "/graphql",
+                                        "graphql": "mutation($id:ID!){WallQdData_destroy(where:{id:{op_eq:$id}}){count}}",
+                                        "data": {
+                                            "id": "${id}"
+                                        },
+                                        "requestAdaptor": "",
+                                        "adaptor": "",
+                                        "messages": {}
+                                    },
+                                    "editorSetting": {
+                                        "behavior": "delete"
+                                    },
+                                    "id": "u:322724a1ee72"
+                                }
+                            ],
+                            "id": "u:e796bdaf0725"
+                        }
+                    ],
+                    "headerToolbar": [
+                        {
+                            "type": "bulk-actions"
+                        },
+                        {
+                            "type": "tpl",
+                            "tpl": "总共 ${WallQdData_findAll.length} 项",
+                            "wrapperComponent": "",
+                            "id": "u:02d22cec984b",
+                            "visibleOn": "${WallQdData_findAll.length>0}"
+                        },
+                        {
+                            "type": "export-excel",
+                            "tpl": "内容",
+                            "wrapperComponent": "",
+                            "id": "u:cc1ee2823bb5",
+                            "align": "right"
+                        }
+                    ],
+                    "source": "${WallQdData_findAll}",
+                    "filter": {
+                        "title": "查询条件",
+                        "body": [
+                            {
+                                "type": "input-text",
+                                "name": "keywords",
+                                "label": "",
+                                "id": "u:aafb418c3508",
+                                "clearable": true,
+                                "maxLength": 20,
+                                "addOn": {
+                                    "label": "搜索",
+                                    "type": "submit",
+                                    "id": "u:aecd3f0c3b1e"
+                                },
+                                "placeholder": "输入关键词搜索",
+                                "size": "lg"
+                            }
+                        ],
+                        "id": "u:2f47b01cf603",
+                        "actions": [
+                            {
+                                "type": "submit",
+                                "label": "搜索",
+                                "primary": true,
+                                "id": "u:ebb3006405e8"
+                            }
+                        ],
+                        "feat": "Insert",
+                        "labelAlign": "left",
+                        "wrapWithPanel": false,
+                        "mode": "inline"
+                    }
+                }
+            ],
+            "title": "${title}",
+            "id": "u:cb188b9eaa54",
+            "actions": [
+                {
+                    "type": "button",
+                    "actionType": "cancel",
+                    "label": "取消",
+                    "id": "u:bafee8c45c3c"
+                },
+                {
+                    "type": "button",
+                    "actionType": "confirm",
+                    "label": "确定",
+                    "primary": true,
+                    "id": "u:4b5d0e0b8ac8"
+                }
+            ],
+            "showCloseButton": true,
+            "closeOnOutside": true,
+            "closeOnEsc": true,
+            "showErrorMsg": true,
+            "showLoading": true,
+            "draggable": false,
+            "editorSetting": {
+                "displayName": "签到数据列表"
+            },
+            "size": "xl",
+            "hideActions": true,
+            "$$ref": "modal-ref-3"
+        }
+    }
+}

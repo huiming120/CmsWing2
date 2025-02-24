@@ -1,69 +1,97 @@
 {
-  "type": "page",
-  "title": false,
-  "body": [
-    {
-      "type": "grid",
-      "columns": [
+    "type": "page",
+    "title": false,
+    "body": [
         {
-          "type": "panel",
-          "title": "系统信息",
-          "name": "chart-local",
-          "body": [
-            {
-              "type": "crud",
-              "api": "/admin/sys/sysInfo",
-              "affixHeader": false,
-              "combineNum": 1,
-              "columns": [
+            "type": "grid",
+            "columns": [
                 {
-                  "name": "name",
-                  "label": "",
-                  "isHead": true
+                    "body": [
+                        {
+                            "type": "panel",
+                            "title": "系统信息",
+                            "name": "chart-local",
+                            "body": [
+                                {
+                                    "type": "crud",
+                                    "api": "/admin/sys/sysInfo",
+                                    "affixHeader": false,
+                                    "combineNum": 1,
+                                    "columns": [
+                                        {
+                                            "name": "name",
+                                            "label": "",
+                                            "isHead": true,
+                                            "id": "u:3b9223869b66"
+                                        },
+                                        {
+                                            "name": "value",
+                                            "type": "tpl",
+                                            "label": "",
+                                            "id": "u:cc5544908bb3"
+                                        }
+                                    ],
+                                    "id": "u:0aca3e8abf1a"
+                                }
+                            ],
+                            "id": "u:685dd1eb945b"
+                        }
+                    ],
+                    "id": "u:14b8966f9440"
                 },
                 {
-                  "name": "value",
-                  "type":"tpl",
-                  "label": ""
+                    "body": [
+                        {
+                            "type": "panel",
+                            "title": "CmsWing 开发团队",
+                            "name": "chart-local",
+                            "body": [
+                                {
+                                    "type": "crud",
+                                    "api": "/admin/sys/team",
+                                    "affixHeader": false,
+                                    "combineNum": 1,
+                                    "columns": [
+                                        {
+                                            "name": "name",
+                                            "label": "",
+                                            "isHead": true,
+                                            "id": "u:7d47b4324f22"
+                                        },
+                                        {
+                                            "name": "value",
+                                            "type": "tpl",
+                                            "label": "",
+                                            "id": "u:a539a57c1e6f"
+                                        }
+                                    ],
+                                    "id": "u:6310eb2b9e51"
+                                }
+                            ],
+                            "id": "u:065ca44331fe",
+                            "visibleOn": "${userInfo.admin}"
+                        }
+                    ],
+                    "id": "u:3a7a5f811a40"
                 }
-              ]
-            }
-          ]
+            ],
+            "id": "u:ac61f9e76368"
         },
         {
-          "type": "panel",
-          "title": "CmsWing 开发团队",
-          "name": "chart-local",
-          "body": [
-            {
-              "type": "crud",
-              "api": "/admin/sys/team",
-              "affixHeader": false,
-              "combineNum": 1,
-              "columns": [
-                {
-                  "name": "name",
-                  "label": "",
-                  "isHead": true
-                },
-                {
-                  "name": "value",
-                  "type":"tpl",
-                  "label": ""
-                }
-              ]
-            }
-          ]
+            "type": "iframe",
+            "height": "450px",
+            "src": "/admin/sys/gitee",
+            "id": "u:54350d251be6",
+            "visibleOn": "${userInfo.admin}"
         }
-      ]
+    ],
+    "id": "u:0fdc9e106470",
+    "messages": {},
+    "pullRefresh": {
+        "disabled": true
     },
-    {
-      "type": "iframe",
-      "height":"450px",
-      "src": "/admin/sys/gitee"
-    }
-  ],
-  "id": "u:0fdc9e106470",
-  "messages": {},
-  "pullRefresh": {}
+    "asideResizor": false,
+    "regions": [
+        "body"
+    ]
 }

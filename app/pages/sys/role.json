@@ -1,192 +1,378 @@
 {
-  "type": "page",
-  "title": "",
-  "body": [
-    {
-      "type": "crud",
-      "syncLocation": false,
-      "api": "/admin/sys/role/roleList",
-      "columns": [
-        { "name": "id", "label": "ID", "type": "text", "id": "u:95335406ebd3" },
+    "type": "page",
+    "title": "",
+    "body": [
         {
-          "name": "name",
-          "label": "名称",
-          "type": "text",
-          "searchable": true,
-          "id": "u:f34d9f6f5cee"
-        },
-        {
-          "type": "text",
-          "label": "备注",
-          "name": "desc",
-          "id": "u:854f814f9940"
-        },
-        {
-          "type": "date",
-          "label": "创建时间",
-          "name": "createdAt",
-          "id": "u:8fbb85400f10"
-        },
-        {
-          "type": "date",
-          "label": "修改时间",
-          "name": "updatedAt",
-          "id": "u:62a4096c5018"
-        },
-        {
-          "type": "operation",
-          "label": "操作",
-          "buttons": [
-            {
-              "label": "编辑",
-              "type": "button",
-              "actionType": "dialog",
-              "level": "link",
-              "dialog": {
-                "title": "编辑角色",
-                "size": "lg",
-                "body": {
-                  "type": "form",
-                  "api": "/admin/sys/role/update",
-                  "body": [
-                    {
-                      "type": "group",
-                      "body": [
-                        {
-                          "type": "input-text",
-                          "name": "name",
-                          "label": "角色名称",
-                          "columnRatio": 4,
-                          "required":true
-                        },
-                        {
-                          "type": "input-text",
-                          "name": "desc",
-                          "label": "角色备注",
-                          "required":true
-                        }
-                      ]
-                    },
-                    {
-                      "type": "group",
-                      "body": [
-                        {
-                          "type": "input-tree",
-                          "name": "r_uuids",
-                          "label": "路由权限",
-                          "multiple": true,
-                          "cascade": true,
-                          "source": "/admin/sys/role/routingNode",
-                          "required":true
-                        },
-                        {
-                          "type": "input-tree",
-                          "name": "g_uuids",
-                          "label": "GraphQL",
-                          "multiple": true,
-                          "cascade": true,
-                          "source": "/admin/sys/role/graphQL",
-                          "required":true
-                        }
-                      ]
-                    },
-                    {
-                      "type": "hidden",
-                      "name": "uuid"
-                    }
-                  ]
-                }
-              },
-              "id": "u:fc9b3f3483b3"
-            },
-            {
-              "type": "button",
-              "label": "删除",
-              "actionType": "ajax",
-              "level": "link",
-              "className": "text-danger",
-              "confirmText": "确定要删除？",
-              "api": "get:/admin/sys/role/del?uuid=${uuid}",
-              "id": "u:fa399127d4ac"
-            }
-          ],
-          "id": "u:170bf3ee1894"
-        }
-      ],
-      "bulkActions": [],
-      "itemActions": [],
-      "features": ["filter", "update", "delete", "create"],
-      "filterColumnCount": 3,
-      "headerToolbar": [
-        {
-          "label": "新增角色",
-          "type": "button",
-          "actionType": "dialog",
-          "level": "primary",
-          "align":"right",
-          "dialog": {
-            "title": "新增角色",
-            "size": "lg",
-            "body": {
-              "type": "form",
-              "debug": false,
-              "api": { "method": "post", "url": "/admin/sys/role/addRole" },
-              "body": [
+            "type": "crud",
+            "syncLocation": false,
+            "api": "/admin/sys/role/roleList",
+            "columns": [
                 {
-                  "type": "group",
-                  "body": [
-                    {
-                      "type": "input-text",
-                      "name": "name",
-                      "label": "角色名称",
-                      "columnRatio": 4,
-                      "required":true
-                    },
-                    {
-                      "type": "input-text",
-                      "name": "desc",
-                      "label": "角色备注",
-                      "required":true
-                    }
-                  ]
+                    "name": "id",
+                    "label": "ID",
+                    "type": "text",
+                    "id": "u:95335406ebd3"
                 },
                 {
-                  "type": "group",
-                  "body": [
-                    {
-                      "type": "input-tree",
-                      "name": "r_uuids",
-                      "label": "路由权限",
-                      "multiple": true,
-                      "cascade": true,
-                      "source": "/admin/sys/role/routingNode",
-                      "required":true
-                    },
-                    {
-                      "type": "input-tree",
-                      "name": "g_uuids",
-                      "label": "GraphQL",
-                      "multiple": true,
-                      "cascade": true,
-                      "source": "/admin/sys/role/graphQL",
-                      "required":true
-                    }
-                  ]
+                    "name": "name",
+                    "label": "名称",
+                    "type": "text",
+                    "searchable": true,
+                    "id": "u:f34d9f6f5cee"
+                },
+                {
+                    "type": "text",
+                    "label": "备注",
+                    "name": "desc",
+                    "id": "u:854f814f9940"
+                },
+                {
+                    "type": "date",
+                    "label": "创建时间",
+                    "name": "createdAt",
+                    "id": "u:8fbb85400f10"
+                },
+                {
+                    "type": "date",
+                    "label": "修改时间",
+                    "name": "updatedAt",
+                    "id": "u:62a4096c5018"
+                },
+                {
+                    "type": "operation",
+                    "label": "操作",
+                    "buttons": [
+                        {
+                            "label": "编辑",
+                            "type": "button",
+                            "actionType": "dialog",
+                            "level": "link",
+                            "dialog": {
+                                "type": "dialog",
+                                "title": "编辑角色",
+                                "size": "lg",
+                                "body": [
+                                    {
+                                        "type": "form",
+                                        "api": "/admin/sys/role/update",
+                                        "body": [
+                                            {
+                                                "type": "group",
+                                                "body": [
+                                                    {
+                                                        "type": "input-text",
+                                                        "name": "name",
+                                                        "label": "角色名称",
+                                                        "columnRatio": 4,
+                                                        "required": true,
+                                                        "id": "u:b0c044784035"
+                                                    },
+                                                    {
+                                                        "type": "input-text",
+                                                        "name": "desc",
+                                                        "label": "角色备注",
+                                                        "required": true,
+                                                        "id": "u:fabc2944c39f"
+                                                    }
+                                                ],
+                                                "id": "u:6cf8b1ae0fec"
+                                            },
+                                            {
+                                                "type": "group",
+                                                "body": [
+                                                    {
+                                                        "type": "input-tree",
+                                                        "name": "r_uuids",
+                                                        "label": "路由权限",
+                                                        "multiple": true,
+                                                        "cascade": true,
+                                                        "source": "/admin/sys/role/routingNode",
+                                                        "required": true,
+                                                        "id": "u:c57302a60f89",
+                                                        "heightAuto": true,
+                                                        "autoCheckChildren": true,
+                                                        "nodeBehavior": [
+                                                            "check"
+                                                        ],
+                                                        "themeCss": {
+                                                            "actionControlClassName": {
+                                                                "marginLeft": ""
+                                                            }
+                                                        },
+                                                        "enableNodePath": false,
+                                                        "hideRoot": true,
+                                                        "showIcon": true,
+                                                        "initiallyOpen": true,
+                                                        "wrapperCustomStyle": {
+                                                            "root": {
+                                                                "height": "400px"
+                                                            }
+                                                        }
+                                                    },
+                                                    {
+                                                        "type": "input-tree",
+                                                        "name": "g_uuids",
+                                                        "label": "GraphQL",
+                                                        "multiple": true,
+                                                        "cascade": true,
+                                                        "source": "/admin/sys/role/graphQL",
+                                                        "required": true,
+                                                        "id": "u:5faa2e407f97",
+                                                        "heightAuto": true,
+                                                        "autoCheckChildren": true,
+                                                        "nodeBehavior": [
+                                                            "check"
+                                                        ],
+                                                        "themeCss": {
+                                                            "actionControlClassName": {
+                                                                "marginLeft": ""
+                                                            }
+                                                        },
+                                                        "enableNodePath": false,
+                                                        "hideRoot": true,
+                                                        "showIcon": true,
+                                                        "initiallyOpen": true,
+                                                        "wrapperCustomStyle": {
+                                                            "root": {
+                                                                "height": "400px"
+                                                            }
+                                                        }
+                                                    }
+                                                ],
+                                                "id": "u:0efd3a527252"
+                                            },
+                                            {
+                                                "type": "hidden",
+                                                "name": "uuid",
+                                                "id": "u:125ee36385af"
+                                            }
+                                        ],
+                                        "id": "u:8f6226316d5e",
+                                        "actions": [
+                                            {
+                                                "type": "submit",
+                                                "label": "提交",
+                                                "primary": true
+                                            }
+                                        ],
+                                        "feat": "Insert",
+                                        "dsType": "api",
+                                        "labelAlign": "left",
+                                        "debug": false
+                                    }
+                                ],
+                                "actionType": "dialog",
+                                "id": "u:e77a7bddd999",
+                                "actions": [
+                                    {
+                                        "type": "button",
+                                        "actionType": "cancel",
+                                        "label": "取消",
+                                        "id": "u:3201f4c006ce"
+                                    },
+                                    {
+                                        "type": "button",
+                                        "actionType": "confirm",
+                                        "label": "确定",
+                                        "primary": true,
+                                        "id": "u:f7816d9bc977"
+                                    }
+                                ],
+                                "showCloseButton": true,
+                                "closeOnOutside": false,
+                                "closeOnEsc": false,
+                                "showErrorMsg": true,
+                                "showLoading": true,
+                                "draggable": false
+                            },
+                            "id": "u:fc9b3f3483b3"
+                        },
+                        {
+                            "type": "button",
+                            "label": "删除",
+                            "actionType": "ajax",
+                            "level": "link",
+                            "className": "text-danger",
+                            "confirmText": "确定要删除？",
+                            "api": "get:/admin/sys/role/del?uuid=${uuid}",
+                            "id": "u:fa399127d4ac"
+                        }
+                    ],
+                    "id": "u:170bf3ee1894"
                 }
-              ]
-            }
-          },
-          "id": "u:d6d1df93f57f"
-        },
-        "bulkActions"
-      ],
-      "id": "u:4d4883b970f6",
-      "perPageAvailable": [10],
-      "messages": {},
-      "initFetch": true
-    }
-  ],
-  "id": "u:03208fb1fc17",
-  "messages": {},
-  "pullRefresh": {}
+            ],
+            "bulkActions": [],
+            "itemActions": [],
+            "features": [
+                "filter",
+                "update",
+                "delete",
+                "create"
+            ],
+            "filterColumnCount": 3,
+            "headerToolbar": [
+                {
+                    "label": "新增角色",
+                    "type": "button",
+                    "actionType": "dialog",
+                    "level": "primary",
+                    "align": "right",
+                    "dialog": {
+                        "type": "dialog",
+                        "title": "新增角色",
+                        "size": "lg",
+                        "body": [
+                            {
+                                "type": "form",
+                                "debug": false,
+                                "api": {
+                                    "method": "post",
+                                    "url": "/admin/sys/role/addRole"
+                                },
+                                "body": [
+                                    {
+                                        "type": "group",
+                                        "body": [
+                                            {
+                                                "type": "input-text",
+                                                "name": "name",
+                                                "label": "角色名称",
+                                                "columnRatio": 4,
+                                                "required": true,
+                                                "id": "u:e4771ee77f62"
+                                            },
+                                            {
+                                                "type": "input-text",
+                                                "name": "desc",
+                                                "label": "角色备注",
+                                                "required": true,
+                                                "id": "u:cf2a4d86acd5"
+                                            }
+                                        ],
+                                        "id": "u:2daa3bbc1b5f"
+                                    },
+                                    {
+                                        "type": "group",
+                                        "body": [
+                                            {
+                                                "type": "input-tree",
+                                                "name": "r_uuids",
+                                                "label": "路由权限",
+                                                "multiple": true,
+                                                "cascade": true,
+                                                "source": "/admin/sys/role/routingNode",
+                                                "required": true,
+                                                "id": "u:f995a3856fe7",
+                                                "heightAuto": true,
+                                                "autoCheckChildren": true,
+                                                "nodeBehavior": [
+                                                    "check"
+                                                ],
+                                                "themeCss": {
+                                                    "actionControlClassName": {
+                                                        "marginLeft": ""
+                                                    }
+                                                },
+                                                "enableNodePath": false,
+                                                "hideRoot": true,
+                                                "showIcon": true,
+                                                "initiallyOpen": true,
+                                                "wrapperCustomStyle": {
+                                                    "root": {
+                                                        "height": "400px"
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "type": "input-tree",
+                                                "name": "g_uuids",
+                                                "label": "GraphQL",
+                                                "multiple": true,
+                                                "cascade": true,
+                                                "source": "/admin/sys/role/graphQL",
+                                                "required": true,
+                                                "id": "u:13ac91b8ff56",
+                                                "heightAuto": true,
+                                                "autoCheckChildren": true,
+                                                "nodeBehavior": [
+                                                    "check"
+                                                ],
+                                                "themeCss": {
+                                                    "actionControlClassName": {
+                                                        "marginLeft": ""
+                                                    }
+                                                },
+                                                "enableNodePath": false,
+                                                "hideRoot": true,
+                                                "showIcon": true,
+                                                "initiallyOpen": true,
+                                                "wrapperCustomStyle": {
+                                                    "root": {
+                                                        "height": "400px"
+                                                    }
+                                                }
+                                            }
+                                        ],
+                                        "id": "u:a513cada0ba9"
+                                    }
+                                ],
+                                "id": "u:0c2b8e4d2f40",
+                                "actions": [
+                                    {
+                                        "type": "submit",
+                                        "label": "提交",
+                                        "primary": true
+                                    }
+                                ],
+                                "feat": "Insert",
+                                "dsType": "api",
+                                "labelAlign": "left"
+                            }
+                        ],
+                        "actionType": "dialog",
+                        "id": "u:68df57672add",
+                        "actions": [
+                            {
+                                "type": "button",
+                                "actionType": "cancel",
+                                "label": "取消",
+                                "id": "u:08b847448714"
+                            },
+                            {
+                                "type": "button",
+                                "actionType": "confirm",
+                                "label": "确定",
+                                "primary": true,
+                                "id": "u:c8d5ffef445c"
+                            }
+                        ],
+                        "showCloseButton": true,
+                        "closeOnOutside": false,
+                        "closeOnEsc": false,
+                        "showErrorMsg": true,
+                        "showLoading": true,
+                        "draggable": false
+                    },
+                    "id": "u:d6d1df93f57f"
+                },
+                "bulkActions"
+            ],
+            "id": "u:4d4883b970f6",
+            "perPageAvailable": [
+                10
+            ],
+            "messages": {},
+            "initFetch": true
+        }
+    ],
+    "id": "u:03208fb1fc17",
+    "messages": {},
+    "pullRefresh": {
+        "disabled": true
+    },
+    "asideResizor": false,
+    "regions": [
+        "body"
+    ],
+    "definitions": {}
 }

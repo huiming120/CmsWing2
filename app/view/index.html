@@ -1,15 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 </head>
+
 <body>
-  {{ctx.app.config.pkg.version}}
-  <!-- {{'cms_doc'|@findOne({where:{id:1} })|dump}} -->
-
-
+    {{ctx.app.config.pkg.version}}
+    {# <br> #}
+    {# {{'cms_doc'|@findOne({ where: { id: 1 }, include: 'cms_doc_article' }, ctx)|dump}} #}
+    {# {{'cms_doc'|@findAll({ include: 'cms_doc_article' }, ctx)|dump}} #}
+    {# {{'cms'|@template('path')}} #}
+    {# {{'header'|@navigation(ctx)|dump}} #}
+    {# {{'111'|@mc_menu(ctx)|dump}} #}
+    {# {{1|@classify('top',ctx)|dump}}  #}
+    {# {{'templateInfo'|@cache()|dump}} #}
 </body>
+
 </html>

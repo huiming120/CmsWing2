@@ -1,0 +1,428 @@
+{% extends "./inc_base.html" %}
+{%block body%}class="header-scroll-reveal"{%endblock%}
+{% block middle %}
+<style>
+    .fi.fw-bold::before {
+        font-weight: unset;
+    }
+</style>
+<div class="container py-4">
+    <div class="row g-4">
+        <!-- sidebar -->
+        {% include "./inc_sidebar.html" %}
+        <!-- content -->
+        <div class="col-12 col-lg-10">
+            <div class="row g-2">
+                <!-- name, etc -->
+                <div class="card mb-3">
+                    <div class="card-body d-flex justify-content-between">
+                        <div class="d-flex">
+                            <label style="width:120px;height: 120px;" class="me-4 rounded-circle text-center position-relative d-inline-block cursor-pointer border border-secondary border-dashed bg-white">
+                                <a href="#" class="js-file-upload-avatar-ajax-circle-remove hide position-absolute w-100 z-index-3">
+                                    <span class="d-inline-block btn btn-sm btn-pill bg-secondary text-white p-0 m-1 mt-n3 lh-1 d-inline-flex align-items-center justify-content-center" style="width:30px;height:30px" title="删除头像" data-tooltip="tooltip">
+                                        <i class="fi fi-close m-0"></i>
+                                    </span>
+                                </a>
+                                <span class="z-index-2 js-file-input-avatar-ajax-circle-container d-block absolute-full z-index-1 hide-empty">
+                                    {%if ctx.userInfo.avatar %}
+                                    <span data-id="0" data-file-name="avatar.jpg" style="background-image:url('{{ctx.userInfo.avatar}}')" class="js-file-input-item d-inline-block position-relative overflow-hidden text-center rounded-circle m-0 p-0 animate-bouncein bg-cover w-100 h-100"></span>
+                                    {%endif%}
+                                </span>
+                                <input type="file" name="file" data-file-ext="jpg, png, gif" data-file-max-size-kb-per-file="11500" data-file-ext-err-msg="Allowed:" data-file-size-err-item-msg="File too large!" data-file-size-err-total-msg="Total allowed size exceeded!" data-file-toast-position="bottom-center" data-file-preview-container=".js-file-input-avatar-ajax-circle-container" data-file-preview-show-info="false" data-file-preview-class="rounded-circle m-0 p-0 animate-bouncein" data-file-preview-img-height="100%" data-file-btn-clear="a.js-file-upload-avatar-ajax-circle-remove" data-file-preview-img-cover="true" data-file-ajax-upload-enable="true" data-file-ajax-upload-url="/mc/setup/avatar" data-file-ajax-upload-params="['action','upload']['param2','value2']" data-file-ajax-delete-enable="true" data-file-ajax-delete-url="/mc/setup/avatar" data-file-ajax-delete-params="['action','delete']" data-file-ajax-toast-success-txt="Successfully Uploaded!" data-file-ajax-toast-error-txt="One or more files not uploaded!" data-file-ajax-callback-function="mc_file_upload_callback" class="custom-file-input absolute-full">
+                                <i class="fi fi-users fw-bold text-gray-400" style="font-size: 60px;line-height: 120px;"></i>
+                            </label>
+                            <span>
+                                <strong class="d-block fs-5 fw-medium">账号</strong>
+                                <small>{{member.username or '未设置账号'}}</small>
+                            </span>
+                        </div>
+                        {%if not member.username%}
+                        <span class="flex-none">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#modal-username-edit" class="bg-primary text-white rounded px-2 py-1 small">设置账号</a>
+                        </span>
+                        {%endif%}
+                    </div>
+                </div>
+                {%if not member.username%}
+                <!-- Modal : UserName -->
+                <div class="modal fade" id="modal-username-edit" tabindex="-1" aria-hidden="true">
+                    <form method="post" action="/mc/setup/updateInfo" novalidate class="bs-validate modal-dialog modal-dialog-centered js-ajax" data-ajax-update-url="false" data-ajax-show-loading-icon="true" data-error-toast-text="<i class='fi fi-circle-spin fi-spin float-start'></i> 请填写所有必填字段！" data-error-toast-delay="3000" data-error-toast-position="top-center" data-error-scroll-up="true" data-ajax-callback-function="mc_update_callback">
+                        <div class="modal-content">
+                            <div class="modal-header border-0 pb-0 px-4">
+                                <h5 class="modal-title">设置账号</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body p-4">
+                                <div class="row g-2">
+                                    <div class="col-12">
+                                        <div class="form-floating">
+                                            <input required type="text" class="form-control" id="username" name="username" minlength="2" maxlength="15" placeholder="请输入账号" autocomplete="off">
+                                            <label for="username">请输入账号</label>
+                                            <div id="emailHelp" class="form-text text-end">格式为2-15个(中、英、数字)字符组合</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer border-0 pt-0">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fi fi-check me-0"></i>
+                                    <span class="ps-2">设置</span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                {%endif%}
+                <!-- mobile -->
+                <div class="card mb-3">
+                    <div class="card-body d-flex justify-content-between">
+                        <span class="flex-none" style="width:40px">
+                            <i class="fi fi-smart-devices fs-4 fw-bold text-gray-400"></i>
+                        </span>
+                        <span class="w-100">
+                            <strong class="d-block fs-5 fw-medium">手机号</strong>
+                            <small>{{member.mobile or '未绑定手机'}}</small>
+                        </span>
+                        <span class="flex-none">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#modal-mobile-edit" class="bg-primary text-white rounded px-2 py-1 small">{{'修改' if member.mobile else '绑定'}}</a>
+                        </span>
+                    </div>
+                </div>
+                <!-- Modal : Mobile -->
+                <div class="modal fade" id="modal-mobile-edit" tabindex="-1" aria-hidden="true">
+                    <form method="post" action="/mc/setup/upMobile" novalidate class="bs-validate modal-dialog modal-dialog-centered js-ajax" data-ajax-update-url="false" data-ajax-show-loading-icon="true" data-error-toast-text="<i class='fi fi-circle-spin fi-spin float-start'></i> 请填写所有必填字段！" data-error-toast-delay="3000" data-error-toast-position="top-center" data-error-scroll-up="true" data-ajax-callback-function="mc_update_callback">
+                        <div class="modal-content">
+                            <div class="modal-header border-0 pb-0 px-4">
+                                <h5 class="modal-title">绑定手机</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body p-4">
+                                <div class="row g-2">
+                                    <div class="col-12">
+                                        <div class="input-group-over">
+                                            <div class="form-floating">
+                                                <input required type="tel" class="form-control" id="mobile" name="mobile" minlength="11" maxlength="11" placeholder="电话" value="{{member.mobile}}">
+                                                <label for="mobile">手机号</label>
+                                            </div>
+                                            <button id="sendSmsBtn" type="button" class="btn btn-pill text-muted timer-countdown-inline" data-target="#mobile" data-timer-countdown-from="59000" data-timer-countdown-callback-function="sendSMSCountdownCallback" data-timer-countdown-end-hide-target=".countdownTip" onclick="onSendSMSBtnClick(this)"><span class="s">发送短信</span><span class="countdownTip hide"> 秒后重试</span></button>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-floating">
+                                            <input required type="number" class="form-control" id="code" name="code" placeholder="短信验证码">
+                                            <label for="code">短信验证码</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-floating">
+                                            <input required type="password" class="form-control" name="password" placeholder="登录密码" autocomplete="password">
+                                            <label for="password">登录密码</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer border-0 pt-0">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fi fi-check me-0"></i>
+                                    <span class="ps-2">保存更改</span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- email -->
+                <div class="card mb-3">
+                    <div class="card-body d-flex justify-content-between">
+                        <span class="flex-none" style="width:40px">
+                            <i class="fi fi-envelope fs-4 fw-bold text-gray-400"></i>
+                        </span>
+                        <span class="w-100">
+                            <strong class="d-block fs-5 fw-medium">电子邮箱地址</strong>
+                            <small>{{member.email or '未绑定邮箱'}}</small>
+                        </span>
+                        <span class="flex-none">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#modal-email-edit" class="bg-primary text-white rounded px-2 py-1 small">{{'修改' if member.email else '绑定'}}</a>
+                        </span>
+                    </div>
+                </div>
+                <!-- Modal : Email address -->
+                <div class="modal fade" id="modal-email-edit" tabindex="-1" aria-hidden="true">
+                    <form id="update_email_form" method="post" action="/mc/setup/upEmail" novalidate class="bs-validate modal-dialog modal-dialog-centered js-ajax" data-ajax-update-url="false" data-ajax-show-loading-icon="true" data-error-toast-text="<i class='fi fi-circle-spin fi-spin float-start'></i> 请填写所有必填字段！" data-error-toast-delay="3000" data-error-toast-position="top-center" data-error-scroll-up="true" data-ajax-callback-function="mc_update_callback">
+                        <div class="modal-content">
+                            <div class="modal-header border-0 pb-0 px-4">
+                                <h5 class="modal-title">更新邮箱</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body p-4">
+                                <div class="row g-2">
+                                    <div class="col-12">
+                                        <div class="form-floating">
+                                            <input required type="email" class="form-control" id="email" name="email" placeholder="新的邮箱" value="{{member.email}}" autocomplete="off">
+                                            <label for="email">新的邮箱</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-floating">
+                                            <input required type="password" class="form-control" id="password" name="password" placeholder="登录密码" autocomplete="password">
+                                            <label for="password">登录密码</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer border-0 pt-0">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fi fi-check me-0"></i>
+                                    <span class="ps-2">保存更改</span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- password -->
+                <div class="card mb-3">
+                    <div class="card-body d-flex justify-content-between">
+                        <span class="flex-none" style="width:40px">
+                            <i class="fi fi-shield-ok fs-4 fw-bold text-gray-400"></i>
+                        </span>
+                        <span class="w-100">
+                            <strong class="d-block fs-5 fw-medium">修改登录密码</strong>
+                            <small>最好有一个强密码，不要在其他地方使用。</small>
+                        </span>
+                        <span class="flex-none">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#modal-passwd-edit" class="bg-primary text-white rounded px-2 py-1 small">修改</a>
+                        </span>
+                    </div>
+                </div>
+                <!-- Modal : Password -->
+                <div class="modal fade" id="modal-passwd-edit" tabindex="-1" aria-hidden="true">
+                    <form method="post" action="/mc/setup/upPassword" class="form-validate modal-dialog modal-dialog-centered js-ajax" data-ajax-update-url="false" data-ajax-show-loading-icon="true" data-error-toast-text="<i class='fi fi-circle-spin fi-spin float-start'></i> 请填写所有必填字段！" data-error-toast-delay="3000" data-error-toast-position="top-center" data-error-scroll-up="true" data-ajax-callback-function="mc_update_callback">
+                        <div class="modal-content">
+                            <div class="modal-header border-0 pb-0 px-4">
+                                <h5 class="modal-title">修改登录密码</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body p-4">
+                                <div class="row g-2">
+                                    <div class="col-12">
+                                        <div class="form-floating">
+                                            <input required type="password" class="form-control" id="user-currpass-new" name="password" placeholder="当前密码" value="" autocomplete="new-password">
+                                            <label for="user-currpass-new">当前密码</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="input-group-over">
+                                            <div class="form-floating mb-3">
+                                                <input required placeholder="新的密码" id="user-newpass" type="password" name="password_new" class="form-control" autocomplete="new-password">
+                                                <label for="user-newpass">新的密码</label>
+                                            </div>
+                                            <!-- `SOW : Form Advanced` plugin used -->
+                                            <a href="#" class="btn smaller btn-password-type-toggle" data-target="#user-newpass">
+                                                <span class="group-icon">
+                                                    <i class="fi fi-eye m-0"></i>
+                                                    <i class="fi fi-close m-0"></i>
+                                                </span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer border-0 pt-0">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fi fi-check me-0"></i>
+                                    <span class="ps-2">保存更改</span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- 微信 -->
+                <div class="card mb-3">
+                    <div class="card-body d-flex justify-content-between">
+                        <span class="flex-none" style="width:40px">
+                            <i class="fi fi-chat fs-4 fw-bold text-gray-400"></i>
+                        </span>
+                        <span class="w-100">
+                            <strong class="d-block fs-5 fw-medium">微信信息</strong>
+                            {%if member.third and member.third.wechat and member.third.wechat.openid %}
+                            <small class="d-block">{{member.third.wechat.openid}}</small>
+                            <small class="d-block"><img src="{{member.third.wechat.headimgurl}}" class="avatar rounded-circle me-2" >{{member.third.wechat.nickname}}</small>
+                            {%else %}
+                            <small>未绑定微信</small>
+                            {%endif%}
+                        </span>
+                        <span class="flex-none">
+                            <a href="javascript:void(0);" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-title="提示" data-bs-html="true" data-bs-content="此操作需要在手机微信浏览器里操作，且微信未绑定过其他账号！<a href='/mc/setup/bindWechat?retUrl=/mc/setup'>点击前往绑定</a>" class="bg-primary text-white rounded px-2 py-1 small">绑定</a>
+                        </span>
+                    </div>
+                </div>
+                <!-- account delete -->
+                <!-- <div class="position-relative mb-3">
+                    <div class="card">
+                        <div class="card-body d-flex justify-content-between">
+                            <span class="flex-none" style="width:40px">
+                                <i class="fi fi-lightning fs-4 fw-bold text-gray-400"></i>
+                            </span>
+                            <span class="w-100">
+                                <strong class="d-block fs-5 fw-medium">删除账号</strong>
+                                <small>删除账号前请仔细确认，删除后会清空所有信息并无法恢复！</small>
+                            </span>
+                            <span class="flex-none">
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#modal-account-del" class="bg-danger text-white rounded px-2 py-1 small">删除</a>
+                            </span>
+                        </div>
+                    </div>
+                </div> -->
+                <!-- Modal : Account delete -->
+                <!-- <div class="modal fade" id="modal-account-del" tabindex="-1" aria-hidden="true">
+                    <form method="post" action="#" class="form-validate modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header border-0 pb-0 px-4">
+                                <h5 class="modal-title">删除账号</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body p-4">
+                                <div class="row g-2">
+                                    <div class="col-12">
+                                        <div class="form-floating">
+                                            <input required type="password" class="form-control" id="user-currpass-del" name="user[user_password]" placeholder="请输入密码" value="" autocomplete="new-password">
+                                            <label for="user-currpass-del">请输入密码</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer border-0 pt-0">
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="fi fi-check me-0"></i>
+                                    <span class="ps-2">删除</span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div> -->
+                <!-- 测试动画 -->
+                <div class="d-flex align-items-center">
+                    <div>动画测试：</div>
+                    <div id="num-ani" class="mx-2" data-toggle='count' data-count-from="50" data-count-to="500" data-count-duration="20000">50</div>
+                </div>
+                <div class="timer-countdown timer-countdown-inline timer-countdown-test" data-timer-countdown-from="59000" data-timer-countdown-end-hide-self="true" data-timer-countdown-callback-function="mc_timer_countdown_end_callback">倒计时测试：<span class="s"></span></div>
+                <h2>文件上传测试(不自动上传)</h2>
+                <div class="d-flex align-items-center">
+                    <div id="filePreviewContainer" class="file-preview-container"></div>
+                    <div class="custom-file rounded" style="width: 120px;height: 120px;border: 1px solid #ddd;">
+                        <div class="text-center" style="line-height: 120px;">选择文件</div>
+                        <input type="file" class="custom-file-input absolute-full" id="fileUpload" style="height: 100%;" name="fileUpload" multiple 
+                                data-file-ajax-upload-enable="false" 
+                                data-file-preview-container="#filePreviewContainer" 
+                                data-file-preview-img-height="120" 
+                                data-file-preview-show-info="true" 
+                                data-file-preview-list-type="box" 
+                                data-file-preview-class="" 
+                                data-file-preview-img-cover="false" 
+                                data-file-ajax-reorder-enable="true" 
+                                data-file-ajax-delete-enable="true" 
+                                data-file-max-total-files="10" 
+                                data-file-max-size-kb-total="5000" 
+                                data-file-max-size-kb-per-file="1000" 
+                                data-file-ext="jpg,jpeg,png,gif" 
+                                data-file-ext-err-msg="Allowed: jpg, jpeg, png, gif" 
+                                data-file-exist-err-msg="File already exists:" 
+                                data-file-size-err-item-msg="File too large!" 
+                                data-file-size-err-total-msg="Total size exceeded!" 
+                                data-file-size-err-max-msg="Maximum allowed files:" 
+                                data-file-toast-position="bottom-center">
+                        
+                    </div>
+                </div>
+                <a href="#" class="btn btn-secondary js-advanced-form-input-clone-clear">清除</a>
+                <div class="d-flex align-items-center">
+                    <div>动画测试2：</div>
+                    <div id="num-ani2" class="mx-2" data-toggle='count' data-count-from="50" data-count-to="500" data-count-duration="20000">50</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- / -->
+{% endblock %}
+{%block script%}
+<script>
+    //注册
+    var mc_update_callback = function (form, data) {
+        if (data.status == 0) {
+            $.SOW.core.toast.show('success', 'Success', data.msg, 'top-end');
+            if (form.attr('id') != 'update_email_form') {
+                location.reload()
+            }
+        } else {
+            $.SOW.core.toast.show('danger', 'Error', data.msg, 'top-end');
+        }
+    }
+
+    // 上传文件成功回调
+    var mc_file_upload_callback = function (data, form) {
+        setTimeout(function () {
+            location.reload()
+        }, 1000);
+    }
+
+    // 倒计时测试结束回调
+    var mc_timer_countdown_end_callback = function (data, form) {
+        $.SOW.core.toast.show('success', 'Success', '倒计时结束', 'top-end');
+        setTimeout(function () {
+            $.SOW.core.timer_countdown.init('.timer-countdown-test');
+        }, 4000);
+    }
+
+    $('a.js-file-upload-avatar-ajax-circle-remove').on('click', function (e) {
+        if (confirm('确定要删除头像吗？')) {
+            setTimeout(function () {
+                location.reload()
+            }, 1000);
+            return false;
+        }
+        e.preventDefault();
+        e.stopImmediatePropagation();
+    });
+
+    /* 改用发送短信统一处理逻辑
+    var sendSmsBtn = document.getElementById('sendSmsBtn');
+    var mobileInput = document.getElementById('mobile');
+    var countdownInterval;
+    var countdownDuration = 60;
+    var countdownTime = countdownDuration;
+    sendSmsBtn.onclick = function () {
+        var mobile = mobileInput.value.trim()
+        if (!mobile || mobile.length != 11) {
+            return $.SOW.core.toast.show('danger', '出错啦', '请输入正确的手机号码', 'top-center');
+        }
+        this.disabled = true
+        this.textContent =  countdownTime + ' 秒后重试';
+        countdownInterval = setInterval(() => {
+            countdownTime--;
+            if (countdownTime <= 0) {
+                clearInterval(countdownInterval);
+                this.disabled = false;
+                this.textContent = '发送短信';
+                countdownTime = countdownDuration;
+            } else {
+                this.textContent = countdownTime + ' 秒后重试';
+            }
+        }, 1000);
+        $.post('/mc/sendSms', { mobile: mobile }, function (data) {
+            if (data.status == 0) {
+                $.SOW.core.toast.show('success', '发送短信成功', '请在5分钟内操作完成', 'top-center');
+            } else if (data.status == 21) {
+                $.SOW.core.toast.show('warning', '提示', data.msg, 'top-center');
+                countdownTime = data.data.ttl - 240;
+            } else {
+                $.SOW.core.toast.show('danger', '出错啦', data.msg, 'top-center');
+                clearInterval(countdownInterval);
+                sendSmsBtn.disabled = false;
+                sendSmsBtn.textContent = '发送短信';
+                countdownTime = countdownDuration;
+            }
+        });
+    }
+    //*/
+</script>
+{%endblock%}

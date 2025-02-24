@@ -1,683 +1,1480 @@
 {
-  "type": "page",
-  "css": {
-    ".cxd-TreeControl": {
-      "padding-left": "0 !important",
-      "max-height": "90vh !important"
+    "type": "page",
+    "css": {
+        ".cxd-Tree": {
+            "padding-left": "0 !important",
+            "max-height": "90vh !important"
+        },
+        ".cxd-Link.is-disabled": {
+            "color": "#333 !important"
+        }
     },
-    ".cxd-Link.is-disabled":{
-      "color":"#333 !important"
-    }
-  },
-  "aside": {
-    "type": "form",
-    "wrapWithPanel": false,
-    "target": "docList?pid=0&classifyId=${classifyId}",
-    "submitOnInit": true,
+    "aside": [
+        {
+            "type": "form",
+            "wrapWithPanel": false,
+            "target": "docList?pid=0&classifyId=${classifyId}",
+            "submitOnInit": true,
+            "body": [
+                {
+                    "type": "input-tree",
+                    "name": "classifyId",
+                    "inputClassName": "no-border",
+                    "submitOnChange": true,
+                    "selectFirst": true,
+                    "source": "/admin/cms/doc/topClassify",
+                    "id": "u:fe9f44ad0922"
+                }
+            ],
+            "id": "u:7f50d1e4d669",
+            "feat": "Insert"
+        }
+    ],
     "body": [
-      {
-        "type": "input-tree",
-        "name": "classifyId",
-        "inputClassName": "no-border",
-        "submitOnChange": true,
-        "selectFirst": true,
-        "source": "/admin/cms/doc/topClassify"
-      }
-    ]
-  },
-  "body": [
-    {
-      "type": "crud",
-      "draggable": true,
-      "name": "docList",
-      "id": "docList",
-      "api": "/admin/cms/doc/index",
-      "saveOrderApi":"/admin/cms/doc/saveOrder",
-      "defaultParams": {
-        "pid": 0,
-        "classifyId": "0"
-      },
-      "itemBadge": {
-        "text": "${level}",
-        "mode": "ribbon",
-        "position": "top-left",
-        "level": "info",
-        "visibleOn": "this.level"
-      },
-      "perPageAvailable":[5, 10, 20, 50, 100],
-      "filter": {
-        "title": "${classify.title}",
-        "body": [
-          {
-            "type": "input-text",
-            "name": "doc_title",
-            "label": "标题",
-            "clearable": true,
-            "placeholder": "通过标题搜索",
-            "size": "sm"
-          },
-          {
-            "label": "推荐位",
-            "type": "select",
-            "name": "doc_position",
-            "multiple": true,
-            "clearable": true,
-            "options": [
-              {
-                "label": "列表",
-                "value": "1"
-              },
-              {
-                "label": "频道",
-                "value": "2"
-              },
-              {
-                "label": "首页",
-                "value": "4"
-              }
+        {
+            "type": "crud",
+            "draggable": true,
+            "name": "docList",
+            "id": "docList",
+            "api": "/admin/cms/doc/index",
+            "saveOrderApi": "/admin/cms/doc/saveOrder",
+            "defaultParams": {
+                "pid": 0,
+                "classifyId": 0
+            },
+            "perPageAvailable": [
+                5,
+                10,
+                20,
+                50,
+                100
             ],
-            "size": "sm"
-          },
-          {
-            "name": "doc_type",
-            "type": "select",
-            "label": "类型",
-            "clearable": true,
-            "options": [
-              {
-                "label": "目录",
-                "value": 1
-              },
-              {
-                "label": "主题",
-                "value": 2
-              },
-              {
-                "label": "段落",
-                "value": 3
-              }
+            "filter": {
+                "title": "${classify.title}",
+                "body": [
+                    {
+                        "type": "input-text",
+                        "name": "doc_title",
+                        "label": "标题",
+                        "clearable": true,
+                        "placeholder": "通过标题搜索",
+                        "size": "sm",
+                        "id": "u:e8867be0ec46"
+                    },
+                    {
+                        "label": "推荐位",
+                        "type": "select",
+                        "name": "doc_position",
+                        "multiple": true,
+                        "clearable": true,
+                        "options": [
+                            {
+                                "label": "列表",
+                                "value": "1"
+                            },
+                            {
+                                "label": "频道",
+                                "value": "2"
+                            },
+                            {
+                                "label": "首页",
+                                "value": "4"
+                            }
+                        ],
+                        "size": "sm",
+                        "id": "u:9246361b505e"
+                    },
+                    {
+                        "name": "doc_type",
+                        "type": "select",
+                        "label": "类型",
+                        "clearable": true,
+                        "options": [
+                            {
+                                "label": "目录",
+                                "value": 1
+                            },
+                            {
+                                "label": "主题",
+                                "value": 2
+                            },
+                            {
+                                "label": "段落",
+                                "value": 3
+                            }
+                        ],
+                        "size": "sm",
+                        "id": "u:22c47034f93d",
+                        "multiple": false,
+                        "hidden": true,
+                        "clearValueOnHidden": true
+                    },
+                    {
+                        "label": "状态",
+                        "type": "select",
+                        "name": "doc_status",
+                        "clearable": true,
+                        "options": [
+                            {
+                                "label": "正常",
+                                "value": 1
+                            },
+                            {
+                                "label": "待审核",
+                                "value": 2
+                            },
+                            {
+                                "label": "草稿",
+                                "value": 3
+                            },
+                            {
+                                "label": "禁用",
+                                "value": 0
+                            }
+                        ],
+                        "size": "sm",
+                        "id": "u:c0c1d24c528d",
+                        "multiple": false
+                    },
+                    {
+                        "name": "noclassify",
+                        "type": "checkbox",
+                        "label": false,
+                        "option": "未分类",
+                        "trueValue": "1",
+                        "falseValue": "0",
+                        "value": "0",
+                        "size": "xs",
+                        "id": "u:8e5659d184dd"
+                    },
+                    {
+                        "type": "checkbox",
+                        "option": "不显示子栏目数据",
+                        "name": "nosubclass",
+                        "id": "u:1ddfa810489b",
+                        "label": "",
+                        "value": "0",
+                        "onEvent": {},
+                        "trueValue": "1",
+                        "falseValue": "0"
+                    },
+                    {
+                        "type": "service",
+                        "schemaApi": "get:/admin/cms/doc/classifySub?id=${classifyId}",
+                        "id": "u:5ca4dbd098c9",
+                        "dsType": "api"
+                    }
+                ],
+                "actions": [
+                    {
+                        "type": "service",
+                        "className": "float-left",
+                        "schemaApi": "get:/admin/cms/doc/pdoc?pid=${pid}",
+                        "id": "u:a2d680548bfd",
+                        "dsType": "api"
+                    },
+                    {
+                        "type": "reset",
+                        "label": "重置",
+                        "id": "u:8b6e07977bee"
+                    },
+                    {
+                        "type": "submit",
+                        "level": "primary",
+                        "label": "查询",
+                        "id": "u:7807ac6318cf"
+                    }
+                ],
+                "id": "u:a0568314440b",
+                "feat": "Insert"
+            },
+            "filterTogglable": true,
+            "headerToolbar": [
+                {
+                    "type": "columns-toggler",
+                    "align": "left"
+                },
+                {
+                    "type": "drag-toggler",
+                    "align": "left"
+                },
+                {
+                    "type": "bulk-actions"
+                },
+                {
+                    "type": "filter-toggler",
+                    "align": "right"
+                },
+                {
+                    "type": "reload",
+                    "align": "right",
+                    "id": "u:c93a5f2faf3b"
+                },
+                {
+                    "type": "button",
+                    "actionType": "",
+                    "label": "新增内容",
+                    "primary": true,
+                    "hiddenOn": "${classifyId==0}",
+                    "align": "right",
+                    "drawer": {
+                        "$ref": "modal-ref-1"
+                    },
+                    "id": "u:b0b551d89e58",
+                    "onEvent": {
+                        "click": {
+                            "weight": 0,
+                            "actions": [
+                                {
+                                    "ignoreError": false,
+                                    "actionType": "drawer",
+                                    "drawer": {
+                                        "$ref": "modal-ref-1"
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "type": "export-excel",
+                    "tpl": "内容",
+                    "wrapperComponent": "",
+                    "id": "u:422125f6d025",
+                    "align": "left"
+                }
             ],
-            "size": "sm"
-          },
-          {
-            "label": "状态",
-            "type": "select",
-            "name": "doc_status",
-            "clearable": true,
-            "options": [
-              {
-                "label": "正常",
-                "value": 1
-              },
-              {
-                "label": "草稿",
-                "value": 3
-              },
-              {
-                "label": "禁用",
-                "value": 0
-              }
+            "bulkActions": [
+                {
+                    "label": "批量删除",
+                    "actionType": "ajax",
+                    "api": "/admin/cms/doc/bulkDel",
+                    "confirmText": "确定要批量删除?",
+                    "id": "u:16e06e3fc341"
+                }
             ],
-            "size": "sm"
-          },
-          {
-            "name": "noclassify",
-            "type": "checkbox",
-            "label": false,
-            "option": "未分类",
-            "trueValue": "1",
-            "falseValue": "0",
-            "value": "0",
-            "size": "xs"
-          },
-          {
-            "type": "service",
-            "schemaApi": "get:/admin/cms/doc/classifySub?id=${classifyId}"
-          }
-        ],
-        "actions": [
-          {
-            "type": "service",
-            "className":"float-left",
-            "schemaApi": "get:/admin/cms/doc/pdoc?pid=${pid}"
-          },
-          {
-            "type": "reset",
-            "label": "重置"
-          },
-          {
-            "type": "submit",
-            "level": "primary",
-            "label": "查询"
-          }
-        ]
-      },
-      "filterTogglable": true,
-      "headerToolbar": [
-        {
-          "type": "columns-toggler",
-          "align": "left"
-        },
-        {
-          "type": "drag-toggler",
-          "align": "left"
-        },
-        "bulkActions",
-        {
-          "type": "filter-toggler",
-          "align": "right"
-        },
-        {
-          "type": "reload",
-          "align": "right"
-        },
-        {
-          "type": "button",
-          "actionType": "drawer",
-          "label": "新增内容",
-          "primary": true,
-          "hiddenOn": "${classifyId==0}",
-          "align": "right",
-          "drawer": {
+            "footerToolbar": [
+                "switch-per-page",
+                "statistics",
+                "pagination"
+            ],
+            "quickSaveApi": {
+                "method": "post",
+                "url": "/admin/cms/doc/quickDocEdit",
+                "messages": {},
+                "requestAdaptor": "",
+                "adaptor": ""
+            },
+            "quickSaveItemApi": "/amis/api/sample/$id",
+            "columns": [
+                {
+                    "name": "id",
+                    "label": "ID",
+                    "width": 20,
+                    "sortable": true,
+                    "type": "text",
+                    "toggled": true,
+                    "id": "u:0bf981758b74"
+                },
+                {
+                    "name": "level",
+                    "label": "排序",
+                    "width": 20,
+                    "sortable": true,
+                    "type": "text",
+                    "toggled": true,
+                    "id": "u:653c9db47b81",
+                    "placeholder": "-",
+                    "remark": "越大越靠前",
+                    "quickEdit": {
+                        "mode": "popOver",
+                        "id": "u:80d9ab0d91e2"
+                    },
+                    "align": "center"
+                },
+                {
+                    "label": "封面",
+                    "type": "image",
+                    "name": "cover_url",
+                    "className": "tdimg",
+                    "enlargeAble": true,
+                    "enlargeWithGallary": false,
+                    "showToolbar": true,
+                    "id": "u:fb672d19a915"
+                },
+                {
+                    "label": "标题",
+                    "type": "action",
+                    "body": [
+                        {
+                            "type": "link",
+                            "name": "title",
+                            "className": "mr-2",
+                            "disabledOn": "${type===3}",
+                            "id": "u:ce5dd54b258e"
+                        },
+                        {
+                            "name": "positionarr",
+                            "type": "mapping",
+                            "map": {
+                                "1": "<span class='label label-info'>列</span>",
+                                "2": "<span class='label label-success'>频</span>",
+                                "4": "<span class='label label-warning'>首</span>",
+                                "*": "<span class='label label-default'>其他</span>"
+                            },
+                            "id": "u:adf3bcbed2c3"
+                        }
+                    ],
+                    "toggled": true,
+                    "actionType": "reload",
+                    "target": "docList?pid=${id}",
+                    "disabledOn": "${type===3}",
+                    "id": "u:7417d745b306"
+                },
+                {
+                    "name": "type",
+                    "label": "类型",
+                    "type": "mapping",
+                    "map": {
+                        "1": "<span class='label label-info'>目录</span>",
+                        "2": "<span class='label label-success'>主题</span>",
+                        "3": "<span class='label label-warning'>段落</span>",
+                        "*": "其他：${type}"
+                    },
+                    "id": "u:15e75c0b5983",
+                    "placeholder": "-",
+                    "toggled": false
+                },
+                {
+                    "name": "pathTitle",
+                    "label": "分类",
+                    "type": "text",
+                    "toggled": true,
+                    "id": "u:1ee4a752cbe8"
+                },
+                {
+                    "name": "modelName",
+                    "label": "模型",
+                    "type": "text",
+                    "toggled": true,
+                    "id": "u:0f2a6a03f689"
+                },
+                {
+                    "name": "updatedAt",
+                    "label": "最后更新时间",
+                    "sortable": true,
+                    "type": "date",
+                    "toggled": true,
+                    "format": "YYYY-MM-DD HH:mm",
+                    "id": "u:e1289d492227"
+                },
+                {
+                    "name": "status",
+                    "label": "状态",
+                    "type": "mapping",
+                    "map": {
+                        "0": "<span class='label label-danger'>禁用</span>",
+                        "1": "<span class='label label-success'>审核通过</span>",
+                        "2": "<span class='label label-warning'>待审核</span>",
+                        "3": "<span class='label label-info'>草稿</span>",
+                        "*": "其他：${type}"
+                    },
+                    "id": "u:fb1a0cd861b1",
+                    "placeholder": "-",
+                    "quickEdit": {
+                        "mode": "popOver",
+                        "type": "wrapper",
+                        "body": [
+                            {
+                                "type": "select",
+                                "label": "设置状态",
+                                "name": "status",
+                                "options": [
+                                    {
+                                        "label": "禁用",
+                                        "value": 0
+                                    },
+                                    {
+                                        "label": "审核通过",
+                                        "value": 1
+                                    },
+                                    {
+                                        "label": "待审核",
+                                        "value": 2
+                                    },
+                                    {
+                                        "label": "草稿",
+                                        "value": 3
+                                    }
+                                ],
+                                "id": "u:79710d84027c",
+                                "multiple": false
+                            }
+                        ],
+                        "id": "u:61649556ee76",
+                        "style": {
+                            "position": "static",
+                            "display": "block"
+                        },
+                        "isFixedHeight": false,
+                        "isFixedWidth": false
+                    }
+                },
+                {
+                    "type": "operation",
+                    "label": "操作",
+                    "width": 80,
+                    "buttons": [
+                        {
+                            "type": "button",
+                            "icon": "fa fa-link",
+                            "actionType": "url",
+                            "url": "/cms/detail/${id}.html",
+                            "blank": true,
+                            "id": "u:0ac4581df07d"
+                        },
+                        {
+                            "type": "button",
+                            "icon": "fa fa-pencil",
+                            "actionType": "",
+                            "drawer": {
+                                "$ref": "modal-ref-2"
+                            },
+                            "id": "u:0e5f248ffcc8",
+                            "onEvent": {
+                                "click": {
+                                    "weight": 0,
+                                    "actions": [
+                                        {
+                                            "ignoreError": false,
+                                            "actionType": "drawer",
+                                            "drawer": {
+                                                "$ref": "modal-ref-2"
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "type": "button",
+                            "icon": "fa fa-times text-danger",
+                            "actionType": "ajax",
+                            "confirmText": "您确认要删除?",
+                            "api": "get:/admin/cms/doc/docDel?id=$id",
+                            "id": "u:f69687e10bf6"
+                        }
+                    ],
+                    "toggled": true,
+                    "id": "u:1f48b615b8ca"
+                }
+            ],
+            "messages": {},
+            "syncLocation": true,
+            "alwaysShowPagination": true
+        }
+    ],
+    "id": "u:f2e7c2b5811a",
+    "asideResizor": true,
+    "pullRefresh": {
+        "disabled": true
+    },
+    "regions": [
+        "body",
+        "aside"
+    ],
+    "definitions": {
+        "modal-ref-1": {
+            "type": "drawer",
+            "body": [
+                {
+                    "type": "form",
+                    "mode": "normal",
+                    "horizontal": {
+                        "leftFixed": "xs"
+                    },
+                    "api": {
+                        "method": "post",
+                        "url": "/admin/cms/doc/docAdd",
+                        "requestAdaptor": "",
+                        "adaptor": "",
+                        "messages": {}
+                    },
+                    "body": [
+                        {
+                            "type": "hidden",
+                            "name": "pid",
+                            "id": "u:0514e063c1a3"
+                        },
+                        {
+                            "type": "group",
+                            "body": [
+                                {
+                                    "type": "input-text",
+                                    "name": "title",
+                                    "placeholder": "请输入标题",
+                                    "label": "标题",
+                                    "required": true,
+                                    "id": "u:dbaceaa78dca"
+                                }
+                            ],
+                            "id": "u:2dd82ad3710d"
+                        },
+                        {
+                            "type": "group",
+                            "body": [
+                                {
+                                    "type": "input-image",
+                                    "name": "cover_url",
+                                    "label": "封面",
+                                    "maxLength": 1,
+                                    "receiver": "/upload/adminToken",
+                                    "columnRatio": "auto",
+                                    "id": "u:cc9bc99b5d2d"
+                                },
+                                {
+                                    "type": "button",
+                                    "label": "从附件选取",
+                                    "onEvent": {
+                                        "click": {
+                                            "actions": [
+                                                {
+                                                    "ignoreError": false,
+                                                    "actionType": "dialog",
+                                                    "dialog": {
+                                                        "$ref": "modal-ref-3"
+                                                    },
+                                                    "data": {
+                                                        "event_name": "attachment_sel_for_add_dialog"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "id": "u:b527461d81e1",
+                                    "level": "link",
+                                    "size": "xs",
+                                    "themeCss": {
+                                        "className": {
+                                            "font:default": {
+                                                "text-decoration": "underline"
+                                            },
+                                            "padding-and-margin:default": {
+                                                "marginTop": "var(--sizes-base-34)",
+                                                "marginLeft": "-1.5rem"
+                                            }
+                                        }
+                                    },
+                                    "columnRatio": "auto"
+                                },
+                                {
+                                    "name": "description",
+                                    "type": "textarea",
+                                    "clearable": true,
+                                    "minRows": 4,
+                                    "showCounter": true,
+                                    "maxLength": 800,
+                                    "label": "简介",
+                                    "id": "u:3841a2166a96"
+                                }
+                            ],
+                            "id": "u:4438d4001fe2"
+                        },
+                        {
+                            "type": "group",
+                            "body": [
+                                {
+                                    "name": "classify_modelName",
+                                    "type": "static",
+                                    "label": "模型",
+                                    "value": "${classify.modelName}",
+                                    "columnRatio": 1,
+                                    "id": "u:33165dcc030c"
+                                },
+                                {
+                                    "type": "hidden",
+                                    "name": "models_uuid",
+                                    "value": "${classify.models_uuid}",
+                                    "id": "u:666213e92b74"
+                                },
+                                {
+                                    "name": "classify_title",
+                                    "type": "static",
+                                    "label": "分类",
+                                    "value": "${classify.title}",
+                                    "columnRatio": 2,
+                                    "id": "u:f140e5d9b0e1"
+                                },
+                                {
+                                    "type": "hidden",
+                                    "name": "classify_id",
+                                    "value": "${classify.id}",
+                                    "id": "u:771fbd1bff47"
+                                },
+                                {
+                                    "type": "service",
+                                    "schemaApi": "get:/admin/cms/doc/classifySubFrom?id=${classifyId}",
+                                    "id": "u:cf4303c1c2e2",
+                                    "dsType": "api"
+                                }
+                            ],
+                            "id": "u:080391b493bc"
+                        },
+                        {
+                            "type": "group",
+                            "body": [
+                                {
+                                    "name": "type",
+                                    "type": "radios",
+                                    "label": "类型",
+                                    "selectFirst": true,
+                                    "source": "${classify.type}",
+                                    "columnRatio": 1,
+                                    "id": "u:69e4f5b0c410"
+                                },
+                                {
+                                    "label": "状态",
+                                    "type": "select",
+                                    "name": "status",
+                                    "columnRatio": 3,
+                                    "value": 1,
+                                    "options": [
+                                        {
+                                            "label": "正常",
+                                            "value": 1
+                                        },
+                                        {
+                                            "label": "草稿",
+                                            "value": 3
+                                        },
+                                        {
+                                            "label": "禁用",
+                                            "value": 0
+                                        }
+                                    ],
+                                    "id": "u:9844a3ea2c24"
+                                },
+                                {
+                                    "label": "推荐",
+                                    "type": "select",
+                                    "name": "position",
+                                    "multiple": true,
+                                    "columnRatio": 3,
+                                    "options": [
+                                        {
+                                            "label": "列表推荐",
+                                            "value": "1"
+                                        },
+                                        {
+                                            "label": "频道页推荐",
+                                            "value": "2"
+                                        },
+                                        {
+                                            "label": "首页推荐",
+                                            "value": "4"
+                                        }
+                                    ],
+                                    "id": "u:82059aa6a006"
+                                },
+                                {
+                                    "label": "排序",
+                                    "type": "input-number",
+                                    "name": "level",
+                                    "columnRatio": 3,
+                                    "value": 0,
+                                    "id": "u:fe1cf1c7406d",
+                                    "keyboard": true,
+                                    "step": 1,
+                                    "description": "越大显示越靠前"
+                                }
+                            ],
+                            "id": "u:a61b9984b385"
+                        },
+                        {
+                            "$ref": "special-sel"
+                        },
+                        {
+                            "type": "group",
+                            "body": [
+                                {
+                                    "type": "select",
+                                    "name": "template",
+                                    "placeholder": "请输入详情模板",
+                                    "label": "详情模板",
+                                    "searchable": true,
+                                    "selectFirst": true,
+                                    "source": "/admin/cms/template/getTemplate?type=detail",
+                                    "description": "模板在/app/view/cms内,命名规则 detail_模板名称.html",
+                                    "id": "u:9125777466b3"
+                                },
+                                {
+                                    "type": "input-text",
+                                    "name": "ext_link",
+                                    "placeholder": "请输入外链接",
+                                    "label": "外链",
+                                    "description": "如果填写链接,会跳转到这个链接,不填不跳转",
+                                    "id": "u:8ce0267e9e56"
+                                }
+                            ],
+                            "id": "u:ccfb414e0d29"
+                        },
+                        {
+                            "type": "group",
+                            "mode": "horizontal",
+                            "body": [
+                                {
+                                    "type": "input-tag",
+                                    "name": "tags",
+                                    "label": "标签",
+                                    "placeholder": "请选择标签",
+                                    "id": "u:b1dfaf790938"
+                                }
+                            ],
+                            "id": "u:c7f7acd025af"
+                        },
+                        {
+                            "type": "button-group-select",
+                            "name": "cms_doc_article.content_type",
+                            "label": "文章内容类型",
+                            "inline": false,
+                            "options": [
+                                {
+                                    "label": "html",
+                                    "value": "html"
+                                },
+                                {
+                                    "label": "amis",
+                                    "value": "amis"
+                                }
+                            ],
+                            "id": "u:2c2bd803480e",
+                            "multiple": false,
+                            "value": "html",
+                            "clearValueOnHidden": true,
+                            "visibleOn": "${models_uuid=='e86401ba-85cb-47f7-9f53-853e26b939bd'}",
+                            "description": "切换类型会清空当前内容，请谨慎选择",
+                            "onEvent": {
+                                "change": {
+                                    "weight": 0,
+                                    "actions": [
+                                        {
+                                            "componentId": "u:bf2a5e9d16b5",
+                                            "ignoreError": false,
+                                            "actionType": "setValue",
+                                            "args": {
+                                                "value": {
+                                                    "cms_doc_article.content": ""
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            "mode": "inline"
+                        },
+                        {
+                            "type": "json-editor",
+                            "label": "文章内容amis配置 <a href='/public/amis-editor/index.html' target=\"_blank\">去配置</>",
+                            "name": "cms_doc_article.content",
+                            "id": "u:93fe51847639",
+                            "visibleOn": "${cms_doc_article.content_type=='amis'}"
+                        },
+                        {
+                            "type": "service",
+                            "schemaApi": "get:/admin/cms/doc/getContent?models_uuid=${classify.models_uuid}&type=add",
+                            "id": "u:8e5b7f372020",
+                            "dsType": "api"
+                        }
+                    ],
+                    "id": "u:bf2a5e9d16b5",
+                    "actions": [
+                        {
+                            "type": "submit",
+                            "label": "提交",
+                            "primary": true
+                        }
+                    ],
+                    "feat": "Insert",
+                    "dsType": "api",
+                    "onEvent": {
+                        "attachment_sel_for_add_dialog": {
+                            "actions": [
+                                {
+                                    "actionType": "setValue",
+                                    "args": {
+                                        "value": {
+                                            "cover_url": "${event.data.eventData.url}"
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        "attachment_sel_for_dialog_pic": {
+                            "actions": [
+                                {
+                                    "actionType": "custom",
+                                    "script": "var values = context.getValues();\nvar pics = values.cms_doc_picture.content;\nvar pindex = event.data.renderData.attachment_index\npics[pindex] = { url: event.data.eventData.url, desc: event.data.eventData.description }\ndoAction({ actionType: 'setValue', componentId: 'cms_doc_picture', args: { value: pics } });"
+                                }
+                            ]
+                        },
+                        "attachment_sel_for_dialog_download": {
+                            "actions": [
+                                {
+                                    "actionType": "custom",
+                                    "script": "var values = context.getValues();\nvar pics = values.cms_doc_download.content;\nvar pindex = event.data.renderData.attachment_index\npics[pindex] = { d_url: event.data.eventData.url, d_type: '1', d_title: event.data.eventData.name }\ndoAction({ actionType: 'setValue', componentId: 'cms_doc_download', args: { value: pics } });"
+                                }
+                            ]
+                        },
+                        "submitSucc": {
+                            "weight": 0,
+                            "actions": [
+                                {
+                                    "componentId": "docList",
+                                    "groupType": "component",
+                                    "actionType": "reload"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ],
             "title": "新增内容",
             "size": "xl",
-            "body": {
-              "type": "form",
-              "debug": false,
-              "mode": "normal",
-              "horizontal": {
-                "leftFixed": "xs"
-              },
-              "api": "/admin/cms/doc/docAdd",
-              "body": [
+            "actionType": "drawer",
+            "$$originId": "008d85e614e1",
+            "$$ref": "modal-ref-1",
+            "id": "u:ac949ef84229"
+        },
+        "modal-ref-2": {
+            "type": "drawer",
+            "body": [
                 {
-                  "type": "hidden",
-                  "name": "pid"
-                },
-                {
-                  "type": "group",
-                  "body": [
-                    {
-                      "type": "input-text",
-                      "name": "title",
-                      "placeholder": "请输入标题",
-                      "label": "标题",
-                      "required": true
-                    }
-                  ]
-                },
-                {
-                  "type": "group",
-                  "body": [
-                    {
-                      "type": "input-image",
-                      "name": "cover_url",
-                      "label": "封面",
-                      "maxLength": 1,
-                      "receiver": "/upload/adminToken",
-                      "columnRatio": 2
+                    "type": "form",
+                    "mode": "normal",
+                    "horizontal": {
+                        "leftFixed": "xs"
                     },
-                    {
-                      "name": "description",
-                      "type": "textarea",
-                      "clearable": true,
-                      "minRows": 4,
-                      "showCounter": true,
-                      "maxLength": 800,
-                      "label": "简介"
-                    }
-                  ]
-                },
-                {
-                  "type": "group",
-
-                  "body": [
-                    {
-                      "name": "classify_modelName",
-                      "type": "static",
-                      "label": "模型",
-                      "value": "${classify.modelName}",
-                      "columnRatio": 1
+                    "api": {
+                        "method": "post",
+                        "url": "/admin/cms/doc/docEdit",
+                        "requestAdaptor": "",
+                        "adaptor": "",
+                        "messages": {}
                     },
-                    {
-                      "type": "hidden",
-                      "name": "models_uuid",
-                      "value": "${classify.models_uuid}"
-                    },
-                    {
-                      "name": "classify_title",
-                      "type": "static",
-                      "label": "分类",
-                      "value": "${classify.title}",
-                      "columnRatio": 2
-                    },
-                    {
-                      "type": "hidden",
-                      "name": "classify_id",
-                      "value": "${classify.id}"
-                    },
-                    {
-                      "type": "service",
-                      "schemaApi": "get:/admin/cms/doc/classifySubFrom?id=${classifyId}"
-                    }
-                  ]
-                },
-                {
-                  "type": "group",
-                  "body": [
-                    {
-                      "name": "type",
-                      "type": "radios",
-                      "label": "类型",
-                      "selectFirst": true,
-                      "source": "${classify.type}",
-                      "columnRatio": 3
-                    },
-                    {
-                      "label": "状态",
-                      "type": "select",
-                      "name": "status",
-                      "columnRatio": 3,
-                      "value": 1,
-                      "options": [
+                    "body": [
                         {
-                          "label": "正常",
-                          "value": 1
+                            "type": "hidden",
+                            "name": "pid",
+                            "id": "u:adb5d3d02606"
                         },
                         {
-                          "label": "草稿",
-                          "value": 3
+                            "type": "hidden",
+                            "name": "id",
+                            "id": "u:ca8bd0b40ccd"
                         },
                         {
-                          "label": "禁用",
-                          "value": 0
+                            "type": "group",
+                            "body": [
+                                {
+                                    "type": "input-text",
+                                    "name": "title",
+                                    "placeholder": "请输入标题",
+                                    "label": "标题",
+                                    "required": true,
+                                    "id": "u:4095cb03b490"
+                                }
+                            ],
+                            "id": "u:34bc6e5f5501"
+                        },
+                        {
+                            "type": "group",
+                            "body": [
+                                {
+                                    "type": "input-image",
+                                    "name": "cover_url",
+                                    "label": "封面",
+                                    "maxLength": 1,
+                                    "receiver": "/upload/adminToken",
+                                    "columnRatio": "auto",
+                                    "id": "u:63a4f3f16193"
+                                },
+                                {
+                                    "type": "button",
+                                    "label": "从附件选取",
+                                    "onEvent": {
+                                        "click": {
+                                            "actions": [
+                                                {
+                                                    "ignoreError": false,
+                                                    "actionType": "dialog",
+                                                    "dialog": {
+                                                        "$ref": "modal-ref-3"
+                                                    },
+                                                    "data": {
+                                                        "event_name": "attachment_sel_for_edit_dialog"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "id": "u:f9b727dcd576",
+                                    "level": "link",
+                                    "size": "xs",
+                                    "themeCss": {
+                                        "className": {
+                                            "font:default": {
+                                                "text-decoration": "underline"
+                                            },
+                                            "padding-and-margin:default": {
+                                                "marginTop": "var(--sizes-base-34)",
+                                                "marginLeft": "-1.2rem"
+                                            }
+                                        }
+                                    },
+                                    "columnRatio": "auto"
+                                },
+                                {
+                                    "name": "description",
+                                    "type": "textarea",
+                                    "clearable": true,
+                                    "minRows": 4,
+                                    "showCounter": true,
+                                    "maxLength": 800,
+                                    "label": "简介",
+                                    "id": "u:b8896da1bed1"
+                                }
+                            ],
+                            "id": "u:0e725d843962",
+                            "gap": "xs"
+                        },
+                        {
+                            "type": "group",
+                            "body": [
+                                {
+                                    "name": "classify_modelName",
+                                    "type": "static",
+                                    "label": "模型",
+                                    "value": "${modelName}",
+                                    "columnRatio": 1,
+                                    "id": "u:4e041eeac079"
+                                },
+                                {
+                                    "type": "hidden",
+                                    "name": "models_uuid",
+                                    "value": "${models_uuid}",
+                                    "id": "u:778198b45c48"
+                                },
+                                {
+                                    "label": "分类",
+                                    "type": "tree-select",
+                                    "name": "classify_id",
+                                    "required": true,
+                                    "searchable": true,
+                                    "columnRatio": 2,
+                                    "source": "/admin/cms/doc/selectClassify?models_uuid=${models_uuid}",
+                                    "id": "u:9bc783241624"
+                                },
+                                {
+                                    "type": "service",
+                                    "schemaApi": "get:/admin/cms/doc/classifySubFrom?id=${classify_id}",
+                                    "id": "u:f2457be13b40",
+                                    "dsType": "api"
+                                }
+                            ],
+                            "id": "u:52abb025a4b9"
+                        },
+                        {
+                            "type": "group",
+                            "body": [
+                                {
+                                    "name": "type",
+                                    "type": "radios",
+                                    "label": "类型",
+                                    "selectFirst": true,
+                                    "source": "${classify.type}",
+                                    "columnRatio": 1,
+                                    "id": "u:9568d83c1761"
+                                },
+                                {
+                                    "label": "状态",
+                                    "type": "select",
+                                    "name": "status",
+                                    "columnRatio": 3,
+                                    "value": 1,
+                                    "options": [
+                                        {
+                                            "label": "正常",
+                                            "value": 1
+                                        },
+                                        {
+                                            "label": "草稿",
+                                            "value": 3
+                                        },
+                                        {
+                                            "label": "禁用",
+                                            "value": 0
+                                        }
+                                    ],
+                                    "id": "u:6e19b92c2d90"
+                                },
+                                {
+                                    "label": "推荐",
+                                    "type": "select",
+                                    "name": "position",
+                                    "multiple": true,
+                                    "columnRatio": 3,
+                                    "options": [
+                                        {
+                                            "label": "列表推荐",
+                                            "value": "1"
+                                        },
+                                        {
+                                            "label": "频道页推荐",
+                                            "value": "2"
+                                        },
+                                        {
+                                            "label": "首页推荐",
+                                            "value": "4"
+                                        }
+                                    ],
+                                    "id": "u:640dcdb7b275"
+                                },
+                                {
+                                    "label": "排序",
+                                    "type": "input-number",
+                                    "name": "level",
+                                    "columnRatio": 3,
+                                    "value": 0,
+                                    "id": "u:f1a2b619ac07",
+                                    "keyboard": true,
+                                    "step": 1,
+                                    "description": "越大显示越靠前"
+                                }
+                            ],
+                            "id": "u:107133a814f2"
+                        },
+                        {
+                            "$ref": "special-sel"
+                        },
+                        {
+                            "type": "group",
+                            "body": [
+                                {
+                                    "type": "select",
+                                    "name": "template",
+                                    "placeholder": "请输入详情模板",
+                                    "label": "详情模板",
+                                    "searchable": true,
+                                    "selectFirst": true,
+                                    "source": "/admin/cms/template/getTemplate?type=detail",
+                                    "description": "模板在/app/view/cms内,命名规则 detail_模板名称.html",
+                                    "id": "u:0f04526e8553"
+                                },
+                                {
+                                    "type": "input-text",
+                                    "name": "ext_link",
+                                    "placeholder": "请输入外链接",
+                                    "label": "外链",
+                                    "description": "如果填写链接,会跳转到这个链接,不填不跳转",
+                                    "id": "u:55e1678bc686"
+                                }
+                            ],
+                            "id": "u:a20eee1f9bcb"
+                        },
+                        {
+                            "type": "group",
+                            "mode": "horizontal",
+                            "body": [
+                                {
+                                    "type": "input-tag",
+                                    "name": "tags",
+                                    "label": "标签",
+                                    "placeholder": "请选择标签",
+                                    "id": "u:589a6b279ff4"
+                                }
+                            ],
+                            "id": "u:43e7b5170b3e"
+                        },
+                        {
+                            "type": "button-group-select",
+                            "name": "cms_doc_article.content_type",
+                            "label": "文章内容类型",
+                            "inline": false,
+                            "options": [
+                                {
+                                    "label": "html",
+                                    "value": "html"
+                                },
+                                {
+                                    "label": "amis",
+                                    "value": "amis"
+                                }
+                            ],
+                            "id": "u:2c2bd803480e",
+                            "multiple": false,
+                            "value": "html",
+                            "clearValueOnHidden": true,
+                            "visibleOn": "${models_uuid=='e86401ba-85cb-47f7-9f53-853e26b939bd'}",
+                            "description": "切换类型会清空当前内容，请谨慎选择",
+                            "onEvent": {
+                                "change": {
+                                    "weight": 0,
+                                    "actions": [
+                                        {
+                                            "componentId": "u:6ccf4bbbe334",
+                                            "ignoreError": false,
+                                            "actionType": "setValue",
+                                            "args": {
+                                                "value": {
+                                                    "cms_doc_article.content": ""
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            "mode": "inline"
+                        },
+                        {
+                            "type": "json-editor",
+                            "label": "文章内容amis配置 <a href='/public/amis-editor/index.html' target=\"_blank\">去配置</>",
+                            "name": "cms_doc_article.content",
+                            "id": "u:93fe51847639",
+                            "visibleOn": "${cms_doc_article.content_type=='amis'}"
+                        },
+                        {
+                            "type": "service",
+                            "schemaApi": "get:/admin/cms/doc/getContent?models_uuid=${models_uuid}&type=edit",
+                            "id": "u:9505a651aeac",
+                            "dsType": "api"
                         }
-                      ]
-                    },
-                     {
-                      "label": "推荐",
-                      "type": "select",
-                      "name": "position",
-                      "multiple": true,
-                      "columnRatio": 3,
-                      "options": [
+                    ],
+                    "id": "u:6ccf4bbbe334",
+                    "actions": [
                         {
-                          "label": "列表推荐",
-                          "value": "1"
-                        },
-                        {
-                          "label": "频道页推荐",
-                          "value": "2"
-                        },
-                        {
-                          "label": "首页推荐",
-                          "value": "4"
+                            "type": "submit",
+                            "label": "提交",
+                            "primary": true
                         }
-                      ]
+                    ],
+                    "feat": "Insert",
+                    "dsType": "api",
+                    "onEvent": {
+                        "attachment_sel_for_edit_dialog": {
+                            "actions": [
+                                {
+                                    "actionType": "setValue",
+                                    "args": {
+                                        "value": {
+                                            "cover_url": "${event.data.eventData.url}"
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        "attachment_sel_for_dialog_pic": {
+                            "actions": [
+                                {
+                                    "actionType": "custom",
+                                    "script": "var values = context.getValues();\nvar pics = values.cms_doc_picture.content;\nvar pindex = event.data.renderData.attachment_index\npics[pindex] = { url: event.data.eventData.url, desc: event.data.eventData.description }\ndoAction({ actionType: 'setValue', componentId: 'cms_doc_picture', args: { value: pics } });"
+                                }
+                            ]
+                        },
+                        "attachment_sel_for_dialog_download": {
+                            "actions": [
+                                {
+                                    "actionType": "custom",
+                                    "script": "var values = context.getValues();\nvar pics = values.cms_doc_download.content;\nvar pindex = event.data.renderData.attachment_index\npics[pindex] = { d_url: event.data.eventData.url, d_type: '1', d_title: event.data.eventData.name }\ndoAction({ actionType: 'setValue', componentId: 'cms_doc_download', args: { value: pics } });"
+                                }
+                            ]
+                        },
+                        "submitSucc": {
+                            "weight": 0,
+                            "actions": [
+                                {
+                                    "componentId": "docList",
+                                    "groupType": "component",
+                                    "actionType": "reload"
+                                }
+                            ]
+                        }
                     },
-                    {
-                      "label": "排序",
-                      "type": "input-number",
-                      "name": "level",
-                      "columnRatio": 3,
-                      "value": 0
-                    }
-                  ]
-                },
-                {
-                  "type": "group",
-                  "body": [
-                    {
-                      "type": "select",
-                      "name": "template",
-                      "placeholder": "请输入详情模板",
-                      "label": "详情模板",
-                      "searchable": true,
-                      "selectFirst": true,
-                      "source": "/admin/cms/template/getTemplate?type=detail",
-                      "description": "模板在/app/view/cms内,命名规则 detail_模板名称.html"
-                    },
-                    {
-                      "type": "input-text",
-                      "name": "ext_link",
-                      "placeholder": "请输入外链接",
-                      "label": "外链",
-                      "description": "如果填写链接,会跳转到这个链接,不填不跳转"
-                    }
-                  ]
-                },
-                {
-                  "type": "group",
-                  "mode": "horizontal",
-                  "body": [
-                    {
-                      "type": "input-tag",
-                      "name": "tags",
-                      "label": "标签",
-                      "placeholder": "请选择标签"
-                    }
-                  ]
-                },
-                {
-                  "type": "service",
-                  "schemaApi": "get:/admin/cms/doc/getContent?models_uuid=${classify.models_uuid}&type=add"
+                    "affixFooter": true
                 }
-              ]
-            }
-          }
-        }
-        
-      ],
-      "bulkActions": [
-        {
-          "label": "批量删除",
-          "actionType": "ajax",
-          "api": "/admin/cms/doc/bulkDel",
-          "confirmText": "确定要批量删除?"
-        }
-      ],
-      "footerToolbar":["switch-per-page","statistics", "pagination"],
-      "quickSaveApi": "/amis/api/sample/bulkUpdate",
-      "quickSaveItemApi": "/amis/api/sample/$id",
-      "columns": [
-        {
-          "name": "id",
-          "label": "ID",
-          "width": 20,
-          "sortable": true,
-          "type": "text",
-          "toggled": true
+            ],
+            "title": "编辑内容",
+            "size": "xl",
+            "actionType": "drawer",
+            "$$originId": "ddb88f137854",
+            "$$ref": "modal-ref-2",
+            "id": "u:fd7101f8f1de",
+            "resizable": false
         },
-        {
-          "label": "封面",
-          "type": "image",
-          "name": "cover_url",
-          "className": "tdimg"
-        },
-        {
-          "label": "标题",
-          "type": "action",
-          "body": [
-            {
-              "type": "link",
-              "name": "title",
-              "className":"mr-2",
-              "disabledOn": "${type===3}"
-            },{
-              "name": "positionarr",
-              "type": "mapping",
-              "map": {
-                "1": "<span class='label label-info'>列</span>",
-                "2": "<span class='label label-success'>频</span>",
-                "4": "<span class='label label-warning'>首</span>",
-                "*": "<span class='label label-default'>其他</span>"
-              }
-            }
-          ],
-          "toggled": true,
-          "actionType": "reload",
-          "target": "docList?pid=${id}",
-          "disabledOn": "${type===3}"
-        },
-        {
-          "name": "type",
-          "label": "类型",
-          "type": "mapping",
-          "map": {
-            "1": "<span class='label label-info'>目录</span>",
-            "2": "<span class='label label-success'>主题</span>",
-            "3": "<span class='label label-warning'>段落</span>",
-            "*": "其他：${type}"
-          }
-        },
-        {
-          "name": "pathTitle",
-          "label": "分类",
-          "type": "text",
-          "toggled": true
-        },
-        {
-          "name": "modelName",
-          "label": "模型",
-          "type": "text",
-          "toggled": true
-        },
-        {
-          "name": "updatedAt",
-          "label": "最后更新时间",
-          "sortable": true,
-          "type": "date",
-          "toggled": true,
-          "format": "YYYY-MM-DD HH:mm"
-        },
-        {
-          "name": "status",
-          "label": "状态",
-          "type": "mapping",
-          "map": {
-            "0": "<span class='label label-danger'>禁用</span>",
-            "1": "<span class='label label-success'>正常</span>",
-            "2": "<span class='label label-warning'>待审核</span>",
-            "3": "<span class='label label-info'>草稿</span>",
-            "*": "其他：${type}"
-          }
-        },
-        {
-          "type": "operation",
-          "label": "操作",
-          "width": 80,
-          "buttons": [
-            {
-              "type": "button",
-              "icon": "fa fa-link",
-              "actionType": "url",
-              "url": "/cms/detail/${id}",
-              "blank":true
-            },
-            {
-              "type": "button",
-              "icon": "fa fa-pencil",
-              "actionType": "drawer",
-              "drawer": {
-                "title": "编辑内容",
-                "size": "xl",
-                "body": {
-                  "type": "form",
-                  "debug": false,
-                  "mode": "normal",
-                  "horizontal": {
-                    "leftFixed": "xs"
-                  },
-                  "api": "/admin/cms/doc/docEdit",
-                  "body": [
-                    {
-                      "type": "hidden",
-                      "name": "pid"
-                    },
-                    {
-                      "type": "hidden",
-                      "name": "id"
-                    },
-                    {
-                      "type": "group",
-                      "body": [
-                        {
-                          "type": "input-text",
-                          "name": "title",
-                          "placeholder": "请输入标题",
-                          "label": "标题",
-                          "required": true
+        "modal-ref-3": {
+            "type": "dialog",
+            "body": [
+                {
+                    "type": "iframe",
+                    "src": "/admin/page/cms/attachment/select",
+                    "id": "u:4c6d892f1ee7",
+                    "onEvent": {
+                        "attachment_sel": {
+                            "actions": [
+                                {
+                                    "actionType": "closeDialog",
+                                    "componentId": "attachment_sel_dialog"
+                                },
+                                {
+                                    "actionType": "broadcast",
+                                    "args": {
+                                        "eventName": "${event_name}"
+                                    },
+                                    "data": {
+                                        "eventData": "${event.data}",
+                                        "renderData": "${__rendererData}"
+                                    }
+                                }
+                            ]
                         }
-                        
-                      ]
-                    },
-                    {
-                      "type": "group",
-                      "body": [
-                        {
-                          "type": "input-image",
-                          "name": "cover_url",
-                          "label": "封面",
-                          "maxLength": 1,
-                          "receiver": "/upload/adminToken",
-                          "columnRatio": 2
-                        },
-                        {
-                          "name": "description",
-                          "type": "textarea",
-                          "clearable": true,
-                          "minRows": 4,
-                          "showCounter": true,
-                          "maxLength": 800,
-                          "label": "简介"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "group",
-                      "body": [
-                        {
-                          "name": "classify_modelName",
-                          "type": "static",
-                          "label": "模型",
-                          "value": "${modelName}",
-                          "columnRatio": 1
-                        },
-                        {
-                          "type": "hidden",
-                          "name": "models_uuid",
-                          "value": "${models_uuid}"
-                        },
-                        {
-                          "label": "分类",
-                          "type": "tree-select",
-                          "name": "classify_id",
-                          "required": true,
-                          "searchable": true,
-                          "columnRatio": 2,
-                          "source": "/admin/cms/doc/selectClassify?models_uuid=${models_uuid}"
-                        },
-                        {
-                          "type": "service",
-                          "schemaApi": "get:/admin/cms/doc/classifySubFrom?id=${classify_id}"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "group",
-                      "body": [
-                        {
-                          "name": "type",
-                          "type": "radios",
-                          "label": "类型",
-                          "selectFirst": true,
-                          "source": "${classify.type}",
-                          "columnRatio": 3
-                        },
-                        {
-                          "label": "状态",
-                          "type": "select",
-                          "name": "status",
-                          "columnRatio": 3,
-                          "value": 1,
-                          "options": [
-                            {
-                              "label": "正常",
-                              "value": 1
-                            },
-                            {
-                              "label": "草稿",
-                              "value": 3
-                            },
-                            {
-                              "label": "禁用",
-                              "value": 0
-                            }
-                          ]
-                        },
-                         {
-                          "label": "推荐",
-                          "type": "select",
-                          "name": "position",
-                          "multiple": true,
-                          "columnRatio": 3,
-                          "options": [
-                            {
-                              "label": "列表推荐",
-                              "value": "1"
-                            },
-                            {
-                              "label": "频道页推荐",
-                              "value": "2"
-                            },
-                            {
-                              "label": "首页推荐",
-                              "value": "4"
-                            }
-                          ]
-                        },
-                        {
-                          "label": "排序",
-                          "type": "input-number",
-                          "name": "level",
-                          "columnRatio": 3,
-                          "value": 0
-                        }
-                      ]
-                    },
-                    {
-                      "type": "group",
-                      "body": [
-                        {
-                          "type": "select",
-                          "name": "template",
-                          "placeholder": "请输入详情模板",
-                          "label": "详情模板",
-                          "searchable": true,
-                          "selectFirst": true,
-                          "source": "/admin/cms/template/getTemplate?type=detail",
-                          "description": "模板在/app/view/cms内,命名规则 detail_模板名称.html"
-                        },
-                        {
-                          "type": "input-text",
-                          "name": "ext_link",
-                          "placeholder": "请输入外链接",
-                          "label": "外链",
-                          "description": "如果填写链接,会跳转到这个链接,不填不跳转"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "group",
-                      "mode": "horizontal",
-                      "body": [
-                        {
-                          "type": "input-tag",
-                          "name": "tags",
-                          "label": "标签",
-                          "placeholder": "请选择标签"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "service",
-                      "schemaApi": "get:/admin/cms/doc/getContent?models_uuid=${models_uuid}&type=edit"
                     }
-                  ]
                 }
-              }
+            ],
+            "title": "附件选取",
+            "id": "attachment_sel_dialog",
+            "actions": [],
+            "showCloseButton": true,
+            "closeOnOutside": false,
+            "closeOnEsc": false,
+            "showErrorMsg": true,
+            "showLoading": true,
+            "draggable": false,
+            "size": "custom",
+            "editorSetting": {
+                "displayName": "附件选取"
             },
-            {
-              "type": "button",
-              "icon": "fa fa-times text-danger",
-              "actionType": "ajax",
-              "confirmText": "您确认要删除?",
-              "api": "get:/admin/cms/doc/docDel?id=$id"
-            }
-          ],
-          "toggled": true
+            "hideActions": true,
+            "actionType": "dialog",
+            "style": {
+                "width": "90%",
+                "height": "90%"
+            },
+            "$$ref": "modal-ref-3"
+        },
+        "special-sel": {
+            "type": "picker",
+            "label": "专题设置",
+            "name": "specialIds",
+            "overflowConfig": {
+                "maxTagCount": -1
+            },
+            "modalClassName": "app-popover :AMISCSSWrapper",
+            "id": "u:12c5c4d3516e",
+            "multiple": true,
+            "joinValues": false,
+            "overflowConfigSwitch": true,
+            "size": "xl",
+            "pickerSchema": {
+                "mode": "table",
+                "labelField": "title",
+                "valueField": "id",
+                "id": "u:6b9d8710eab1",
+                "perPageAvailable": [
+                    5,
+                    10,
+                    20,
+                    50,
+                    100
+                ],
+                "syncLocation": false,
+                "keepItemSelectionOnPageChange": true,
+                "alwaysShowPagination": true,
+                "autoFillHeight": true,
+                "bulkActions": [],
+                "columns": [
+                    {
+                        "name": "id",
+                        "label": "ID",
+                        "type": "text",
+                        "id": "u:56b98526d021",
+                        "placeholder": "-",
+                        "sortable": true
+                    },
+                    {
+                        "type": "datetime",
+                        "format": "YYYY-MM-DD HH:mm:ss",
+                        "value": 1736913666,
+                        "name": "createdAt",
+                        "label": "创建时间",
+                        "id": "u:92165b99e41f",
+                        "placeholder": "-",
+                        "sortable": true
+                    },
+                    {
+                        "type": "tpl",
+                        "tpl": "<a href='/special/${id}' target='_blank'>${title}</a>",
+                        "inline": true,
+                        "wrapperComponent": "",
+                        "name": "title",
+                        "label": "标题",
+                        "id": "u:716391dbef33",
+                        "searchable": {
+                            "type": "input-text",
+                            "name": "keyword"
+                        }
+                    },
+                    {
+                        "type": "text",
+                        "label": "描述",
+                        "name": "description",
+                        "id": "u:431f496e8f3c"
+                    },
+                    {
+                        "type": "image",
+                        "label": "封面图",
+                        "name": "thumb",
+                        "id": "u:37f8fd25ce64",
+                        "enlargeAble": true,
+                        "showToolbar": true,
+                        "maxScale": 200,
+                        "minScale": 50,
+                        "style": {
+                            "display": "inline-block"
+                        }
+                    },
+                    {
+                        "type": "carousel",
+                        "label": "轮播图",
+                        "name": "banners",
+                        "id": "u:de3e9b44560b"
+                    },
+                    {
+                        "type": "text",
+                        "label": "排序",
+                        "name": "sort",
+                        "id": "u:e6f26a92b078",
+                        "placeholder": "-",
+                        "sortable": true,
+                        "quickEdit": {
+                            "mode": "popOver",
+                            "saveImmediately": {
+                                "api": {
+                                    "method": "post",
+                                    "url": "/graphql",
+                                    "graphql": "mutation($id:ID!,$sort:Int!){Special_update(data:{sort:$sort},where:{id:{op_eq:$id}}){ids}}",
+                                    "data": {
+                                        "id": "${id}",
+                                        "sort": "${sort}"
+                                    }
+                                }
+                            },
+                            "type": "wrapper",
+                            "body": [
+                                {
+                                    "type": "input-number",
+                                    "name": "sort",
+                                    "keyboard": true,
+                                    "id": "u:1ffb177bf99f"
+                                }
+                            ],
+                            "id": "u:5b42ebd8b5df",
+                            "style": {
+                                "position": "static",
+                                "display": "block"
+                            },
+                            "isFixedHeight": false,
+                            "isFixedWidth": false
+                        }
+                    },
+                    {
+                        "type": "text",
+                        "label": "模板",
+                        "name": "temp",
+                        "id": "u:60d86e027abf"
+                    },
+                    {
+                        "type": "status",
+                        "label": "状态",
+                        "name": "status",
+                        "id": "u:e0fce44af4ed",
+                        "placeholder": "-",
+                        "searchable": {
+                            "type": "select",
+                            "options": [
+                                {
+                                    "label": "未上线",
+                                    "value": 0
+                                },
+                                {
+                                    "label": "上线",
+                                    "value": 1
+                                }
+                            ]
+                        },
+                        "quickEdit": {
+                            "mode": "popOver",
+                            "saveImmediately": {
+                                "api": {
+                                    "method": "post",
+                                    "url": "/graphql",
+                                    "graphql": "mutation($id:ID!,$status:Boolean!){Special_update(data:{status:$status},where:{id:{op_eq:$id}}){ids}}",
+                                    "data": {
+                                        "id": "${id}",
+                                        "status": "${status}"
+                                    }
+                                }
+                            },
+                            "type": "wrapper",
+                            "body": [
+                                {
+                                    "type": "switch",
+                                    "option": "是否上线",
+                                    "name": "status",
+                                    "falseValue": false,
+                                    "trueValue": true,
+                                    "id": "u:3582f36882d2",
+                                    "label": "",
+                                    "optionAtLeft": true
+                                }
+                            ],
+                            "id": "u:402c5ba752e4",
+                            "style": {
+                                "position": "static",
+                                "display": "block"
+                            },
+                            "isFixedHeight": false,
+                            "isFixedWidth": false
+                        }
+                    }
+                ],
+                "footerToolbar": [
+                    {
+                        "type": "statistics"
+                    },
+                    {
+                        "type": "pagination"
+                    },
+                    {
+                        "type": "switch-per-page",
+                        "tpl": "内容",
+                        "wrapperComponent": "",
+                        "id": "u:ffeaf3042a84"
+                    }
+                ]
+            },
+            "source": {
+                "url": "/admin/special/list",
+                "method": "get",
+                "requestAdaptor": "",
+                "adaptor": "",
+                "messages": {}
+            },
+            "labelField": "title",
+            "valueField": "id",
+            "embed": false,
+            "modalMode": "dialog",
+            "delimiter": ",",
+            "extractValue": true
         }
-      ]
-    }
-  ]
+    },
+    "asideClassName": "w page-aside-region bg-auto"
 }

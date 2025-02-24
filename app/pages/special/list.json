@@ -1,0 +1,1109 @@
+{
+    "type": "page",
+    "title": "专题列表",
+    "body": [
+        {
+            "type": "crud",
+            "syncLocation": false,
+            "api": {
+                "method": "get",
+                "url": "/admin/special/list"
+            },
+            "bulkActions": [],
+            "itemActions": [],
+            "headerToolbar": [
+                {
+                    "label": "新增",
+                    "type": "button",
+                    "actionType": "dialog",
+                    "level": "primary",
+                    "editorSetting": {
+                        "behavior": "create"
+                    },
+                    "dialog": {
+                        "type": "dialog",
+                        "title": "新增专题",
+                        "body": [
+                            {
+                                "type": "form",
+                                "debug": false,
+                                "api": {
+                                    "method": "post",
+                                    "url": "/graphql",
+                                    "graphql": "mutation($title:String!,$description:String,$thumb:String,$banners:JSON,$sort:Int!,$status:Boolean!,$temp:String){Special_create(data:{title:$title,description:$description,thumb:$thumb,banners:$banners,sort:$sort,status:$status,temp:$temp}){id}}",
+                                    "requestAdaptor": "",
+                                    "adaptor": "",
+                                    "messages": {}
+                                },
+                                "body": [
+                                    {
+                                        "type": "textarea",
+                                        "label": "标题",
+                                        "name": "title",
+                                        "id": "u:fe26d0dd1669",
+                                        "minRows": 2,
+                                        "maxRows": 5,
+                                        "maxLength": 128,
+                                        "required": true
+                                    },
+                                    {
+                                        "type": "textarea",
+                                        "label": "描述",
+                                        "name": "description",
+                                        "id": "u:45fa0c97ad84",
+                                        "minRows": 2,
+                                        "maxRows": 6,
+                                        "maxLength": 1000
+                                    },
+                                    {
+                                        "type": "group",
+                                        "body": [
+                                            {
+                                                "type": "input-image",
+                                                "name": "thumb",
+                                                "label": "",
+                                                "id": "u:9d3f3af668bb",
+                                                "accept": ".jpeg, .jpg, .png, .gif",
+                                                "uploadType": "fileReceptor",
+                                                "proxy": true,
+                                                "multiple": false,
+                                                "hideUploadButton": false,
+                                                "autoUpload": true,
+                                                "receiver": {
+                                                    "url": "/upload/adminToken",
+                                                    "method": "post",
+                                                    "requestAdaptor": "",
+                                                    "adaptor": "",
+                                                    "messages": {}
+                                                },
+                                                "crop": false,
+                                                "limit": true,
+                                                "maxSize": 20971520
+                                            },
+                                            {
+                                                "type": "button",
+                                                "label": "从附件选取",
+                                                "onEvent": {
+                                                    "click": {
+                                                        "actions": [
+                                                            {
+                                                                "ignoreError": false,
+                                                                "actionType": "dialog",
+                                                                "dialog": {
+                                                                    "$ref": "modal-ref-1"
+                                                                },
+                                                                "data": {
+                                                                    "event_name": "attachment_sel_for_add_dialog"
+                                                                }
+                                                            }
+                                                        ]
+                                                    }
+                                                },
+                                                "id": "u:a4c471240ac2",
+                                                "level": "link",
+                                                "size": "xs",
+                                                "themeCss": {
+                                                    "className": {
+                                                        "font:default": {
+                                                            "text-decoration": "underline"
+                                                        },
+                                                        "padding-and-margin:default": {
+                                                            "marginTop": "var(--sizes-base-24)"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        ],
+                                        "id": "u:b1ac1b5783da",
+                                        "subFormMode": "inline",
+                                        "label": "封面图"
+                                    },
+                                    {
+                                        "type": "combo",
+                                        "label": "轮播图",
+                                        "name": "banners",
+                                        "multiple": true,
+                                        "addable": true,
+                                        "removable": true,
+                                        "removableMode": "icon",
+                                        "addBtn": {
+                                            "label": "新增",
+                                            "icon": "fa fa-plus",
+                                            "level": "primary",
+                                            "size": "sm",
+                                            "id": "u:2b0b78376e34"
+                                        },
+                                        "items": [
+                                            {
+                                                "type": "flex",
+                                                "items": [
+                                                    {
+                                                        "type": "container",
+                                                        "body": [
+                                                            {
+                                                                "type": "input-image",
+                                                                "label": "",
+                                                                "name": "image",
+                                                                "autoUpload": true,
+                                                                "proxy": true,
+                                                                "uploadType": "fileReceptor",
+                                                                "id": "u:f226a3cb0c62",
+                                                                "accept": ".jpeg, .jpg, .png, .gif",
+                                                                "hideUploadButton": false,
+                                                                "receiver": {
+                                                                    "url": "/upload/adminToken",
+                                                                    "method": "post",
+                                                                    "requestAdaptor": "",
+                                                                    "adaptor": "",
+                                                                    "messages": {}
+                                                                },
+                                                                "crop": false,
+                                                                "required": true,
+                                                                "multiple": false,
+                                                                "limit": true,
+                                                                "maxSize": 20971520
+                                                            },
+                                                            {
+                                                                "type": "button",
+                                                                "label": "从附件选取",
+                                                                "onEvent": {
+                                                                    "click": {
+                                                                        "actions": [
+                                                                            {
+                                                                                "ignoreError": false,
+                                                                                "actionType": "dialog",
+                                                                                "dialog": {
+                                                                                    "$ref": "modal-ref-1"
+                                                                                },
+                                                                                "data": {
+                                                                                    "event_name": "aattachment_sel_for_add_dialog_lb",
+                                                                                    "attachment_index": "${event.data.index}"
+                                                                                }
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                },
+                                                                "id": "u:677d2c601a07",
+                                                                "level": "link",
+                                                                "size": "xs",
+                                                                "themeCss": {
+                                                                    "className": {
+                                                                        "font:default": {
+                                                                            "text-decoration": "underline"
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        ],
+                                                        "size": "none",
+                                                        "style": {
+                                                            "position": "static",
+                                                            "display": "flex",
+                                                            "flex": "1 1 auto",
+                                                            "flexGrow": 3,
+                                                            "flexBasis": "0px",
+                                                            "flexWrap": "nowrap",
+                                                            "alignItems": "center"
+                                                        },
+                                                        "wrapperBody": false,
+                                                        "isFixedHeight": false,
+                                                        "isFixedWidth": false,
+                                                        "id": "u:530871bd9440",
+                                                        "themeCss": {
+                                                            "baseControlClassName": {
+                                                                "padding-and-margin:default": {}
+                                                            }
+                                                        }
+                                                    },
+                                                    {
+                                                        "type": "container",
+                                                        "body": [
+                                                            {
+                                                                "type": "textarea",
+                                                                "label": "描述",
+                                                                "name": "description",
+                                                                "id": "u:302e16b936e2",
+                                                                "multiple": false,
+                                                                "minRows": 2,
+                                                                "maxRows": 3,
+                                                                "maxLength": 128,
+                                                                "labelAlign": "right",
+                                                                "mode": "horizontal"
+                                                            },
+                                                            {
+                                                                "type": "input-text",
+                                                                "label": "跳转链接",
+                                                                "name": "href",
+                                                                "id": "u:2764b908c749",
+                                                                "clearable": true,
+                                                                "maxLength": 256,
+                                                                "mode": "horizontal",
+                                                                "labelAlign": "right"
+                                                            }
+                                                        ],
+                                                        "size": "none",
+                                                        "style": {
+                                                            "position": "static",
+                                                            "display": "flex",
+                                                            "flex": "1 1 auto",
+                                                            "flexGrow": 9,
+                                                            "flexBasis": "0px",
+                                                            "flexWrap": "nowrap",
+                                                            "flexDirection": "column"
+                                                        },
+                                                        "wrapperBody": false,
+                                                        "isFixedHeight": false,
+                                                        "isFixedWidth": false,
+                                                        "id": "u:007d0921309f",
+                                                        "themeCss": {
+                                                            "baseControlClassName": {
+                                                                "padding-and-margin:default": {}
+                                                            }
+                                                        }
+                                                    }
+                                                ],
+                                                "style": {
+                                                    "position": "relative",
+                                                    "rowGap": "10px",
+                                                    "columnGap": "10px",
+                                                    "flexWrap": "nowrap",
+                                                    "inset": "auto",
+                                                    "alignItems": "stretch",
+                                                    "overflowY": "visible"
+                                                },
+                                                "id": "u:f743720d0725",
+                                                "isFixedHeight": false,
+                                                "isFixedWidth": false
+                                            }
+                                        ],
+                                        "id": "special_add_dialog_lb",
+                                        "strictMode": true,
+                                        "syncFields": [],
+                                        "maxLength": 10,
+                                        "tabsMode": false,
+                                        "multiLine": true,
+                                        "size": "full",
+                                        "subFormMode": ""
+                                    },
+                                    {
+                                        "type": "input-number",
+                                        "label": "排序",
+                                        "name": "sort",
+                                        "keyboard": true,
+                                        "id": "u:ec56e2f48e67",
+                                        "step": 1,
+                                        "value": 0,
+                                        "description": "越大越靠前"
+                                    },
+                                    {
+                                        "type": "select",
+                                        "label": "模板",
+                                        "name": "temp",
+                                        "multiple": false,
+                                        "clearable": true,
+                                        "searchable": true,
+                                        "description": "模板在/app/view/cms内,命名规则 special_show*.html",
+                                        "source": {
+                                            "method": "get",
+                                            "url": "/admin/cms/template/getTemplate?type=special&name=show",
+                                            "requestAdaptor": "",
+                                            "adaptor": "",
+                                            "messages": {}
+                                        },
+                                        "selectFirst": true,
+                                        "id": "u:48ebf673a073"
+                                    },
+                                    {
+                                        "type": "switch",
+                                        "label": "是否上线",
+                                        "option": "",
+                                        "name": "status",
+                                        "falseValue": false,
+                                        "trueValue": true,
+                                        "id": "u:5a64cb5ba0e1",
+                                        "multiple": true,
+                                        "value": false
+                                    }
+                                ],
+                                "id": "special_add_dialog",
+                                "actions": [
+                                    {
+                                        "type": "submit",
+                                        "label": "提交",
+                                        "primary": true
+                                    }
+                                ],
+                                "onEvent": {
+                                    "attachment_sel_for_add_dialog": {
+                                        "actions": [
+                                            {
+                                                "actionType": "setValue",
+                                                "args": {
+                                                    "value": {
+                                                        "thumb": "${event.data.eventData.url}"
+                                                    }
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    "aattachment_sel_for_add_dialog_lb": {
+                                        "actions": [
+                                            {
+                                                "ignoreError": false,
+                                                "script": "var values = context.getValues();\nvar banners = values.banners;\nvar pindex = event.data.renderData.attachment_index\nbanners[pindex] = { image: event.data.eventData.url, href: banners[pindex].href || '', description: event.data.eventData.description };\ndoAction({ actionType: 'setValue', componentId: 'special_add_dialog_lb', args: { value: banners } });",
+                                                "actionType": "custom"
+                                            }
+                                        ]
+                                    }
+                                },
+                                "feat": "Insert",
+                                "dsType": "api",
+                                "labelAlign": "right"
+                            }
+                        ],
+                        "actionType": "dialog",
+                        "id": "u:a9f530bed8fa",
+                        "actions": [
+                            {
+                                "type": "button",
+                                "actionType": "cancel",
+                                "label": "取消",
+                                "id": "u:591b3378065d"
+                            },
+                            {
+                                "type": "button",
+                                "actionType": "confirm",
+                                "label": "确定",
+                                "primary": true,
+                                "id": "u:0b6fccf006aa"
+                            }
+                        ],
+                        "showCloseButton": true,
+                        "closeOnOutside": false,
+                        "closeOnEsc": false,
+                        "showErrorMsg": true,
+                        "showLoading": true,
+                        "draggable": false,
+                        "size": "lg"
+                    },
+                    "id": "u:a25548d2c5dc",
+                    "disabledOnAction": false
+                },
+                {
+                    "type": "bulk-actions"
+                },
+                {
+                    "type": "button",
+                    "tpl": "内容",
+                    "wrapperComponent": "",
+                    "id": "u:af0204c07ae4",
+                    "align": "right",
+                    "label": "打开专题首页",
+                    "disabledOnAction": false,
+                    "level": "link",
+                    "themeCss": {
+                        "className": {
+                            "font:default": {
+                                "text-decoration": "underline"
+                            }
+                        }
+                    },
+                    "onEvent": {
+                        "click": {
+                            "weight": 0,
+                            "actions": [
+                                {
+                                    "ignoreError": false,
+                                    "actionType": "url",
+                                    "args": {
+                                        "url": "/special.html"
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            ],
+            "id": "u:d7e6be1372e8",
+            "perPageAvailable": [
+                5,
+                10,
+                20,
+                50,
+                100
+            ],
+            "messages": {},
+            "columns": [
+                {
+                    "name": "id",
+                    "label": "ID",
+                    "type": "text",
+                    "id": "u:56b98526d021",
+                    "placeholder": "-",
+                    "sortable": true
+                },
+                {
+                    "type": "datetime",
+                    "format": "YYYY-MM-DD HH:mm:ss",
+                    "value": 1736913666,
+                    "name": "createdAt",
+                    "label": "创建时间",
+                    "id": "u:92165b99e41f",
+                    "placeholder": "-",
+                    "sortable": true
+                },
+                {
+                    "type": "tpl",
+                    "tpl": "<a href='/special/${id}.html' target='_blank'>${title}</a>",
+                    "inline": true,
+                    "wrapperComponent": "",
+                    "name": "title",
+                    "label": "标题",
+                    "id": "u:716391dbef33",
+                    "searchable": {
+                        "type": "input-text",
+                        "name": "keyword"
+                    },
+                    "themeCss": {
+                        "baseControlClassName": {
+                            "font:default": {
+                                "color": "var(--colors-brand-5)",
+                                "text-decoration": "underline"
+                            }
+                        }
+                    }
+                },
+                {
+                    "type": "text",
+                    "label": "描述",
+                    "name": "description",
+                    "id": "u:431f496e8f3c"
+                },
+                {
+                    "type": "image",
+                    "label": "封面图",
+                    "name": "thumb",
+                    "id": "u:37f8fd25ce64",
+                    "enlargeAble": true,
+                    "showToolbar": true,
+                    "enlargeWithGallary": false,
+                    "maxScale": 200,
+                    "minScale": 50,
+                    "style": {
+                        "display": "inline-block"
+                    }
+                },
+                {
+                    "type": "carousel",
+                    "label": "轮播图",
+                    "name": "banners",
+                    "id": "u:de3e9b44560b"
+                },
+                {
+                    "type": "text",
+                    "label": "排序",
+                    "name": "sort",
+                    "id": "u:e6f26a92b078",
+                    "placeholder": "-",
+                    "sortable": true,
+                    "quickEdit": {
+                        "mode": "popOver",
+                        "saveImmediately": {
+                            "api": {
+                                "method": "post",
+                                "url": "/graphql",
+                                "graphql": "mutation($id:ID!,$sort:Int!){Special_update(data:{sort:$sort},where:{id:{op_eq:$id}}){ids}}",
+                                "data": {
+                                    "id": "${id}",
+                                    "sort": "${sort}"
+                                }
+                            }
+                        },
+                        "type": "wrapper",
+                        "body": [
+                            {
+                                "type": "input-number",
+                                "name": "sort",
+                                "keyboard": true,
+                                "id": "u:1ffb177bf99f"
+                            }
+                        ],
+                        "id": "u:5b42ebd8b5df",
+                        "style": {
+                            "position": "static",
+                            "display": "block"
+                        },
+                        "isFixedHeight": false,
+                        "isFixedWidth": false
+                    }
+                },
+                {
+                    "type": "text",
+                    "label": "模板",
+                    "name": "temp",
+                    "id": "u:60d86e027abf"
+                },
+                {
+                    "type": "status",
+                    "label": "状态",
+                    "name": "status",
+                    "id": "u:e0fce44af4ed",
+                    "placeholder": "-",
+                    "searchable": {
+                        "type": "select",
+                        "options": [
+                            {
+                                "label": "未上线",
+                                "value": 0
+                            },
+                            {
+                                "label": "上线",
+                                "value": 1
+                            }
+                        ]
+                    },
+                    "quickEdit": {
+                        "mode": "popOver",
+                        "saveImmediately": {
+                            "api": {
+                                "method": "post",
+                                "url": "/graphql",
+                                "graphql": "mutation($id:ID!,$status:Boolean!){Special_update(data:{status:$status},where:{id:{op_eq:$id}}){ids}}",
+                                "data": {
+                                    "id": "${id}",
+                                    "status": "${status}"
+                                }
+                            }
+                        },
+                        "type": "wrapper",
+                        "body": [
+                            {
+                                "type": "switch",
+                                "option": "是否上线",
+                                "name": "status",
+                                "falseValue": false,
+                                "trueValue": true,
+                                "id": "u:3582f36882d2",
+                                "label": "",
+                                "optionAtLeft": true
+                            }
+                        ],
+                        "id": "u:402c5ba752e4",
+                        "style": {
+                            "position": "static",
+                            "display": "block"
+                        },
+                        "isFixedHeight": false,
+                        "isFixedWidth": false
+                    }
+                },
+                {
+                    "type": "operation",
+                    "label": "操作",
+                    "buttons": [
+                        {
+                            "label": "编辑",
+                            "type": "button",
+                            "actionType": "dialog",
+                            "level": "link",
+                            "editorSetting": {
+                                "behavior": "update"
+                            },
+                            "dialog": {
+                                "type": "dialog",
+                                "title": "编辑专题",
+                                "body": [
+                                    {
+                                        "type": "form",
+                                        "api": {
+                                            "method": "post",
+                                            "url": "/graphql",
+                                            "graphql": "mutation($id:ID!,$title:String!,$description:String,$thumb:String,$banners:JSON,$sort:Int!,$status:Boolean!,$temp:String){Special_update(data:{title:$title,description:$description,thumb:$thumb,banners:$banners,sort:$sort,status:$status,temp:$temp},where:{id:{op_eq:$id}}){ids}}",
+                                            "requestAdaptor": "",
+                                            "adaptor": "",
+                                            "messages": {}
+                                        },
+                                        "initApi": "",
+                                        "body": [
+                                            {
+                                                "type": "hidden",
+                                                "name": "id",
+                                                "id": "u:9fc4a0d23fc4"
+                                            },
+                                            {
+                                                "type": "textarea",
+                                                "label": "标题",
+                                                "name": "title",
+                                                "minRows": 2,
+                                                "maxRows": 5,
+                                                "maxLength": 128,
+                                                "required": true,
+                                                "id": "u:102202ed5515"
+                                            },
+                                            {
+                                                "type": "textarea",
+                                                "label": "描述",
+                                                "name": "description",
+                                                "minRows": 2,
+                                                "maxRows": 6,
+                                                "maxLength": 1000,
+                                                "id": "u:3073a9b26b1a"
+                                            },
+                                            {
+                                                "type": "group",
+                                                "body": [
+                                                    {
+                                                        "type": "input-image",
+                                                        "name": "thumb",
+                                                        "label": "封面图",
+                                                        "id": "u:68732517b3f0",
+                                                        "accept": ".jpeg, .jpg, .png, .gif",
+                                                        "uploadType": "fileReceptor",
+                                                        "proxy": true,
+                                                        "multiple": false,
+                                                        "hideUploadButton": false,
+                                                        "autoUpload": true,
+                                                        "receiver": {
+                                                            "url": "/upload/adminToken",
+                                                            "method": "post",
+                                                            "requestAdaptor": "",
+                                                            "adaptor": "",
+                                                            "messages": {}
+                                                        },
+                                                        "crop": false,
+                                                        "limit": true,
+                                                        "maxSize": 20971520
+                                                    },
+                                                    {
+                                                        "type": "button",
+                                                        "label": "从附件选取",
+                                                        "onEvent": {
+                                                            "click": {
+                                                                "actions": [
+                                                                    {
+                                                                        "ignoreError": false,
+                                                                        "actionType": "dialog",
+                                                                        "dialog": {
+                                                                            "$ref": "modal-ref-1"
+                                                                        },
+                                                                        "data": {
+                                                                            "event_name": "attachment_sel_for_edit_dialog"
+                                                                        }
+                                                                    }
+                                                                ]
+                                                            }
+                                                        },
+                                                        "level": "link",
+                                                        "size": "xs",
+                                                        "themeCss": {
+                                                            "className": {
+                                                                "font:default": {
+                                                                    "text-decoration": "underline"
+                                                                },
+                                                                "padding-and-margin:default": {
+                                                                    "marginTop": "var(--sizes-base-24)"
+                                                                }
+                                                            }
+                                                        },
+                                                        "id": "u:10853ba71af5"
+                                                    }
+                                                ],
+                                                "subFormMode": "inline",
+                                                "label": "封面图",
+                                                "id": "u:1b1a74c92310"
+                                            },
+                                            {
+                                                "type": "combo",
+                                                "label": "轮播图",
+                                                "name": "banners",
+                                                "multiple": true,
+                                                "addable": true,
+                                                "removable": true,
+                                                "removableMode": "icon",
+                                                "addBtn": {
+                                                    "label": "新增",
+                                                    "icon": "fa fa-plus",
+                                                    "level": "primary",
+                                                    "size": "sm",
+                                                    "id": "u:c5963c7afe23"
+                                                },
+                                                "items": [
+                                                    {
+                                                        "type": "flex",
+                                                        "items": [
+                                                            {
+                                                                "type": "container",
+                                                                "body": [
+                                                                    {
+                                                                        "type": "input-image",
+                                                                        "label": "",
+                                                                        "name": "image",
+                                                                        "autoUpload": true,
+                                                                        "proxy": true,
+                                                                        "uploadType": "fileReceptor",
+                                                                        "accept": ".jpeg, .jpg, .png, .gif",
+                                                                        "hideUploadButton": false,
+                                                                        "receiver": {
+                                                                            "url": "/upload/adminToken",
+                                                                            "method": "post",
+                                                                            "requestAdaptor": "",
+                                                                            "adaptor": "",
+                                                                            "messages": {}
+                                                                        },
+                                                                        "crop": false,
+                                                                        "required": true,
+                                                                        "id": "u:dd3c07ee3944",
+                                                                        "multiple": false,
+                                                                        "limit": true,
+                                                                        "maxSize": 20971520
+                                                                    },
+                                                                    {
+                                                                        "type": "button",
+                                                                        "label": "从附件选取",
+                                                                        "onEvent": {
+                                                                            "click": {
+                                                                                "actions": [
+                                                                                    {
+                                                                                        "ignoreError": false,
+                                                                                        "actionType": "dialog",
+                                                                                        "dialog": {
+                                                                                            "$ref": "modal-ref-1"
+                                                                                        },
+                                                                                        "data": {
+                                                                                            "event_name": "aattachment_sel_for_edit_dialog_lb",
+                                                                                            "attachment_index": "${event.data.index}"
+                                                                                        }
+                                                                                    }
+                                                                                ]
+                                                                            }
+                                                                        },
+                                                                        "level": "link",
+                                                                        "size": "xs",
+                                                                        "themeCss": {
+                                                                            "className": {
+                                                                                "font:default": {
+                                                                                    "text-decoration": "underline"
+                                                                                }
+                                                                            }
+                                                                        },
+                                                                        "id": "u:e4300baf856e"
+                                                                    }
+                                                                ],
+                                                                "size": "none",
+                                                                "style": {
+                                                                    "position": "static",
+                                                                    "display": "flex",
+                                                                    "flex": "1 1 auto",
+                                                                    "flexGrow": 3,
+                                                                    "flexBasis": "0px",
+                                                                    "flexWrap": "nowrap",
+                                                                    "alignItems": "center"
+                                                                },
+                                                                "wrapperBody": false,
+                                                                "isFixedHeight": false,
+                                                                "isFixedWidth": false,
+                                                                "themeCss": {
+                                                                    "baseControlClassName": {
+                                                                        "padding-and-margin:default": {}
+                                                                    }
+                                                                },
+                                                                "id": "u:84e64c03cfa1"
+                                                            },
+                                                            {
+                                                                "type": "container",
+                                                                "body": [
+                                                                    {
+                                                                        "type": "textarea",
+                                                                        "label": "描述",
+                                                                        "name": "description",
+                                                                        "multiple": false,
+                                                                        "minRows": 2,
+                                                                        "maxRows": 3,
+                                                                        "maxLength": 128,
+                                                                        "labelAlign": "right",
+                                                                        "mode": "horizontal",
+                                                                        "id": "u:61f8db87fc01"
+                                                                    },
+                                                                    {
+                                                                        "type": "input-text",
+                                                                        "label": "跳转链接",
+                                                                        "name": "href",
+                                                                        "clearable": true,
+                                                                        "maxLength": 256,
+                                                                        "mode": "horizontal",
+                                                                        "labelAlign": "right",
+                                                                        "id": "u:c28f5f05d82c"
+                                                                    }
+                                                                ],
+                                                                "size": "none",
+                                                                "style": {
+                                                                    "position": "static",
+                                                                    "display": "flex",
+                                                                    "flex": "1 1 auto",
+                                                                    "flexGrow": 9,
+                                                                    "flexBasis": "0px",
+                                                                    "flexWrap": "nowrap",
+                                                                    "flexDirection": "column"
+                                                                },
+                                                                "wrapperBody": false,
+                                                                "isFixedHeight": false,
+                                                                "isFixedWidth": false,
+                                                                "themeCss": {
+                                                                    "baseControlClassName": {
+                                                                        "padding-and-margin:default": {}
+                                                                    }
+                                                                },
+                                                                "id": "u:6e6b9a648174"
+                                                            }
+                                                        ],
+                                                        "style": {
+                                                            "position": "relative",
+                                                            "rowGap": "10px",
+                                                            "columnGap": "10px",
+                                                            "flexWrap": "nowrap",
+                                                            "inset": "auto",
+                                                            "alignItems": "stretch",
+                                                            "overflowY": "visible"
+                                                        },
+                                                        "isFixedHeight": false,
+                                                        "isFixedWidth": false,
+                                                        "id": "u:52603486c589"
+                                                    }
+                                                ],
+                                                "strictMode": true,
+                                                "syncFields": [],
+                                                "maxLength": 10,
+                                                "tabsMode": false,
+                                                "multiLine": true,
+                                                "size": "full",
+                                                "subFormMode": "",
+                                                "id": "special_edit_dialog_lb"
+                                            },
+                                            {
+                                                "type": "input-number",
+                                                "label": "排序",
+                                                "name": "sort",
+                                                "keyboard": true,
+                                                "step": 1,
+                                                "value": 0,
+                                                "description": "越大越靠前",
+                                                "id": "u:d7714ea6e028"
+                                            },
+                                            {
+                                                "type": "select",
+                                                "label": "模板",
+                                                "name": "temp",
+                                                "multiple": false,
+                                                "clearable": true,
+                                                "searchable": true,
+                                                "description": "模板在/app/view/cms内,命名规则 special_show*.html",
+                                                "source": {
+                                                    "method": "get",
+                                                    "url": "/admin/cms/template/getTemplate?type=special&name=show",
+                                                    "requestAdaptor": "",
+                                                    "adaptor": "",
+                                                    "messages": {}
+                                                },
+                                                "selectFirst": true,
+                                                "id": "u:97e48450236d"
+                                            },
+                                            {
+                                                "type": "switch",
+                                                "label": "是否上线",
+                                                "option": "",
+                                                "name": "status",
+                                                "falseValue": false,
+                                                "trueValue": true,
+                                                "multiple": true,
+                                                "value": false,
+                                                "id": "u:6997f92bf683"
+                                            }
+                                        ],
+                                        "id": "special_edit_dialog",
+                                        "actions": [
+                                            {
+                                                "type": "submit",
+                                                "label": "提交",
+                                                "primary": true
+                                            }
+                                        ],
+                                        "onEvent": {
+                                            "attachment_sel_for_edit_dialog": {
+                                                "actions": [
+                                                    {
+                                                        "actionType": "setValue",
+                                                        "args": {
+                                                            "value": {
+                                                                "thumb": "${event.data.eventData.url}"
+                                                            }
+                                                        }
+                                                    }
+                                                ]
+                                            },
+                                            "aattachment_sel_for_edit_dialog_lb": {
+                                                "actions": [
+                                                    {
+                                                        "ignoreError": false,
+                                                        "script": "var values = context.getValues();\nvar banners = values.banners;\nvar pindex = event.data.renderData.attachment_index\nbanners[pindex] = { image: event.data.eventData.url, href: banners[pindex].href || '', description: event.data.eventData.description };\ndoAction({ actionType: 'setValue', componentId: 'special_edit_dialog_lb', args: { value: banners } });",
+                                                        "actionType": "custom"
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        "feat": "Edit",
+                                        "dsType": "api",
+                                        "labelAlign": "left",
+                                        "debug": false
+                                    }
+                                ],
+                                "actionType": "dialog",
+                                "id": "u:c2bb49f53713",
+                                "actions": [
+                                    {
+                                        "type": "button",
+                                        "actionType": "cancel",
+                                        "label": "取消",
+                                        "id": "u:f984f749074a"
+                                    },
+                                    {
+                                        "type": "button",
+                                        "actionType": "confirm",
+                                        "label": "确定",
+                                        "primary": true,
+                                        "id": "u:8ea6c7c1e8a2"
+                                    }
+                                ],
+                                "showCloseButton": true,
+                                "closeOnOutside": false,
+                                "closeOnEsc": false,
+                                "showErrorMsg": true,
+                                "showLoading": true,
+                                "draggable": false,
+                                "size": "lg"
+                            },
+                            "id": "u:ab9f9ed509a8"
+                        },
+                        {
+                            "type": "button",
+                            "label": "管理数据",
+                            "onEvent": {
+                                "click": {
+                                    "actions": [
+                                        {
+                                            "ignoreError": false,
+                                            "actionType": "url",
+                                            "args": {
+                                                "url": "/admin#/admin/special/dataList/${id}",
+                                                "blank": false
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            "id": "u:b77d4485a7d1",
+                            "level": "link"
+                        },
+                        {
+                            "type": "button",
+                            "label": "删除",
+                            "actionType": "ajax",
+                            "level": "link",
+                            "className": "text-danger",
+                            "confirmText": "确定要删除？",
+                            "api": {
+                                "method": "post",
+                                "url": "/graphql",
+                                "graphql": "mutation($id:ID!,$special_id:Int!){Special_destroy(where:{id:{op_eq:$id}}){count} SpecialData_destroy(where:{special_id:{op_eq:$special_id}}){count}}",
+                                "data": {
+                                    "id": "${id}",
+                                    "special_id": "${id}"
+                                }
+                            },
+                            "editorSetting": {
+                                "behavior": "delete"
+                            },
+                            "id": "u:ce8b9c7c5f51"
+                        }
+                    ],
+                    "id": "u:d6b12ee7b34a"
+                }
+            ],
+            "footerToolbar": [
+                {
+                    "type": "statistics"
+                },
+                {
+                    "type": "pagination"
+                },
+                {
+                    "type": "switch-per-page",
+                    "tpl": "内容",
+                    "wrapperComponent": "",
+                    "id": "u:ffeaf3042a84"
+                }
+            ],
+            "autoFillHeight": true
+        }
+    ],
+    "id": "u:b8871877d59e",
+    "asideResizor": false,
+    "pullRefresh": {
+        "disabled": true
+    },
+    "regions": [
+        "body",
+        "header"
+    ],
+    "definitions": {
+        "modal-ref-1": {
+            "type": "dialog",
+            "body": [
+                {
+                    "type": "iframe",
+                    "src": "/admin/page/cms/attachment/select",
+                    "id": "u:4c6d892f1ee7",
+                    "onEvent": {
+                        "attachment_sel": {
+                            "actions": [
+                                {
+                                    "actionType": "closeDialog",
+                                    "componentId": "attachment_sel_dialog"
+                                },
+                                {
+                                    "actionType": "broadcast",
+                                    "args": {
+                                        "eventName": "${event_name}"
+                                    },
+                                    "data": {
+                                        "eventData": "${event.data}",
+                                        "renderData": "${__rendererData}"
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            ],
+            "title": "附件选取",
+            "id": "attachment_sel_dialog",
+            "actions": [],
+            "showCloseButton": true,
+            "closeOnOutside": false,
+            "closeOnEsc": false,
+            "showErrorMsg": true,
+            "showLoading": true,
+            "draggable": false,
+            "size": "custom",
+            "editorSetting": {
+                "displayName": "附件选取"
+            },
+            "hideActions": true,
+            "actionType": "dialog",
+            "style": {
+                "width": "90%",
+                "height": "90%"
+            },
+            "$$ref": "modal-ref-1"
+        }
+    }
+}

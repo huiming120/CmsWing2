@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{wallInfo.title}}</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="Shortcut Icon" href="/public/sys/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/public/assets/css/sweetalert.css"></link>
+    <style>
+        * {margin: 0;padding: 0;}
+        html,body {width: 100%;height: 100%;overflow: hidden;margin: 0;padding: 0;}
+        body {
+            background-size: 100% 100%;
+            background-image: -webkit-linear-gradient(90deg, rgb(255, 0, 0) 2%, rgb(255, 75, 31) 100%);
+            {%if wallInfo.config.h_bg %}
+            background-image: url({{wallInfo.config.h_bg}});
+            {%endif%}
+        }
+        .adapter {margin: 0;padding: 0;position: relative;}
+
+        .clearfix:after{clear:both;display: table;content: '';}
+        .left{float:left;}
+        .right{float:right}
+        .container {
+            position: absolute;
+            -webkit-transform: perspective(1000px);
+            -moz-transform: perspective(1000px);
+            -ms-transform: perspective(1000px);
+            -o-transform: perspective(1000px);
+            transform: perspective(1000px);
+            -webkit-transform-style: preserve-3d;
+            -moz-transform-style: preserve-3d;
+            -ms-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+            -webkit-transform-origin:  center center;
+            -moz-transform-origin: center center ;
+            -ms-transform-origin: center center ;
+            -o-transform-origin: center center ;
+            transform-origin: center center ;
+            width: 60%;
+            height: 60%;
+            left: 20%;
+            top: 20%;
+        }
+        .element, .js_current_dom {
+            -webkit-background-size: 100% 100%;
+            -moz-background-size: 100% 100%;
+            -ms-background-size: 100% 100%;
+            -o-background-size: 100% 100%;
+            background-size: 100% 100%;
+            background-color: #fff;
+        }
+        .btn_circle {
+            height: 100px;
+            width: 100px;
+            border:20px solid #eee;
+            line-height: 100px;
+            font-size: 24px;
+            text-align: center;
+            border-radius: 50%;
+            background-color: #f00;
+            cursor: pointer;
+            position: absolute;
+            right: 50px;
+            bottom: 50px;
+            z-index: 9;
+            color:#fff;
+            -webkit-transition:all 0.7s linear;
+            -moz-transition:all 0.7s linear;
+            -ms-transition:all 0.7s linear;
+            -o-transition:all 0.7s linear;
+            transition:all 0.7s linear;
+        }
+        .btn_circle:hover{background-color: darkorange;border-color: #fff;}
+        .btn_start{position: static;margin:25px auto 0 auto;}
+        #stop {
+            width: 150px;
+            height: 150px;
+            right: calc(50% - 75px);
+            bottom: 50px;
+            line-height: 150px;
+            font-size: 50px;
+            font-weight: 800;
+            color: limegreen;
+        }
+        .mask {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            z-index: 999;
+        }
+        .lucky_icon {height: 70%;width: 70%;border-radius: 50%;margin-left:15%;}
+        .lucky_userInfo{position: absolute;height:100px;width:100px;color:#fff;font-size: 24px;}
+        .lucky_list{
+            width:1160px;
+            height:660px;
+            padding:20px;
+            position: relative;
+            margin:0 auto;
+            flex-shrink: 0;
+            background-color: rgba(0, 0, 0, 0.3);
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            border-radius: 10px;
+        }
+        .lucky_list::before {
+            {%if wallInfo.config.h_bg%}
+            background: url("{{wallInfo.config.h_bg}}") 0 / cover fixed;
+            {%endif%}
+            background-size: 100% 100%;
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            margin: -30px;
+            z-index: -1;
+            -webkit-filter:blur(50px);
+            filter:blur(50px);
+        }
+        .lpl_userInfo{
+            width:84px;
+            height:100px;
+            text-align: center;
+            float: left;
+            margin-bottom:10px;
+        }
+        .lpl_userImage{
+            width:60px;
+            height:60px;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            border-radius: 50%;
+        }
+        .lpl_userName{
+            margin-top:12px;
+            display: block;
+            overflow: hidden;
+            text-overflow:ellipsis;
+            white-space: nowrap;
+            font-size: 16px;
+            color:#fff;
+        }
+        .lucky_userName{
+            text-align: center;
+            margin-top:12px;
+            display: block;
+            overflow: hidden;
+            text-overflow:ellipsis;
+            white-space: nowrap;
+        }
+        .lucky_title{
+            text-align: center;
+            width:100%;
+            font-size:30px;
+            font-weight: bold;
+            color:#ffff6e;
+            height:150px;
+            line-height: 150px;
+        }
+        .lucky_prize{width:280px;}
+        .lucky_people_list{width:880px;}
+        .flex{display: flex;flex-direction: row;}
+        .lucky_prize_box{height:200px;display: flex;flex-direction: row;}
+        .lucky_prize_direction{
+            width:70px;
+            height:100%;
+            background-color: transparent;
+            border:none;
+            color:#fff;
+            font-size: 60px;
+            text-align: center;
+        }
+        .lucky_prize_direction.active{color:#f22;}
+        button:focus{outline: none;}
+        .lucky_prize_picture{width:160px;display: flex;justify-content: center;align-items: center;}
+        .lucky_prize_show{
+            max-width: 100%;
+            max-height:100%;
+            font-weight: bold;
+            font-size: 24px;
+            color: white;
+            background-color: #f22;
+            padding: 8px 12px;
+        }
+        .lucky_people_title{
+            width:100%;
+            height:60px;
+            background-color: #f22;
+            font-size: 24px;
+            color:#fff;
+            text-align: center;
+            line-height: 60px;
+            font-weight: bold;
+        }
+        .lucky_setting{
+            height:50px;
+            background-color: #f22;
+            font-size: 16px;
+            color:#fff;
+            text-align: left;
+            line-height: 50px;
+            padding:0 10px;
+            font-weight: bold;
+            margin-top:25px;
+        }
+        .select_box{float: right;margin-top:1px;}
+        .select_lucky_number{font-size: 22px;border:1px solid #eee;outline: none;}
+        .lucky_number{font-size: 24px;}
+        .lucky_prize_title{
+            height:50px;
+            background-color: #f22;
+            color:#fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            margin-top:25px;
+            padding: 0 10px;
+        }
+        .lpl_list{margin-top:20px;height:580px;overflow: auto;box-sizing: border-box;}
+        .loader_file{
+            position: absolute;
+            left:0;
+            top:0;
+            width:100%;
+            height:100%;
+            background-color: rgba(0, 0, 0, .6);
+            z-index:999999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color:#fff;
+            font-size: 30px;
+        }
+        .none {display: none;}
+
+        .s_bottom {
+            width: 100%;
+            height: 12px;
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            text-align: center;
+            z-index: 20;
+        }
+        .s_bottom.s_hide {
+            opacity: 0;
+            -webkit-opacity: 0;
+            -moz-opacity: 0;
+            -o-opacity: 0;
+            -ms-opacity: 0;
+            bottom: -68px;
+        }
+        .s_bottom .s_bottom_line {
+            width: 100%;
+            height: 12px;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            /*background:rgba(0,0,0,0.7);*/
+            z-index: 9;
+        }
+        .s_bottom .s_bottom_line.s_hide {
+            opacity: 0;
+            -webkit-opacity: 0;
+            -moz-opacity: 0;
+            -o-opacity: 0;
+            -ms-opacity: 0;
+        }
+        .s_bottom_link {
+            height: 56px;
+            display: inline-block;
+            margin-top: -56px;
+        }
+        .s_bottom_link.s_hide {
+            opacity: 0;
+            -webkit-opacity: 0;
+            -moz-opacity: 0;
+            -o-opacity: 0;
+            -ms-opacity: 0;
+        }
+        .s_bottom_link ul {
+            background: rgba(0, 0, 0, 0.7);
+            display: inline-block;
+            position: relative;
+            margin: 0;
+            padding: 0;
+            border-radius: 8px 8px 0 0;
+        }
+        .s_bottom_link ul li {
+            width: 50px;
+            height: 56px;
+            margin: 0 8px;
+            display: block;
+            float: left;
+            position: relative;
+        }
+        .s_bottom_link ul li a.s_b_icon {
+            width: 34px;
+            height: 34px;
+            display: block;
+            margin: 11px 8px;
+            background-size: 100% 100%;
+        }
+        .s_bottom_link ul li a.s_b_icon.prize {
+            background-image: url(/public/assets/wall/prize.png);
+        }
+        .s_bottom_link ul li a.s_b_icon.fullscreen {
+            background-image: url(/public/assets/wall/fullscreen.png);
+        }
+        .s_bottom_link ul li a.s_b_icon.sign_wall {
+            background-image: url(/public/assets/wall/sign.png);
+        }
+        .s_bottom_link ul li a.s_b_icon.prize.hover {
+            background-image: url(/public/assets/wall/prize_hove.png);
+        }
+        .s_bottom_link ul li a.s_b_icon.fullscreen.hover {
+            background-image: url(/public/assets/wall/fullscreen_hove.png);
+        }
+        .s_bottom_link ul li a.s_b_icon.sign_wall.hover {
+            background-image: url(/public/assets/wall/sign_hove.png);
+        }
+        .s_bottom_link ul li span {
+            position: absolute;
+            top: -35px;
+            left: 50%;
+            width: 70px;
+            margin-left: -40px;
+            color: #fff;
+            background: rgba(0, 0, 0, 0.44);
+            padding: 5px;
+            display: none;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        .s_bottom_link ul li span i {
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 5px solid rgba(0, 0, 0, 0.44);
+            position: absolute;
+            left: 50%;
+            margin-left: -5px;
+            bottom: -5px;
+        }
+    </style>
+</head>
+<body style="display: flex;justify-content: center;align-items: center;flex-wrap: nowrap;">
+    <div id="container" class="container none adapter"></div>
+    <div class="mask"></div>
+    <div id="stop" class="btn_circle none adapter">
+        停止
+    </div>
+    <div class="lucky_list clearfix adapter">
+        <div class="left lucky_prize">
+            <div class="lucky_prize_box">
+                <!-- 左箭头 -->
+                <button class="lucky_prize_left lucky_prize_direction">
+                    &lt;
+                </button>
+                <div data-default="1" class="lucky_prize_picture">
+                    {% for item in wallInfo.wall_awards %}
+                        {% if item.config.icon %}
+                            <img mid='{{item.id}}' cjindex='{{item.index}}' class="lucky_prize_show none" src="{{item.config.icon}}" alt="{{item.name}}{{item.count}}人" awardName="{{item.name}}" style="display: {{'inline' if loop.first else 'none'}};background-color: transparent;">
+                        {% else %}
+                            <div mid='{{item.id}}' cjindex='{{item.index}}' class="lucky_prize_show none" alt="{{item.name}}{{item.count}}人"  awardName="{{item.name}}" style="display: {{'inline' if loop.first else 'none'}};">{{item.name}}</div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <!-- 右箭头 -->
+                <button class="lucky_prize_right active lucky_prize_direction">
+                    &gt;
+                </button>
+            </div>
+            <div class="lucky_prize_title"></div>
+            <div class="lucky_setting">
+                <span>
+                    <b class="lucky_number">
+                        0
+                    </b>
+                    人参与
+                </span>
+                <div class="select_box">
+                    一次抽
+                    <select name="select_lucky_number" class="select_lucky_number">
+                        <option selected="selected" value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                        <option value="25">25</option>
+                        <option value="30">30</option>
+                        <option value="32">32</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                    人
+                </div>
+            </div>
+            <div id="open" class="btn_circle btn_start">
+                开始
+            </div>
+        </div>
+        <div class="right lucky_people_list">
+            <div class="lucky_people_title">
+                {{wallInfo.wall_awards[0].name}}中奖名单
+            </div>
+            {% for item in wallInfo.wall_awards %}
+                {% if loop.first %}
+                    <div class="lpl_list clearfix active"></div>
+                {% else %}
+                    <div class="lpl_list clearfix none"></div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    <div class="s_bottom">
+        <div class="s_bottom_line">
+        </div>
+        <div class="s_bottom_link adapter" style="transform-origin: 50% 100%;">
+            <ul>
+                <li class="li-lottery">
+                    <a title="签到" href="/admin/wall/index?id={{wallInfo.id}}" class="s_b_icon sign_wall"></a>
+                    <span>
+                        签到
+                        <i>
+                        </i>
+                    </span>
+                </li>
+                <li class="li-lottery">
+                    <a title="抽奖" href="/admin/wall/lottery?id={{wallInfo.id}}" class="s_b_icon prize"></a>
+                    <span>
+                        抽奖
+                        <i>
+                        </i>
+                    </span>
+                </li>
+                <li class="li-fullscreen">
+                    <a href="javascript:;" class="s_b_icon fullscreen"></a>
+                    <span>
+                        F11全屏
+                        <i>
+                        </i>
+                    </span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script type="text/javascript" src="/public/assets/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/public/assets/js/transform.js"></script>
+    <script type="text/javascript" src="/public/assets/js/tick.js"></script>
+    <script type="text/javascript" src="/public/assets/js/sweetalert.min.js"></script>
+    <script type="text/javascript">
+        (function ($) {
+            $.fn.lucky = function (opt) {
+                var opts = {
+                    row: 7, //每排显示个数  必须为奇数
+                    col: 5, //每列显示个数  必须为奇数
+                    depth: 6, //纵深度
+                    iconW: 30, //图片的宽
+                    iconH: 30, //图片的高
+                    iconRadius: 8, //图片的圆角
+                    data: personArray, //图片的地址数据
+                }
+                var _self = $(this);
+                var settings = $.extend({}, opts, opt);
+                var M = {
+                    WinHeight: $(this).height(),
+                    winWidth: $(this).width(),
+                    isThisTag: false,
+                    centerX: Math.ceil(settings.row / 2) - 1,
+                    centerY: Math.ceil(settings.col / 2) - 1,
+                    timer: null,
+                    isStop: false,
+                };
+
+                // 初始化应用
+                var initFun = function () {
+                    initEleFun();
+                    stepFun();
+                };
+                var initEleFun = function () {
+                    for (var i = 0; i < settings.depth; i++) {
+                        createEleFun(i);
+                    }
+                }
+
+                var createEleFun = function (n) {
+
+                    // 创建所有的dom元素
+                    var eleStr = '';
+                    for (var i = 0; i < settings.row; i++) {
+                        for (var r = 0; r < settings.col; r++) {
+                            if (i == M.centerX && r == M.centerY) {
+                                if (!M.isThisTag) {
+
+                                    eleStr += '<div style="' + styleFun(i, r) + '" class="js_current_dom"></div>';
+                                    M.isThisTag = true;
+
+                                }
+
+                            } else {
+                                eleStr += '<div data-depth="' + n + '" style="' + styleFun(i, r) + '" class="element"></div>';
+                            }
+                        }
+                    }
+                    _self.append(eleStr);
+                }
+
+                //设置每个头像的位置与样式
+                var styleFun = function (i, r) {
+                    onlyWidth = M.winWidth / settings.row,
+                        onlyHeight = M.WinHeight / settings.col,
+                        onlyCenterW = (M.winWidth / settings.row - settings.iconW) / 2,
+                        onlyCenterH = (M.WinHeight / settings.col - settings.iconH) / 2;
+                    var style = 'position:absolute;width:' + settings.iconW + 'px;height:' + settings.iconH + 'px;border-radius:' + settings.iconRadius + 'px;left:' + (i * onlyWidth + onlyCenterW) + 'px;top :' + (r * onlyHeight + onlyCenterH) + 'px;';
+                    return style;
+                }
+
+                //让每个头像运动
+                var stepFun = function () {
+
+                    var index = 0, elements = $('.element').length;
+                    for (var i = 0; i < elements; i++) {
+                        var element = $('.element')[i];
+                        if (!!settings.data[i]) {
+                            $(element).css('background-image', 'url(' + settings.data[i].data.headimgurl + ')');
+                        } else {
+                            if (settings.data.length > 0) {
+                                index >= (settings.data.length - 1) ? index = 0 : ++index;
+                                $(element).css('background-image', 'url(' + settings.data[index].data.headimgurl + ')');
+                            }
+                        }
+
+                        var depth = $(element).attr('data-depth');
+                        Transform(element);
+                        element.translateZ = -depth * 200;
+
+                        setTimeout(function (element) {
+                            var random = Math.floor(Math.random() * 3) + 15;
+                            tick(function () {
+                                if (!M.isStop) {
+                                    element.translateZ >= 200 ? element.translateZ = -depth * 200 : element.translateZ += random;
+                                }
+                            })
+                        }(element), 200)
+                    }
+
+                    //中间的头像运动
+                    var thisElement = $('.js_current_dom')[0];
+                    Transform(thisElement);
+                    tick(function () {
+                        thisElement.translateZ >= 200 ? thisElement.translateZ = 0 : thisElement.translateZ += 15;
+                    })
+                }
+
+                var preloadImg = function(arr){
+
+                }
+
+                //让中间的头像随机切换背景图
+                var randomFun = function () {
+
+                    M.timer = setInterval(function () {
+                        //如果内定号码不存在，则为随机号码
+                        var randomNum = Math.floor(Math.random() * settings.data.length); //（随机数）
+
+                        $('.js_current_dom').css({
+                        'background-image': 'url(' + settings.data[randomNum].data.headimgurl + ')'
+                        })
+                    }, 50)
+                }
+                //停止运动
+                M.stop = function () {
+                    clearInterval(M.timer);
+                    M.isStop = true;
+                }
+                //开始运动
+                M.open = function () {
+                    randomFun();
+                    M.isStop = false;
+                }
+                initFun();
+                return M;
+            }
+
+        })(jQuery);
+    </script>
+    <script type="text/javascript">
+        var dp_width = {{wallInfo.config.dp_width}}, dp_height = {{wallInfo.config.dp_height}};
+        if (dp_width / dp_height != screen.width / screen.height) {
+            (function(doc, win) {
+                var docEl = doc.documentElement,
+                resizeEvt = 'orientationchange' in window ? 'orientationchange': 'resize',
+                recalc = function() {
+                    var clientWidth = docEl.clientWidth, clientHeight = docEl.clientHeight;
+                    if (!clientWidth) return;
+                    $('.adapter').css('transform', 'scale(' + clientWidth/dp_width + ',' + clientHeight/dp_height + ')');
+                };
+                if (!doc.addEventListener) return;
+                win.addEventListener(resizeEvt, recalc, false);
+                // doc.addEventListener('DOMContentLoaded', recalc, false);
+                recalc();
+            })(document, window);
+        }
+
+        function initLuckyPeople() {
+            var keys = Object.keys(Obj.totalLuckyResult)
+            for (let i = 0; i < keys.length; i++) {
+                let tmp = Obj.totalLuckyResult[keys[i]];
+                for (let j = 0; j < tmp.length; j++) {
+                    let person = tmp[j];
+                    var $luckyEle = $('<img class="lpl_userImage" />');
+                    var $userName = $('<p class="lpl_userName"></p>');
+                    var $fragEle = $('<div class="lpl_userInfo"></div>');
+                    $fragEle.append($luckyEle, $userName);
+                    $luckyEle.attr('src', person.data.headimgurl);
+                    $userName.text(person.data['{{wallInfo.config.zj_field}}'])
+                    $('.lpl_list').eq(i).append($fragEle);
+                    $luckyEle.click(function () {
+                        swal({
+                            title: person.data.nickname + '(' + person.data.name + ')',
+                            text: "openid: " + person.openid + "<br/>手机号: " + person.data.mobile,
+                            html: true,
+                            imageUrl: person.data.headimgurl,
+                            allowOutsideClick: true,
+                            showConfirmButton: false
+                        })
+                    })
+                }
+            }
+        }
+
+        function showLuckyPeople(num,isLast) {
+            setTimeout(function () {
+                var $luckyEle = $('<img class="lucky_icon" />');
+                var $userName = $('<p class="lucky_userName"></p>');
+                var $fragEle = $('<div class="lucky_userInfo"></div>');
+                $fragEle.append($luckyEle, $userName);
+                $('.mask').append($fragEle);
+                $(".mask").fadeIn(1);
+                let person = Obj.luckyResult[num];
+                $luckyEle.attr('src', person.data.headimgurl);
+                $userName.text(person.data['{{wallInfo.config.zj_field}}'])
+                $fragEle.animate({
+                    'left': '50%',
+                    'top': '50%',
+                    'height': '200px',
+                    'width': '200px',
+                    'margin-left': '-100px',
+                    'margin-top': '-100px'
+                }, 400, function () {
+                    setTimeout(function () {
+                        $fragEle.animate({
+                            'height': '0px',
+                            'width': '0px',
+                            'margin-left': '100px',
+                            'margin-top': '-50px'
+                        }, 400, function () {
+                            if (isLast) {
+                                $(".mask").fadeOut(0);
+                            }
+                            $luckyEle
+                                .attr('class', 'lpl_userImage')
+                                .attr('style', '');
+                            $userName
+                                .attr('class', 'lpl_userName')
+                                .attr('style', '');
+                            $fragEle
+                                .attr('class', 'lpl_userInfo')
+                                .attr('style', '');
+                            $('.lpl_list.active').append($fragEle);
+                            $('.lpl_list.active').scrollTop($('.lpl_list.active')[0].scrollHeight)
+                            $luckyEle.click(function () {
+                                swal({
+                                    title: person.data.nickname + '(' + person.data.name + ')',
+                                    text: "openid: " + person.openid + "<br/>手机号: " + person.data.mobile,
+                                    html: true,
+                                    imageUrl: person.data.headimgurl,
+                                    allowOutsideClick: true,
+                                    showConfirmButton: false
+                                })
+                            })
+                        })
+                    }, 1)
+                })
+            }, num * 400)
+            setTimeout(function () {
+                $('.lucky_list').show();
+            }, 1)
+        }
+
+        var Obj = { luckyResult: [], totalLuckyResult: {}, luckyId: 0, luckyNum: $(".select_lucky_number").val() };
+        var personArray = [];
+        $('.lucky_prize_show').each(function () {
+            Obj.totalLuckyResult[parseInt($(this).attr('mid'))] = []
+        })
+        $(".select_lucky_number").bind('change', function () {
+            Obj.luckyNum = $(this).val();
+        })
+        $.ajax({
+            url: '/graphql',
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                query: `query{WallQdData_findAll(where:{wall_id:{op_eq:{{wallInfo.id}}}}){id openid award_id data}}`
+            },
+            success: function(data) {
+                if (data.status == 0) {
+                    var sign_list = data.data.WallQdData_findAll;
+                    for (let i = 0; i < sign_list.length; i++) {
+                        let person = sign_list[i];
+                        if (person.award_id == 0) {
+                            personArray.push(person)
+                        } else {
+                            Obj.totalLuckyResult[person.award_id].push(person)
+                        }
+                    }
+                    $('.lucky_number').text(personArray.length);
+                    initLuckyPeople();
+                    initLuckAniUI();
+                }
+            }
+        })
+
+        function initLuckAniUI() {
+            Obj.M = $('.container').lucky({
+                row: 7, //每排显示个数  必须为奇数
+                col: 7, //每列显示个数  必须为奇数
+                depth: 6, //纵深度
+                iconW: 30, //图片的宽
+                iconH: 30, //图片的高
+                iconRadius: 8, //图片的圆角
+                data: personArray, //数据的地址数组
+            });
+        }
+        
+        function startLuckAni() {
+            Obj.M.open();
+        }
+        
+        function stopLuckAni() {
+            Obj.M.stop()
+        }
+
+        $('#stop').click(function () {
+            stopLuckAni()
+            $(".container").hide();
+            $('.s_bottom').show();
+            $(this).hide();
+            var i = 0,l = Obj.luckyResult.length
+            for (; i < l; i++) {
+                showLuckyPeople(i,i==l-1);
+            }
+        })
+
+        $('#open').click(function () {
+            if (personArray.length < Obj.luckyNum) {
+                return alert("当前参与抽奖人数不够!")
+            }
+            $('.lucky_list').hide();
+            $('.s_bottom').hide();
+            $(".container").show();
+            startLuckAni();
+            $.post('/admin/wall/lottery', {
+                id: '{{wallInfo.id}}',
+                award_id: Obj.luckyId,
+                count: Obj.luckyNum,
+            }, function (data) {
+                if (data.status == 0) {
+                    personArray = data.data.noZJ;
+                    $('.lucky_number').text(personArray.length)
+                    Obj.luckyResult = data.data.zj;
+                    $("#stop").show(500);
+                } else {
+                    alert(data.msg);
+                    location.reload();
+                }
+            })
+        })
+
+        /*
+        切换奖品代码块
+        */
+        function tabPrize() {
+            var luckyDefalut = $(".lucky_prize_picture").attr('data-default');
+            var index = luckyDefalut ? luckyDefalut : 1;
+            tabSport(index);
+            var awardLen = {{wallInfo.wall_awards.length}};
+            $('.lucky_prize_left').click(function () {
+                $('.lucky_prize_right').addClass('active');
+                index <= 1 ? 1 : --index;
+                tabSport(index);
+            })
+            $('.lucky_prize_right').click(function () {
+                $('.lucky_prize_left').addClass('active');
+                index >= awardLen ? awardLen : ++index;
+                tabSport(index);
+            })
+        }
+        /*
+        切换奖品左右按钮公共模块
+        */
+        function tabSport(i) {
+            var awardLen = {{wallInfo.wall_awards.length}};
+            if (i >= awardLen) {
+                $('.lucky_prize_right').removeClass('active');
+            }
+            if (i <= 1) {
+                $('.lucky_prize_left').removeClass('active');
+            }
+            Obj.luckyId = parseInt($('.lucky_prize_show').eq(i-1).attr('mid'));
+            $('.lucky_prize_show').hide().eq(i - 1).show();
+            $(".lucky_prize_title").html($('.lucky_prize_show').eq(i - 1).attr('alt'));
+            $('.lpl_list').removeClass('active').hide().eq(i - 1).show().addClass('active');
+            // $('.lucky_people_title').html('第 ' + parseInt($('.lucky_prize_show').eq(i-1).attr('cjindex')) + ' 轮中奖名单')
+            $('.lucky_people_title').html($('.lucky_prize_show').eq(i - 1).attr('awardName') + '中奖名单')
+        }
+        tabPrize();
+
+        $('.s_bottom_link li').each(function() {
+            $(this).mouseenter(function() {
+                $(this).find('span').slideDown('fast');
+                $(this).find('a').addClass('hover');
+            }).mouseleave(function() {
+                $(this).find('span').slideUp('fast');
+                $(this).find('a').removeClass('hover');
+            });
+        });
+
+        var fullscreen = 0;
+        $(document).keydown(function(e) {
+            if (e.which === 122) {
+                e.preventDefault();
+                e.stopPropagation();
+                if (fullscreen == 0) {
+                    launchFullscreen(document.documentElement);
+                } else {
+                    exitFullscreen();
+                }
+            }
+        });
+        function launchFullscreen(element) {
+            if (element.requestFullscreen) {
+                element.requestFullscreen();
+            } else if (element.mozRequestFullScreen) {
+                element.mozRequestFullScreen();
+            } else if (element.webkitRequestFullscreen) {
+                element.webkitRequestFullscreen();
+            } else if (element.msRequestFullscreen) {
+                element.msRequestFullscreen();
+            }
+            fullscreen = 1;
+        }
+        function exitFullscreen() {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            }
+            fullscreen = 0;
+        }
+        $('.fullscreen').click(function() {
+            if (fullscreen == 0) {
+                launchFullscreen(document.documentElement);
+            } else {
+                exitFullscreen();
+            }
+        });
+
+        $('.s_bottom').live('mouseleave', function() {
+            $('.s_bottom_link').hide();
+        });
+        $('.s_bottom_line').live('mouseenter', function() {
+            $('.s_bottom_link').show();
+        });
+        setTimeout(function() {
+            $('.s_bottom_link').hide();
+        }, 1000);
+    </script>
+</body>
+</html>

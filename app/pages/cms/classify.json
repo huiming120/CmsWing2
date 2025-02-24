@@ -1,648 +1,1064 @@
 {
-  "type": "page",
-  "body": [
-    {
-      "type": "crud",
-      "syncLocation": false,
-      "api": "/admin/cms/classify/index",
-      "saveOrderApi":"/admin/cms/classify/saveOrder",
-      "draggable": true,
-      "columns": [
-        { "label": "ID", "type": "text", "name": "id", "id": "u:c304d60a9179" },
+    "type": "page",
+    "body": [
         {
-          "label": "图标",
-          "type": "image",
-          "name": "icon",
-          "id": "u:9f6baececcec",
-          "className": "tdimg"
-        },
-        {
-          "label": "名称",
-          "type": "text",
-          "name": "title",
-          "id": "u:c8731b5cac7c",
-          "searchable": true,
-          "sortable": true
-        },
-        {
-          "label": "标识",
-          "type": "text",
-          "name": "name",
-          "id": "u:cc2eb314f47a",
-          "searchable": true,
-          "sortable": true
-        },
-        {
-          "label": "地址",
-          "type": "text",
-          "name": "url",
-          "copyable": true
-        },
-        {
-          "label": "添加时间",
-          "type": "date",
-          "name": "createdAt",
-          "id": "u:baf452c0fff9"
-        },
-        {
-          "label": "更新时间",
-          "type": "date",
-          "name": "updatedAt",
-          "id": "u:ab1940615ee7"
-        },
-        {
-          "label": "状态",
-          "type": "status",
-          "name": "status",
-          "id": "u:e8a86827f75d"
-        },
-        {
-          "type": "operation",
-          "label": "操作",
-          "buttons": [
-            {
-              "label": "编辑",
-              "type": "button",
-              "actionType": "dialog",
-              "level": "link",
-              "dialog": {
-                "title": "编辑分类",
-                "size": "lg",
-                "body": {
-                  "type": "form",
-                  "debug": false,
-                  "mode": "horizontal",
-                  "api": "/admin/cms/classify/classifyEdit",
-                  
-                  "body": [
-                    {
-                      "type": "tabs",
-                      "tabs": [
-                        {
-                          "title": "基本信息",
-                          "body": [
+            "type": "crud",
+            "syncLocation": false,
+            "api": {
+                "method": "get",
+                "url": "/admin/cms/classify/index"
+            },
+            "saveOrderApi": "/admin/cms/classify/saveOrder",
+            "draggable": true,
+            "bulkActions": [],
+            "itemActions": [],
+            "headerToolbar": [
+                "bulkActions",
+                {
+                    "type": "button",
+                    "actionType": "dialog",
+                    "label": "新增分类",
+                    "level": "info",
+                    "align": "right",
+                    "dialog": {
+                        "type": "dialog",
+                        "title": "新增分类",
+                        "size": "lg",
+                        "body": [
                             {
-                              "type": "group",
-                              "body": [
-                                {
-                                  "type": "input-text",
-                                  "name": "title",
-                                  "placeholder": "请输入分类名称",
-                                  "label": "分类名称",
-                                  "required": true
-                                },
-                                {
-                                  "type": "input-text",
-                                  "name": "name",
-                                  "placeholder": "请输入分类标识",
-                                  "label": "分类标识"
-                                },
-                                {
-                                  "label": "上级分类",
-                                  "type": "tree-select",
-                                  "name": "pid",
-                                  "required": true,
-                                  "searchable": true,
-                                  "source": "/admin/cms/classify/topClassify"
-                                }
-                              ]
-                            },
-                            {
-                              "type": "group",
-                              "body": [
-                                {
-                                  "name": "models_uuid",
-                                  "type": "radios",
-                                  "label": "绑定模型",
-                                  "required": true,
-                                  "value": "e86401ba-85cb-47f7-9f53-853e26b939bd",
-                                  "options": [
-                                    {
-                                      "label": "文档",
-                                      "value": "e86401ba-85cb-47f7-9f53-853e26b939bd"
-                                    },
-                                    {
-                                      "label": "图片",
-                                      "value": "4e0da60c-13af-4965-8f35-e2b13742398e"
-                                    },
-                                    {
-                                      "label": "下载",
-                                      "value": "aac4b5a3-89f2-4c41-9213-39f43dcc0860"
+                                "type": "form",
+                                "debug": false,
+                                "mode": "horizontal",
+                                "api": {
+                                    "method": "post",
+                                    "url": "/admin/cms/classify/classifyAdd",
+                                    "requestAdaptor": "",
+                                    "adaptor": "",
+                                    "messages": {
+                                        "success": "保存成功，记得刷新缓存哟~"
                                     }
-                                  ]
                                 },
-                                {
-                                  "name": "type",
-                                  "type": "checkboxes",
-                                  "label": "文档类型",
-                                  "required": true,
-                                  "options": [
-                                    {
-                                      "label": "主题",
-                                      "value": "2"
-                                    },
-                                    {
-                                      "label": "目录",
-                                      "value": "1"
-                                    },
-                                    {
-                                      "label": "段落",
-                                      "value": "3"
-                                    }
-                                  ]
-                                }
-                              ]
-                            },
-                            {
-                              "type": "group",
-                              "body": [
-                                {
-                                  "type": "input-image",
-                                  "name": "icon",
-                                  "label": "分类图标",
-                                  "maxLength": 1,
-                                  "receiver": "/upload/adminToken"
-                                },
-                                {
-                                  "name": "display",
-                                  "type": "radios",
-                                  "label": "可见性",
-                                  "inline": false,
-                                  "options": [
-                                    {
-                                      "label": "所有人可见",
-                                      "value": 1
-                                    },
-                                    {
-                                      "label": "不可见",
-                                      "value": 0
-                                    },
-                                    {
-                                      "label": "段落管理员可见",
-                                      "value": 2
-                                    }
-                                  ]
-                                },
-                                {
-                                  "type": "input-number",
-                                  "name": "sort",
-                                  "label": "排序",
-                                  "value": 0
-                                },
-                                {
-                                  "type": "input-number",
-                                  "name": "list_row",
-                                  "label": "列表条数",
-                                  "value": 15
-                                }
-                              ]
-                            },
-                            {
-                              "type": "group",
-                              "body": [
-                                {
-                                  "name": "allow_publish",
-                                  "type": "switch",
-                                  "label": "会员投稿"
-                                },
-                                {
-                                  "name": "check",
-                                  "type": "switch",
-                                  "label": "投稿审核"
-                                },
-                                {
-                                  "name": "reply",
-                                  "type": "switch",
-                                  "label": "会员评论"
-                                }
-                              ]
-                            },
-                            {
-                              "type": "fieldSet",
-                              "title": "SEO设置",
-                              "collapsable": true,
-                              "body": {
-                                "type": "group",
-                                "mode": "none",
                                 "body": [
-                                  {
-                                    "name": "meta_title",
-                                    "type": "input-text",
-                                    "label": "META Title（栏目标题）"
-                                  },
-                                  {
-                                    "name": "keywords",
-                                    "type": "input-text",
-                                    "label": "META Keywords（栏目关键词）",
-                                    "columnRatio": 4
-                                  },
-                                  {
-                                    "name": "description",
-                                    "type": "input-text",
-                                    "label": "META Description（栏目描述）",
-                                    "columnRatio": 6
-                                  }
-                                ]
-                              }
-                            },
-                            {
-                              "type": "fieldSet",
-                              "title": "模板设置",
-                              "collapsable": true,
-                              "body": {
-                                "type": "group",
-                                "mode": "none",
-                                "body": [
-                                  {
-                                    "name": "template_lists",
-                                    "type": "select",
-                                    "label": "列表页模板",
-                                    "searchable": true,
-                                    "selectFirst": true,
-                                    "source": "/admin/cms/template/getTemplate?type=list",
-                                    "description": "模板在/app/view/cms内,命名规则 list_模板名称.html"
-                                  },
-                                  {
-                                    "name": "template_detail",
-                                    "type": "select",
-                                    "label": "详情页模板",
-                                    "searchable": true,
-                                    "selectFirst": true,
-                                    "source": "/admin/cms/template/getTemplate?type=detail",
-                                    "description": "模板在/app/view/cms内,命名规则 detail_模板名称.html"
-                                  }
-                                ]
-                              }
+                                    {
+                                        "type": "tabs",
+                                        "tabs": [
+                                            {
+                                                "title": "基本信息",
+                                                "body": [
+                                                    {
+                                                        "type": "group",
+                                                        "body": [
+                                                            {
+                                                                "type": "input-text",
+                                                                "name": "title",
+                                                                "placeholder": "请输入分类名称",
+                                                                "label": "分类名称",
+                                                                "required": true,
+                                                                "id": "u:ca924905665f"
+                                                            },
+                                                            {
+                                                                "type": "input-text",
+                                                                "name": "name",
+                                                                "placeholder": "请输入分类标识",
+                                                                "label": "分类标识",
+                                                                "id": "u:e728904db974",
+                                                                "visible": false
+                                                            },
+                                                            {
+                                                                "label": "上级分类",
+                                                                "type": "tree-select",
+                                                                "name": "pid",
+                                                                "required": true,
+                                                                "searchable": true,
+                                                                "source": "/admin/cms/classify/topClassify",
+                                                                "id": "u:4afbf9c16c2b"
+                                                            }
+                                                        ],
+                                                        "id": "u:558d8f0f5193"
+                                                    },
+                                                    {
+                                                        "type": "group",
+                                                        "body": [
+                                                            {
+                                                                "name": "models_uuid",
+                                                                "type": "radios",
+                                                                "label": "绑定模型",
+                                                                "required": true,
+                                                                "value": "e86401ba-85cb-47f7-9f53-853e26b939bd",
+                                                                "options": [
+                                                                    {
+                                                                        "label": "文档",
+                                                                        "value": "e86401ba-85cb-47f7-9f53-853e26b939bd"
+                                                                    },
+                                                                    {
+                                                                        "label": "图片",
+                                                                        "value": "4e0da60c-13af-4965-8f35-e2b13742398e"
+                                                                    },
+                                                                    {
+                                                                        "label": "下载",
+                                                                        "value": "aac4b5a3-89f2-4c41-9213-39f43dcc0860"
+                                                                    }
+                                                                ],
+                                                                "id": "u:678852e1703c"
+                                                            },
+                                                            {
+                                                                "name": "type",
+                                                                "type": "checkboxes",
+                                                                "label": "文档类型",
+                                                                "required": true,
+                                                                "options": [
+                                                                    {
+                                                                        "label": "主题",
+                                                                        "value": "2"
+                                                                    },
+                                                                    {
+                                                                        "label": "目录",
+                                                                        "value": "1"
+                                                                    },
+                                                                    {
+                                                                        "label": "段落",
+                                                                        "value": "3"
+                                                                    }
+                                                                ],
+                                                                "id": "u:5997c2135c2e",
+                                                                "joinValues": true,
+                                                                "value": "3",
+                                                                "visible": true,
+                                                                "disabled": false,
+                                                                "static": true
+                                                            }
+                                                        ],
+                                                        "id": "u:988decbb534f"
+                                                    },
+                                                    {
+                                                        "type": "group",
+                                                        "body": [
+                                                            {
+                                                                "type": "input-image",
+                                                                "name": "icon",
+                                                                "label": "分类图标",
+                                                                "maxLength": 1,
+                                                                "receiver": "/upload/adminToken",
+                                                                "id": "u:a3120007a374",
+                                                                "columnRatio": ""
+                                                            },
+                                                            {
+                                                                "type": "button",
+                                                                "label": "从附件选取",
+                                                                "onEvent": {
+                                                                    "click": {
+                                                                        "actions": [
+                                                                            {
+                                                                                "ignoreError": false,
+                                                                                "actionType": "dialog",
+                                                                                "dialog": {
+                                                                                    "$ref": "modal-ref-1"
+                                                                                },
+                                                                                "data": {
+                                                                                    "event_name": "attachment_sel_for_add_dialog"
+                                                                                }
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                },
+                                                                "id": "u:e61690c05ddc",
+                                                                "columnRatio": "auto",
+                                                                "icon": "",
+                                                                "level": "link",
+                                                                "size": "xs",
+                                                                "themeCss": {
+                                                                    "className": {
+                                                                        "font:default": {
+                                                                            "text-decoration": "underline"
+                                                                        },
+                                                                        "padding-and-margin:default": {
+                                                                            "marginTop": "var(--sizes-base-24)",
+                                                                            "marginLeft": "-1rem"
+                                                                        }
+                                                                    }
+                                                                }
+                                                            },
+                                                            {
+                                                                "name": "display",
+                                                                "type": "radios",
+                                                                "label": "可见性",
+                                                                "inline": false,
+                                                                "visible": false,
+                                                                "options": [
+                                                                    {
+                                                                        "label": "所有人可见",
+                                                                        "value": 1
+                                                                    },
+                                                                    {
+                                                                        "label": "不可见",
+                                                                        "value": 0
+                                                                    },
+                                                                    {
+                                                                        "label": "段落管理员可见",
+                                                                        "value": 2
+                                                                    }
+                                                                ],
+                                                                "id": "u:70908d1a9fc1",
+                                                                "columnRatio": "auto"
+                                                            },
+                                                            {
+                                                                "name": "status",
+                                                                "type": "switch",
+                                                                "label": "状态",
+                                                                "value": true,
+                                                                "columnRatio": "",
+                                                                "id": "u:b5a738b307c9"
+                                                            },
+                                                            {
+                                                                "type": "input-number",
+                                                                "name": "sort",
+                                                                "label": "排序",
+                                                                "value": 0,
+                                                                "id": "u:178073dec920",
+                                                                "columnRatio": "auto"
+                                                            },
+                                                            {
+                                                                "type": "input-number",
+                                                                "name": "list_row",
+                                                                "label": "列表条数",
+                                                                "value": 15,
+                                                                "id": "u:b8ca9dea6424",
+                                                                "columnRatio": "auto"
+                                                            }
+                                                        ],
+                                                        "id": "u:6ca2ec5fa072",
+                                                        "subFormMode": "inline",
+                                                        "gap": "xs"
+                                                    },
+                                                    {
+                                                        "type": "group",
+                                                        "body": [
+                                                            {
+                                                                "name": "allow_publish",
+                                                                "type": "switch",
+                                                                "label": "会员投稿",
+                                                                "id": "u:854673dc6cd8"
+                                                            },
+                                                            {
+                                                                "name": "check",
+                                                                "type": "switch",
+                                                                "value": true,
+                                                                "label": "投稿审核",
+                                                                "id": "u:f4bcbda4220b"
+                                                            },
+                                                            {
+                                                                "name": "reply",
+                                                                "type": "switch",
+                                                                "value": false,
+                                                                "label": "会员评论",
+                                                                "id": "u:69958e987f11"
+                                                            }
+                                                        ],
+                                                        "id": "u:14f5ead2b96a",
+                                                        "visible": false
+                                                    },
+                                                    {
+                                                        "type": "fieldSet",
+                                                        "title": "SEO设置",
+                                                        "collapsable": true,
+                                                        "body": [
+                                                            {
+                                                                "type": "group",
+                                                                "mode": "none",
+                                                                "body": [
+                                                                    {
+                                                                        "name": "meta_title",
+                                                                        "type": "input-text",
+                                                                        "label": "META Title（栏目标题）",
+                                                                        "id": "u:bb06e4be68a1"
+                                                                    },
+                                                                    {
+                                                                        "name": "keywords",
+                                                                        "type": "input-text",
+                                                                        "label": "META Keywords（栏目关键词）",
+                                                                        "columnRatio": 4,
+                                                                        "id": "u:3bbb2d6b55f5"
+                                                                    },
+                                                                    {
+                                                                        "name": "description",
+                                                                        "type": "input-text",
+                                                                        "label": "META Description（栏目描述）",
+                                                                        "columnRatio": 6,
+                                                                        "id": "u:70725e1a2e01"
+                                                                    }
+                                                                ],
+                                                                "id": "u:dbf7260dafa0"
+                                                            }
+                                                        ],
+                                                        "id": "u:792eda9c7511",
+                                                        "bodyClassName": "m-b-md"
+                                                    },
+                                                    {
+                                                        "type": "fieldSet",
+                                                        "title": "模板设置",
+                                                        "collapsable": true,
+                                                        "body": [
+                                                            {
+                                                                "type": "group",
+                                                                "mode": "none",
+                                                                "body": [
+                                                                    {
+                                                                        "name": "template_lists",
+                                                                        "type": "select",
+                                                                        "label": "列表页模板",
+                                                                        "searchable": true,
+                                                                        "selectFirst": true,
+                                                                        "source": "/admin/cms/template/getTemplate?type=list",
+                                                                        "description": "模板在/app/view/cms内,命名规则 list_模板名称.html",
+                                                                        "id": "u:b03c3cb7e66b"
+                                                                    },
+                                                                    {
+                                                                        "name": "template_detail",
+                                                                        "type": "select",
+                                                                        "label": "详情页模板",
+                                                                        "searchable": true,
+                                                                        "selectFirst": true,
+                                                                        "source": "/admin/cms/template/getTemplate?type=detail",
+                                                                        "description": "模板在/app/view/cms内,命名规则 detail_模板名称.html",
+                                                                        "id": "u:10c654111039"
+                                                                    }
+                                                                ],
+                                                                "id": "u:f641a71c0d95"
+                                                            }
+                                                        ],
+                                                        "id": "u:336b2452d6b0"
+                                                    }
+                                                ],
+                                                "id": "u:9b577d4e6aa2"
+                                            },
+                                            {
+                                                "title": "子分类",
+                                                "visible": false,
+                                                "body": [
+                                                    {
+                                                        "type": "combo",
+                                                        "name": "sub",
+                                                        "label": false,
+                                                        "multiple": true,
+                                                        "draggable": true,
+                                                        "multiLine": true,
+                                                        "items": [
+                                                            {
+                                                                "type": "group",
+                                                                "mode": "none",
+                                                                "body": [
+                                                                    {
+                                                                        "name": "label",
+                                                                        "type": "input-text",
+                                                                        "placeholder": "标题",
+                                                                        "unique": true
+                                                                    },
+                                                                    {
+                                                                        "name": "name",
+                                                                        "type": "input-text",
+                                                                        "placeholder": "标识",
+                                                                        "unique": true
+                                                                    },
+                                                                    {
+                                                                        "name": "type",
+                                                                        "type": "select",
+                                                                        "options": [
+                                                                            {
+                                                                                "label": "单选",
+                                                                                "value": "radios"
+                                                                            },
+                                                                            {
+                                                                                "label": "多选",
+                                                                                "value": "checkboxes"
+                                                                            }
+                                                                        ]
+                                                                    },
+                                                                    {
+                                                                        "type": "input-kv",
+                                                                        "name": "options",
+                                                                        "keyPlaceholder": "名称",
+                                                                        "valuePlaceholder": "值",
+                                                                        "columnRatio": 5,
+                                                                        "className": "mr-5"
+                                                                    }
+                                                                ]
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        ],
+                                        "id": "u:fb5c4d48f03b"
+                                    }
+                                ],
+                                "id": "add_classify_dialog",
+                                "actions": [
+                                    {
+                                        "type": "submit",
+                                        "label": "提交",
+                                        "primary": true
+                                    }
+                                ],
+                                "feat": "Insert",
+                                "onEvent": {
+                                    "attachment_sel_for_add_dialog": {
+                                        "actions": [
+                                            {
+                                                "actionType": "setValue",
+                                                "args": {
+                                                    "value": {
+                                                        "icon": "${event.data.eventData.url}"
+                                                    }
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                "dsType": "api",
+                                "labelAlign": "left"
                             }
-                          ]
+                        ],
+                        "actionType": "dialog",
+                        "id": "u:d7acb3b3f2e3",
+                        "$$ref": "modal-ref-1",
+                        "actions": [
+                            {
+                                "type": "button",
+                                "actionType": "cancel",
+                                "label": "取消",
+                                "id": "u:4d8ab71fd3e4"
+                            },
+                            {
+                                "type": "button",
+                                "actionType": "confirm",
+                                "label": "确定",
+                                "primary": true,
+                                "id": "u:380c60348216"
+                            }
+                        ]
+                    },
+                    "id": "u:9f347e885525"
+                },
+                {
+                    "label": "更新分类缓存",
+                    "type": "button",
+                    "align": "right",
+                    "onEvent": {
+                        "click": {
+                            "actions": [
+                                {
+                                    "actionType": "ajax",
+                                    "outputVar": "responseResult",
+                                    "args": {},
+                                    "ignoreError": false,
+                                    "options": {},
+                                    "api": {
+                                        "url": "/admin/sys/server/reloadCache/classify",
+                                        "method": "post",
+                                        "requestAdaptor": "",
+                                        "adaptor": "",
+                                        "messages": {
+                                            "success": "更新成功",
+                                            "failed": "更新失败"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "id": "u:f859c91988d4",
+                    "confirmText": "确认更新分类缓存？一般是在分类数据有修改的情况才做此操作！",
+                    "tooltip": "如果分类数据有修改记得需要点此操作哦"
+                }
+            ],
+            "id": "u:b3ec12d2ee29",
+            "perPageAvailable": [
+                5,
+                10,
+                20,
+                50,
+                100
+            ],
+            "messages": {},
+            "columns": [
+                {
+                    "label": "ID",
+                    "type": "text",
+                    "name": "id",
+                    "id": "u:55954486e471"
+                },
+                {
+                    "type": "text",
+                    "label": "排序",
+                    "name": "sort",
+                    "id": "u:4e067c855e1c",
+                    "placeholder": "-",
+                    "remark": "越小越靠前"
+                },
+                {
+                    "label": "图标",
+                    "type": "image",
+                    "name": "icon",
+                    "id": "u:83bb38821350",
+                    "enlargeAble": true,
+                    "enlargeWithGallary": false,
+                    "showToolbar": true,
+                    "className": "tdimg"
+                },
+                {
+                    "label": "名称",
+                    "type": "text",
+                    "name": "title",
+                    "id": "u:f597767b75dd",
+                    "searchable": true,
+                    "sortable": true
+                },
+                {
+                    "label": "标识",
+                    "type": "text",
+                    "name": "name",
+                    "id": "u:754cfd708c0e",
+                    "searchable": true,
+                    "sortable": true,
+                    "placeholder": "-",
+                    "toggled": false
+                },
+                {
+                    "label": "地址",
+                    "type": "text",
+                    "name": "url",
+                    "copyable": true,
+                    "id": "u:fe8344a16126"
+                },
+                {
+                    "type": "mapping",
+                    "label": "模型",
+                    "name": "models_uuid",
+                    "id": "u:cd9cbef05310",
+                    "map": {
+                        "*": "未知",
+                        "e86401ba-85cb-47f7-9f53-853e26b939bd": "文章",
+                        "4e0da60c-13af-4965-8f35-e2b13742398e": "图片",
+                        "aac4b5a3-89f2-4c41-9213-39f43dcc0860": "下载"
+                    }
+                },
+                {
+                    "label": "添加时间",
+                    "type": "date",
+                    "name": "createdAt",
+                    "id": "u:1f3a5accbd19"
+                },
+                {
+                    "label": "更新时间",
+                    "type": "date",
+                    "name": "updatedAt",
+                    "id": "u:cbbd809d75e8"
+                },
+                {
+                    "label": "状态",
+                    "type": "status",
+                    "name": "status",
+                    "id": "u:662b69b2b66e"
+                },
+                {
+                    "type": "operation",
+                    "label": "操作",
+                    "buttons": [
+                        {
+                            "label": "编辑",
+                            "type": "button",
+                            "actionType": "dialog",
+                            "level": "link",
+                            "dialog": {
+                                "type": "dialog",
+                                "title": "编辑分类",
+                                "size": "lg",
+                                "body": [
+                                    {
+                                        "type": "form",
+                                        "debug": false,
+                                        "mode": "horizontal",
+                                        "api": {
+                                            "method": "post",
+                                            "url": "/admin/cms/classify/classifyEdit",
+                                            "requestAdaptor": "",
+                                            "adaptor": "",
+                                            "messages": {
+                                                "success": "保存成功，记得刷新缓存哟~"
+                                            }
+                                        },
+                                        "body": [
+                                            {
+                                                "type": "tabs",
+                                                "tabs": [
+                                                    {
+                                                        "title": "基本信息",
+                                                        "body": [
+                                                            {
+                                                                "type": "group",
+                                                                "body": [
+                                                                    {
+                                                                        "type": "input-text",
+                                                                        "name": "title",
+                                                                        "placeholder": "请输入分类名称",
+                                                                        "label": "分类名称",
+                                                                        "required": true,
+                                                                        "id": "u:04f637fb3869"
+                                                                    },
+                                                                    {
+                                                                        "type": "input-text",
+                                                                        "name": "name",
+                                                                        "placeholder": "请输入分类标识",
+                                                                        "label": "分类标识",
+                                                                        "id": "u:c95a024ecda0",
+                                                                        "visible": false
+                                                                    },
+                                                                    {
+                                                                        "label": "上级分类",
+                                                                        "type": "tree-select",
+                                                                        "name": "pid",
+                                                                        "required": true,
+                                                                        "searchable": true,
+                                                                        "source": "/admin/cms/classify/topClassify",
+                                                                        "id": "u:b8ccd5bb914e"
+                                                                    }
+                                                                ],
+                                                                "id": "u:3b9a29b4e744"
+                                                            },
+                                                            {
+                                                                "type": "group",
+                                                                "body": [
+                                                                    {
+                                                                        "name": "models_uuid",
+                                                                        "type": "radios",
+                                                                        "label": "绑定模型",
+                                                                        "required": true,
+                                                                        "value": "e86401ba-85cb-47f7-9f53-853e26b939bd",
+                                                                        "options": [
+                                                                            {
+                                                                                "label": "文档",
+                                                                                "value": "e86401ba-85cb-47f7-9f53-853e26b939bd"
+                                                                            },
+                                                                            {
+                                                                                "label": "图片",
+                                                                                "value": "4e0da60c-13af-4965-8f35-e2b13742398e"
+                                                                            },
+                                                                            {
+                                                                                "label": "下载",
+                                                                                "value": "aac4b5a3-89f2-4c41-9213-39f43dcc0860"
+                                                                            }
+                                                                        ],
+                                                                        "id": "u:2df45b84019e"
+                                                                    },
+                                                                    {
+                                                                        "name": "type",
+                                                                        "type": "checkboxes",
+                                                                        "label": "文档类型",
+                                                                        "required": true,
+                                                                        "options": [
+                                                                            {
+                                                                                "label": "主题",
+                                                                                "value": "2"
+                                                                            },
+                                                                            {
+                                                                                "label": "目录",
+                                                                                "value": "1"
+                                                                            },
+                                                                            {
+                                                                                "label": "段落",
+                                                                                "value": "3"
+                                                                            }
+                                                                        ],
+                                                                        "id": "u:3abc72e3d46c",
+                                                                        "joinValues": true,
+                                                                        "visible": true,
+                                                                        "value": "3",
+                                                                        "static": true
+                                                                    }
+                                                                ],
+                                                                "id": "u:7920aa914717"
+                                                            },
+                                                            {
+                                                                "type": "group",
+                                                                "body": [
+                                                                    {
+                                                                        "type": "input-image",
+                                                                        "name": "icon",
+                                                                        "label": "分类图标",
+                                                                        "maxLength": 1,
+                                                                        "receiver": "/upload/adminToken",
+                                                                        "id": "u:94782724ee36",
+                                                                        "columnRatio": ""
+                                                                    },
+                                                                    {
+                                                                        "type": "button",
+                                                                        "label": "从附件选取",
+                                                                        "onEvent": {
+                                                                            "click": {
+                                                                                "actions": [
+                                                                                    {
+                                                                                        "ignoreError": false,
+                                                                                        "actionType": "dialog",
+                                                                                        "dialog": {
+                                                                                            "$ref": "modal-ref-1"
+                                                                                        },
+                                                                                        "data": {
+                                                                                            "event_name": "attachment_sel_for_edit_dialog"
+                                                                                        }
+                                                                                    }
+                                                                                ]
+                                                                            }
+                                                                        },
+                                                                        "id": "u:dc1591410dd5",
+                                                                        "level": "link",
+                                                                        "size": "xs",
+                                                                        "columnRatio": "auto",
+                                                                        "themeCss": {
+                                                                            "className": {
+                                                                                "font:default": {
+                                                                                    "text-decoration": "underline"
+                                                                                },
+                                                                                "padding-and-margin:default": {
+                                                                                    "marginTop": "var(--sizes-base-24)",
+                                                                                    "marginLeft": "-1rem"
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    },
+                                                                    {
+                                                                        "name": "display",
+                                                                        "type": "radios",
+                                                                        "label": "可见性",
+                                                                        "inline": false,
+                                                                        "visible": false,
+                                                                        "options": [
+                                                                            {
+                                                                                "label": "所有人可见",
+                                                                                "value": 1
+                                                                            },
+                                                                            {
+                                                                                "label": "不可见",
+                                                                                "value": 0
+                                                                            },
+                                                                            {
+                                                                                "label": "段落管理员可见",
+                                                                                "value": 2
+                                                                            }
+                                                                        ],
+                                                                        "id": "u:633beedfa7c2",
+                                                                        "columnRatio": "auto"
+                                                                    },
+                                                                    {
+                                                                        "name": "status",
+                                                                        "type": "switch",
+                                                                        "label": "状态",
+                                                                        "columnRatio": "auto",
+                                                                        "id": "u:ea2d7ebef904"
+                                                                    },
+                                                                    {
+                                                                        "type": "input-number",
+                                                                        "name": "sort",
+                                                                        "label": "排序",
+                                                                        "value": 0,
+                                                                        "id": "u:56e9e13e6a3c"
+                                                                    },
+                                                                    {
+                                                                        "type": "input-number",
+                                                                        "name": "list_row",
+                                                                        "label": "列表条数",
+                                                                        "value": 15,
+                                                                        "id": "u:bade066fea08"
+                                                                    }
+                                                                ],
+                                                                "id": "u:4fdc51c7e064",
+                                                                "gap": "xs",
+                                                                "subFormMode": "inline"
+                                                            },
+                                                            {
+                                                                "type": "group",
+                                                                "body": [
+                                                                    {
+                                                                        "name": "allow_publish",
+                                                                        "type": "switch",
+                                                                        "label": "会员投稿",
+                                                                        "id": "u:03e927ae05b2"
+                                                                    },
+                                                                    {
+                                                                        "name": "check",
+                                                                        "type": "switch",
+                                                                        "label": "投稿审核",
+                                                                        "id": "u:e264d39a209f"
+                                                                    },
+                                                                    {
+                                                                        "name": "reply",
+                                                                        "type": "switch",
+                                                                        "label": "会员评论",
+                                                                        "id": "u:14c611ab26ee"
+                                                                    }
+                                                                ],
+                                                                "id": "u:ce2b89b42f7a",
+                                                                "visible": false
+                                                            },
+                                                            {
+                                                                "type": "fieldSet",
+                                                                "title": "SEO设置",
+                                                                "collapsable": true,
+                                                                "body": [
+                                                                    {
+                                                                        "type": "group",
+                                                                        "mode": "none",
+                                                                        "body": [
+                                                                            {
+                                                                                "name": "meta_title",
+                                                                                "type": "input-text",
+                                                                                "label": "META Title（栏目标题）",
+                                                                                "id": "u:4dd89fe90869"
+                                                                            },
+                                                                            {
+                                                                                "name": "keywords",
+                                                                                "type": "input-text",
+                                                                                "label": "META Keywords（栏目关键词）",
+                                                                                "columnRatio": 4,
+                                                                                "id": "u:7bc9de2b8800"
+                                                                            },
+                                                                            {
+                                                                                "name": "description",
+                                                                                "type": "input-text",
+                                                                                "label": "META Description（栏目描述）",
+                                                                                "columnRatio": 6,
+                                                                                "id": "u:fc7637f54ba4"
+                                                                            }
+                                                                        ],
+                                                                        "id": "u:f203ac03ca72"
+                                                                    }
+                                                                ],
+                                                                "id": "u:08db3a78881a",
+                                                                "bodyClassName": "m-b-md"
+                                                            },
+                                                            {
+                                                                "type": "fieldSet",
+                                                                "title": "模板设置",
+                                                                "collapsable": true,
+                                                                "body": [
+                                                                    {
+                                                                        "type": "group",
+                                                                        "mode": "none",
+                                                                        "body": [
+                                                                            {
+                                                                                "name": "template_lists",
+                                                                                "type": "select",
+                                                                                "label": "列表页模板",
+                                                                                "searchable": true,
+                                                                                "selectFirst": true,
+                                                                                "source": "/admin/cms/template/getTemplate?type=list",
+                                                                                "description": "模板在/app/view/cms内,命名规则 list_模板名称.html",
+                                                                                "id": "u:0f86b859cca3"
+                                                                            },
+                                                                            {
+                                                                                "name": "template_detail",
+                                                                                "type": "select",
+                                                                                "label": "详情页模板",
+                                                                                "searchable": true,
+                                                                                "selectFirst": true,
+                                                                                "source": "/admin/cms/template/getTemplate?type=detail",
+                                                                                "description": "模板在/app/view/cms内,命名规则 detail_模板名称.html",
+                                                                                "id": "u:fb13d48fc8a3"
+                                                                            }
+                                                                        ],
+                                                                        "id": "u:484651be1da2"
+                                                                    }
+                                                                ],
+                                                                "id": "u:17a0480c98e4"
+                                                            }
+                                                        ],
+                                                        "id": "u:f32e518f97d2"
+                                                    },
+                                                    {
+                                                        "title": "子分类",
+                                                        "visible": false,
+                                                        "body": [
+                                                            {
+                                                                "type": "combo",
+                                                                "name": "sub",
+                                                                "label": false,
+                                                                "multiple": true,
+                                                                "draggable": true,
+                                                                "multiLine": true,
+                                                                "items": [
+                                                                    {
+                                                                        "type": "group",
+                                                                        "mode": "none",
+                                                                        "body": [
+                                                                            {
+                                                                                "name": "label",
+                                                                                "type": "input-text",
+                                                                                "placeholder": "标题",
+                                                                                "unique": true
+                                                                            },
+                                                                            {
+                                                                                "name": "name",
+                                                                                "type": "input-text",
+                                                                                "placeholder": "标识",
+                                                                                "unique": true
+                                                                            },
+                                                                            {
+                                                                                "name": "type",
+                                                                                "type": "select",
+                                                                                "options": [
+                                                                                    {
+                                                                                        "label": "单选",
+                                                                                        "value": "radios"
+                                                                                    },
+                                                                                    {
+                                                                                        "label": "多选",
+                                                                                        "value": "checkboxes"
+                                                                                    }
+                                                                                ]
+                                                                            },
+                                                                            {
+                                                                                "type": "input-kv",
+                                                                                "name": "options",
+                                                                                "keyPlaceholder": "名称",
+                                                                                "valuePlaceholder": "值",
+                                                                                "columnRatio": 5,
+                                                                                "className": "mr-5"
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                ]
+                                                            }
+                                                        ]
+                                                    }
+                                                ],
+                                                "id": "u:0f172e03768e"
+                                            },
+                                            {
+                                                "type": "hidden",
+                                                "name": "id",
+                                                "id": "u:457091cf7011"
+                                            }
+                                        ],
+                                        "id": "u:f3e4d064b23b",
+                                        "actions": [
+                                            {
+                                                "type": "submit",
+                                                "label": "提交",
+                                                "primary": true
+                                            }
+                                        ],
+                                        "feat": "Insert",
+                                        "onEvent": {
+                                            "attachment_sel_for_edit_dialog": {
+                                                "actions": [
+                                                    {
+                                                        "actionType": "setValue",
+                                                        "args": {
+                                                            "value": {
+                                                                "icon": "${event.data.eventData.url}"
+                                                            }
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        "dsType": "api",
+                                        "labelAlign": "left"
+                                    }
+                                ],
+                                "actionType": "dialog",
+                                "$$ref": "modal-ref-1",
+                                "id": "u:d90df9ff069f",
+                                "actions": [
+                                    {
+                                        "type": "button",
+                                        "actionType": "cancel",
+                                        "label": "取消",
+                                        "id": "u:5d31d8f4fc07"
+                                    },
+                                    {
+                                        "type": "button",
+                                        "actionType": "confirm",
+                                        "label": "确定",
+                                        "primary": true,
+                                        "id": "u:24453b35f6b8"
+                                    }
+                                ]
+                            },
+                            "id": "u:40a5e65b1725"
                         },
                         {
-                          "title": "子分类",
-                          "body": [
-                            
-                            {
-                              "type": "combo",
-                              "name": "sub",
-                              "label": false,
-                              "multiple": true,
-                              "draggable": true,
-                              "multiLine": true,
-                              "items": [
-                                {
-                                  "type": "group",
-                                  "mode": "none",
-                                  "body": [
-                                    {
-                                      "name": "label",
-                                      "type": "input-text",
-                                      "placeholder": "标题",
-                                      "unique": true
-                                    },
-                                    {
-                                      "name": "name",
-                                      "type": "input-text",
-                                      "placeholder": "标识",
-                                      "unique": true
-                                    },
-                                    
-                                    {
-                                      "name": "type",
-                                      "type": "select",
-                                      "options": [
-                                        {
-                                          "label": "单选",
-                                          "value": "radios"
-                                        },
-                                        {
-                                          "label": "多选",
-                                          "value": "checkboxes"
-                                        }
-                                      ]
-                                    }, {
-                                      "type": "input-kv",
-                                      "name": "options",
-                                      "keyPlaceholder": "名称",
-                                      "valuePlaceholder": "值",
-                                      "columnRatio": 5,
-                                      "className":"mr-5"
-                                    }
-                                    
-                                  ]
-                                }
-                              ]
-                            }
-                          ]
+                            "type": "button",
+                            "label": "删除",
+                            "actionType": "ajax",
+                            "level": "link",
+                            "className": "text-danger",
+                            "confirmText": "确定要删除？删除栏目后会把子栏目和栏目下的内容一起删除！",
+                            "api": "get:/admin/cms/classify/classifyDel?id=$id",
+                            "id": "u:3e4cdef1bba6"
                         }
-                      ]
-                    },
-                    {
-                      "type":"hidden",
-                      "name":"id"
-                    }
-                  ]
+                    ],
+                    "id": "u:8b89be105429"
                 }
-              },
-              "id": "u:e46a4137188c"
-            },
-            {
-              "type": "button",
-              "label": "删除",
-              "actionType": "ajax",
-              "level": "link",
-              "className": "text-danger",
-              "confirmText": "确定要删除？删除栏目后会把子栏目和栏目下的内容一起删除！",
-              "api": "get:/admin/cms/classify/classifyDel?id=$id",
-              "id": "u:071f4b3e2fee"
-            }
-          ],
-          "id": "u:e9c8477079a2"
-        }
-      ],
-      "bulkActions": [],
-      "itemActions": [],
-      "headerToolbar": ["bulkActions",  {
-        "type": "button",
-        "actionType": "dialog",
-        "label": "新增分类",
-        "level": "info",
-        "align": "right",
-        "dialog": {
-          "title": "新增分类",
-          "size": "lg",
-          "body": {
-            "type": "form",
-            "debug": false,
-            "mode": "horizontal",
-            "api": "/admin/cms/classify/classifyAdd",
-            "body": [
-              {
-                "type": "tabs",
-                "tabs": [
-                  {
-                    "title": "基本信息",
-                    "body": [
-                      {
-                        "type": "group",
-                        "body": [
-                          {
-                            "type": "input-text",
-                            "name": "title",
-                            "placeholder": "请输入分类名称",
-                            "label": "分类名称",
-                            "required": true
-                          },
-                          {
-                            "type": "input-text",
-                            "name": "name",
-                            "placeholder": "请输入分类标识",
-                            "label": "分类标识"
-                          },
-                          {
-                            "label": "上级分类",
-                            "type": "tree-select",
-                            "name": "pid",
-                            "required": true,
-                            "searchable": true,
-                            "source": "/admin/cms/classify/topClassify"
-                          }
-                        ]
-                      },
-                      {
-                        "type": "group",
-                        "body": [
-                          {
-                            "name": "models_uuid",
-                            "type": "radios",
-                            "label": "绑定模型",
-                            "required": true,
-                            "value": "e86401ba-85cb-47f7-9f53-853e26b939bd",
-                            "options": [
-                              {
-                                "label": "文档",
-                                "value": "e86401ba-85cb-47f7-9f53-853e26b939bd"
-                              },
-                              {
-                                "label": "图片",
-                                "value": "4e0da60c-13af-4965-8f35-e2b13742398e"
-                              },
-                              {
-                                "label": "下载",
-                                "value": "aac4b5a3-89f2-4c41-9213-39f43dcc0860"
-                              }
-                            ]
-                          },
-                          {
-                            "name": "type",
-                            "type": "checkboxes",
-                            "label": "文档类型",
-                            "required": true,
-                            "options": [
-                              {
-                                "label": "主题",
-                                "value": "2"
-                              },
-                              {
-                                "label": "目录",
-                                "value": "1"
-                              },
-                              {
-                                "label": "段落",
-                                "value": "3"
-                              }
-                            ]
-                          }
-                        ]
-                      },
-                      {
-                        "type": "group",
-                        "body": [
-                          {
-                            "type": "input-image",
-                            "name": "icon",
-                            "label": "分类图标",
-                            "maxLength": 1,
-                            "receiver": "/upload/adminToken"
-                          },
-                          {
-                            "name": "display",
-                            "type": "radios",
-                            "label": "可见性",
-                            "inline": false,
-                            "options": [
-                              {
-                                "label": "所有人可见",
-                                "value": 1
-                              },
-                              {
-                                "label": "不可见",
-                                "value": 0
-                              },
-                              {
-                                "label": "段落管理员可见",
-                                "value": 2
-                              }
-                            ]
-                          },
-                          {
-                            "type": "input-number",
-                            "name": "sort",
-                            "label": "排序",
-                            "value": 0
-                          },
-                          {
-                            "type": "input-number",
-                            "name": "list_row",
-                            "label": "列表条数",
-                            "value": 15
-                          }
-                        ]
-                      },
-                      {
-                        "type": "group",
-                        "body": [
-                          {
-                            "name": "allow_publish",
-                            "type": "switch",
-                            "label": "会员投稿"
-                          },
-                          {
-                            "name": "check",
-                            "type": "switch",
-                            "value":true,
-                            "label": "投稿审核"
-                          },
-                          {
-                            "name": "reply",
-                            "type": "switch",
-                            "value":true,
-                            "label": "会员评论"
-                          }
-                        ]
-                      },
-                      {
-                        "type": "fieldSet",
-                        "title": "SEO设置",
-                        "collapsable": true,
-                        "body": {
-                          "type": "group",
-                          "mode": "none",
-                          "body": [
-                            {
-                              "name": "meta_title",
-                              "type": "input-text",
-                              "label": "META Title（栏目标题）"
-                            },
-                            {
-                              "name": "keywords",
-                              "type": "input-text",
-                              "label": "META Keywords（栏目关键词）",
-                              "columnRatio": 4
-                            },
-                            {
-                              "name": "description",
-                              "type": "input-text",
-                              "label": "META Description（栏目描述）",
-                              "columnRatio": 6
-                            }
-                          ]
-                        }
-                      },
-                      
-                      {
-                        "type": "fieldSet",
-                        "title": "模板设置",
-                        "collapsable": true,
-                        "body": {
-                          "type": "group",
-                          "mode": "none",
-                          "body": [
-                            
-                            {
-                              "name": "template_lists",
-                              "type": "select",
-                              "label": "列表页模板",
-                              "searchable": true,
-                              "selectFirst": true,
-                              "source": "/admin/cms/template/getTemplate?type=list",
-                              "description": "模板在/app/view/cms内,命名规则 list_模板名称.html"
-                            },
-                            {
-                              "name": "template_detail",
-                              "type": "select",
-                              "label": "详情页模板",
-                              "searchable": true,
-                              "selectFirst": true,
-                              "source": "/admin/cms/template/getTemplate?type=detail",
-                              "description": "模板在/app/view/cms内,命名规则 detail_模板名称.html"
-                            }
-                          ]
-                        }
-                      }
-                    ]
-                  },
-                  {
-                    "title": "子分类",
-                    "body": [
-                      
-                      {
-                        "type": "combo",
-                        "name": "sub",
-                        "label": false,
-                        "multiple": true,
-                        "draggable": true,
-                        "multiLine": true,
-                        "items": [
-                          {
-                            "type": "group",
-                            "mode": "none",
-                            "body": [
-                              {
-                                "name": "label",
-                                "type": "input-text",
-                                "placeholder": "标题",
-                                "unique": true
-                              },
-                              {
-                                "name": "name",
-                                "type": "input-text",
-                                "placeholder": "标识",
-                                "unique": true
-                              },
-                              
-                              {
-                                "name": "type",
-                                "type": "select",
-                                "options": [
-                                  {
-                                    "label": "单选",
-                                    "value": "radios"
-                                  },
-                                  {
-                                    "label": "多选",
-                                    "value": "checkboxes"
-                                  }
-                                ]
-                              }, {
-                                "type": "input-kv",
-                                "name": "options",
-                                "keyPlaceholder": "名称",
-                                "valuePlaceholder": "值",
-                                "columnRatio": 5,
-                                "className":"mr-5"
-                              }
-                            ]
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              }
             ]
-          }
         }
-      }],
-      "id": "u:39e05f5b50e4"
+    ],
+    "id": "u:2ee5af6e7eee",
+    "asideResizor": false,
+    "pullRefresh": {
+        "disabled": true
+    },
+    "regions": [
+        "body"
+    ],
+    "definitions": {
+        "modal-ref-1": {
+            "type": "dialog",
+            "body": [
+                {
+                    "type": "iframe",
+                    "src": "/admin/page/cms/attachment/select",
+                    "id": "u:4c6d892f1ee7",
+                    "onEvent": {
+                        "attachment_sel": {
+                            "actions": [
+                                {
+                                    "actionType": "closeDialog",
+                                    "componentId": "attachment_sel_dialog"
+                                },
+                                {
+                                    "actionType": "broadcast",
+                                    "args": {
+                                        "eventName": "${event_name}"
+                                    },
+                                    "data": {
+                                        "eventData": "${event.data}",
+                                        "renderData": "${__rendererData}"
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            ],
+            "title": "附件选取",
+            "id": "attachment_sel_dialog",
+            "actions": [],
+            "showCloseButton": true,
+            "closeOnOutside": false,
+            "closeOnEsc": false,
+            "showErrorMsg": true,
+            "showLoading": true,
+            "draggable": false,
+            "size": "custom",
+            "editorSetting": {
+                "displayName": "附件选取"
+            },
+            "hideActions": true,
+            "actionType": "dialog",
+            "style": {
+                "width": "90%",
+                "height": "90%"
+            }
+        }
     }
-  ]
 }

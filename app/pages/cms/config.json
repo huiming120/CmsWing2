@@ -1,42 +1,317 @@
 {
-  "type": "page",
-  "body": {
-    "type": "form",
-    "title": "CMS配置",
-    "mode": "horizontal",
-    "debug":false,
-    "initApi": "/admin/sys/config/cms",
-    "api": "/admin/sys/config/cms/update",
+    "type": "page",
     "body": [
-      {
-        "type": "input-text",
-        "name": "name",
-        "label": "应用名称",
-        "description":"后台调用 this.config.cms.name , 模版调用 {{ctx.app.config.cms.name}}"
-      },
-      {
-        "type": "input-tag",
-        "name": "keywords",
-        "label": "关键词",
-        "description":"后台调用 this.config.cms.keywords , 模版调用 {{ctx.app.config.cms.keywords}}"
-      },
-      {
-        "type": "input-text",
-        "name": "description",
-        "label": "应用简介",
-        "description":"后台调用 this.config.cms.description , 模版调用 {{ctx.app.config.cms.description}}"
-      },{
-        "type": "input-text",
-        "name": "icp",
-        "label": "ICP备案号",
-        "description":"后台调用 this.config.cms.icp , 模版调用 {{ctx.app.config.cms.icp}}"
-      },{
-        "type": "editor",
-        "name": "tongji",
-        "label": "统计代码",
-        "language": "javascript",
-        "description":"后台调用 this.config.cms.tongji , 模版调用 {{ctx.app.config.cms.tongji}}"
-      }
+        {
+            "type": "tabs",
+            "tabs": [
+                {
+                    "title": "常规配置",
+                    "body": [
+                        {
+                            "type": "form",
+                            "title": "常规配置",
+                            "mode": "horizontal",
+                            "initApi": "/admin/sys/config/cms",
+                            "api": "/admin/sys/config/cms/update",
+                            "body": [
+                                {
+                                    "type": "input-text",
+                                    "name": "name",
+                                    "label": "应用名称",
+                                    "description": "后台调用 this.config.cms.name , 模版调用 {{ctx.app.config.cms.name}}",
+                                    "id": "u:7691c4fb1250"
+                                },
+                                {
+                                    "type": "input-tag",
+                                    "name": "keywords",
+                                    "label": "关键词",
+                                    "description": "后台调用 this.config.cms.keywords , 模版调用 {{ctx.app.config.cms.keywords}}",
+                                    "id": "u:6807f3c8c2b5"
+                                },
+                                {
+                                    "type": "input-text",
+                                    "name": "description",
+                                    "label": "应用简介",
+                                    "description": "后台调用 this.config.cms.description , 模版调用 {{ctx.app.config.cms.description}}",
+                                    "id": "u:b70366825372"
+                                },
+                                {
+                                    "type": "input-text",
+                                    "name": "icp",
+                                    "label": "ICP备案号",
+                                    "description": "后台调用 this.config.cms.icp , 模版调用 {{ctx.app.config.cms.icp}}",
+                                    "id": "u:c8158e853b8b"
+                                },
+                                {
+                                    "type": "group",
+                                    "label": "功能开关",
+                                    "body": [
+                                        {
+                                            "type": "switch",
+                                            "label": "网站置灰",
+                                            "option": "",
+                                            "name": "grayTheme",
+                                            "falseValue": false,
+                                            "trueValue": true,
+                                            "id": "u:bb050e0a9a1b",
+                                            "columnRatio": ""
+                                        },
+                                        {
+                                            "type": "switch",
+                                            "label": "开启注册",
+                                            "option": "",
+                                            "name": "openRegister",
+                                            "falseValue": false,
+                                            "trueValue": true,
+                                            "id": "u:23a77c220e5a",
+                                            "columnRatio": "",
+                                            "className": ""
+                                        },
+                                        {
+                                            "type": "switch",
+                                            "label": "开启登录",
+                                            "option": "",
+                                            "name": "openLogin",
+                                            "falseValue": false,
+                                            "trueValue": true,
+                                            "id": "u:82c6863e52e5",
+                                            "columnRatio": "",
+                                            "className": ""
+                                        },
+                                        {
+                                            "type": "input-url",
+                                            "label": "用户协议链接",
+                                            "name": "agreementUrl",
+                                            "id": "u:6fce091ac163",
+                                            "validations": {},
+                                            "validationErrors": {},
+                                            "value": "",
+                                            "visibleOn": "${openRegister==true}",
+                                            "columnRatio": 4,
+                                            "size": "lg"
+                                        },
+                                        {
+                                            "type": "switch",
+                                            "label": "开启搜索",
+                                            "option": "",
+                                            "name": "openSearch",
+                                            "falseValue": false,
+                                            "trueValue": true,
+                                            "id": "u:91b3b8e997ce",
+                                            "columnRatio": ""
+                                        }
+                                    ],
+                                    "id": "u:1df2f87a491c",
+                                    "inline": false,
+                                    "subFormMode": "inline",
+                                    "gap": "lg"
+                                },
+                                {
+                                    "type": "editor",
+                                    "name": "tongji",
+                                    "label": "统计代码",
+                                    "language": "javascript",
+                                    "description": "后台调用 this.config.cms.tongji , 模版调用 {{ctx.app.config.cms.tongji}}",
+                                    "id": "u:7673fa8afba9"
+                                }
+                            ],
+                            "id": "u:cd11271dc510",
+                            "actions": [
+                                {
+                                    "type": "submit",
+                                    "label": "提交",
+                                    "primary": true,
+                                    "id": "u:44944406c2ae"
+                                }
+                            ],
+                            "feat": "Edit",
+                            "dsType": "api",
+                            "labelAlign": "right"
+                        }
+                    ],
+                    "id": "u:66b242cabf3f"
+                },
+                {
+                    "title": "短信配置",
+                    "body": [
+                        {
+                            "type": "form",
+                            "title": "短信配置",
+                            "mode": "horizontal",
+                            "initApi": "/admin/sys/config/sms",
+                            "api": "/admin/sys/config/sms/update",
+                            "body": [
+                                {
+                                    "type": "switch",
+                                    "label": "功能是否开启",
+                                    "name": "enable",
+                                    "falseValue": false,
+                                    "trueValue": true,
+                                    "id": "u:efc06adef228",
+                                    "description": "后台调用 this.config.sms.enable , 模版调用 {{ctx.app.config.sms.enable}}"
+                                },
+                                {
+                                    "type": "input-text",
+                                    "name": "SignName",
+                                    "label": "通用短信签名",
+                                    "description": "后台调用 this.config.sms.SignName , 模版调用 {{ctx.app.config.sms.SignName}}",
+                                    "id": "u:08ac8c695544"
+                                },
+                                {
+                                    "type": "input-text",
+                                    "name": "TemplateCode",
+                                    "label": "通用短信模板id",
+                                    "description": "后台调用 this.config.sms.TemplateCode , 模版调用 {{ctx.app.config.sms.TemplateCode}}",
+                                    "id": "u:2e90ac7bf4e3"
+                                },
+                                {
+                                    "type": "input-text",
+                                    "name": "accessKeyId",
+                                    "label": "accessKeyId",
+                                    "description": "后台调用 this.config.sms.accessKeyId , 模版调用 {{ctx.app.config.sms.accessKeyId}}",
+                                    "id": "u:fdd4f81678b4"
+                                },
+                                {
+                                    "type": "input-text",
+                                    "name": "secretAccessKey",
+                                    "label": "secretAccessKey",
+                                    "description": "后台调用 this.config.sms.secretAccessKey , 模版调用 {{ctx.app.config.sms.secretAccessKey}}",
+                                    "id": "u:e0cfd5cb20ff"
+                                }
+                            ],
+                            "actions": [
+                                {
+                                    "type": "submit",
+                                    "label": "提交",
+                                    "primary": true,
+                                    "id": "u:6232d1026db8"
+                                }
+                            ],
+                            "feat": "Edit",
+                            "dsType": "api",
+                            "labelAlign": "right",
+                            "id": "u:9e50ab7c95a8"
+                        }
+                    ],
+                    "id": "u:b1057fac5559"
+                },
+                {
+                    "title": "邮箱配置",
+                    "body": [
+                        {
+                            "type": "form",
+                            "title": "邮箱配置",
+                            "mode": "horizontal",
+                            "initApi": "/admin/sys/config/nodemailer",
+                            "api": "/admin/sys/config/nodemailer/update",
+                            "body": [
+                                {
+                                    "type": "switch",
+                                    "label": "功能是否开启",
+                                    "name": "enable",
+                                    "falseValue": false,
+                                    "trueValue": true,
+                                    "description": "后台调用 this.config.nodemailer.enable , 模版调用 {{ctx.app.config.nodemailer.enable}}",
+                                    "id": "u:b91316674b22"
+                                },
+                                {
+                                    "type": "select",
+                                    "label": "邮箱类型",
+                                    "name": "service",
+                                    "options": [
+                                        {
+                                            "label": "qq邮箱",
+                                            "value": "qq"
+                                        }
+                                    ],
+                                    "id": "u:1f22edf9e065",
+                                    "multiple": false,
+                                    "description": "后台调用 this.config.nodemailer.service , 模版调用 {{ctx.app.config.nodemailer.service}}",
+                                    "selectFirst": true
+                                },
+                                {
+                                    "type": "input-text",
+                                    "name": "auth.user",
+                                    "label": "账号",
+                                    "description": "后台调用 this.config.nodemailer.auth.user , 模版调用 {{ctx.app.config.nodemailer.auth.user}}",
+                                    "id": "u:40e9761a3558"
+                                },
+                                {
+                                    "type": "input-text",
+                                    "name": "auth.pass",
+                                    "label": "密码",
+                                    "description": "后台调用 this.config.nodemailer.auth.pass , 模版调用 {{ctx.app.config.nodemailer.auth.pass}}",
+                                    "id": "u:78ba667bd71d"
+                                }
+                            ],
+                            "actions": [
+                                {
+                                    "type": "submit",
+                                    "label": "提交",
+                                    "primary": true,
+                                    "id": "u:68fc38cfe100"
+                                }
+                            ],
+                            "feat": "Edit",
+                            "dsType": "api",
+                            "labelAlign": "right",
+                            "id": "u:3ce35fff446b"
+                        }
+                    ],
+                    "id": "u:261e101dbfe1"
+                },
+                {
+                    "title": "微信公众号配置",
+                    "body": [
+                        {
+                            "type": "form",
+                            "title": "微信公众号配置",
+                            "mode": "horizontal",
+                            "initApi": "/admin/sys/config/wxauth",
+                            "api": "/admin/sys/config/wxauth/update",
+                            "body": [
+                                {
+                                    "type": "input-text",
+                                    "name": "appid",
+                                    "label": "appid",
+                                    "description": "后台调用 this.config.wxauth.appid , 模版调用 {{ctx.app.config.wxauth.appid}}",
+                                    "id": "u:6498718121d1"
+                                },
+                                {
+                                    "type": "input-text",
+                                    "name": "appsecret",
+                                    "label": "appsecret",
+                                    "description": "后台调用 this.config.wxauth.appsecret , 模版调用 {{ctx.app.config.wxauth.appsecret}}",
+                                    "id": "u:55cee6ff3286"
+                                }
+                            ],
+                            "actions": [
+                                {
+                                    "type": "submit",
+                                    "label": "提交",
+                                    "primary": true,
+                                    "id": "u:fab8791818ba"
+                                }
+                            ],
+                            "feat": "Edit",
+                            "dsType": "api",
+                            "labelAlign": "right",
+                            "id": "u:5ce6b4097da2"
+                        }
+                    ],
+                    "id": "u:9c89bba11c0c"
+                }
+            ],
+            "mountOnEnter": true,
+            "id": "u:877669c4ad8c"
+        }
+    ],
+    "id": "u:7ed001156682",
+    "asideResizor": false,
+    "pullRefresh": {
+        "disabled": true
+    },
+    "regions": [
+        "body"
     ]
-  }
 }

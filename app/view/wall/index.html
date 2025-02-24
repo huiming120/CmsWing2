@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{wallInfo.title}}</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="Shortcut Icon" href="/public/sys/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/public/assets/css/jquery-ui.min.css">
+    <style>
+        * {margin: 0;padding: 0;}
+        html,body {width: 100%;height: 100%;overflow: hidden;margin: 0;padding: 0;}
+        body {
+            background-size: 100% 100%;
+            background-image: -webkit-linear-gradient(90deg, rgb(255, 0, 0) 2%, rgb(255, 75, 31) 100%);
+            {%if wallInfo.config.h_bg %}
+            background-image: url({{wallInfo.config.h_bg}});
+            {%endif%}
+        }
+        .adapter {margin: 0;padding: 0;position: relative;}
+        /* 3d */
+        .element {width: 150px;height: 150px;overflow: hidden;box-shadow: 0px 0px 12px rgba(0, 255, 255, 0.5);border: 1px solid rgba(127, 255, 255, 0.25);text-align: center;cursor: default;border-radius: 100%;}
+        .element:hover {box-shadow: 0px 0px 12px rgba(0, 255, 255, 0.75);border: 1px solid rgba(127, 255, 255, 0.75);}
+        .element img {width: 100%;height: 100%;display: block;}
+        /* 二维码 */
+        .signin_ecode {position: absolute;bottom: 60px;left: 30px;z-index: 99;}
+        .signin_ecode .iconbox {
+            width: 46px;
+            height: 46px;
+            padding: 12px;
+            text-align: center;
+            line-height: 44px;
+            display: block;
+            border-radius: 100%;
+            background-color: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            opacity: 0.3;
+            -webkit-opacity: 0.3;
+            transition: all 0.5s;
+            -webkit-transition: all 0.5s;
+        }
+        .signin_ecode:hover .iconbox {
+            background-color: #07ace8;
+            opacity: 1;
+            -webkit-opacity: 1;
+        }
+        .signin_ecode .screen_ecode_tips {
+            position: absolute;
+            top: -52px;
+            left: 50%;
+            width: 85px;
+            margin-left: -50px;
+            color: #fff;
+            background: rgba(0, 0, 0, 0.44);
+            padding: 5px;
+            border-radius: 4px;
+            transform: scale(0);
+            -webkit-transform: scale(0);
+            opacity: 0;
+            -webkit-opacity: 0;
+            transition: all 0.5s;
+            -webkit-transition: all 0.5s;
+            font-size: 12px;
+        }
+        .signin_ecode:hover .screen_ecode_tips {
+            transform: none;
+            -webkit-transform: none;
+            opacity: 1;
+            -webkit-opacity: 1;
+        }
+        .signin_ecode .screen_ecode_tips i {
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 5px solid rgba(0, 0, 0, 0.44);
+            position: absolute;
+            left: 50%;
+            margin-left: -5px;
+            bottom: -5px;
+        }
+        /* 签到二维码弹窗 */
+        .pop-ecode {
+            width: 510px;
+            height: 550px;
+            background: #fff;
+            z-index: 100;
+            position: absolute;
+            left: 50%;
+            bottom: 10%;
+            margin-left: -255px;
+            border-radius: 8px;
+            overflow: hidden;
+            opacity: 0;
+            -webkit-opacity: 0;
+            transform: scale(0);
+            -webkit-transform: scale(0);
+        }
+        .pop-ecode.hover {
+            opacity: 1;
+            -webkit-opacity: 1;
+            transform: none;
+            -webkit-transform: none;
+        }
+        .pop-ecode .ecode-image {
+            width: 100%;
+            display: block;
+            background: #fff;
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+            padding: 4px;
+            box-sizing: border-box;
+        }
+        .pop-ecode .ecode-image img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            box-sizing: border-box;
+        }
+        .pop-ecode .ecode-bottomtext {
+            display: block;
+            margin: 0 auto;
+            transition: all 0.5s;
+            -webkit-transition: all 0.5s;
+        }
+        .pop-ecode .ecode-bottomtext p {
+            font-size: 20px;
+            color: #333;
+        }
+        .pop-ecode .ecode-bottomtext p b {
+            color: #ff0000;
+            font-size: 24px;
+            font-weight: normal;
+        }
+        .s_bottom {
+            width: 100%;
+            height: 12px;
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            text-align: center;
+            z-index: 20;
+        }
+        .s_bottom.s_hide {
+            opacity: 0;
+            -webkit-opacity: 0;
+            -moz-opacity: 0;
+            -o-opacity: 0;
+            -ms-opacity: 0;
+            bottom: -68px;
+        }
+        .s_bottom .s_bottom_line {
+            width: 100%;
+            height: 12px;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            /*background:rgba(0,0,0,0.7);*/
+            z-index: 9;
+        }
+        .s_bottom .s_bottom_line.s_hide {
+            opacity: 0;
+            -webkit-opacity: 0;
+            -moz-opacity: 0;
+            -o-opacity: 0;
+            -ms-opacity: 0;
+        }
+        .s_bottom_link {
+            height: 56px;
+            display: inline-block;
+            margin-top: -56px;
+        }
+        .s_bottom_link.s_hide {
+            opacity: 0;
+            -webkit-opacity: 0;
+            -moz-opacity: 0;
+            -o-opacity: 0;
+            -ms-opacity: 0;
+        }
+        .s_bottom_link ul {
+            background: rgba(0, 0, 0, 0.7);
+            display: inline-block;
+            position: relative;
+            margin: 0;
+            padding: 0;
+            border-radius: 8px 8px 0 0;
+        }
+        .s_bottom_link ul li {
+            width: 50px;
+            height: 56px;
+            margin: 0 8px;
+            display: block;
+            float: left;
+            position: relative;
+        }
+        .s_bottom_link ul li a.s_b_icon {
+            width: 34px;
+            height: 34px;
+            display: block;
+            margin: 11px 8px;
+            background-size: 100% 100%;
+        }
+        .s_bottom_link ul li a.s_b_icon.prize {
+            background-image: url(/public/assets/wall/prize.png);
+        }
+        .s_bottom_link ul li a.s_b_icon.fullscreen {
+            background-image: url(/public/assets/wall/fullscreen.png);
+        }
+        .s_bottom_link ul li a.s_b_icon.sign_wall {
+            background-image: url(/public/assets/wall/sign.png);
+        }
+        .s_bottom_link ul li a.s_b_icon.prize.hover {
+            background-image: url(/public/assets/wall/prize_hove.png);
+        }
+        .s_bottom_link ul li a.s_b_icon.fullscreen.hover {
+            background-image: url(/public/assets/wall/fullscreen_hove.png);
+        }
+        .s_bottom_link ul li a.s_b_icon.sign_wall.hover {
+            background-image: url(/public/assets/wall/sign_hove.png);
+        }
+        .s_bottom_link ul li span {
+            position: absolute;
+            top: -35px;
+            left: 50%;
+            width: 70px;
+            margin-left: -40px;
+            color: #fff;
+            background: rgba(0, 0, 0, 0.44);
+            padding: 5px;
+            display: none;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        .s_bottom_link ul li span i {
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 5px solid rgba(0, 0, 0, 0.44);
+            position: absolute;
+            left: 50%;
+            margin-left: -5px;
+            bottom: -5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="container" class="adapter" style="user-select: none;position: absolute;left: 0;top: 0;z-index: 1;width: 100%;height: 100%;"></div>
+    <div class="signin_ecode adapter" id="screen_ecode" style="transform-origin: 0% 100%;">
+        <div class="iconbox">
+             <img src="/public/assets/wall/erweima.png" style="width: 46px;">
+        </div>
+        <div class="screen_ecode_tips">
+            拖动二维码调整位置和大小
+            <i></i>
+        </div>
+    </div>
+    <div class="pop-ecode draggable adapter" id="url_code">
+        <span class="ecode-image">
+            <div id="qrcode"></div>
+        </span>
+        <span class="ecode-bottomtext">
+            <p style="text-align:center;margin: 0;font-size: 16px;">
+                扫一扫参与
+            </p>
+        </span>
+    </div>
+    <div class="s_bottom">
+        <div class="s_bottom_line">
+        </div>
+        <div class="s_bottom_link adapter" style="transform-origin: 50% 100%;">
+            <ul>
+                <li class="li-lottery">
+                    <a title="签到" href="/admin/wall/index?id={{wallInfo.id}}" class="s_b_icon sign_wall"></a>
+                    <span>
+                        签到
+                        <i>
+                        </i>
+                    </span>
+                </li>
+                <li class="li-lottery">
+                    <a title="抽奖" href="/admin/wall/lottery?id={{wallInfo.id}}" class="s_b_icon prize"></a>
+                    <span>
+                        抽奖
+                        <i>
+                        </i>
+                    </span>
+                </li>
+                <li class="li-fullscreen">
+                    <a href="javascript:;" class="s_b_icon fullscreen"></a>
+                    <span>
+                        F11全屏
+                        <i>
+                        </i>
+                    </span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script type="text/javascript" src="/public/assets/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/public/assets/js/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/public/assets/js/qrcode.min.js"></script>
+    <script type="text/javascript" src="/public/assets/js/three.min.js"></script>
+    <script type="text/javascript" src="/public/assets/js/tween.min.js"></script>
+    <script type="text/javascript" src="/public/assets/js/CSS3DRenderer.js"></script>
+    <script type="text/javascript">
+        var camera, scene, renderer;
+        var controls;
+
+        var objects = [];
+        var targets = {
+            table: [],
+            torus: [],
+            sphere: [],
+            helix: [],
+            grid: [],
+            cube: []
+        };
+        var style = 'table',
+            rotationY_add = 0,
+            animate_start = 0;
+
+        function init() {
+            /* 设置透视投影的相机,默认情况下相机的上方向为Y轴，右方向为X轴，沿着Z轴朝里（视野角：fov 纵横比：aspect 相机离视体积最近的距离：near 相机离视体积最远的距离：far */
+            camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 10000);
+            camera.position.z = {{wallInfo.config.camera_far}};
+
+            /* 设置场景 */
+            scene = new THREE.Scene();
+
+            for (var i = 0; i < table.length; i++) {
+                var element = document.createElement('div');
+                element.className = 'element';
+
+                var img = document.createElement('img');
+                img.src = table[i].src;
+                // img.setAttribute('title', i);
+                element.appendChild(img);
+
+                var object = new THREE.CSS3DObject(element);
+                object.position.x = Math.random() * 4000 - 2000;
+                object.position.y = Math.random() * 4000 - 2000;
+                object.position.z = Math.random() * 4000 - 2000;
+
+                scene.add(object);
+                objects.push(object);
+            }
+
+            // table 表格
+            for ( var i = 0; i < objects.length; i ++ ) {
+                var object = new THREE.Object3D();
+                object.position.x = ((i % 20 + 1) * 180) - 1900
+                object.position.y = - ((Math.floor(i / 20) + 1) * 180) + 1080
+                object.position.z = 0
+                targets.table.push(object);
+            }
+
+            // torus 漩涡
+            var vector = new THREE.Vector3();
+            for (var i = 0, l = objects.length; i < l; i++) {
+                var object = new THREE.Object3D();
+                object.position.x = 1200 * Math.cos(-i);
+                object.position.y = 1200 * Math.sin(-i);
+                object.position.z = 200 - i * 60 * 1.5;
+                object.rotation.z = -i * 0.03;
+                object.lookAt(vector);
+                targets.torus.push(object);
+            }
+
+            // sphere 圆球
+            var vector = new THREE.Vector3();
+            for (var i = 0, l = objects.length; i < l; i++) {
+                if (i == 0) {
+                    var phi = Math.acos(-1 + (2 * i) / l) * 1.025;
+                    var theta = Math.sqrt(l * Math.PI) * phi * 1.01;
+                } else {
+                    var phi = Math.acos(-1 + (2 * i) / l);
+                    var theta = Math.sqrt(l * Math.PI) * phi;
+                }
+                var object = new THREE.Object3D();
+                object.position.x = 800 * Math.cos(theta) * Math.sin(phi);
+                object.position.y = 800 * Math.sin(theta) * Math.sin(phi);
+                object.position.z = 800 * Math.cos(phi);
+                vector.copy(object.position).multiplyScalar(2);
+                object.lookAt(vector);
+                targets.sphere.push(object);
+            }
+
+            // helix 螺旋
+            var vector = new THREE.Vector3();
+            for (var i = 0, l = objects.length; i < l; i++) {
+                var phi = i * 0.175 + Math.PI;
+                var object = new THREE.Object3D();
+                object.position.x = 1100 * Math.sin(phi);
+                object.position.y = -(i * 6) + 600;
+                object.position.z = 1100 * Math.cos(phi);
+                vector.x = object.position.x * 2;
+                vector.y = object.position.y;
+                vector.z = object.position.z * 2;
+                object.lookAt(vector);
+                targets.helix.push(object);
+            }
+
+            // grid 蜂窝
+            for ( var i = 0; i < objects.length; i ++ ) {
+                var object = new THREE.Object3D();
+                object.position.x = ( ( i % 5 ) * 400 ) - 840; // 400 图片的左右间距  800 x轴中心店
+                object.position.y = ( - ( Math.floor( i / 5 ) % 5 ) * 300 ) + 550;  // 500 y轴中心店
+                object.position.z = ( Math.floor( i / 25 ) ) * 200 - 800;// 300调整 片间距 800z轴中心店
+                targets.grid.push( object );
+            }
+
+            // cube 立方体
+            var line = 0
+            for ( var i = 0; i < objects.length; i ++ ) {
+                var object = new THREE.Object3D();
+
+                if (i < 36) {
+                    // 前
+                    object.position.x = ( ( i % 6 ) * 200 )-500
+                    object.position.y = ( Math.floor( i / 6 ) * 200 ) - 500
+                    object.position.z = -575
+                } else if (i >= 36 && i < 72) {
+                    // 右
+                    line = i - 36
+                    object.position.x = 575
+                    object.position.y = ( Math.floor( line % 6 ) * 200 ) - 500
+                    object.position.z = ( Math.floor( line / 6 ) * 200 ) - 500
+                    object.rotation.y = 3.1415927/2
+                } else if (i >= 72 && i < 108) {
+                    // 左
+                    line = i - 72
+                    object.position.x = -575
+                    object.position.y = ( Math.floor( line % 6 ) * 200 ) - 500
+                    object.position.z = ( Math.floor( line / 6 ) * 200 ) - 500
+                    object.rotation.y = 3.1415927/2
+                } else if (i >= 108 && i < 144) {
+                    // 下
+                    line = i - 108
+                    object.position.y = -575
+                    object.position.x = ( Math.floor( line % 6 ) * 200 ) - 500
+                    object.position.z = ( Math.floor( line / 6 ) * 200 ) - 500
+                    object.rotation.x = 3.1415927/2
+                } else if (i >= 144 && i < 180) {
+                    // 上
+                    line = i - 144
+                    object.position.y = 575
+                    object.position.x = ( Math.floor( line % 6 ) * 200 ) - 500
+                    object.position.z = ( Math.floor( line / 6 ) * 200 ) - 500
+                    object.rotation.x = 3.1415927/2
+                } else if (i >= 180 && i < 216) {
+                    // 后
+                    line = i - 180
+                    object.position.x = ( ( line % 6 ) * 200 )-500
+                    object.position.y = ( Math.floor( line / 6 ) * 200 ) - 500
+                    object.position.z = 575
+                } else {
+                    object.position.x = 0
+                    object.position.y = 0
+                    object.position.z = 0
+                }
+                targets.cube.push( object )
+            }
+
+            renderer = new THREE.CSS3DRenderer();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.domElement.style.position = 'absolute';
+            renderer.domElement.className = 'abc';
+            document.getElementById('container').appendChild(renderer.domElement);
+            window.addEventListener('resize', onWindowResize, false);
+        }
+
+        var curStyle
+        function transform(shape, duration, style) {
+            TWEEN.removeAll()
+            animate_start = 0
+            curStyle = style
+            scene_init()
+            
+            for (let i = 0; i < objects.length; i++) {
+                let dd = Math.random() * duration + duration
+                let object = objects[i];
+                let target = shape[i];
+                new TWEEN.Tween(object.position)
+                    .to({
+                        x: target.position.x,
+                        y: target.position.y,
+                        z: target.position.z
+                    }, dd)
+                    .easing(TWEEN.Easing.Exponential.InOut)
+                    .start()
+
+                new TWEEN.Tween(this)
+                .to({}, dd / 2.0)
+                .onComplete(function() {
+                    if (style == 'cube') {
+                        object.element.style.borderRadius = '0px'
+                        if (i >= 216) {
+                            object.element.style.display = 'none'
+                        } else {
+                            object.element.style.display = 'block'
+                        }
+                    } else {
+                        object.element.style.borderRadius = '100%'
+                        object.element.style.display = 'block'
+                    }
+                })
+                .start();
+
+                new TWEEN.Tween(object.rotation)
+                    .to({
+                        x: target.rotation.x,
+                        y: target.rotation.y,
+                        z: target.rotation.z
+                    }, Math.random() * duration + duration)
+                    .easing(TWEEN.Easing.Exponential.InOut)
+                    .start();
+            }
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            render();
+        }
+
+        function animate() {
+            /* 这里的 requestAnimateFrame 是 自定义的 还是  使用的是  window.requestAnimateFrame */
+            window.requestAnimationFrame(animate);
+            TWEEN.update();
+            
+            render(curStyle)
+        }
+
+        function scene_init() {
+            // scene.position.x = 0;
+            // scene.position.y = 0;
+            // scene.position.z = 0;
+            // scene.rotation.x = 0;
+            // scene.rotation.y = 0;
+            // scene.rotation.z = 0;
+
+            new TWEEN.Tween(scene.position)
+                    .to({
+                        x: 0,
+                        y: 0,
+                        z: 0
+                    }, 1000)
+                    .start()
+            new TWEEN.Tween(scene.rotation)
+                    .to({
+                        x: Math.floor(scene.rotation.x/(3.1415927*2)+0.5)*3.1415927*2,
+                        y: Math.floor(scene.rotation.y/(3.1415927*2)+0.5)*3.1415927*2,
+                        z: Math.floor(scene.rotation.z/(3.1415927*2)+0.5)*3.1415927*2
+                    }, 2000)
+                    .start()
+        }
+
+        function render(style) {
+            animate_start += 1;
+            if (style == 'table') {
+                scene.rotation.y += 0.008;
+            } else if (style == 'torus') {
+                scene.rotation.z += 0.008;
+                if (animate_start > 300) {
+                    for (var i = 0; i < objects.length; i++) {
+                        var object = objects[i];
+                        object.position.z += 20;
+                        object.rotation.z += i * 1 / 2000;
+                        if (object.position.z > 800) {
+                            object.position.z = 200 - (objects.length - 1) * 60 * 1.5;
+                        }
+                    }
+                }
+            } else if (style == 'sphere') {
+                if (animate_start > 900) {
+                    if (scene.position.z > 0) {
+                        scene.rotation.y += 0.009;
+                        scene.position.z -= 5;
+                    } else {
+                        animate_start = 0
+                    }
+                } else if (animate_start > 650) {
+                    scene.rotation.y += 0.004;
+                    scene.position.z = scene.position.z;
+                } else if (animate_start > 400) {
+                    scene.rotation.y += 0.008;
+                    scene.position.z += 5;
+                } else {
+                    scene.rotation.y += 0.009;
+                }
+            } else if (style == 'helix') {
+                if (animate_start > 1200) {
+                    scene.rotation.y += 0.006;
+                    if (scene.position.z > 0) {
+                        scene.position.z -= 7
+                    } else {
+                        animate_start = 0
+                    }
+                } else if (animate_start > 950) {
+                    scene.rotation.y += 0.004;
+                    scene.position.z = scene.position.z;
+                } else if (animate_start > 600) {
+                    scene.rotation.y += 0.006;
+                    scene.position.z += 7;
+                } else {
+                    scene.rotation.y += 0.006;
+                }
+            } else if(style == 'grid'){					
+                scene.rotation.y += 0.008;
+            } else if(style == 'cube'){	
+                scene.rotation.y += 0.008
+                scene.rotation.x += 0.008
+                scene.rotation.z += 0.008
+                if (animate_start > 900) {
+                    if (scene.position.z > 0) {
+                        scene.position.z -= 5
+                    } else {
+                        animate_start = 0
+                    }
+                } else if (animate_start > 650) {
+                    scene.position.z = scene.position.z;
+                } else if (animate_start > 400) {
+                    scene.position.z += 5;
+                }
+            }
+            renderer.render(scene, camera);
+        }
+
+    </script>
+    <script type="text/javascript">
+        var dp_width = {{wallInfo.config.dp_width}}, dp_height = {{wallInfo.config.dp_height}};
+        if (dp_width / dp_height != screen.width / screen.height) {
+            (function(doc, win) {
+                var docEl = doc.documentElement,
+                resizeEvt = 'orientationchange' in window ? 'orientationchange': 'resize',
+                recalc = function() {
+                    var clientWidth = docEl.clientWidth, clientHeight = docEl.clientHeight;
+                    if (!clientWidth) return;
+                    $('.adapter').css('transform', 'scale(' + clientWidth/dp_width + ',' + clientHeight/dp_height + ')');
+                };
+                if (!doc.addEventListener) return;
+                win.addEventListener(resizeEvt, recalc, false);
+                // doc.addEventListener('DOMContentLoaded', recalc, false);
+                recalc();
+            })(document, window);
+        }
+        
+        // 生成二维码
+        var qrcode = new QRCode(document.getElementById("qrcode"), {
+            width : 1024,
+            height : 1024
+        })
+        qrcode.makeCode(window.location.origin + '/wall/index?id={{wallInfo.id}}');
+        $('#screen_ecode').on('click',function() {
+            $('#url_code').toggleClass('hover');
+        });
+        $("#url_code").draggable({ containment: "parent" });
+		$("#url_code" ).resizable({aspectRatio: true});
+
+        $('.s_bottom_link li').each(function() {
+            $(this).mouseenter(function() {
+                $(this).find('span').slideDown('fast');
+                $(this).find('a').addClass('hover');
+            }).mouseleave(function() {
+                $(this).find('span').slideUp('fast');
+                $(this).find('a').removeClass('hover');
+            });
+        });
+
+        var fullscreen = 0;
+        $(document).keydown(function(e) {
+            if (e.which === 122) {
+                e.preventDefault();
+                e.stopPropagation();
+                if (fullscreen == 0) {
+                    launchFullscreen(document.documentElement);
+                } else {
+                    exitFullscreen();
+                }
+            } else if (e.which === 32 || e.which === 66) {
+                $('#url_code').toggleClass('hover');
+            }
+        });
+        function launchFullscreen(element) {
+            if (element.requestFullscreen) {
+                element.requestFullscreen();
+            } else if (element.mozRequestFullScreen) {
+                element.mozRequestFullScreen();
+            } else if (element.webkitRequestFullscreen) {
+                element.webkitRequestFullscreen();
+            } else if (element.msRequestFullscreen) {
+                element.msRequestFullscreen();
+            }
+            fullscreen = 1;
+        }
+        function exitFullscreen() {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            }
+            fullscreen = 0;
+        }
+        $('.fullscreen').click(function() {
+            if (fullscreen == 0) {
+                launchFullscreen(document.documentElement);
+            } else {
+                exitFullscreen();
+            }
+        });
+
+        $('.s_bottom').live('mouseleave', function() {
+            $('.s_bottom_link').hide();
+        });
+        $('.s_bottom_line').live('mouseenter', function() {
+            $('.s_bottom_link').show();
+        });
+        setTimeout(function() {
+            $('.s_bottom_link').hide();
+        }, 1000);
+
+        var placeholder_image = "{{wallInfo.config.icon or '/public/assets/wall/default_icon.png'}}";
+        var personArray = [], table = [];
+        for (var i = 0; i < 220; i++) {
+            table[i] = { src: placeholder_image };
+        }
+        //打乱数组顺序
+        table = table.sort(function() {
+            return Math.random()
+        });
+
+        init();
+        animate();
+
+        var anis = {{wallInfo.config.ani|dump|safe}}, aniIndex = 0;
+        function switchAnimation() {
+            var ani = anis[aniIndex%anis.length];
+            aniIndex++;
+            transform(targets[ani], 2000, ani);
+            if (anis.length > 1) {
+                setTimeout(switchAnimation, 20000);
+            }
+        }
+        switchAnimation();
+
+        var time = 5,max_sign_rid = 0;
+        function get_new_sign_list() {
+            $.ajax({
+                url: '/graphql',
+                type: 'POST',
+                dataType: 'JSON',
+                data: {
+                    query: `query{WallQdData_findAll(where:{wall_id:{op_eq:{{wallInfo.id}}},id:{op_gt:${max_sign_rid}}}){id openid data}}`
+                },
+                success: function(data) {
+                    if (data.status == 0) {
+                        var sign_list = data.data.WallQdData_findAll;
+                        if (sign_list.length > 0) {
+                            max_sign_rid = sign_list[sign_list.length-1].id;
+                            time = 5;
+
+                            $.each(sign_list,function(key, row) {
+                                var person_info = {
+                                    id: row.id,
+                                    image: row.data.headimgurl,
+                                    name: row.data.nickname,
+                                };                                 
+                                personArray.push(person_info);
+                                $('.element').eq(personArray.length - 1).find('img').attr('src', person_info.image);
+                            });
+                        } else {
+                            if (time < 60) {
+                                time += 2;
+                            } else {
+                                time = 60;
+                            }
+                        }
+                        setTimeout(get_new_sign_list, time * 1000);
+                    }
+                },
+                error: function () {
+                    setTimeout(get_new_sign_list, time * 1000);
+                }
+            })
+        }
+        get_new_sign_list()
+    </script>
+</body>
+</html>

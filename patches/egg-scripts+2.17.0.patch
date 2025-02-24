@@ -1,0 +1,15 @@
+diff --git a/node_modules/egg-scripts/lib/cmd/start.js b/node_modules/egg-scripts/lib/cmd/start.js
+index add1e2a..3aa7028 100644
+--- a/node_modules/egg-scripts/lib/cmd/start.js
++++ b/node_modules/egg-scripts/lib/cmd/start.js
+@@ -130,8 +130,8 @@ class StartCommand extends Command {
+     }
+ 
+     // additional execArgv
+-    execArgvObj.deprecation = false; // --no-deprecation
+-    execArgvObj.traceWarnings = true; // --trace-warnings
++    // execArgvObj.deprecation = false; // --no-deprecation
++    // execArgvObj.traceWarnings = true; // --trace-warnings
+ 
+     const command = argv.node || 'node';
+ 

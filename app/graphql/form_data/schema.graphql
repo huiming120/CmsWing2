@@ -1,0 +1,222 @@
+
+	type FormData {
+		id:ID
+		createdAt:Date
+		updatedAt:Date
+		form_id:Int
+		member_uuid:String
+		member_name:String
+		data:JSON
+		status:Int
+		ip:String
+
+		form: Form
+		mc_member: McMember
+
+	}
+
+
+	input WhereFormData_id {
+		op_eq: ID
+		op_ne: ID
+		op_or: [ID]
+		op_gt: ID
+		op_gte: ID
+		op_lt: ID
+		op_lte: ID
+		op_between: [ID]
+		op_notBetween: [ID]
+		op_in: [ID]
+		op_notIn: [ID]
+		op_like: String
+		op_notLike: String
+		op_startsWith: String
+		op_endsWith: String
+		op_substring: String
+	}
+	input WhereFormData_createdAt {
+		op_eq: Date
+		op_ne: Date
+		op_or: [Date]
+		op_gt: Date
+		op_gte: Date
+		op_lt: Date
+		op_lte: Date
+		op_between: [Date]
+		op_notBetween: [Date]
+		op_in: [Date]
+		op_notIn: [Date]
+		op_like: String
+		op_notLike: String
+		op_startsWith: String
+		op_endsWith: String
+		op_substring: String
+	}
+	input WhereFormData_updatedAt {
+		op_eq: Date
+		op_ne: Date
+		op_or: [Date]
+		op_gt: Date
+		op_gte: Date
+		op_lt: Date
+		op_lte: Date
+		op_between: [Date]
+		op_notBetween: [Date]
+		op_in: [Date]
+		op_notIn: [Date]
+		op_like: String
+		op_notLike: String
+		op_startsWith: String
+		op_endsWith: String
+		op_substring: String
+	}
+	input WhereFormData_form_id {
+		op_eq: Int
+		op_ne: Int
+		op_or: [Int]
+		op_gt: Int
+		op_gte: Int
+		op_lt: Int
+		op_lte: Int
+		op_between: [Int]
+		op_notBetween: [Int]
+		op_in: [Int]
+		op_notIn: [Int]
+		op_like: String
+		op_notLike: String
+		op_startsWith: String
+		op_endsWith: String
+		op_substring: String
+	}
+	input WhereFormData_member_uuid {
+		op_eq: String
+		op_ne: String
+		op_or: [String]
+		op_gt: String
+		op_gte: String
+		op_lt: String
+		op_lte: String
+		op_between: [String]
+		op_notBetween: [String]
+		op_in: [String]
+		op_notIn: [String]
+		op_like: String
+		op_notLike: String
+		op_startsWith: String
+		op_endsWith: String
+		op_substring: String
+	}
+	input WhereFormData_data {
+		op_eq: JSON
+		op_ne: JSON
+		op_or: [JSON]
+		op_gt: JSON
+		op_gte: JSON
+		op_lt: JSON
+		op_lte: JSON
+		op_between: [JSON]
+		op_notBetween: [JSON]
+		op_in: [JSON]
+		op_notIn: [JSON]
+		op_like: String
+		op_notLike: String
+		op_startsWith: String
+		op_endsWith: String
+		op_substring: String
+	}
+	input WhereFormData_status {
+		op_eq: Int
+		op_ne: Int
+		op_or: [Int]
+		op_gt: Int
+		op_gte: Int
+		op_lt: Int
+		op_lte: Int
+		op_between: [Int]
+		op_notBetween: [Int]
+		op_in: [Int]
+		op_notIn: [Int]
+		op_like: String
+		op_notLike: String
+		op_startsWith: String
+		op_endsWith: String
+		op_substring: String
+	}
+	input WhereFormData_ip {
+		op_eq: String
+		op_ne: String
+		op_or: [String]
+		op_gt: String
+		op_gte: String
+		op_lt: String
+		op_lte: String
+		op_between: [String]
+		op_notBetween: [String]
+		op_in: [String]
+		op_notIn: [String]
+		op_like: String
+		op_notLike: String
+		op_startsWith: String
+		op_endsWith: String
+		op_substring: String
+	}
+
+	input WhereFieldFormData{
+		id:WhereFormData_id
+		createdAt:WhereFormData_createdAt
+		updatedAt:WhereFormData_updatedAt
+		form_id:WhereFormData_form_id
+		member_uuid:WhereFormData_member_uuid
+		data:WhereFormData_data
+		status:WhereFormData_status
+		ip:WhereFormData_ip
+
+	}
+
+	input WhereFormData {
+		id:WhereFormData_id
+		createdAt:WhereFormData_createdAt
+		updatedAt:WhereFormData_updatedAt
+		form_id:WhereFormData_form_id
+		member_uuid:WhereFormData_member_uuid
+		data:WhereFormData_data
+		status:WhereFormData_status
+		ip:WhereFormData_ip
+
+		op_and: [WhereFieldFormData]
+		op_or: [WhereFieldFormData]
+		op_not: [WhereFieldFormData]
+	}
+
+
+	input AddFormData {
+		form_id: Int!
+		member_uuid: String!
+		member_name: String
+		data: JSON!
+		status: Int!
+		ip: String!
+
+	}
+
+
+	input EditFormData {
+		form_id: Int
+		member_uuid: String
+		member_name: String
+		data: JSON
+		status: Int
+		ip: String
+
+	}
+
+	type CountFormData {
+		count: Int
+		rows: [FormData]
+	}
+	type ResDelFormData {
+		count: Int
+	}
+	type ResEditFormData {
+		ids: [Int]
+	}

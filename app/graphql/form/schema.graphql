@@ -1,0 +1,264 @@
+
+	type Form {
+		id:ID
+		createdAt:Date
+		updatedAt:Date
+		title:String
+		begin_at:Date
+		end_at:Date
+		config:JSON
+		fields:JSON
+		amis:JSON
+		temp:String
+
+		form_data(order:[[String]],limit:Int,offset:Int): [FormData]
+
+	}
+
+
+	input WhereForm_id {
+		op_eq: ID
+		op_ne: ID
+		op_or: [ID]
+		op_gt: ID
+		op_gte: ID
+		op_lt: ID
+		op_lte: ID
+		op_between: [ID]
+		op_notBetween: [ID]
+		op_in: [ID]
+		op_notIn: [ID]
+		op_like: String
+		op_notLike: String
+		op_startsWith: String
+		op_endsWith: String
+		op_substring: String
+	}
+	input WhereForm_createdAt {
+		op_eq: Date
+		op_ne: Date
+		op_or: [Date]
+		op_gt: Date
+		op_gte: Date
+		op_lt: Date
+		op_lte: Date
+		op_between: [Date]
+		op_notBetween: [Date]
+		op_in: [Date]
+		op_notIn: [Date]
+		op_like: String
+		op_notLike: String
+		op_startsWith: String
+		op_endsWith: String
+		op_substring: String
+	}
+	input WhereForm_updatedAt {
+		op_eq: Date
+		op_ne: Date
+		op_or: [Date]
+		op_gt: Date
+		op_gte: Date
+		op_lt: Date
+		op_lte: Date
+		op_between: [Date]
+		op_notBetween: [Date]
+		op_in: [Date]
+		op_notIn: [Date]
+		op_like: String
+		op_notLike: String
+		op_startsWith: String
+		op_endsWith: String
+		op_substring: String
+	}
+	input WhereForm_title {
+		op_eq: String
+		op_ne: String
+		op_or: [String]
+		op_gt: String
+		op_gte: String
+		op_lt: String
+		op_lte: String
+		op_between: [String]
+		op_notBetween: [String]
+		op_in: [String]
+		op_notIn: [String]
+		op_like: String
+		op_notLike: String
+		op_startsWith: String
+		op_endsWith: String
+		op_substring: String
+	}
+	input WhereForm_begin_at {
+		op_eq: Date
+		op_ne: Date
+		op_or: [Date]
+		op_gt: Date
+		op_gte: Date
+		op_lt: Date
+		op_lte: Date
+		op_between: [Date]
+		op_notBetween: [Date]
+		op_in: [Date]
+		op_notIn: [Date]
+		op_like: String
+		op_notLike: String
+		op_startsWith: String
+		op_endsWith: String
+		op_substring: String
+	}
+	input WhereForm_end_at {
+		op_eq: Date
+		op_ne: Date
+		op_or: [Date]
+		op_gt: Date
+		op_gte: Date
+		op_lt: Date
+		op_lte: Date
+		op_between: [Date]
+		op_notBetween: [Date]
+		op_in: [Date]
+		op_notIn: [Date]
+		op_like: String
+		op_notLike: String
+		op_startsWith: String
+		op_endsWith: String
+		op_substring: String
+	}
+	input WhereForm_config {
+		op_eq: JSON
+		op_ne: JSON
+		op_or: [JSON]
+		op_gt: JSON
+		op_gte: JSON
+		op_lt: JSON
+		op_lte: JSON
+		op_between: [JSON]
+		op_notBetween: [JSON]
+		op_in: [JSON]
+		op_notIn: [JSON]
+		op_like: String
+		op_notLike: String
+		op_startsWith: String
+		op_endsWith: String
+		op_substring: String
+	}
+	input WhereForm_fields {
+		op_eq: JSON
+		op_ne: JSON
+		op_or: [JSON]
+		op_gt: JSON
+		op_gte: JSON
+		op_lt: JSON
+		op_lte: JSON
+		op_between: [JSON]
+		op_notBetween: [JSON]
+		op_in: [JSON]
+		op_notIn: [JSON]
+		op_like: String
+		op_notLike: String
+		op_startsWith: String
+		op_endsWith: String
+		op_substring: String
+	}
+	input WhereForm_amis {
+		op_eq: JSON
+		op_ne: JSON
+		op_or: [JSON]
+		op_gt: JSON
+		op_gte: JSON
+		op_lt: JSON
+		op_lte: JSON
+		op_between: [JSON]
+		op_notBetween: [JSON]
+		op_in: [JSON]
+		op_notIn: [JSON]
+		op_like: String
+		op_notLike: String
+		op_startsWith: String
+		op_endsWith: String
+		op_substring: String
+	}
+	input WhereForm_temp {
+		op_eq: String
+		op_ne: String
+		op_or: [String]
+		op_gt: String
+		op_gte: String
+		op_lt: String
+		op_lte: String
+		op_between: [String]
+		op_notBetween: [String]
+		op_in: [String]
+		op_notIn: [String]
+		op_like: String
+		op_notLike: String
+		op_startsWith: String
+		op_endsWith: String
+		op_substring: String
+	}
+
+	input WhereFieldForm{
+		id:WhereForm_id
+		createdAt:WhereForm_createdAt
+		updatedAt:WhereForm_updatedAt
+		title:WhereForm_title
+		begin_at:WhereForm_begin_at
+		end_at:WhereForm_end_at
+		config:WhereForm_config
+		fields:WhereForm_fields
+		amis:WhereForm_amis
+		temp:WhereForm_temp
+
+	}
+
+	input WhereForm {
+		id:WhereForm_id
+		createdAt:WhereForm_createdAt
+		updatedAt:WhereForm_updatedAt
+		title:WhereForm_title
+		begin_at:WhereForm_begin_at
+		end_at:WhereForm_end_at
+		config:WhereForm_config
+		fields:WhereForm_fields
+		amis:WhereForm_amis
+		temp:WhereForm_temp
+
+		op_and: [WhereFieldForm]
+		op_or: [WhereFieldForm]
+		op_not: [WhereFieldForm]
+	}
+
+
+	input AddForm {
+		title: String!
+		begin_at: Date!
+		end_at: Date!
+		config: JSON!
+		fields: JSON!
+		amis: JSON
+		temp: String
+
+	}
+
+
+	input EditForm {
+		title: String
+		begin_at: Date
+		end_at: Date
+		config: JSON
+		fields: JSON
+		amis: JSON
+		temp: String
+
+	}
+
+	type CountForm {
+		count: Int
+		rows: [Form]
+	}
+	type ResDelForm {
+		count: Int
+	}
+	type ResEditForm {
+		ids: [Int]
+	}

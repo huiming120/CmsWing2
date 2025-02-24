@@ -1,0 +1,198 @@
+
+	type WallAward {
+		id:ID
+		createdAt:Date
+		updatedAt:Date
+		wall_id:Int
+		name:String
+		count:Int
+		index:Int
+		config:JSON
+
+		wall: Wall
+
+	}
+
+
+	input WhereWallAward_id {
+		op_eq: ID
+		op_ne: ID
+		op_or: [ID]
+		op_gt: ID
+		op_gte: ID
+		op_lt: ID
+		op_lte: ID
+		op_between: [ID]
+		op_notBetween: [ID]
+		op_in: [ID]
+		op_notIn: [ID]
+		op_like: String
+		op_notLike: String
+		op_startsWith: String
+		op_endsWith: String
+		op_substring: String
+	}
+	input WhereWallAward_createdAt {
+		op_eq: Date
+		op_ne: Date
+		op_or: [Date]
+		op_gt: Date
+		op_gte: Date
+		op_lt: Date
+		op_lte: Date
+		op_between: [Date]
+		op_notBetween: [Date]
+		op_in: [Date]
+		op_notIn: [Date]
+		op_like: String
+		op_notLike: String
+		op_startsWith: String
+		op_endsWith: String
+		op_substring: String
+	}
+	input WhereWallAward_updatedAt {
+		op_eq: Date
+		op_ne: Date
+		op_or: [Date]
+		op_gt: Date
+		op_gte: Date
+		op_lt: Date
+		op_lte: Date
+		op_between: [Date]
+		op_notBetween: [Date]
+		op_in: [Date]
+		op_notIn: [Date]
+		op_like: String
+		op_notLike: String
+		op_startsWith: String
+		op_endsWith: String
+		op_substring: String
+	}
+	input WhereWallAward_wall_id {
+		op_eq: Int
+		op_ne: Int
+		op_or: [Int]
+		op_gt: Int
+		op_gte: Int
+		op_lt: Int
+		op_lte: Int
+		op_between: [Int]
+		op_notBetween: [Int]
+		op_in: [Int]
+		op_notIn: [Int]
+		op_like: String
+		op_notLike: String
+		op_startsWith: String
+		op_endsWith: String
+		op_substring: String
+	}
+	input WhereWallAward_name {
+		op_eq: String
+		op_ne: String
+		op_or: [String]
+		op_gt: String
+		op_gte: String
+		op_lt: String
+		op_lte: String
+		op_between: [String]
+		op_notBetween: [String]
+		op_in: [String]
+		op_notIn: [String]
+		op_like: String
+		op_notLike: String
+		op_startsWith: String
+		op_endsWith: String
+		op_substring: String
+	}
+	input WhereWallAward_count {
+		op_eq: Int
+		op_ne: Int
+		op_or: [Int]
+		op_gt: Int
+		op_gte: Int
+		op_lt: Int
+		op_lte: Int
+		op_between: [Int]
+		op_notBetween: [Int]
+		op_in: [Int]
+		op_notIn: [Int]
+		op_like: String
+		op_notLike: String
+		op_startsWith: String
+		op_endsWith: String
+		op_substring: String
+	}
+	input WhereWallAward_index {
+		op_eq: Int
+		op_ne: Int
+		op_or: [Int]
+		op_gt: Int
+		op_gte: Int
+		op_lt: Int
+		op_lte: Int
+		op_between: [Int]
+		op_notBetween: [Int]
+		op_in: [Int]
+		op_notIn: [Int]
+		op_like: String
+		op_notLike: String
+		op_startsWith: String
+		op_endsWith: String
+		op_substring: String
+	}
+
+	input WhereFieldWallAward{
+		id:WhereWallAward_id
+		createdAt:WhereWallAward_createdAt
+		updatedAt:WhereWallAward_updatedAt
+		wall_id:WhereWallAward_wall_id
+		name:WhereWallAward_name
+		count:WhereWallAward_count
+		index:WhereWallAward_index
+
+	}
+
+	input WhereWallAward {
+		id:WhereWallAward_id
+		createdAt:WhereWallAward_createdAt
+		updatedAt:WhereWallAward_updatedAt
+		wall_id:WhereWallAward_wall_id
+		name:WhereWallAward_name
+		count:WhereWallAward_count
+		index:WhereWallAward_index
+
+		op_and: [WhereFieldWallAward]
+		op_or: [WhereFieldWallAward]
+		op_not: [WhereFieldWallAward]
+	}
+
+
+	input AddWallAward {
+		wall_id: Int!
+		name: String!
+		count: Int!
+		index: Int!
+		config: JSON!
+
+	}
+
+
+	input EditWallAward {
+		wall_id: Int
+		name: String
+		count: Int
+		index: Int
+		config: JSON
+
+	}
+
+	type CountWallAward {
+		count: Int
+		rows: [WallAward]
+	}
+	type ResDelWallAward {
+		count: Int
+	}
+	type ResEditWallAward {
+		ids: [Int]
+	}

@@ -1,0 +1,194 @@
+
+	type WallQdData {
+		id:ID
+		createdAt:Date
+		updatedAt:Date
+		wall_id:Int
+		openid:String
+		award_id:Int
+		data:JSON
+
+
+	}
+
+
+	input WhereWallQdData_id {
+		op_eq: ID
+		op_ne: ID
+		op_or: [ID]
+		op_gt: ID
+		op_gte: ID
+		op_lt: ID
+		op_lte: ID
+		op_between: [ID]
+		op_notBetween: [ID]
+		op_in: [ID]
+		op_notIn: [ID]
+		op_like: String
+		op_notLike: String
+		op_startsWith: String
+		op_endsWith: String
+		op_substring: String
+	}
+	input WhereWallQdData_createdAt {
+		op_eq: Date
+		op_ne: Date
+		op_or: [Date]
+		op_gt: Date
+		op_gte: Date
+		op_lt: Date
+		op_lte: Date
+		op_between: [Date]
+		op_notBetween: [Date]
+		op_in: [Date]
+		op_notIn: [Date]
+		op_like: String
+		op_notLike: String
+		op_startsWith: String
+		op_endsWith: String
+		op_substring: String
+	}
+	input WhereWallQdData_updatedAt {
+		op_eq: Date
+		op_ne: Date
+		op_or: [Date]
+		op_gt: Date
+		op_gte: Date
+		op_lt: Date
+		op_lte: Date
+		op_between: [Date]
+		op_notBetween: [Date]
+		op_in: [Date]
+		op_notIn: [Date]
+		op_like: String
+		op_notLike: String
+		op_startsWith: String
+		op_endsWith: String
+		op_substring: String
+	}
+	input WhereWallQdData_wall_id {
+		op_eq: Int
+		op_ne: Int
+		op_or: [Int]
+		op_gt: Int
+		op_gte: Int
+		op_lt: Int
+		op_lte: Int
+		op_between: [Int]
+		op_notBetween: [Int]
+		op_in: [Int]
+		op_notIn: [Int]
+		op_like: String
+		op_notLike: String
+		op_startsWith: String
+		op_endsWith: String
+		op_substring: String
+	}
+	input WhereWallQdData_openid {
+		op_eq: String
+		op_ne: String
+		op_or: [String]
+		op_gt: String
+		op_gte: String
+		op_lt: String
+		op_lte: String
+		op_between: [String]
+		op_notBetween: [String]
+		op_in: [String]
+		op_notIn: [String]
+		op_like: String
+		op_notLike: String
+		op_startsWith: String
+		op_endsWith: String
+		op_substring: String
+	}
+	input WhereWallQdData_award_id {
+		op_eq: Int
+		op_ne: Int
+		op_or: [Int]
+		op_gt: Int
+		op_gte: Int
+		op_lt: Int
+		op_lte: Int
+		op_between: [Int]
+		op_notBetween: [Int]
+		op_in: [Int]
+		op_notIn: [Int]
+		op_like: String
+		op_notLike: String
+		op_startsWith: String
+		op_endsWith: String
+		op_substring: String
+	}
+	input WhereWallQdData_data {
+		op_eq: JSON
+		op_ne: JSON
+		op_or: [JSON]
+		op_gt: JSON
+		op_gte: JSON
+		op_lt: JSON
+		op_lte: JSON
+		op_between: [JSON]
+		op_notBetween: [JSON]
+		op_in: [JSON]
+		op_notIn: [JSON]
+		op_like: String
+		op_notLike: String
+		op_startsWith: String
+		op_endsWith: String
+		op_substring: String
+	}
+
+	input WhereFieldWallQdData{
+		id:WhereWallQdData_id
+		createdAt:WhereWallQdData_createdAt
+		updatedAt:WhereWallQdData_updatedAt
+		wall_id:WhereWallQdData_wall_id
+		openid:WhereWallQdData_openid
+		award_id:WhereWallQdData_award_id
+		data:WhereWallQdData_data
+
+	}
+
+	input WhereWallQdData {
+		id:WhereWallQdData_id
+		createdAt:WhereWallQdData_createdAt
+		updatedAt:WhereWallQdData_updatedAt
+		wall_id:WhereWallQdData_wall_id
+		openid:WhereWallQdData_openid
+		award_id:WhereWallQdData_award_id
+		data:WhereWallQdData_data
+
+		op_and: [WhereFieldWallQdData]
+		op_or: [WhereFieldWallQdData]
+		op_not: [WhereFieldWallQdData]
+	}
+
+
+	input AddWallQdData {
+		wall_id: Int!
+		openid: String!
+		award_id: Int!
+		data: JSON!
+
+	}
+
+
+	input EditWallQdData {
+		wall_id: Int
+		openid: String
+		award_id: Int
+		data: JSON
+
+	}
+
+	type CountWallQdData {
+		count: Int
+		rows: [WallQdData]
+	}
+	type ResDelWallQdData {
+		count: Int
+	}
+	type ResEditWallQdData {
+		ids: [Int]
+	}

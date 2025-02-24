@@ -1,0 +1,102 @@
+<div class="modal-header border-0 pb-0">
+    <h5 class="modal-title m-0">会员中心</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body p-0 m-5 m-4-xs">
+    <div id="ajax_response_container"><!-- ajax response container --></div>
+    <div class="accordion" id="accordionAccount">
+        <!-- sign in -->
+        <form class="collapse bs-validate show js-ajax" data-ajax-container="#ajax_response_container" data-ajax-update-url="false" data-ajax-show-loading-icon="true" data-error-toast-text="<i class='fi fi-circle-spin fi-spin float-start'></i> 依赖的部分字段没有通过验证" data-error-toast-delay="1500" data-error-toast-position="top-center" data-error-scroll-up="false" data-ajax-callback-function="mc_sign_callback" novalidate method="post" action="/mc/loginPost" id="accordionAccountSignIn" data-bs-parent="#accordionAccount">
+            <!-- email -->
+            <div class="form-floating mb-3">
+                <input required placeholder="用户名" id="signin_username" name="username" type="text" maxlength="40" class="form-control">
+                <label for="signin_username">请输入用户名或邮箱或手机号</label>
+            </div>
+            <!-- password -->
+            <div class="input-group-over mb-3">
+                <div class="form-floating">
+                    <input required placeholder="密码" id="signin_password" name="password" type="password" minlength="6" maxlength="20" class="form-control" autocomplete="new-password">
+                    <label for="signin_password">密码</label>
+                </div>
+                <a href="#accordionAccountPasswd" class="btn btn-pill text-muted fw-medium" data-bs-toggle="collapse" aria-expanded="true" aria-controls="accordionAccountPasswd">重置</a>
+            </div>
+            <!-- button -->
+            <button type="submit" class="btn btn-primary w-100">登录</button>
+            <div class="text-center mt-4">
+                <a href="#accordionAccountSignUp" class="link-normal text-decoration-none" data-bs-toggle="collapse" aria-expanded="true" aria-controls="accordionAccountSignUp">注册账户</a>
+            </div>
+            <div class="text-center mt-1">
+                <a href="#mobileCodeSignUp" class="text-decoration-none me-3" data-bs-toggle="collapse" aria-expanded="true" aria-controls="mobileCodeSignUp">手机短信登录</a>
+                <a href="/mc/login?loginType=wechat" class="text-decoration-none">使用微信登录</a>
+            </div>
+        </form>
+        <!-- /sign in -->
+        <!-- passwd reset -->
+        <form class="collapse bs-validate js-ajax" data-ajax-container="#ajax_response_container" data-ajax-update-url="false" data-ajax-show-loading-icon="true" data-error-toast-text="请输入正确的邮箱或者手机号" data-error-toast-delay="1500" data-error-toast-position="top-center" data-error-scroll-up="false" data-ajax-callback-function="mc_reset_callback" novalidate method="post" action="/mc/resetPassword" id="accordionAccountPasswd" data-bs-parent="#accordionAccount">
+            <!-- email -->
+            <div class="form-floating mb-3">
+                <input required placeholder="邮箱或手机号" id="reset_email" name="reset_email" type="text" class="form-control">
+                <label for="reset_email">邮箱或手机号</label>
+            </div>
+            <!-- password -->
+            <button type="submit" class="btn btn-primary w-100">重置密码</button>
+            <!-- back -->
+            <div class="text-center mt-4">
+                <a href="#accordionAccountSignIn" class="link-normal text-decoration-none" data-bs-toggle="collapse" aria-expanded="true" aria-controls="accordionAccountSignIn">没忘密码，返回登录。</a>
+            </div>
+        </form>
+        <!-- /passwd reset -->
+        <!-- sign up -->
+        <form class="collapse bs-validate js-ajax" data-ajax-container="#ajax_response_container" data-ajax-update-url="false" data-ajax-show-loading-icon="true" data-error-toast-text="<i class='fi fi-circle-spin fi-spin float-start'></i> 依赖的部分字段没有通过验证" data-error-toast-delay="1500" data-error-toast-position="top-center" data-error-scroll-up="false" data-ajax-callback-function="mc_signup_callback" novalidate method="post" action="/mc/signup" id="accordionAccountSignUp" data-bs-parent="#accordionAccount">
+            <div class="form-floating mb-3">
+                <input required id="signup_username" name="username" type="text" maxlength="15" class="form-control" placeholder="用户名">
+                <label for="signup_username">用户名</label>
+            </div>
+            <div class="input-group-over mb-3">
+                <div class="form-floating">
+                    <input required placeholder="密码" id="account_password" name="password" type="password" minlength="6" maxlength="20" class="form-control">
+                    <label for="account_password">密码</label>
+                </div>
+            </div>
+            <div class="input-group-over mb-3">
+                <div class="form-floating">
+                    <input required placeholder="确认密码" id="account_password_sure" name="passwordSure" type="password" minlength="6" maxlength="20" class="form-control">
+                    <label for="account_password_sure">确认密码</label>
+                </div>
+            </div>
+            <!-- GDPR CONSENT -->
+            <div class="mb-3 border p-3 rounded">
+                <p class="small mb-3 pb-3 border-bottom">我同意 {{ctx.app.config.cms.name}} 存储我的个人数据。</p>
+                <div class="form-check">
+                    <input required class="form-check-input" id="contact_gdpr" name="contact_gdpr" type="checkbox" value="1">
+                    <label class="form-check-label" for="contact_gdpr">
+                        我接受 {{ctx.app.config.cms.name}} <a class="text-decoration-none" href="{{ctx.app.config.cms.agreementUrl}}" target="_blank">条款 & 条件</a>。
+                    </label>
+                </div>
+            </div>
+            <!-- /GDPR CONSENT -->
+            <button type="submit" class="btn btn-primary w-100">注册</button>
+            <div class="text-center mt-4">
+                <a href="#accordionAccountSignIn" class="link-normal text-decoration-none" data-bs-toggle="collapse" aria-expanded="true" aria-controls="accordionAccountSignIn">返回登录</a>
+            </div>
+        </form>
+        <!-- /sign up -->
+        <form class="collapse bs-validate js-ajax" data-ajax-container="#ajax_response_container"data-ajax-update-url="false" data-ajax-show-loading-icon="true" data-error-toast-text="<i class='fi fi-circle-spin fi-spin float-start'></i> 请填写正确的手机号和验证码！" data-error-toast-delay="1500" data-error-toast-position="top-center" data-error-scroll-up="false" data-ajax-callback-function="mc_sign_callback" novalidate method="post" action="/mc/loginByMobileCode" id="mobileCodeSignUp" data-bs-parent="#accordionAccount">
+            <div class="input-group-over mb-3">
+                <div class="form-floating">
+                    <input required type="tel" class="form-control" id="mobileSign" name="mobile" minlength="11" maxlength="11" placeholder="电话">
+                    <label for="mobile">手机号</label>
+                </div>
+                <button id="sendSmsBtnSign" type="button" class="btn btn-pill text-muted timer-countdown-inline" data-target="#mobileSign" data-timer-countdown-from="59000" data-timer-countdown-callback-function="sendSMSCountdownCallback" data-timer-countdown-end-hide-target=".countdownTip" onclick="onSendSMSBtnClick(this)"><span class="s">发送短信</span><span class="countdownTip hide"> 秒后重试</span></button>
+            </div>
+            <div class="form-floating mb-3">
+                <input required type="number" class="form-control" id="codeSign" name="code" minlength="6" maxlength="6" placeholder="短信验证码">
+                <label for="code">短信验证码</label>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">登录</button>
+            <div class="text-center mt-4">
+                <a href="#accordionAccountSignIn" class="link-normal text-decoration-none" data-bs-toggle="collapse" aria-expanded="true" aria-controls="accordionAccountSignIn">返回登录</a>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,169 +1,375 @@
 {
-  "type": "page",
-  "title": false,
-  "body": [
-    {
-      "type": "crud",
-      "syncLocation": false,
-      "api": { "method": "get", "url": "/admin/mc/member/list" },
-      "columns": [
+    "type": "page",
+    "title": false,
+    "body": [
         {
-          "label": "头像",
-          "type": "image",
-          "name": "avatar",
-          "className": "tdimg",
-          "id": "u:e80e9ed4a7ed"
-        },
-        {
-          "label": "用户名",
-          "type": "text",
-          "name": "username",
-          "searchable": true,
-          "sortable": true,
-          "id": "u:5f02ece137e7"
-        },
-        {
-          "label": "邮箱",
-          "type": "text",
-          "name": "email",
-          "searchable": true,
-          "id": "u:9d122356c942"
-        },
-        {
-          "label": "电话",
-          "type": "text",
-          "name": "mobile",
-          "searchable": true,
-          "id": "u:87b2514efd3e"
-        },
-        {
-          "label": "状态",
-          "type": "status",
-          "name": "state",
-          "filterable": {
-            "options": [
-              {
-                "label": "启用",
-                "value": 1
-              },
-              {
-                "label": "禁用",
-                "value": 0
-              }
-            ]
-          },
-          "id": "u:de3ed87db5d3"
-        },
-        {
-          "label": "UUID",
-          "type": "text",
-          "name": "uuid",
-          "searchable": true,
-          "id": "u:1f0c2d4f5981"
-        },
-        {
-          "label": "注册时间",
-          "type": "date",
-          "name": "createdAt",
-          "format": "YYYY-MM-DD HH:mm",
-          "sortable": true,
-          "id": "u:b54ab5318004"
-        },
-        {
-          "type": "operation",
-          "label": "操作",
-          "buttons": [
-            {
-              "label": "编辑",
-              "type": "button",
-              "actionType": "dialog",
-              "level": "link",
-              "dialog": {
-                "title": "编辑会员",
-                "body": {
-                  "type": "form",
-                  "debug":false,
-                  "api": "/admin/mc/member/edit",
-                  "body": [
-                    { "type": "input-text", "name": "username", "label": "用户名","required": true },
-                    {
-                      "type": "input-text",
-                      "name": "newpassword",
-                      "label": "新密码",
-                      "description": "如果不修改密码请不要填写"
-                    },
-                    { "type": "input-text", "name": "email", "label": "邮箱","required": true },
-                    { "type": "input-text", "name": "mobile", "label": "电话","required": true },
-                    {
-                      "name": "state",
-                      "type": "switch",
-                      "value":true,
-                      "label": "状态"
-                    },
-                    { "type": "input-image", "name": "avatar", "label": "头像","maxLength": 1,
-                    "receiver": "/upload/adminToken" },
-                    {"type":"hidden","name":"uuid"}
-                  ]
-                }
-              },
-              "id": "u:2c76dcc2bd4f"
+            "type": "crud",
+            "syncLocation": false,
+            "api": {
+                "method": "get",
+                "url": "/admin/mc/member/list"
             },
-            {
-              "type": "button",
-              "label": "删除",
-              "actionType": "ajax",
-              "level": "link",
-              "className": "text-danger",
-              "confirmText": "确定要删除？",
-              "api": "get:/admin/mc/member/del?uuid=${uuid}",
-              "id": "u:0f324556a9ac"
-            }
-          ],
-          "id": "u:bf4858fc94b0"
+            "bulkActions": [],
+            "itemActions": [],
+            "features": [
+                "create",
+                "update",
+                "delete",
+                "view"
+            ],
+            "headerToolbar": [
+                {
+                    "label": "新增会员",
+                    "type": "button",
+                    "actionType": "dialog",
+                    "level": "primary",
+                    "dialog": {
+                        "type": "dialog",
+                        "title": "新增会员",
+                        "body": [
+                            {
+                                "type": "form",
+                                "api": "/admin/mc/member/add",
+                                "body": [
+                                    {
+                                        "type": "input-text",
+                                        "name": "username",
+                                        "label": "用户名",
+                                        "required": true,
+                                        "id": "u:32a0daccebe3"
+                                    },
+                                    {
+                                        "type": "input-text",
+                                        "name": "password",
+                                        "label": "密码",
+                                        "required": true,
+                                        "id": "u:d2c40f5fa213"
+                                    },
+                                    {
+                                        "type": "input-text",
+                                        "name": "email",
+                                        "label": "邮箱",
+                                        "id": "u:f5568e84ea13"
+                                    },
+                                    {
+                                        "type": "input-text",
+                                        "name": "mobile",
+                                        "label": "电话",
+                                        "id": "u:c7e7d21f7a51"
+                                    },
+                                    {
+                                        "name": "state",
+                                        "type": "switch",
+                                        "value": true,
+                                        "label": "状态",
+                                        "id": "u:712d028321b5"
+                                    },
+                                    {
+                                        "type": "input-image",
+                                        "name": "avatar",
+                                        "label": "头像",
+                                        "maxLength": 1,
+                                        "receiver": "/upload/adminToken",
+                                        "id": "u:4138dab951ec"
+                                    },
+                                    {
+                                        "type": "select",
+                                        "label": "绑定管理员账号",
+                                        "name": "sys_user_uuid",
+                                        "multiple": false,
+                                        "clearable": true,
+                                        "source": {
+                                            "method": "post",
+                                            "url": "/graphql",
+                                            "requestAdaptor": "",
+                                            "adaptor": "",
+                                            "graphql": "{options:SysUser_findAll(where:{state:{op_eq:true}}) {label:username value:uuid}}",
+                                            "messages": {}
+                                        },
+                                        "clearValueOnHidden": true,
+                                        "visibleOn": "${userInfo.admin}",
+                                        "id": "u:b406487d7f86"
+                                    }
+                                ],
+                                "id": "u:dc5f58805464",
+                                "actions": [
+                                    {
+                                        "type": "submit",
+                                        "label": "提交",
+                                        "primary": true
+                                    }
+                                ],
+                                "feat": "Insert"
+                            }
+                        ],
+                        "actionType": "dialog",
+                        "id": "u:5e58170d493f",
+                        "actions": [
+                            {
+                                "type": "button",
+                                "actionType": "cancel",
+                                "label": "取消",
+                                "id": "u:5f36250b5ebd"
+                            },
+                            {
+                                "type": "button",
+                                "actionType": "confirm",
+                                "label": "确定",
+                                "primary": true,
+                                "id": "u:fd3458ac4bdf"
+                            }
+                        ]
+                    },
+                    "id": "u:07aae88e9fa6"
+                },
+                "bulkActions"
+            ],
+            "id": "u:c55f034011e4",
+            "perPageAvailable": [
+                5,
+                10,
+                20,
+                50,
+                100
+            ],
+            "messages": {},
+            "columns": [
+                {
+                    "label": "用户名",
+                    "type": "text",
+                    "name": "username",
+                    "searchable": true,
+                    "sortable": true,
+                    "copyable": true,
+                    "id": "u:a83119f50aea"
+                },
+                {
+                    "label": "UUID",
+                    "type": "text",
+                    "name": "uuid",
+                    "searchable": true,
+                    "copyable": true,
+                    "id": "u:87df3523da6a"
+                },
+                {
+                    "label": "注册时间",
+                    "type": "date",
+                    "name": "createdAt",
+                    "format": "YYYY-MM-DD HH:mm",
+                    "sortable": true,
+                    "id": "u:e90b9b52c4b9"
+                },
+                {
+                    "label": "头像",
+                    "type": "image",
+                    "name": "avatar",
+                    "className": "tdimg",
+                    "enlargeAble": true,
+                    "enlargeWithGallary": false,
+                    "showToolbar": true,
+                    "id": "u:84272e38eae9"
+                },
+                {
+                    "label": "邮箱",
+                    "type": "text",
+                    "name": "email",
+                    "searchable": true,
+                    "copyable": true,
+                    "id": "u:ae73fa9be2a6"
+                },
+                {
+                    "label": "电话",
+                    "type": "text",
+                    "name": "mobile",
+                    "searchable": true,
+                    "copyable": true,
+                    "id": "u:7fbbbf414187"
+                },
+                {
+                    "label": "状态",
+                    "type": "status",
+                    "name": "state",
+                    "filterable": {
+                        "options": [
+                            {
+                                "label": "启用",
+                                "value": 1
+                            },
+                            {
+                                "label": "禁用",
+                                "value": 0
+                            }
+                        ]
+                    },
+                    "id": "u:4cb214b6ae05"
+                },
+                {
+                    "type": "json",
+                    "label": "第三方绑定账号",
+                    "name": "third",
+                    "id": "u:6eb518ad6dca"
+                },
+                {
+                    "type": "text",
+                    "label": "绑定的管理员账号uuid",
+                    "name": "sys_user_uuid",
+                    "searchable": {
+                        "type": "input-text",
+                        "name": "sys_user_uuid",
+                        "clearable": true,
+                        "options": [
+                            {
+                                "label": "绑定管理员的所有账号",
+                                "value": "绑定管理员的所有账号"
+                            },
+                            {
+                                "label": "未绑定管理员的所有账号",
+                                "value": "未绑定管理员的所有账号"
+                            }
+                        ]
+                    },
+                    "copyable": true,
+                    "id": "u:e4a65e1f55e5",
+                    "inline": true,
+                    "visibleOn": "${userInfo.admin}"
+                },
+                {
+                    "type": "operation",
+                    "label": "操作",
+                    "buttons": [
+                        {
+                            "label": "编辑",
+                            "type": "button",
+                            "actionType": "dialog",
+                            "level": "link",
+                            "dialog": {
+                                "type": "dialog",
+                                "title": "编辑会员",
+                                "body": [
+                                    {
+                                        "type": "form",
+                                        "debug": false,
+                                        "api": "/admin/mc/member/edit",
+                                        "body": [
+                                            {
+                                                "type": "input-text",
+                                                "name": "username",
+                                                "label": "用户名",
+                                                "required": true,
+                                                "id": "u:bd7440e43ac2"
+                                            },
+                                            {
+                                                "type": "input-text",
+                                                "name": "newpassword",
+                                                "label": "新密码",
+                                                "description": "如果不修改密码请不要填写",
+                                                "id": "u:32bbb601e4ad"
+                                            },
+                                            {
+                                                "type": "input-text",
+                                                "name": "email",
+                                                "label": "邮箱",
+                                                "id": "u:2328c0e8e1d4"
+                                            },
+                                            {
+                                                "type": "input-text",
+                                                "name": "mobile",
+                                                "label": "电话",
+                                                "id": "u:c66820897745"
+                                            },
+                                            {
+                                                "name": "state",
+                                                "type": "switch",
+                                                "value": true,
+                                                "label": "状态",
+                                                "id": "u:2507a888ea78"
+                                            },
+                                            {
+                                                "type": "input-image",
+                                                "name": "avatar",
+                                                "label": "头像",
+                                                "maxLength": 1,
+                                                "receiver": "/upload/adminToken",
+                                                "id": "u:073a9433d89e"
+                                            },
+                                            {
+                                                "type": "select",
+                                                "label": "绑定管理员账号",
+                                                "name": "sys_user_uuid",
+                                                "id": "u:9904c8b56936",
+                                                "multiple": false,
+                                                "clearable": true,
+                                                "source": {
+                                                    "method": "post",
+                                                    "url": "/graphql",
+                                                    "requestAdaptor": "",
+                                                    "adaptor": "",
+                                                    "graphql": "{options:SysUser_findAll(where:{state:{op_eq:true}}) {label:username value:uuid}}",
+                                                    "messages": {}
+                                                },
+                                                "clearValueOnHidden": true,
+                                                "visibleOn": "${userInfo.admin}"
+                                            },
+                                            {
+                                                "type": "hidden",
+                                                "name": "uuid",
+                                                "id": "u:e28d66fa6b72"
+                                            }
+                                        ],
+                                        "id": "u:ef1f68a2a2f8",
+                                        "actions": [
+                                            {
+                                                "type": "submit",
+                                                "label": "提交",
+                                                "primary": true
+                                            }
+                                        ],
+                                        "feat": "Insert"
+                                    }
+                                ],
+                                "actionType": "dialog",
+                                "id": "u:f88634445ec0",
+                                "actions": [
+                                    {
+                                        "type": "button",
+                                        "actionType": "cancel",
+                                        "label": "取消",
+                                        "id": "u:4faa97223b46"
+                                    },
+                                    {
+                                        "type": "button",
+                                        "actionType": "confirm",
+                                        "label": "确定",
+                                        "primary": true,
+                                        "id": "u:a91418185551"
+                                    }
+                                ]
+                            },
+                            "id": "u:4ee33e9c14d6"
+                        },
+                        {
+                            "type": "button",
+                            "label": "删除",
+                            "actionType": "ajax",
+                            "level": "link",
+                            "className": "text-danger",
+                            "confirmText": "确定要删除？",
+                            "api": "get:/admin/mc/member/del?uuid=${uuid}",
+                            "id": "u:9577d26b9a9c"
+                        }
+                    ],
+                    "id": "u:ac30ea8ac7d6"
+                }
+            ]
         }
-      ],
-      "bulkActions": [],
-      "itemActions": [],
-      "features": ["create", "update", "delete", "view"],
-      "headerToolbar": [
-        {
-          "label": "新增会员",
-          "type": "button",
-          "actionType": "dialog",
-          "level": "primary",
-          "dialog": {
-            "title": "新增会员",
-            "body": {
-              "type": "form",
-              "api": "/admin/mc/member/add",
-              "body": [
-                { "type": "input-text", "name": "username", "label": "用户名","required": true },
-                {
-                  "type": "input-text",
-                  "name": "password",
-                  "label": "密码",
-                  "required": true
-                },
-                
-                { "type": "input-text", "name": "email", "label": "邮箱","required": true },
-                { "type": "input-text", "name": "mobile", "label": "电话","required": true },
-                {
-                  "name": "state",
-                  "type": "switch",
-                  "value":true,
-                  "label": "状态"
-                },
-                { "type": "input-image", "name": "avatar", "label": "头像","maxLength": 1,
-                "receiver": "/upload/adminToken" }
-              ]
-            }
-          },
-          "id": "u:c38154c3ee32"
-        },
-        "bulkActions"
-      ],
-      "id": "u:7377ea7d7292"
-    }
-  ],
-  "id": "u:1e1ac15ad8f5"
+    ],
+    "id": "u:1e1ac15ad8f5",
+    "asideResizor": false,
+    "pullRefresh": {
+        "disabled": true
+    },
+    "regions": [
+        "body"
+    ],
+    "definitions": {}
 }
