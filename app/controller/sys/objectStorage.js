@@ -88,6 +88,7 @@ module.exports = {objectStorage: ${JSON.stringify(data)}};`;
                     description: data.description || '',
                     path: upload.savename,
                     url: upload.url,
+                    compressed_url: upload.compressed_url,
                     size: upload.size,
                     mime: upload.mime,
                     location: upload.location,
@@ -98,7 +99,8 @@ module.exports = {objectStorage: ${JSON.stringify(data)}};`;
                 })
                 if (!status) {
                     upload.url = upload.url + attachment.id;
-                    await attachment.update({ url: upload.url })
+                    upload.compressed_url = upload.url;
+                    await attachment.update({ url: upload.url, compressed_url: upload.compressed_url });
                 }
                 const resdata = {};
 				resdata.name = upload.name;// 原始文件名
@@ -107,15 +109,13 @@ module.exports = {objectStorage: ${JSON.stringify(data)}};`;
 				resdata.type = upload.location;// 文件保存位置
 				resdata.savename = upload.savename;// 保存名称
 				resdata.url = upload.url;
-				// console.log(resdata);
+                resdata.compressed_url = upload.compressed_url;
 				const reshtml = await ctx.renderString(data.resBody, resdata);
-				// console.log(reshtml);
 				ctx.body = JSON.parse(reshtml);
 			} else {
 				throw new Error('上传失败');
 			}
 		} catch (e) {
-			// console.log(e);
 			this.fail(e.toString());
 		} finally {
 			// 需要删除临时文件

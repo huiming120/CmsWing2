@@ -7,6 +7,7 @@
 		description:String
 		path:String
 		url:String
+		compressed_url:String
 		size:Int
 		mime:String
 		location:String
@@ -128,6 +129,24 @@
 		op_substring: String
 	}
 	input WhereCmsAttachment_url {
+		op_eq: String
+		op_ne: String
+		op_or: [String]
+		op_gt: String
+		op_gte: String
+		op_lt: String
+		op_lte: String
+		op_between: [String]
+		op_notBetween: [String]
+		op_in: [String]
+		op_notIn: [String]
+		op_like: String
+		op_notLike: String
+		op_startsWith: String
+		op_endsWith: String
+		op_substring: String
+	}
+	input WhereCmsAttachment_compressed_url {
 		op_eq: String
 		op_ne: String
 		op_or: [String]
@@ -280,6 +299,7 @@
 		description:WhereCmsAttachment_description
 		path:WhereCmsAttachment_path
 		url:WhereCmsAttachment_url
+		compressed_url:WhereCmsAttachment_compressed_url
 		size:WhereCmsAttachment_size
 		mime:WhereCmsAttachment_mime
 		location:WhereCmsAttachment_location
@@ -298,6 +318,7 @@
 		description:WhereCmsAttachment_description
 		path:WhereCmsAttachment_path
 		url:WhereCmsAttachment_url
+		compressed_url:WhereCmsAttachment_compressed_url
 		size:WhereCmsAttachment_size
 		mime:WhereCmsAttachment_mime
 		location:WhereCmsAttachment_location
@@ -317,6 +338,7 @@
 		description: String!
 		path: String!
 		url: String!
+		compressed_url: String
 		size: Int!
 		mime: String
 		location: String!
@@ -332,6 +354,7 @@
 		description: String
 		path: String
 		url: String
+		compressed_url: String
 		size: Int
 		mime: String
 		location: String

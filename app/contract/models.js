@@ -844,6 +844,7 @@ module.exports = {
 	},
 	// 附件表
 	cms_attachment_item: {
+		compressed_url: { type: 'string', description: '图片压缩地址' },
 		createdAt: { type: 'string', description: '创建时间' },
 		description: { type: 'string', description: '附件描述' },
 		id: { type: 'string', description: '主键' },
@@ -861,6 +862,7 @@ module.exports = {
 
 	},
 	cms_attachment_add: {
+		compressed_url: { type: 'string', description: '图片压缩地址', required: false },
 		description: { type: 'string', description: '附件描述', required: true },
 		location: { type: 'string', description: '文件上传类型(local、kodo、obs、oss、cos)', required: true },
 		mime: { type: 'string', description: '文件类型', required: false },
@@ -874,6 +876,7 @@ module.exports = {
 
 	},
 	cms_attachment_edit: {
+		compressed_url: { type: 'string', description: '图片压缩地址' },
 		description: { type: 'string', description: '附件描述' },
 		location: { type: 'string', description: '文件上传类型(local、kodo、obs、oss、cos)' },
 		mime: { type: 'string', description: '文件类型' },

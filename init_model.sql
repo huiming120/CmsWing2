@@ -36,6 +36,7 @@ CREATE TABLE `cms_attachment`  (
   `upload_ip` varchar(24) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '上传者ip地址',
   `status` tinyint(1) NULL DEFAULT 1 COMMENT '状态',
   `remark` json NULL COMMENT '备注信息,方便审核通过时更新相应信息{from:上传来源(admin,avatar,form),其他信息}',
+  `compressed_url` varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '图片压缩地址',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `cms_attachment_name`(`name`) USING BTREE,
   INDEX `cms_attachment_description`(`description`) USING BTREE
@@ -561,7 +562,7 @@ CREATE TABLE `sys_models_fields`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `sys_models_fields_uuid`(`uuid`) USING BTREE,
   INDEX `sys_models_fields_models_uuid_name`(`models_uuid`, `name`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 327 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 328 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_models_fields
@@ -821,20 +822,20 @@ INSERT INTO `sys_models_fields` VALUES (252, '11af8e16-fe5d-4f76-927d-ff4960d1a7
 INSERT INTO `sys_models_fields` VALUES (253, 'b4cf1497-e351-4de4-b09b-34d5881c374a', 'd749c0ee-f449-45c8-a5b1-0cf5f07d6d64', 'value', '配置value', 'JSON', '', '', '', '', 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 5, '2024-11-01 14:17:42', '2024-11-01 14:17:42');
 INSERT INTO `sys_models_fields` VALUES (254, '51ae3cf2-d880-414e-94ab-d361337b5961', 'bff1476c-5357-4d00-9a04-f18e1d8c7eae', 'app', '应用标识', 'STRING', '', '', '', '', 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 20, '2024-11-01 14:17:42', '2024-12-26 16:37:21');
 INSERT INTO `sys_models_fields` VALUES (255, 'b582d81f-93af-4232-af8f-69a0b28670f3', 'e86401ba-85cb-47f7-9f53-853e26b939bd', 'content_type', '文章内容类型(html|amis)', 'ENUM', 'html\namis', '', '', 'html', 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 4, '2024-11-01 14:17:42', '2024-11-25 10:01:24');
-INSERT INTO `sys_models_fields` VALUES (256, 'aed97a74-e930-4af9-8588-01669f840643', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'id', '主键', 'INTEGER', '', '', '', '', 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, '2024-11-01 14:17:42', '2024-12-27 14:55:41');
-INSERT INTO `sys_models_fields` VALUES (257, '7b3757bc-52b0-40ba-b772-1e3c54c9b992', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'createdAt', '创建时间', 'DATE', '', '', '', '', 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, '2024-11-01 14:17:42', '2024-12-27 14:55:41');
-INSERT INTO `sys_models_fields` VALUES (258, '44eab3eb-f280-47b2-8f18-a0498eb604a8', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'updatedAt', '更新时间', 'DATE', '', '', '', '', 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 2, '2024-11-01 14:17:42', '2024-12-27 14:55:41');
-INSERT INTO `sys_models_fields` VALUES (259, '1c853747-efa7-4d68-ac4a-dd7a893adc82', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'name', '文件名字', 'STRING', '', '', '', '', 50, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 3, '2024-11-01 14:17:42', '2024-12-27 14:55:41');
-INSERT INTO `sys_models_fields` VALUES (260, '5a5aa0a6-36cb-4149-818d-ed50ef7e8243', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'description', '附件描述', 'STRING', '', '', '', '', 100, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 4, '2024-11-01 14:17:42', '2024-12-27 14:55:41');
-INSERT INTO `sys_models_fields` VALUES (261, 'eaebffbf-b4fe-4dd6-87b3-47bbf26f4b45', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'path', '文件存储地址', 'STRING', '', '', '', '', 200, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 5, '2024-11-01 14:17:42', '2024-12-27 14:55:41');
-INSERT INTO `sys_models_fields` VALUES (262, '087fddce-0285-4531-99ff-faab263c366d', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'url', '文件网络地址', 'STRING', '', '', '', '', 300, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 6, '2024-11-01 14:17:42', '2024-12-27 14:55:41');
-INSERT INTO `sys_models_fields` VALUES (263, '2935f89b-5bc0-44bd-ad1d-02790400f6c9', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'size', '文件大小(kb)', 'INTEGER', '', '', '', '', 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 7, '2024-11-01 14:17:42', '2024-12-27 14:55:41');
-INSERT INTO `sys_models_fields` VALUES (264, 'ad6ed725-31f4-4a97-877d-2dd91843e455', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'mime', '文件类型', 'STRING', '', '', '', '空字符串', 150, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 8, '2024-11-01 14:17:42', '2024-12-27 14:55:42');
-INSERT INTO `sys_models_fields` VALUES (265, '2e6cafbb-f14f-4dec-835e-7bcd782599d2', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'location', '文件上传类型(local、kodo、obs、oss、cos)', 'STRING', '', '', '', 'local', 16, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 9, '2024-11-01 14:17:42', '2024-12-27 14:55:42');
-INSERT INTO `sys_models_fields` VALUES (266, '3e66c817-6a94-4ce1-aa2d-95d183f0c390', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'upload_user_uuid', '上传者uuid', 'UUID', '', 'none', '', '', 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 10, '2024-11-01 14:17:42', '2024-12-27 14:55:42');
-INSERT INTO `sys_models_fields` VALUES (267, 'e48b3a02-3739-4d98-94b0-7526e5f97f03', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'upload_ip', '上传者ip地址', 'STRING', '', '', '', '', 24, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 11, '2024-11-01 14:17:42', '2024-12-27 14:55:42');
-INSERT INTO `sys_models_fields` VALUES (268, 'ab1ef7ac-342e-4e63-a650-1ad4ac4f2660', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'status', '状态', 'BOOLEAN', NULL, NULL, 'true', NULL, NULL, NULL, 0, 0, 0, 1, 1, 1, 0, 0, 0, 12, '2024-12-26 14:51:58', '2024-12-27 14:55:42');
-INSERT INTO `sys_models_fields` VALUES (269, '69a8ef6d-288e-49a2-8e49-eb84ae8ef8e2', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'remark', '备注信息,方便审核通过时更新相应信息{from:上传来源(admin,avatar,form),其他信息}', 'JSON', NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 0, 1, 1, 1, 0, 0, 0, 13, '2024-12-27 14:55:42', '2024-12-27 14:55:42');
+INSERT INTO `sys_models_fields` VALUES (256, 'aed97a74-e930-4af9-8588-01669f840643', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'id', '主键', 'INTEGER', '', '', '', '', 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, '2024-11-01 14:17:42', '2025-02-26 10:39:34');
+INSERT INTO `sys_models_fields` VALUES (257, '7b3757bc-52b0-40ba-b772-1e3c54c9b992', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'createdAt', '创建时间', 'DATE', '', '', '', '', 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, '2024-11-01 14:17:42', '2025-02-26 10:39:34');
+INSERT INTO `sys_models_fields` VALUES (258, '44eab3eb-f280-47b2-8f18-a0498eb604a8', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'updatedAt', '更新时间', 'DATE', '', '', '', '', 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 2, '2024-11-01 14:17:42', '2025-02-26 10:39:34');
+INSERT INTO `sys_models_fields` VALUES (259, '1c853747-efa7-4d68-ac4a-dd7a893adc82', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'name', '文件名字', 'STRING', '', '', '', '', 50, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 3, '2024-11-01 14:17:42', '2025-02-26 10:39:34');
+INSERT INTO `sys_models_fields` VALUES (260, '5a5aa0a6-36cb-4149-818d-ed50ef7e8243', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'description', '附件描述', 'STRING', '', '', '', '', 100, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 4, '2024-11-01 14:17:42', '2025-02-26 10:39:34');
+INSERT INTO `sys_models_fields` VALUES (261, 'eaebffbf-b4fe-4dd6-87b3-47bbf26f4b45', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'path', '文件存储地址', 'STRING', '', '', '', '', 200, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 5, '2024-11-01 14:17:42', '2025-02-26 10:39:34');
+INSERT INTO `sys_models_fields` VALUES (262, '087fddce-0285-4531-99ff-faab263c366d', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'url', '文件网络地址', 'STRING', '', '', '', '', 300, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 6, '2024-11-01 14:17:42', '2025-02-26 10:39:34');
+INSERT INTO `sys_models_fields` VALUES (263, '2935f89b-5bc0-44bd-ad1d-02790400f6c9', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'size', '文件大小(kb)', 'INTEGER', '', '', '', '', 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 8, '2024-11-01 14:17:42', '2025-02-26 10:39:35');
+INSERT INTO `sys_models_fields` VALUES (264, 'ad6ed725-31f4-4a97-877d-2dd91843e455', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'mime', '文件类型', 'STRING', '', '', '', '空字符串', 150, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 9, '2024-11-01 14:17:42', '2025-02-26 10:39:35');
+INSERT INTO `sys_models_fields` VALUES (265, '2e6cafbb-f14f-4dec-835e-7bcd782599d2', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'location', '文件上传类型(local、kodo、obs、oss、cos)', 'STRING', '', '', '', 'local', 16, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 10, '2024-11-01 14:17:42', '2025-02-26 10:39:35');
+INSERT INTO `sys_models_fields` VALUES (266, '3e66c817-6a94-4ce1-aa2d-95d183f0c390', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'upload_user_uuid', '上传者uuid', 'UUID', '', 'none', '', '', 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 11, '2024-11-01 14:17:42', '2025-02-26 10:39:35');
+INSERT INTO `sys_models_fields` VALUES (267, 'e48b3a02-3739-4d98-94b0-7526e5f97f03', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'upload_ip', '上传者ip地址', 'STRING', '', '', '', '', 24, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 12, '2024-11-01 14:17:42', '2025-02-26 10:39:35');
+INSERT INTO `sys_models_fields` VALUES (268, 'ab1ef7ac-342e-4e63-a650-1ad4ac4f2660', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'status', '状态', 'BOOLEAN', NULL, NULL, 'true', NULL, NULL, NULL, 0, 0, 0, 1, 1, 1, 0, 0, 0, 13, '2024-12-26 14:51:58', '2025-02-26 10:39:35');
+INSERT INTO `sys_models_fields` VALUES (269, '69a8ef6d-288e-49a2-8e49-eb84ae8ef8e2', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'remark', '备注信息,方便审核通过时更新相应信息{from:上传来源(admin,avatar,form),其他信息}', 'JSON', NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 0, 1, 1, 1, 0, 0, 0, 14, '2024-12-27 14:55:42', '2025-02-26 10:39:35');
 INSERT INTO `sys_models_fields` VALUES (270, 'c622d014-e965-4469-b45b-d65930bda9fd', 'bbd1ba38-99cb-4c6f-84ba-23e438638a26', 'sys_user_uuid', '绑定的管理员账号uuid', 'UUID', NULL, 'none', NULL, NULL, NULL, NULL, 0, 0, 0, 1, 0, 0, 0, 0, 0, 11, '2024-12-30 09:51:48', '2024-12-30 09:51:48');
 INSERT INTO `sys_models_fields` VALUES (271, '8ed11294-156d-4c66-96a8-6921c4f047dc', '3ec9af37-5fa3-46d1-8b79-b4da5db4eab2', 'id', '主键', 'INTEGER', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, '2024-12-30 16:33:01', '2025-01-06 14:09:09');
 INSERT INTO `sys_models_fields` VALUES (272, '60396c7c-56bb-43b1-9f3d-561e8aa8a3f0', '3ec9af37-5fa3-46d1-8b79-b4da5db4eab2', 'createdAt', '创建时间', 'DATE', NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, '2024-12-30 16:33:01', '2025-01-06 14:09:09');
@@ -892,6 +893,7 @@ INSERT INTO `sys_models_fields` VALUES (323, 'cf64c8b9-7cfe-4cf2-83ab-1953b871ab
 INSERT INTO `sys_models_fields` VALUES (324, '8b5122e3-898e-4bf1-89e3-ba66a73cc598', '0261456c-3801-4e0d-a6fe-db79e9df7d14', 'openid', '用户微信id', 'UUID', NULL, 'UUIDV4', NULL, NULL, NULL, NULL, 0, 0, 1, 1, 1, 1, 0, 0, 0, 4, '2025-02-06 19:21:23', '2025-02-06 19:21:23');
 INSERT INTO `sys_models_fields` VALUES (325, 'a8651a96-f855-43dd-afaa-0389fd06d62b', '0261456c-3801-4e0d-a6fe-db79e9df7d14', 'award_id', '中奖奖品id(未中奖为0)', 'INTEGER', NULL, NULL, NULL, '0', NULL, NULL, 0, 0, 1, 1, 1, 1, 0, 1, 0, 5, '2025-02-06 19:21:23', '2025-02-06 19:21:23');
 INSERT INTO `sys_models_fields` VALUES (326, '07230101-fab6-42f6-93a1-b4f97a1c2efe', '0261456c-3801-4e0d-a6fe-db79e9df7d14', 'data', '用户数据', 'JSON', NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 1, 1, 1, 1, 0, 0, 0, 6, '2025-02-06 19:21:23', '2025-02-06 19:21:23');
+INSERT INTO `sys_models_fields` VALUES (327, 'a5eb5f2f-0224-4bff-be0d-3a466c79bf62', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'compressed_url', '图片压缩地址', 'STRING', NULL, NULL, NULL, '空字符串', 300, NULL, 0, 0, 0, 1, 1, 1, 0, 0, 0, 7, '2025-02-26 10:39:35', '2025-02-26 10:39:35');
 
 -- ----------------------------
 -- Table structure for sys_models_indexes

@@ -138,6 +138,7 @@ class AttachmentController extends Controller {
                         description: description,
                         path: upload.savename,
                         url: upload.url,
+                        compressed_url: upload.compressed_url,
                         size: upload.size,
                         mime: upload.mime,
                         location: type,
@@ -221,7 +222,7 @@ class AttachmentController extends Controller {
         const { ids } = ctx.request.body;
         const idsArr = ids.split(',');
         const list = await ctx.model.CmsAttachment.findAll({
-            attributes: ['id', 'path', 'location'],
+            attributes: ['id', 'path', 'location', 'mime', 'status'],
             where: { id: { [Op.in]: idsArr } }
         })
         for (const file of list) {

@@ -617,6 +617,15 @@
                     "copyable": true
                 },
                 {
+                    "type": "link",
+                    "label": "压缩图片url",
+                    "name": "compressed_url",
+                    "placeholder": "-",
+                    "copyable": true,
+                    "toggled": false,
+                    "id": "u:c85a05e75463"
+                },
+                {
                     "type": "tpl",
                     "label": "大小",
                     "name": "size",

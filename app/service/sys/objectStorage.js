@@ -7,6 +7,7 @@ const COS = require('cos-nodejs-sdk-v5');
 const path = require('path');
 const fs = require('fs/promises');
 const fsSync = require('fs');
+const images = require('images');
 class objectStorageService extends Service {
 	constructor(app) {
 		super(app);
@@ -29,28 +30,42 @@ class objectStorageService extends Service {
         if (!status) {
             // 不对外的话全部放在本地临时目录
             const privateUploadDir = this.config.privateUploadDir
-            const targetDir = path.join(privateUploadDir, config.path, dayDir);
+            const targetDir = path.join(privateUploadDir, config.path, dayDir), compressedDir = path.join(targetDir, 'compressed');
 			if (!fsSync.existsSync(targetDir)) {
                 helper.mkdirsSync(targetDir);
 			}
+            if (!fsSync.existsSync(compressedDir)) {
+                helper.mkdirsSync(compressedDir);
+			}
 			await fs.copyFile(localFile, path.join(privateUploadDir, key));
-			keyname = `${config.path}/${dayDir}/${keyname}`;
-			res.savename = keyname;
+			res.savename = `${config.path}/${dayDir}/${keyname}`;
 			res.url = `${config.domain}/cms/attachment/getFile/`;
+            if (res.mime == 'image/png' || res.mime == 'image/jpeg') {
+                this.compressImage(localFile, path.join(compressedDir, keyname));
+            }
+            res.compressed_url = res.url;
 			res.result = {};
             return res;
         }
 		if (type === 'local') { // 本地上传
             const staticCfg = this.config.static
-            const targetDir = path.join(staticCfg.dir, config.path, dayDir);
+            const targetDir = path.join(staticCfg.dir, config.path, dayDir), compressedDir = path.join(targetDir, 'compressed');
 			if (!fsSync.existsSync(targetDir)) {
                 helper.mkdirsSync(targetDir);
 			}
+            if (!fsSync.existsSync(compressedDir)) {
+                helper.mkdirsSync(compressedDir);
+			}
 			// await fs.rename(localFile, path.join(this.app.baseDir, 'app', 'public', config.path, key));
 			await fs.copyFile(localFile, path.join(staticCfg.dir, key));
-			keyname = `${config.path}/${dayDir}/${keyname}`;
-			res.savename = keyname;
-			res.url = `${config.domain}${staticCfg.prefix}${keyname}`;
+			res.savename = `${config.path}/${dayDir}/${keyname}`;
+			res.url = `${config.domain}${staticCfg.prefix}${res.savename}`;
+            if (res.mime == 'image/png' || res.mime == 'image/jpeg') {
+                this.compressImage(localFile, path.join(compressedDir, keyname));
+                res.compressed_url = `${config.domain}${staticCfg.prefix}${config.path}/${dayDir}/compressed/${keyname}`;
+            } else {
+                res.compressed_url = res.url;
+            }
 			res.result = {};
 		} else if (type === 'kodo') { // 七牛上传
 			const mac = new qiniu.auth.digest.Mac(config.AccessKey, config.SecretKey);
@@ -184,46 +199,27 @@ class objectStorageService extends Service {
 		}
 		return res;
 	}
-	// 获取文件地址
-	async getFile(info) {
-		const type = info.location;
-		const config = this.con[type];
-		const domain = config.domain;
-		return `${domain}/${info.savename}`;
-	}
-	async edit(data) {
-		const config = this.config.upload;
-		const nc = Object.assign(config, data);
-		const routerData = `'use strict';
-// eslint-disable-next-line eol-last, object-curly-spacing, quotes, quote-props, key-spacing, comma-spacing
-module.exports = {upload: ${JSON.stringify(nc)}};`;
-		const appDir = path.join(this.app.baseDir, 'config');
-		const fileName = 'upload.config.js';
-		const file = path.join(appDir, fileName);
-		try {
-			const data = new Uint8Array(Buffer.from(routerData));
-			await fs.writeFile(file, data);
-			// Abort the request before the promise settles.
-		} catch (err) {
-			// When a request is aborted - err is an AbortError
-			console.error(err);
-		}
-	}
     // 删除附件
     async del(attachment) {
         if(!attachment.status) {
             // 未对外
-            const filePath = path.join(this.config.privateUploadDir, attachment.path);
+            const filePath = path.join(this.config.privateUploadDir, attachment.path), compressedPath = path.join(path.dirname(filePath), 'compressed', path.basename(filePath));
             if (fsSync.existsSync(filePath)) {
                 await fs.unlink(filePath);
+            }
+            if (fsSync.existsSync(compressedPath)) {
+                await fs.unlink(compressedPath);
             }
             return;
         }
         switch (attachment.location) {
             case 'local':
-                const filePath = path.join(this.config.static.dir, attachment.path);
+                const filePath = path.join(this.config.static.dir, attachment.path), compressedPath = path.join(path.dirname(filePath), 'compressed', path.basename(filePath));
                 if (fsSync.existsSync(filePath)) {
                     await fs.unlink(filePath)
+                }
+                if (fsSync.existsSync(compressedPath)) {
+                    await fs.unlink(compressedPath);
                 }
                 break;
             case 'kodo':
@@ -246,12 +242,20 @@ module.exports = {upload: ${JSON.stringify(nc)}};`;
             // 未对外
             const filePath = path.join(this.config.privateUploadDir, attachment.path);
             await fs.copyFile(file.filepath, filePath);
+            if (attachment.mime == 'image/png' || attachment.mime == 'image/jpeg') {
+                const compressedPath = path.join(path.dirname(filePath), 'compressed', path.basename(filePath));
+                this.compressImage(file.filepath, compressedPath);
+            }
             return;
         }
         switch (attachment.location) {
             case 'local':
                 const filePath = path.join(this.config.static.dir, attachment.path);
                 await fs.copyFile(file.filepath, filePath);
+                if (attachment.mime == 'image/png' || attachment.mime == 'image/jpeg') {
+                    const compressedPath = path.join(path.dirname(filePath), 'compressed', path.basename(filePath));
+                    this.compressImage(file.filepath, compressedPath);
+                }
                 break;
             case 'kodo':
                 
@@ -275,30 +279,33 @@ module.exports = {upload: ${JSON.stringify(nc)}};`;
             case 'local':
                 const publicUploadDir = this.config.static.dir;
                 if (attachment.status) {
-                    const targePath = path.join(privateUploadDir, attachment.path), filePath = path.join(publicUploadDir, attachment.path);
-                    const targetDir = path.dirname(targePath);
-                    if (!fsSync.existsSync(targetDir)) {
-                        this.ctx.helper.mkdirsSync(targetDir);
-                    }
-                    try { 
-                        await fs.copyFile(filePath, targePath);
-                        await fs.unlink(filePath);
-                    } catch (error) {}
+                    var targePath = path.join(privateUploadDir, attachment.path), filePath = path.join(publicUploadDir, attachment.path);
                     attachment.status = false;
                     attachment.url = `${this.con.local.domain}/cms/attachment/getFile/${attachment.id}`;
+                    attachment.compressed_url = attachment.url;
                 } else {
-                    const targePath = path.join(publicUploadDir, attachment.path), filePath = path.join(privateUploadDir, attachment.path);
-                    const targetDir = path.dirname(targePath);
-                    if (!fsSync.existsSync(targetDir)) {
-                        this.ctx.helper.mkdirsSync(targetDir);
-                    }
-                    try { 
-                        await fs.copyFile(filePath, targePath);
-                        await fs.unlink(filePath);
-                    } catch (error) {}
+                    var targePath = path.join(publicUploadDir, attachment.path), filePath = path.join(privateUploadDir, attachment.path);
                     attachment.status = true;
                     attachment.url = `${this.con.local.domain}${this.config.static.prefix}${attachment.path}`;
+                    attachment.compressed_url = `${this.con.local.domain}${this.config.static.prefix}${path.dirname(attachment.path)}/compressed/${path.basename(attachment.path)}`;
                 }
+                const targetDir = path.dirname(targePath), targetCompressedDir = path.join(targetDir, 'compressed');
+                const targeCompressedPath = path.join(targetCompressedDir, path.basename(attachment.path));
+                const fileCompressedPath = path.join(path.dirname(filePath), 'compressed', path.basename(attachment.path));
+                if (!fsSync.existsSync(targetDir)) {
+                    this.ctx.helper.mkdirsSync(targetDir);
+                }
+                if (!fsSync.existsSync(targetCompressedDir)) {
+                    this.ctx.helper.mkdirsSync(targetCompressedDir);
+                }
+                try { 
+                    await fs.copyFile(filePath, targePath);
+                    await fs.unlink(filePath);
+                    if (fsSync.existsSync(fileCompressedPath)) {
+                        await fs.copyFile(fileCompressedPath, targeCompressedPath);
+                        await fs.unlink(fileCompressedPath);
+                    }
+                } catch (error) {}
                 break;
             case 'kodo':
                 
@@ -313,7 +320,7 @@ module.exports = {upload: ${JSON.stringify(nc)}};`;
                 
                 break;
         }
-        await attachment.save({ fields: ['status', 'url'] });
+        await attachment.save({ fields: ['status', 'url', 'compressed_url'] });
         if (!status && status != attachment.status && attachment.remark && attachment.remark.from) {
             switch (attachment.remark.from) {
                 case 'avatar':
@@ -331,6 +338,15 @@ module.exports = {upload: ${JSON.stringify(nc)}};`;
                     break;
             }
         }
+    }
+    // 压缩图片保存
+    compressImage(filePath, savePath) {
+        let img = images(filePath);
+        let imgWidth = img.width();
+        if (imgWidth > 200) {
+            img.size(200);
+        }
+        img.save(savePath, { quality: 50 });
     }
 }
 module.exports = objectStorageService;

@@ -52,6 +52,7 @@ class IndexController extends Controller {
                     description: `用户 ${member.username} 的头像`,
                     path: upload.savename,
                     url: upload.url,
+                    compressed_url: upload.compressed_url,
                     size: upload.size,
                     mime: upload.mime,
                     location: upload.location,
@@ -61,7 +62,8 @@ class IndexController extends Controller {
                     remark: { from: 'avatar' }
                 })
                 upload.url = upload.url + attachment.id;
-                await attachment.update({ url: upload.url });
+                upload.compressed_url = upload.url;
+                await attachment.update({ url: upload.url, compressed_url: upload.compressed_url });
                 await member.update({ avatar: upload.url });
 				const token = ctx.helper.generateToken(member);
 				ctx.session.mcToken = token;

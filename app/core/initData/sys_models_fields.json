@@ -6398,7 +6398,7 @@
       "zerofill": 0,
       "sort": 0,
       "createdAt": "2024-11-01T06:17:42.000Z",
-      "updatedAt": "2024-12-27T06:55:41.000Z"
+      "updatedAt": "2025-02-26T02:39:34.000Z"
     },
     {
       "uuid": "7b3757bc-52b0-40ba-b772-1e3c54c9b992",
@@ -6423,7 +6423,7 @@
       "zerofill": 0,
       "sort": 1,
       "createdAt": "2024-11-01T06:17:42.000Z",
-      "updatedAt": "2024-12-27T06:55:41.000Z"
+      "updatedAt": "2025-02-26T02:39:34.000Z"
     },
     {
       "uuid": "44eab3eb-f280-47b2-8f18-a0498eb604a8",
@@ -6448,7 +6448,7 @@
       "zerofill": 0,
       "sort": 2,
       "createdAt": "2024-11-01T06:17:42.000Z",
-      "updatedAt": "2024-12-27T06:55:41.000Z"
+      "updatedAt": "2025-02-26T02:39:34.000Z"
     },
     {
       "uuid": "1c853747-efa7-4d68-ac4a-dd7a893adc82",
@@ -6473,7 +6473,7 @@
       "zerofill": 0,
       "sort": 3,
       "createdAt": "2024-11-01T06:17:42.000Z",
-      "updatedAt": "2024-12-27T06:55:41.000Z"
+      "updatedAt": "2025-02-26T02:39:34.000Z"
     },
     {
       "uuid": "5a5aa0a6-36cb-4149-818d-ed50ef7e8243",
@@ -6498,7 +6498,7 @@
       "zerofill": 0,
       "sort": 4,
       "createdAt": "2024-11-01T06:17:42.000Z",
-      "updatedAt": "2024-12-27T06:55:41.000Z"
+      "updatedAt": "2025-02-26T02:39:34.000Z"
     },
     {
       "uuid": "eaebffbf-b4fe-4dd6-87b3-47bbf26f4b45",
@@ -6523,7 +6523,7 @@
       "zerofill": 0,
       "sort": 5,
       "createdAt": "2024-11-01T06:17:42.000Z",
-      "updatedAt": "2024-12-27T06:55:41.000Z"
+      "updatedAt": "2025-02-26T02:39:34.000Z"
     },
     {
       "uuid": "087fddce-0285-4531-99ff-faab263c366d",
@@ -6548,7 +6548,7 @@
       "zerofill": 0,
       "sort": 6,
       "createdAt": "2024-11-01T06:17:42.000Z",
-      "updatedAt": "2024-12-27T06:55:41.000Z"
+      "updatedAt": "2025-02-26T02:39:34.000Z"
     },
     {
       "uuid": "2935f89b-5bc0-44bd-ad1d-02790400f6c9",
@@ -6571,9 +6571,9 @@
       "autoIncrement": 0,
       "unsigned": 1,
       "zerofill": 0,
-      "sort": 7,
+      "sort": 8,
       "createdAt": "2024-11-01T06:17:42.000Z",
-      "updatedAt": "2024-12-27T06:55:41.000Z"
+      "updatedAt": "2025-02-26T02:39:35.000Z"
     },
     {
       "uuid": "ad6ed725-31f4-4a97-877d-2dd91843e455",
@@ -6596,9 +6596,9 @@
       "autoIncrement": 0,
       "unsigned": 0,
       "zerofill": 0,
-      "sort": 8,
+      "sort": 9,
       "createdAt": "2024-11-01T06:17:42.000Z",
-      "updatedAt": "2024-12-27T06:55:42.000Z"
+      "updatedAt": "2025-02-26T02:39:35.000Z"
     },
     {
       "uuid": "2e6cafbb-f14f-4dec-835e-7bcd782599d2",
@@ -6621,9 +6621,9 @@
       "autoIncrement": 0,
       "unsigned": 0,
       "zerofill": 0,
-      "sort": 9,
+      "sort": 10,
       "createdAt": "2024-11-01T06:17:42.000Z",
-      "updatedAt": "2024-12-27T06:55:42.000Z"
+      "updatedAt": "2025-02-26T02:39:35.000Z"
     },
     {
       "uuid": "3e66c817-6a94-4ce1-aa2d-95d183f0c390",
@@ -6646,9 +6646,9 @@
       "autoIncrement": 0,
       "unsigned": 0,
       "zerofill": 0,
-      "sort": 10,
+      "sort": 11,
       "createdAt": "2024-11-01T06:17:42.000Z",
-      "updatedAt": "2024-12-27T06:55:42.000Z"
+      "updatedAt": "2025-02-26T02:39:35.000Z"
     },
     {
       "uuid": "e48b3a02-3739-4d98-94b0-7526e5f97f03",
@@ -6671,9 +6671,9 @@
       "autoIncrement": 0,
       "unsigned": 0,
       "zerofill": 0,
-      "sort": 11,
+      "sort": 12,
       "createdAt": "2024-11-01T06:17:42.000Z",
-      "updatedAt": "2024-12-27T06:55:42.000Z"
+      "updatedAt": "2025-02-26T02:39:35.000Z"
     },
     {
       "uuid": "ab1ef7ac-342e-4e63-a650-1ad4ac4f2660",
@@ -6696,9 +6696,9 @@
       "autoIncrement": 0,
       "unsigned": 0,
       "zerofill": 0,
-      "sort": 12,
+      "sort": 13,
       "createdAt": "2024-12-26T06:51:58.000Z",
-      "updatedAt": "2024-12-27T06:55:42.000Z"
+      "updatedAt": "2025-02-26T02:39:35.000Z"
     },
     {
       "uuid": "69a8ef6d-288e-49a2-8e49-eb84ae8ef8e2",
@@ -6721,9 +6721,9 @@
       "autoIncrement": 0,
       "unsigned": 0,
       "zerofill": 0,
-      "sort": 13,
+      "sort": 14,
       "createdAt": "2024-12-27T06:55:42.000Z",
-      "updatedAt": "2024-12-27T06:55:42.000Z"
+      "updatedAt": "2025-02-26T02:39:35.000Z"
     },
     {
       "uuid": "c622d014-e965-4469-b45b-d65930bda9fd",
@@ -8149,6 +8149,31 @@
       "sort": 6,
       "createdAt": "2025-02-06T11:21:23.000Z",
       "updatedAt": "2025-02-06T11:21:23.000Z"
+    },
+    {
+      "uuid": "a5eb5f2f-0224-4bff-be0d-3a466c79bf62",
+      "models_uuid": "d347e0b9-a113-4051-addb-2a0db8f36c78",
+      "name": "compressed_url",
+      "comment": "图片压缩地址",
+      "type": "STRING",
+      "enumValue": null,
+      "uuidtype": null,
+      "booleantype": null,
+      "defaultValue": "空字符串",
+      "lengths": 300,
+      "point": null,
+      "primaryKey": 0,
+      "defaulttonow": 0,
+      "allowNull": 0,
+      "where": 1,
+      "add": 1,
+      "edit": 1,
+      "autoIncrement": 0,
+      "unsigned": 0,
+      "zerofill": 0,
+      "sort": 7,
+      "createdAt": "2025-02-26T02:39:35.000Z",
+      "updatedAt": "2025-02-26T02:39:35.000Z"
     }
   ]
 }
