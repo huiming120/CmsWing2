@@ -3,6 +3,7 @@
 		id:ID
 		createdAt:Date
 		updatedAt:Date
+		attachment_classify_id:Int
 		name:String
 		description:String
 		path:String
@@ -16,6 +17,7 @@
 		status:Boolean
 		remark:JSON
 
+		cms_attachment_classify: CmsAttachmentClassify
 
 	}
 
@@ -68,6 +70,24 @@
 		op_notBetween: [Date]
 		op_in: [Date]
 		op_notIn: [Date]
+		op_like: String
+		op_notLike: String
+		op_startsWith: String
+		op_endsWith: String
+		op_substring: String
+	}
+	input WhereCmsAttachment_attachment_classify_id {
+		op_eq: Int
+		op_ne: Int
+		op_or: [Int]
+		op_gt: Int
+		op_gte: Int
+		op_lt: Int
+		op_lte: Int
+		op_between: [Int]
+		op_notBetween: [Int]
+		op_in: [Int]
+		op_notIn: [Int]
 		op_like: String
 		op_notLike: String
 		op_startsWith: String
@@ -295,6 +315,7 @@
 		id:WhereCmsAttachment_id
 		createdAt:WhereCmsAttachment_createdAt
 		updatedAt:WhereCmsAttachment_updatedAt
+		attachment_classify_id:WhereCmsAttachment_attachment_classify_id
 		name:WhereCmsAttachment_name
 		description:WhereCmsAttachment_description
 		path:WhereCmsAttachment_path
@@ -314,6 +335,7 @@
 		id:WhereCmsAttachment_id
 		createdAt:WhereCmsAttachment_createdAt
 		updatedAt:WhereCmsAttachment_updatedAt
+		attachment_classify_id:WhereCmsAttachment_attachment_classify_id
 		name:WhereCmsAttachment_name
 		description:WhereCmsAttachment_description
 		path:WhereCmsAttachment_path
@@ -334,6 +356,7 @@
 
 
 	input AddCmsAttachment {
+		attachment_classify_id: Int!
 		name: String!
 		description: String!
 		path: String!
@@ -350,6 +373,7 @@
 
 
 	input EditCmsAttachment {
+		attachment_classify_id: Int
 		name: String
 		description: String
 		path: String

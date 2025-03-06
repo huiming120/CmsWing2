@@ -319,6 +319,16 @@
       "oldName": null,
       "paranoid": 0,
       "app": "wall"
+    },
+    {
+      "createdAt": "2025-02-26T08:41:10.000Z",
+      "updatedAt": "2025-02-26T08:41:10.000Z",
+      "uuid": "be6f6757-f24d-400b-9c2f-01c8ba72e185",
+      "name": "cms_attachment_classify",
+      "desc": "附件分类表",
+      "oldName": null,
+      "paranoid": 0,
+      "app": "cms"
     }
   ]
 }

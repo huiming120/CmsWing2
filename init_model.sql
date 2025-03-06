@@ -37,10 +37,31 @@ CREATE TABLE `cms_attachment`  (
   `status` tinyint(1) NULL DEFAULT 1 COMMENT '状态',
   `remark` json NULL COMMENT '备注信息,方便审核通过时更新相应信息{from:上传来源(admin,avatar,form),其他信息}',
   `compressed_url` varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '图片压缩地址',
+  `attachment_classify_id` int(11) NOT NULL DEFAULT 1 COMMENT '附件分类id',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `cms_attachment_name`(`name`) USING BTREE,
   INDEX `cms_attachment_description`(`description`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 68 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for cms_attachment_classify
+-- ----------------------------
+DROP TABLE IF EXISTS `cms_attachment_classify`;
+CREATE TABLE `cms_attachment_classify`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `createdAt` datetime(0) NOT NULL COMMENT '创建时间',
+  `updatedAt` datetime(0) NOT NULL COMMENT '更新时间',
+  `pid` int(11) NOT NULL DEFAULT 0 COMMENT '上级分类',
+  `title` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '分类名称',
+  `pids` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '父分类链,逗号分割',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `cms_attachment_classify_pid`(`pid`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of cms_attachment_classify
+-- ----------------------------
+INSERT INTO `cms_attachment_classify` VALUES (1, '2025-02-26 16:49:30', '2025-02-26 16:49:30', 0, '通用', '');
 
 -- ----------------------------
 -- Table structure for cms_classify
@@ -421,7 +442,7 @@ CREATE TABLE `sys_models`  (
   UNIQUE INDEX `sys_models_uuid`(`uuid`) USING BTREE,
   INDEX `sys_models_name`(`name`) USING BTREE,
   INDEX `sys_models_app`(`app`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 33 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_models
@@ -458,6 +479,7 @@ INSERT INTO `sys_models` VALUES (29, '2025-01-15 10:37:36', '2025-01-15 10:37:36
 INSERT INTO `sys_models` VALUES (30, '2025-01-26 14:59:19', '2025-01-26 14:59:19', 'b124c6e9-3856-412d-a146-1d80fe5079d5', 'wall', '签到墙活动表', NULL, 0, 'wall');
 INSERT INTO `sys_models` VALUES (31, '2025-02-06 19:03:37', '2025-02-06 19:03:37', '09023791-7045-4e86-b4da-6ac0072ef574', 'wall_award', '签到墙奖品表', NULL, 0, 'wall');
 INSERT INTO `sys_models` VALUES (32, '2025-02-06 19:15:41', '2025-02-06 19:15:41', '0261456c-3801-4e0d-a6fe-db79e9df7d14', 'wall_qd_data', '签到墙签到数据', NULL, 0, 'wall');
+INSERT INTO `sys_models` VALUES (33, '2025-02-26 16:41:10', '2025-02-26 16:41:10', 'be6f6757-f24d-400b-9c2f-01c8ba72e185', 'cms_attachment_classify', '附件分类表', NULL, 0, 'cms');
 
 -- ----------------------------
 -- Table structure for sys_models_associate
@@ -482,7 +504,7 @@ CREATE TABLE `sys_models_associate`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `sys_models_associate_uuid`(`uuid`) USING BTREE,
   INDEX `sys_models_associate_models_uuid`(`models_uuid`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 47 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 49 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_models_associate
@@ -529,6 +551,8 @@ INSERT INTO `sys_models_associate` VALUES (43, '2025-01-20 17:13:50', '2025-01-2
 INSERT INTO `sys_models_associate` VALUES (44, '2025-01-20 17:13:50', '2025-01-21 11:08:32', 'BelongsTo', '3619ee42-991e-45b6-8906-d9c92ebb0abb', '92e665fa-2592-4834-92b3-f4249f0f65bc', 'd0806a84-19fa-43cd-b85b-18a1999acbe8', '648bf1c2-37ef-49f5-9888-8a74667cc2b6', NULL, NULL, '92e665fa-2592-4834-92b3-f4249f0f65bc', 'db672817-1ca2-4e52-b3aa-2be3126aa8cb', 0, 3, 'cms_doc2');
 INSERT INTO `sys_models_associate` VALUES (45, '2025-02-06 19:13:33', '2025-02-06 19:13:33', 'HasMany', 'c11ed2ba-91ff-404c-b716-364145ba98ba', '09023791-7045-4e86-b4da-6ac0072ef574', 'b124c6e9-3856-412d-a146-1d80fe5079d5', 'b900e935-c736-4202-974e-6d4fcf8644a7', NULL, NULL, '09023791-7045-4e86-b4da-6ac0072ef574', 'd66b38ec-ce4f-4691-bc07-76d78afd93df', 0, 0, NULL);
 INSERT INTO `sys_models_associate` VALUES (46, '2025-02-06 19:13:33', '2025-02-06 19:13:33', 'BelongsTo', 'ffd0c2b9-6c4c-4afe-8d18-8770ed0f0b18', '09023791-7045-4e86-b4da-6ac0072ef574', 'b124c6e9-3856-412d-a146-1d80fe5079d5', 'b900e935-c736-4202-974e-6d4fcf8644a7', NULL, NULL, '09023791-7045-4e86-b4da-6ac0072ef574', 'd66b38ec-ce4f-4691-bc07-76d78afd93df', 0, 1, NULL);
+INSERT INTO `sys_models_associate` VALUES (47, '2025-02-26 16:55:45', '2025-02-26 16:55:45', 'HasMany', '009f30c1-6333-4394-afe3-48c7fbaf821a', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'be6f6757-f24d-400b-9c2f-01c8ba72e185', 'fc3196fd-34a7-4b7c-ac00-ac0cadd2fa8f', NULL, NULL, 'd347e0b9-a113-4051-addb-2a0db8f36c78', '10f8e37f-44d1-4b08-9106-afada5feab05', 0, 0, NULL);
+INSERT INTO `sys_models_associate` VALUES (48, '2025-02-26 16:55:45', '2025-02-26 16:55:45', 'BelongsTo', '9446ca9b-a7a5-4d34-8e93-e4c8d1c40a37', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'be6f6757-f24d-400b-9c2f-01c8ba72e185', 'fc3196fd-34a7-4b7c-ac00-ac0cadd2fa8f', NULL, NULL, 'd347e0b9-a113-4051-addb-2a0db8f36c78', '10f8e37f-44d1-4b08-9106-afada5feab05', 0, 1, NULL);
 
 -- ----------------------------
 -- Table structure for sys_models_fields
@@ -562,7 +586,7 @@ CREATE TABLE `sys_models_fields`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `sys_models_fields_uuid`(`uuid`) USING BTREE,
   INDEX `sys_models_fields_models_uuid_name`(`models_uuid`, `name`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 328 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 335 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_models_fields
@@ -822,20 +846,20 @@ INSERT INTO `sys_models_fields` VALUES (252, '11af8e16-fe5d-4f76-927d-ff4960d1a7
 INSERT INTO `sys_models_fields` VALUES (253, 'b4cf1497-e351-4de4-b09b-34d5881c374a', 'd749c0ee-f449-45c8-a5b1-0cf5f07d6d64', 'value', '配置value', 'JSON', '', '', '', '', 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 5, '2024-11-01 14:17:42', '2024-11-01 14:17:42');
 INSERT INTO `sys_models_fields` VALUES (254, '51ae3cf2-d880-414e-94ab-d361337b5961', 'bff1476c-5357-4d00-9a04-f18e1d8c7eae', 'app', '应用标识', 'STRING', '', '', '', '', 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 20, '2024-11-01 14:17:42', '2024-12-26 16:37:21');
 INSERT INTO `sys_models_fields` VALUES (255, 'b582d81f-93af-4232-af8f-69a0b28670f3', 'e86401ba-85cb-47f7-9f53-853e26b939bd', 'content_type', '文章内容类型(html|amis)', 'ENUM', 'html\namis', '', '', 'html', 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 4, '2024-11-01 14:17:42', '2024-11-25 10:01:24');
-INSERT INTO `sys_models_fields` VALUES (256, 'aed97a74-e930-4af9-8588-01669f840643', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'id', '主键', 'INTEGER', '', '', '', '', 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, '2024-11-01 14:17:42', '2025-02-26 10:39:34');
-INSERT INTO `sys_models_fields` VALUES (257, '7b3757bc-52b0-40ba-b772-1e3c54c9b992', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'createdAt', '创建时间', 'DATE', '', '', '', '', 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, '2024-11-01 14:17:42', '2025-02-26 10:39:34');
-INSERT INTO `sys_models_fields` VALUES (258, '44eab3eb-f280-47b2-8f18-a0498eb604a8', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'updatedAt', '更新时间', 'DATE', '', '', '', '', 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 2, '2024-11-01 14:17:42', '2025-02-26 10:39:34');
-INSERT INTO `sys_models_fields` VALUES (259, '1c853747-efa7-4d68-ac4a-dd7a893adc82', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'name', '文件名字', 'STRING', '', '', '', '', 50, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 3, '2024-11-01 14:17:42', '2025-02-26 10:39:34');
-INSERT INTO `sys_models_fields` VALUES (260, '5a5aa0a6-36cb-4149-818d-ed50ef7e8243', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'description', '附件描述', 'STRING', '', '', '', '', 100, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 4, '2024-11-01 14:17:42', '2025-02-26 10:39:34');
-INSERT INTO `sys_models_fields` VALUES (261, 'eaebffbf-b4fe-4dd6-87b3-47bbf26f4b45', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'path', '文件存储地址', 'STRING', '', '', '', '', 200, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 5, '2024-11-01 14:17:42', '2025-02-26 10:39:34');
-INSERT INTO `sys_models_fields` VALUES (262, '087fddce-0285-4531-99ff-faab263c366d', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'url', '文件网络地址', 'STRING', '', '', '', '', 300, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 6, '2024-11-01 14:17:42', '2025-02-26 10:39:34');
-INSERT INTO `sys_models_fields` VALUES (263, '2935f89b-5bc0-44bd-ad1d-02790400f6c9', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'size', '文件大小(kb)', 'INTEGER', '', '', '', '', 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 8, '2024-11-01 14:17:42', '2025-02-26 10:39:35');
-INSERT INTO `sys_models_fields` VALUES (264, 'ad6ed725-31f4-4a97-877d-2dd91843e455', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'mime', '文件类型', 'STRING', '', '', '', '空字符串', 150, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 9, '2024-11-01 14:17:42', '2025-02-26 10:39:35');
-INSERT INTO `sys_models_fields` VALUES (265, '2e6cafbb-f14f-4dec-835e-7bcd782599d2', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'location', '文件上传类型(local、kodo、obs、oss、cos)', 'STRING', '', '', '', 'local', 16, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 10, '2024-11-01 14:17:42', '2025-02-26 10:39:35');
-INSERT INTO `sys_models_fields` VALUES (266, '3e66c817-6a94-4ce1-aa2d-95d183f0c390', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'upload_user_uuid', '上传者uuid', 'UUID', '', 'none', '', '', 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 11, '2024-11-01 14:17:42', '2025-02-26 10:39:35');
-INSERT INTO `sys_models_fields` VALUES (267, 'e48b3a02-3739-4d98-94b0-7526e5f97f03', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'upload_ip', '上传者ip地址', 'STRING', '', '', '', '', 24, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 12, '2024-11-01 14:17:42', '2025-02-26 10:39:35');
-INSERT INTO `sys_models_fields` VALUES (268, 'ab1ef7ac-342e-4e63-a650-1ad4ac4f2660', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'status', '状态', 'BOOLEAN', NULL, NULL, 'true', NULL, NULL, NULL, 0, 0, 0, 1, 1, 1, 0, 0, 0, 13, '2024-12-26 14:51:58', '2025-02-26 10:39:35');
-INSERT INTO `sys_models_fields` VALUES (269, '69a8ef6d-288e-49a2-8e49-eb84ae8ef8e2', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'remark', '备注信息,方便审核通过时更新相应信息{from:上传来源(admin,avatar,form),其他信息}', 'JSON', NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 0, 1, 1, 1, 0, 0, 0, 14, '2024-12-27 14:55:42', '2025-02-26 10:39:35');
+INSERT INTO `sys_models_fields` VALUES (256, 'aed97a74-e930-4af9-8588-01669f840643', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'id', '主键', 'INTEGER', '', '', '', '', 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, '2024-11-01 14:17:42', '2025-02-26 16:53:13');
+INSERT INTO `sys_models_fields` VALUES (257, '7b3757bc-52b0-40ba-b772-1e3c54c9b992', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'createdAt', '创建时间', 'DATE', '', '', '', '', 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, '2024-11-01 14:17:42', '2025-02-26 16:53:13');
+INSERT INTO `sys_models_fields` VALUES (258, '44eab3eb-f280-47b2-8f18-a0498eb604a8', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'updatedAt', '更新时间', 'DATE', '', '', '', '', 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 2, '2024-11-01 14:17:42', '2025-02-26 16:53:13');
+INSERT INTO `sys_models_fields` VALUES (259, '1c853747-efa7-4d68-ac4a-dd7a893adc82', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'name', '文件名字', 'STRING', '', '', '', '', 50, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 4, '2024-11-01 14:17:42', '2025-02-26 16:53:13');
+INSERT INTO `sys_models_fields` VALUES (260, '5a5aa0a6-36cb-4149-818d-ed50ef7e8243', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'description', '附件描述', 'STRING', '', '', '', '', 100, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 5, '2024-11-01 14:17:42', '2025-02-26 16:53:13');
+INSERT INTO `sys_models_fields` VALUES (261, 'eaebffbf-b4fe-4dd6-87b3-47bbf26f4b45', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'path', '文件存储地址', 'STRING', '', '', '', '', 200, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 6, '2024-11-01 14:17:42', '2025-02-26 16:53:13');
+INSERT INTO `sys_models_fields` VALUES (262, '087fddce-0285-4531-99ff-faab263c366d', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'url', '文件网络地址', 'STRING', '', '', '', '', 300, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 7, '2024-11-01 14:17:42', '2025-02-26 16:53:13');
+INSERT INTO `sys_models_fields` VALUES (263, '2935f89b-5bc0-44bd-ad1d-02790400f6c9', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'size', '文件大小(kb)', 'INTEGER', '', '', '', '', 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 9, '2024-11-01 14:17:42', '2025-02-26 16:53:13');
+INSERT INTO `sys_models_fields` VALUES (264, 'ad6ed725-31f4-4a97-877d-2dd91843e455', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'mime', '文件类型', 'STRING', '', '', '', '空字符串', 150, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 10, '2024-11-01 14:17:42', '2025-02-26 16:53:13');
+INSERT INTO `sys_models_fields` VALUES (265, '2e6cafbb-f14f-4dec-835e-7bcd782599d2', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'location', '文件上传类型(local、kodo、obs、oss、cos)', 'STRING', '', '', '', 'local', 16, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 11, '2024-11-01 14:17:42', '2025-02-26 16:53:13');
+INSERT INTO `sys_models_fields` VALUES (266, '3e66c817-6a94-4ce1-aa2d-95d183f0c390', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'upload_user_uuid', '上传者uuid', 'UUID', '', 'none', '', '', 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 12, '2024-11-01 14:17:42', '2025-02-26 16:53:13');
+INSERT INTO `sys_models_fields` VALUES (267, 'e48b3a02-3739-4d98-94b0-7526e5f97f03', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'upload_ip', '上传者ip地址', 'STRING', '', '', '', '', 24, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 13, '2024-11-01 14:17:42', '2025-02-26 16:53:13');
+INSERT INTO `sys_models_fields` VALUES (268, 'ab1ef7ac-342e-4e63-a650-1ad4ac4f2660', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'status', '状态', 'BOOLEAN', NULL, NULL, 'true', NULL, NULL, NULL, 0, 0, 0, 1, 1, 1, 0, 0, 0, 14, '2024-12-26 14:51:58', '2025-02-26 16:53:13');
+INSERT INTO `sys_models_fields` VALUES (269, '69a8ef6d-288e-49a2-8e49-eb84ae8ef8e2', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'remark', '备注信息,方便审核通过时更新相应信息{from:上传来源(admin,avatar,form),其他信息}', 'JSON', NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 0, 1, 1, 1, 0, 0, 0, 15, '2024-12-27 14:55:42', '2025-02-26 16:53:13');
 INSERT INTO `sys_models_fields` VALUES (270, 'c622d014-e965-4469-b45b-d65930bda9fd', 'bbd1ba38-99cb-4c6f-84ba-23e438638a26', 'sys_user_uuid', '绑定的管理员账号uuid', 'UUID', NULL, 'none', NULL, NULL, NULL, NULL, 0, 0, 0, 1, 0, 0, 0, 0, 0, 11, '2024-12-30 09:51:48', '2024-12-30 09:51:48');
 INSERT INTO `sys_models_fields` VALUES (271, '8ed11294-156d-4c66-96a8-6921c4f047dc', '3ec9af37-5fa3-46d1-8b79-b4da5db4eab2', 'id', '主键', 'INTEGER', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, '2024-12-30 16:33:01', '2025-01-06 14:09:09');
 INSERT INTO `sys_models_fields` VALUES (272, '60396c7c-56bb-43b1-9f3d-561e8aa8a3f0', '3ec9af37-5fa3-46d1-8b79-b4da5db4eab2', 'createdAt', '创建时间', 'DATE', NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, '2024-12-30 16:33:01', '2025-01-06 14:09:09');
@@ -893,7 +917,14 @@ INSERT INTO `sys_models_fields` VALUES (323, 'cf64c8b9-7cfe-4cf2-83ab-1953b871ab
 INSERT INTO `sys_models_fields` VALUES (324, '8b5122e3-898e-4bf1-89e3-ba66a73cc598', '0261456c-3801-4e0d-a6fe-db79e9df7d14', 'openid', '用户微信id', 'UUID', NULL, 'UUIDV4', NULL, NULL, NULL, NULL, 0, 0, 1, 1, 1, 1, 0, 0, 0, 4, '2025-02-06 19:21:23', '2025-02-06 19:21:23');
 INSERT INTO `sys_models_fields` VALUES (325, 'a8651a96-f855-43dd-afaa-0389fd06d62b', '0261456c-3801-4e0d-a6fe-db79e9df7d14', 'award_id', '中奖奖品id(未中奖为0)', 'INTEGER', NULL, NULL, NULL, '0', NULL, NULL, 0, 0, 1, 1, 1, 1, 0, 1, 0, 5, '2025-02-06 19:21:23', '2025-02-06 19:21:23');
 INSERT INTO `sys_models_fields` VALUES (326, '07230101-fab6-42f6-93a1-b4f97a1c2efe', '0261456c-3801-4e0d-a6fe-db79e9df7d14', 'data', '用户数据', 'JSON', NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 1, 1, 1, 1, 0, 0, 0, 6, '2025-02-06 19:21:23', '2025-02-06 19:21:23');
-INSERT INTO `sys_models_fields` VALUES (327, 'a5eb5f2f-0224-4bff-be0d-3a466c79bf62', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'compressed_url', '图片压缩地址', 'STRING', NULL, NULL, NULL, '空字符串', 300, NULL, 0, 0, 0, 1, 1, 1, 0, 0, 0, 7, '2025-02-26 10:39:35', '2025-02-26 10:39:35');
+INSERT INTO `sys_models_fields` VALUES (327, 'a5eb5f2f-0224-4bff-be0d-3a466c79bf62', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'compressed_url', '图片压缩地址', 'STRING', NULL, NULL, NULL, '空字符串', 300, NULL, 0, 0, 0, 1, 1, 1, 0, 0, 0, 8, '2025-02-26 10:39:35', '2025-02-26 16:53:13');
+INSERT INTO `sys_models_fields` VALUES (328, 'fc3196fd-34a7-4b7c-ac00-ac0cadd2fa8f', 'be6f6757-f24d-400b-9c2f-01c8ba72e185', 'id', '主键', 'INTEGER', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, '2025-02-26 16:41:10', '2025-02-28 09:26:41');
+INSERT INTO `sys_models_fields` VALUES (329, '455a2f63-2a18-47d3-9cdc-643578d9488f', 'be6f6757-f24d-400b-9c2f-01c8ba72e185', 'createdAt', '创建时间', 'DATE', NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, '2025-02-26 16:41:10', '2025-02-28 09:26:41');
+INSERT INTO `sys_models_fields` VALUES (330, '9c72103a-ee98-4085-a2bb-67d4bf0a64fa', 'be6f6757-f24d-400b-9c2f-01c8ba72e185', 'updatedAt', '更新时间', 'DATE', NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 1, 1, 0, 0, 0, 0, 0, 2, '2025-02-26 16:41:10', '2025-02-28 09:26:41');
+INSERT INTO `sys_models_fields` VALUES (331, 'fa9cabd9-57dd-47d0-a4ce-77e0fc69494a', 'be6f6757-f24d-400b-9c2f-01c8ba72e185', 'pid', '上级分类', 'INTEGER', NULL, NULL, NULL, '0', NULL, NULL, 0, 0, 1, 1, 1, 1, 0, 0, 0, 3, '2025-02-26 16:46:26', '2025-02-28 09:26:41');
+INSERT INTO `sys_models_fields` VALUES (332, '0ee555fb-e63d-40cc-9e55-fa1ebef5e303', 'be6f6757-f24d-400b-9c2f-01c8ba72e185', 'title', '分类名称', 'STRING', NULL, NULL, NULL, NULL, 200, NULL, 0, 0, 1, 1, 1, 1, 0, 0, 0, 5, '2025-02-26 16:46:26', '2025-02-28 09:26:41');
+INSERT INTO `sys_models_fields` VALUES (333, '10f8e37f-44d1-4b08-9106-afada5feab05', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 'attachment_classify_id', '附件分类id', 'INTEGER', NULL, NULL, NULL, '1', NULL, NULL, 0, 0, 1, 1, 1, 1, 0, 0, 0, 3, '2025-02-26 16:52:20', '2025-02-26 16:53:13');
+INSERT INTO `sys_models_fields` VALUES (334, '619ecf79-cd37-4a67-b560-8e5b996e64ac', 'be6f6757-f24d-400b-9c2f-01c8ba72e185', 'pids', '父分类链,逗号分割', 'STRING', NULL, NULL, NULL, '空字符串', NULL, NULL, 0, 0, 1, 1, 1, 1, 0, 0, 0, 4, '2025-02-28 09:26:41', '2025-02-28 09:26:41');
 
 -- ----------------------------
 -- Table structure for sys_models_indexes
@@ -911,7 +942,7 @@ CREATE TABLE `sys_models_indexes`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `sys_models_indexes_uuid`(`uuid`) USING BTREE,
   INDEX `sys_models_indexes_models_uuid`(`models_uuid`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 53 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 56 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_models_indexes
@@ -955,8 +986,8 @@ INSERT INTO `sys_models_indexes` VALUES (36, '2024-11-19 10:04:13', '2024-11-19 
 INSERT INTO `sys_models_indexes` VALUES (37, '2024-11-19 10:04:13', '2024-11-19 10:04:13', '6f05b20d-f427-49fb-8a3a-929e843137f4', '1796faf3-5ec8-42ee-8db9-9cf86af0fe12', 0, '73f3ab14-6c3e-4583-af5c-e00a6d0e71d6', 2);
 INSERT INTO `sys_models_indexes` VALUES (38, '2024-11-19 10:04:13', '2024-11-19 10:04:13', '9f05c7ce-b677-4fd6-bf6e-c9eebf872cbc', 'd749c0ee-f449-45c8-a5b1-0cf5f07d6d64', 1, '70b5c4da-6eca-4c3f-aa2c-b67c99df60e7', 0);
 INSERT INTO `sys_models_indexes` VALUES (39, '2024-11-19 10:04:13', '2024-11-19 10:04:13', 'f7a687aa-4f56-4a1c-89cf-8702b671ca11', 'bff1476c-5357-4d00-9a04-f18e1d8c7eae', 0, '51ae3cf2-d880-414e-94ab-d361337b5961', 2);
-INSERT INTO `sys_models_indexes` VALUES (40, '2024-11-19 10:04:13', '2024-11-19 10:04:13', '45da7999-5c92-488a-b05b-82e22a71b4d7', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 0, '1c853747-efa7-4d68-ac4a-dd7a893adc82', 0);
-INSERT INTO `sys_models_indexes` VALUES (41, '2024-11-19 10:04:13', '2024-11-19 10:04:13', '36035c66-ca81-46cd-9448-ec138f1c8f55', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 0, '5a5aa0a6-36cb-4149-818d-ed50ef7e8243', 1);
+INSERT INTO `sys_models_indexes` VALUES (40, '2024-11-19 10:04:13', '2025-02-26 16:54:47', '45da7999-5c92-488a-b05b-82e22a71b4d7', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 0, '1c853747-efa7-4d68-ac4a-dd7a893adc82', 0);
+INSERT INTO `sys_models_indexes` VALUES (41, '2024-11-19 10:04:13', '2025-02-26 16:54:47', '36035c66-ca81-46cd-9448-ec138f1c8f55', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 0, '5a5aa0a6-36cb-4149-818d-ed50ef7e8243', 1);
 INSERT INTO `sys_models_indexes` VALUES (42, '2024-12-30 11:31:55', '2025-01-21 16:51:42', '02a02911-b7a8-49f5-ad3f-c68aa040601b', 'bbd1ba38-99cb-4c6f-84ba-23e438638a26', 1, '2c58c8a1-d78b-4bd1-978e-b06a5a106286', 1);
 INSERT INTO `sys_models_indexes` VALUES (43, '2025-01-06 14:39:39', '2025-01-07 10:41:42', '943e6837-524d-41f3-968f-e5364a3da853', 'a351c95e-aeaf-4326-8ce0-9567c2c7af30', 0, '12aecd34-1cff-45fe-8085-8fe0af57e961', 0);
 INSERT INTO `sys_models_indexes` VALUES (44, '2025-01-06 14:39:39', '2025-01-07 10:41:42', 'a5aaa97d-c214-4f16-a422-342dbf8668e3', 'a351c95e-aeaf-4326-8ce0-9567c2c7af30', 0, '15e6f645-9074-44f6-8b1f-b2e56bcdeb3e', 1);
@@ -968,6 +999,9 @@ INSERT INTO `sys_models_indexes` VALUES (49, '2025-01-21 16:51:42', '2025-01-21 
 INSERT INTO `sys_models_indexes` VALUES (50, '2025-02-06 19:11:47', '2025-02-06 19:11:47', '0714e77c-0c4a-4a38-afdd-c58f891b5c6d', '09023791-7045-4e86-b4da-6ac0072ef574', 0, 'd66b38ec-ce4f-4691-bc07-76d78afd93df', 0);
 INSERT INTO `sys_models_indexes` VALUES (51, '2025-02-06 19:22:06', '2025-02-06 19:22:06', '803ab3b0-5be5-4f91-a1e2-1cfcaea6b439', '0261456c-3801-4e0d-a6fe-db79e9df7d14', 1, '8b5122e3-898e-4bf1-89e3-ba66a73cc598,cf64c8b9-7cfe-4cf2-83ab-1953b871ab27', 0);
 INSERT INTO `sys_models_indexes` VALUES (52, '2025-02-06 19:22:06', '2025-02-06 19:22:06', '8bac737f-dcfe-4039-9e1c-dd6f24bf400c', '0261456c-3801-4e0d-a6fe-db79e9df7d14', 0, 'cf64c8b9-7cfe-4cf2-83ab-1953b871ab27', 1);
+INSERT INTO `sys_models_indexes` VALUES (53, '2025-02-26 16:46:59', '2025-02-28 11:46:52', 'b222dd62-f377-4690-93bb-a44b2b0854e2', 'be6f6757-f24d-400b-9c2f-01c8ba72e185', 0, 'fa9cabd9-57dd-47d0-a4ce-77e0fc69494a', 0);
+INSERT INTO `sys_models_indexes` VALUES (54, '2025-02-26 16:54:47', '2025-02-26 16:54:47', '65b80e84-71cb-40af-8eba-97511fd74f7b', 'd347e0b9-a113-4051-addb-2a0db8f36c78', 0, '10f8e37f-44d1-4b08-9106-afada5feab05', 2);
+INSERT INTO `sys_models_indexes` VALUES (55, '2025-02-28 11:46:52', '2025-02-28 11:46:52', 'a1b47087-5338-45f1-9f63-e2c8654c28c7', 'be6f6757-f24d-400b-9c2f-01c8ba72e185', 0, '619ecf79-cd37-4a67-b560-8e5b996e64ac', 1);
 
 -- ----------------------------
 -- Table structure for sys_navigation
@@ -1067,7 +1101,7 @@ CREATE TABLE `sys_routes`  (
   UNIQUE INDEX `sys_routes_uuid`(`uuid`) USING BTREE,
   INDEX `sys_routes_puuid`(`puuid`) USING BTREE,
   INDEX `sys_routes_app`(`app`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 201 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 207 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_routes
@@ -1217,13 +1251,13 @@ INSERT INTO `sys_routes` VALUES (142, '2024-11-19 10:04:13', '2025-01-26 14:33:0
 INSERT INTO `sys_routes` VALUES (143, '2024-11-19 10:04:13', '2025-01-26 14:33:03', '8c686c6d-bc0d-465c-bf54-66dd2b7f09ae', '应用列表', '/admin/sys/application', '', 'get', '', '', 'sys.application', 'index', 1, 1, '8f5757a3-8af9-45db-8819-d767aaddfadb', '8d960fd1-2500-4e47-ac16-e909401cabbb', 0, 'schemaApi', '', 0, 'sys');
 INSERT INTO `sys_routes` VALUES (144, '2024-11-19 10:04:13', '2025-01-26 14:33:04', '50e92d9a-0527-4167-9e8e-30becce7d55b', '添加应用', '/admin/sys/application/add', '', 'post', '', '', 'sys.application', 'add', 1, 1, '8f5757a3-8af9-45db-8819-d767aaddfadb', '8d960fd1-2500-4e47-ac16-e909401cabbb', 4, 'schemaApi', '', 0, 'sys');
 INSERT INTO `sys_routes` VALUES (145, '2024-11-19 10:04:13', '2025-01-26 14:33:04', '9e0421ab-4726-41d7-a76f-5f21f42993e7', '编辑应用', '/admin/sys/application/edit', '', 'post', '', '', 'sys.application', 'edit', 1, 1, '8f5757a3-8af9-45db-8819-d767aaddfadb', '8d960fd1-2500-4e47-ac16-e909401cabbb', 5, 'schemaApi', '', 0, 'sys');
-INSERT INTO `sys_routes` VALUES (146, '2024-11-19 10:04:13', '2025-01-26 14:33:03', 'b3b2867c-2c8b-4fad-88a3-cb62151c7699', '附件管理', '/cms/attachment', 'fa-solid fa-file-arrow-up', 'get', '', '', '', '', 0, 1, '8f5757a3-8af9-45db-8819-d767aaddfadb', 'cb56c9d4-544b-49c3-ada1-200c6c155413', 2, 'schemaApi', '/pages/cms/attachment.json', 1, 'cms');
+INSERT INTO `sys_routes` VALUES (146, '2024-11-19 10:04:13', '2025-02-27 11:30:54', 'b3b2867c-2c8b-4fad-88a3-cb62151c7699', '附件管理', '', 'fa-solid fa-file-arrow-up', 'get', '', '', '', '', 0, 1, '8f5757a3-8af9-45db-8819-d767aaddfadb', 'cb56c9d4-544b-49c3-ada1-200c6c155413', 2, 'schemaApi', '', 1, 'cms');
 INSERT INTO `sys_routes` VALUES (147, '2024-11-19 10:04:13', '2025-01-26 14:33:03', 'c04a0248-940c-4699-83fc-f5f2a86b2103', '附件列表', '/admin/cms/attachment/list', '', 'get', '', '', 'cms.attachment', 'list', 1, 1, '8f5757a3-8af9-45db-8819-d767aaddfadb', 'b3b2867c-2c8b-4fad-88a3-cb62151c7699', 0, 'schemaApi', '', 0, 'cms');
 INSERT INTO `sys_routes` VALUES (148, '2024-11-19 10:04:13', '2025-01-26 14:33:03', '6c1292f3-2053-4425-a482-4d44d33ebcb8', '新增附件', '/admin/cms/attachment/add', '', 'post', '', '', 'cms.attachment', 'add', 1, 1, '8f5757a3-8af9-45db-8819-d767aaddfadb', 'b3b2867c-2c8b-4fad-88a3-cb62151c7699', 2, 'schemaApi', '', 0, 'cms');
 INSERT INTO `sys_routes` VALUES (149, '2024-11-19 10:04:13', '2025-01-26 14:33:04', '787178df-f317-423b-8303-2e6f6a4c97a1', '删除附件', '/admin/cms/attachment/del', '', 'post', '', '', 'cms.attachment', 'del', 1, 1, '8f5757a3-8af9-45db-8819-d767aaddfadb', 'b3b2867c-2c8b-4fad-88a3-cb62151c7699', 3, 'schemaApi', '', 0, 'cms');
 INSERT INTO `sys_routes` VALUES (150, '2024-11-19 10:04:13', '2025-01-26 14:33:04', '43af6778-912d-4b97-b651-8e01ab0cdedc', '编辑附件', '/admin/cms/attachment/edit', '', 'post', '', '', 'cms.attachment', 'edit', 1, 1, '8f5757a3-8af9-45db-8819-d767aaddfadb', 'b3b2867c-2c8b-4fad-88a3-cb62151c7699', 4, 'schemaApi', '', 0, 'cms');
 INSERT INTO `sys_routes` VALUES (151, '2024-11-19 10:04:13', '2025-01-26 14:33:04', 'e0b829a7-79bc-417e-af38-43139ee995ad', '编辑附件上传', '/admin/cms/attachment/editUpload/:id', '', 'post', '', '', 'cms.attachment', 'editUpload', 1, 1, '8f5757a3-8af9-45db-8819-d767aaddfadb', 'b3b2867c-2c8b-4fad-88a3-cb62151c7699', 5, 'schemaApi', '', 0, 'cms');
-INSERT INTO `sys_routes` VALUES (152, '2024-11-19 10:04:13', '2025-01-26 14:33:04', '9809c524-c86d-41ff-b5d5-30f79e584cae', '附件选取', '/cms/attachment/select', '', 'get', '', '', '', '', 0, 1, '8f5757a3-8af9-45db-8819-d767aaddfadb', 'b3b2867c-2c8b-4fad-88a3-cb62151c7699', 6, 'schemaApi', '/pages/cms/attachment_sel.json', 1, 'cms');
+INSERT INTO `sys_routes` VALUES (152, '2024-11-19 10:04:13', '2025-02-27 11:27:54', '9809c524-c86d-41ff-b5d5-30f79e584cae', '附件选取', '/cms/attachment/select', '', 'get', '', '', '', '', 0, 1, '8f5757a3-8af9-45db-8819-d767aaddfadb', 'b3b2867c-2c8b-4fad-88a3-cb62151c7699', 6, 'schemaApi', '/pages/cms/attachment_sel.json', 0, 'cms');
 INSERT INTO `sys_routes` VALUES (153, '2024-11-21 10:40:56', '2025-01-26 14:33:03', '8c67affd-2aa9-45ed-b929-09cc0bc23f63', '文档快速编辑', '/admin/cms/doc/quickDocEdit', NULL, 'post', NULL, NULL, 'cms.doc', 'quickDocEdit', 1, 1, '8f5757a3-8af9-45db-8819-d767aaddfadb', '994e88d4-39a4-495c-bb57-9c8b220924e5', 1, 'schemaApi', NULL, 0, 'cms');
 INSERT INTO `sys_routes` VALUES (154, '2024-11-21 15:01:29', '2024-11-21 15:01:29', 'bb274366-fb91-4258-aeea-998290b4a553', 'cms搜索', '/cms/search', NULL, 'get', NULL, NULL, 'cms.web', 'search', 1, 0, 'dc92053d-d9cf-48ae-b0c1-6c237b5010ca', 'b95be4ff-869f-4066-9d48-3143b4289783', 0, 'schemaApi', NULL, 0, 'cms');
 INSERT INTO `sys_routes` VALUES (155, '2024-11-26 15:00:27', '2025-01-26 14:33:04', '7af86d3d-7178-41fb-bb41-4a6bcb6a2400', '导出表数据', '/admin/sys/models/exportData', NULL, 'post', NULL, NULL, 'sys.models', 'exportData', 1, 1, '8f5757a3-8af9-45db-8819-d767aaddfadb', '8bce1410-e917-4ff5-8de5-ad1cf7d7584f', 1, 'schemaApi', NULL, 0, 'sys');
@@ -1272,6 +1306,12 @@ INSERT INTO `sys_routes` VALUES (197, '2025-02-08 10:29:27', '2025-02-08 10:29:2
 INSERT INTO `sys_routes` VALUES (198, '2025-02-08 10:30:39', '2025-02-08 10:30:39', '0b888a8b-7e67-4310-8fd8-f638bede7275', '签到墙抽奖页面', '/admin/wall/lottery', NULL, 'get', NULL, NULL, 'wall.admin', 'lottery', 1, 1, '8f5757a3-8af9-45db-8819-d767aaddfadb', '08e29e88-dc61-4de4-983a-306c5c6c179a', 0, 'schemaApi', NULL, 0, 'wall');
 INSERT INTO `sys_routes` VALUES (199, '2025-02-08 10:33:05', '2025-02-08 10:33:05', '3b3887b3-ff22-4a32-9e5c-bdbf352044c7', '签到墙抽奖', '/admin/wall/lottery', NULL, 'post', NULL, NULL, 'wall.admin', 'lotteryPost', 1, 1, '8f5757a3-8af9-45db-8819-d767aaddfadb', '08e29e88-dc61-4de4-983a-306c5c6c179a', 0, 'schemaApi', NULL, 0, 'wall');
 INSERT INTO `sys_routes` VALUES (200, '2025-02-17 10:58:17', '2025-02-17 10:58:17', '759a325c-e1d0-4bb3-8b5b-f49800e276ef', '同步模型到数据库', '/admin/sys/models/sync', NULL, 'post', NULL, NULL, 'sys.models', 'sync', 1, 1, '8f5757a3-8af9-45db-8819-d767aaddfadb', '8bce1410-e917-4ff5-8de5-ad1cf7d7584f', 0, 'schemaApi', NULL, 0, 'sys');
+INSERT INTO `sys_routes` VALUES (201, '2025-02-27 11:26:20', '2025-02-27 11:26:20', '9a1d7f5e-1464-4a60-b611-b6fe91824f1e', '附件列表', '/admin/cms/attachment/list', 'fa-solid fa-list-ul', 'get', NULL, NULL, NULL, NULL, 0, 1, '8f5757a3-8af9-45db-8819-d767aaddfadb', 'b3b2867c-2c8b-4fad-88a3-cb62151c7699', 0, 'schemaApi', '/pages/cms/attachment.json', 1, 'cms');
+INSERT INTO `sys_routes` VALUES (202, '2025-02-27 11:36:45', '2025-02-27 15:35:31', '18a2866a-1cc2-434e-bc38-6a470e3697b5', '附件分类', '/admin/cms/attachment/classify', 'fa-solid fa-folder', 'get', NULL, NULL, NULL, NULL, 0, 1, '8f5757a3-8af9-45db-8819-d767aaddfadb', 'b3b2867c-2c8b-4fad-88a3-cb62151c7699', 0, 'schemaApi', '/pages/cms/attachment_classify.json', 1, 'cms');
+INSERT INTO `sys_routes` VALUES (203, '2025-02-27 15:20:08', '2025-02-27 15:20:08', 'f194c029-aacf-49ba-995e-8f4b8e308ab1', '打开附件分类', '/admin/cms/attachment/openClassify/:attachment_classify_id', NULL, 'get', NULL, NULL, 'cms.attachment', 'openClassify', 1, 1, '8f5757a3-8af9-45db-8819-d767aaddfadb', 'b3b2867c-2c8b-4fad-88a3-cb62151c7699', 0, 'schemaApi', NULL, 0, 'cms');
+INSERT INTO `sys_routes` VALUES (204, '2025-03-03 14:16:03', '2025-03-03 14:16:03', '2a43c7dc-7f74-4c6b-b549-238cafb15a33', '删除附件分类', '/admin/cms/attachment/delClassify', NULL, 'post', NULL, NULL, 'cms.attachment', 'delClassify', 1, 1, '8f5757a3-8af9-45db-8819-d767aaddfadb', 'b3b2867c-2c8b-4fad-88a3-cb62151c7699', 0, 'schemaApi', NULL, 0, 'cms');
+INSERT INTO `sys_routes` VALUES (205, '2025-03-04 10:02:16', '2025-03-04 10:02:16', 'a592ac29-894b-456a-b630-e65afecca232', '附件分类列表', '/admin/cms/attachment/classifyList', NULL, 'get', NULL, NULL, 'cms.attachment', 'classifyList', 1, 1, '8f5757a3-8af9-45db-8819-d767aaddfadb', 'b3b2867c-2c8b-4fad-88a3-cb62151c7699', 0, 'schemaApi', NULL, 0, 'cms');
+INSERT INTO `sys_routes` VALUES (206, '2025-03-04 11:08:05', '2025-03-04 11:08:05', '08a0a7dd-d066-4637-8a9f-d9cf6e11a476', '附件(分类)复制或移动', '/admin/cms/attachment/copyOrMove', NULL, 'post', NULL, NULL, 'cms.attachment', 'copyOrMove', 1, 1, '8f5757a3-8af9-45db-8819-d767aaddfadb', 'b3b2867c-2c8b-4fad-88a3-cb62151c7699', 0, 'schemaApi', NULL, 0, 'cms');
 
 -- ----------------------------
 -- Table structure for sys_routes_classify

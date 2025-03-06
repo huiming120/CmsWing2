@@ -224,4 +224,11 @@ type Mutation {
 	#签到墙签到数据 更新
 	WallQdData_update(data:EditWallQdData!,where:WhereWallQdData!):ResEditWallQdData
 
+	#附件分类表 添加
+	CmsAttachmentClassify_create(data:AddCmsAttachmentClassify):CmsAttachmentClassify
+	#附件分类表 删除
+	CmsAttachmentClassify_destroy(where:WhereCmsAttachmentClassify!):ResDelCmsAttachmentClassify
+	#附件分类表 更新
+	CmsAttachmentClassify_update(data:EditCmsAttachmentClassify!,where:WhereCmsAttachmentClassify!):ResEditCmsAttachmentClassify
+
 }

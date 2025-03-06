@@ -671,6 +671,38 @@
       "alias": null,
       "constraints": 0,
       "sort": 1
+    },
+    {
+      "createdAt": "2025-02-26T08:55:45.000Z",
+      "updatedAt": "2025-02-26T08:55:45.000Z",
+      "type": "HasMany",
+      "uuid": "009f30c1-6333-4394-afe3-48c7fbaf821a",
+      "models_uuid": "d347e0b9-a113-4051-addb-2a0db8f36c78",
+      "parent_uuid": "be6f6757-f24d-400b-9c2f-01c8ba72e185",
+      "targetKey": "fc3196fd-34a7-4b7c-ac00-ac0cadd2fa8f",
+      "through_uuid": null,
+      "throughKey": null,
+      "child_uuid": "d347e0b9-a113-4051-addb-2a0db8f36c78",
+      "foreignKey": "10f8e37f-44d1-4b08-9106-afada5feab05",
+      "alias": null,
+      "constraints": 0,
+      "sort": 0
+    },
+    {
+      "createdAt": "2025-02-26T08:55:45.000Z",
+      "updatedAt": "2025-02-26T08:55:45.000Z",
+      "type": "BelongsTo",
+      "uuid": "9446ca9b-a7a5-4d34-8e93-e4c8d1c40a37",
+      "models_uuid": "d347e0b9-a113-4051-addb-2a0db8f36c78",
+      "parent_uuid": "be6f6757-f24d-400b-9c2f-01c8ba72e185",
+      "targetKey": "fc3196fd-34a7-4b7c-ac00-ac0cadd2fa8f",
+      "through_uuid": null,
+      "throughKey": null,
+      "child_uuid": "d347e0b9-a113-4051-addb-2a0db8f36c78",
+      "foreignKey": "10f8e37f-44d1-4b08-9106-afada5feab05",
+      "alias": null,
+      "constraints": 0,
+      "sort": 1
     }
   ]
 }

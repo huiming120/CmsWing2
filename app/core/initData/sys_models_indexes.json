@@ -353,7 +353,7 @@
     },
     {
       "createdAt": "2024-11-19T02:04:13.000Z",
-      "updatedAt": "2024-11-19T02:04:13.000Z",
+      "updatedAt": "2025-02-26T08:54:47.000Z",
       "uuid": "45da7999-5c92-488a-b05b-82e22a71b4d7",
       "models_uuid": "d347e0b9-a113-4051-addb-2a0db8f36c78",
       "unique": 0,
@@ -362,7 +362,7 @@
     },
     {
       "createdAt": "2024-11-19T02:04:13.000Z",
-      "updatedAt": "2024-11-19T02:04:13.000Z",
+      "updatedAt": "2025-02-26T08:54:47.000Z",
       "uuid": "36035c66-ca81-46cd-9448-ec138f1c8f55",
       "models_uuid": "d347e0b9-a113-4051-addb-2a0db8f36c78",
       "unique": 0,
@@ -466,6 +466,33 @@
       "models_uuid": "0261456c-3801-4e0d-a6fe-db79e9df7d14",
       "unique": 0,
       "fields": "cf64c8b9-7cfe-4cf2-83ab-1953b871ab27",
+      "sort": 1
+    },
+    {
+      "createdAt": "2025-02-26T08:46:59.000Z",
+      "updatedAt": "2025-02-28T03:46:52.000Z",
+      "uuid": "b222dd62-f377-4690-93bb-a44b2b0854e2",
+      "models_uuid": "be6f6757-f24d-400b-9c2f-01c8ba72e185",
+      "unique": 0,
+      "fields": "fa9cabd9-57dd-47d0-a4ce-77e0fc69494a",
+      "sort": 0
+    },
+    {
+      "createdAt": "2025-02-26T08:54:47.000Z",
+      "updatedAt": "2025-02-26T08:54:47.000Z",
+      "uuid": "65b80e84-71cb-40af-8eba-97511fd74f7b",
+      "models_uuid": "d347e0b9-a113-4051-addb-2a0db8f36c78",
+      "unique": 0,
+      "fields": "10f8e37f-44d1-4b08-9106-afada5feab05",
+      "sort": 2
+    },
+    {
+      "createdAt": "2025-02-28T03:46:52.000Z",
+      "updatedAt": "2025-02-28T03:46:52.000Z",
+      "uuid": "a1b47087-5338-45f1-9f63-e2c8654c28c7",
+      "models_uuid": "be6f6757-f24d-400b-9c2f-01c8ba72e185",
+      "unique": 0,
+      "fields": "619ecf79-cd37-4a67-b560-8e5b996e64ac",
       "sort": 1
     }
   ]

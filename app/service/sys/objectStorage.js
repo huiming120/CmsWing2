@@ -341,12 +341,137 @@ class objectStorageService extends Service {
     }
     // 压缩图片保存
     compressImage(filePath, savePath) {
+        const dirname = path.dirname(savePath);
+        if (!fsSync.existsSync(dirname)) {
+            this.ctx.helper.mkdirsSync(dirname);
+        }
         let img = images(filePath);
         let imgWidth = img.width();
         if (imgWidth > 200) {
             img.size(200);
         }
         img.save(savePath, { quality: 50 });
+    }
+    // 复制或移动附件分类
+    async copyOrMoveClassify(classify, targetClassify, type, loadData = true) {
+        const { ctx } = this, { Sequelize } = this.app;
+        if (type == 'move') {
+            // 不支持移动到自身及子分类下
+            if (classify.id == targetClassify.id || classify.pid == targetClassify.id) {
+                return;
+            }
+            if (targetClassify.pids) {
+                const pids = targetClassify.pids.split(',').map(id => parseInt(id));
+                if (pids.includes(classify.id)) {
+                    return;
+                }
+            }
+            try {
+                await ctx.model.transaction(async t => {
+                    const subClassifys = await ctx.model.CmsAttachmentClassify.findAll({ where: Sequelize.where(Sequelize.fn('FIND_IN_SET', classify.id, Sequelize.col('pids')), '>', 0), attributes: ['id', 'pids'], transaction: t });
+                    if (targetClassify.pids) {
+                        await classify.update({ pid: targetClassify.id, pids: `${targetClassify.pids},${targetClassify.id}` }, { transaction: t });
+                    } else {
+                        await classify.update({ pid: targetClassify.id, pids: targetClassify.id }, { transaction: t });
+                    }
+                    for (const item of subClassifys) {
+                        const pids = item.pids.split(',').map(id => parseInt(id));
+                        const index = pids.indexOf(classify.id);
+                        pids.splice(0, index);
+                        await item.update({ pids: `${classify.pids},${pids.join(',')}` }, { transaction: t });
+                    }
+                })
+            } catch (error) { }
+        } else {
+            if (loadData) {
+                const subClassifys = await ctx.model.CmsAttachmentClassify.findAll({ where: Sequelize.where(Sequelize.fn('FIND_IN_SET', classify.id, Sequelize.col('pids')), '>', 0), raw: true });
+                const ids = [classify.id], subClassifyObj = { [classify.id]: classify.toJSON() };
+                for (const item of subClassifys) {
+                    subClassifyObj[item.id] = item;
+                    ids.push(item.id);
+                }
+                for (const item of subClassifys) {
+                    const parent = subClassifyObj[item.pid];
+                    if (parent) {
+                        let children = parent.children;
+                        if (!children) {
+                            children = [];
+                            parent.children = children;
+                        }
+                        children.push(item);
+                    }
+                }
+                const attachments = await ctx.model.CmsAttachment.findAll({ where: { attachment_classify_id: ids } });
+                for (const item of attachments) {
+                    const parent = subClassifyObj[item.attachment_classify_id];
+                    if (parent) {
+                        let children = parent.attachments;
+                        if (!children) {
+                            children = [];
+                            parent.attachments = children;
+                        }
+                        children.push(item);
+                    }
+                }
+                await this.copyOrMoveClassify(subClassifyObj[classify.id], targetClassify, type, false);
+            } else {
+                // 创建分类
+                const newClassify = await ctx.model.CmsAttachmentClassify.create({
+                    title: classify.title,
+                    pid: targetClassify.id,
+                    pids: targetClassify.pids ? `${targetClassify.pids},${targetClassify.id}` : targetClassify.id,
+                });
+                // 创建附件
+                if (classify.attachments && classify.attachments.length > 0) {
+                    for (const item of classify.attachments) {
+                        await this.copyOrMove(item, newClassify, type);
+                    }
+                }
+                // 子分类
+                if (classify.children && classify.children.length > 0) {
+                    for (const item of classify.children) {
+                        await this.copyOrMoveClassify(item, newClassify, type, false);
+                    }
+                }
+            }
+        }
+    }
+    // 复制或移动附件(目前只做了本地上传)
+    async copyOrMove(attachment, targetClassify, type) {
+        if (type == 'move') {
+            if (attachment.attachment_classify_id == targetClassify.id) {
+                return;
+            }
+            return await attachment.update({ attachment_classify_id: targetClassify.id });
+        }
+        const { ctx } = this;
+        const dir = attachment.status ? this.config.static.dir : this.config.privateUploadDir, filePath = path.join(dir, attachment.path);
+        const extname = path.extname(filePath), newFileName = ctx.helper.uuid() + extname;
+        const targetFilePath = path.join(this.config.privateUploadDir, newFileName);
+        await fs.copyFile(filePath, targetFilePath);
+        try {
+            const upload = await this.upload({ type: 'local' }, { filepath: targetFilePath, filename: attachment.name, mimeType: attachment.mime })
+            if (upload) {
+                await ctx.model.CmsAttachment.create({
+                    attachment_classify_id: targetClassify.id,
+                    name: upload.name,
+                    description: attachment.description,
+                    path: upload.savename,
+                    url: upload.url,
+                    compressed_url: upload.compressed_url,
+                    size: upload.size,
+                    mime: upload.mime,
+                    location: 'local',
+                    upload_user_uuid: ctx.userInfo.uuid,
+                    upload_ip: ctx.ip,
+                    remark: { from: 'copy', copy_id: attachment.id }
+                })
+            }
+        } catch (error) {
+
+        } finally {
+            fs.unlink(targetFilePath);
+        }
     }
 }
 module.exports = objectStorageService;

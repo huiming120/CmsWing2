@@ -7,7 +7,14 @@
             "syncLocation": false,
             "api": {
                 "method": "get",
-                "url": "/admin/cms/attachment/list"
+                "url": "/admin/cms/attachment/list",
+                "messages": {},
+                "requestAdaptor": "",
+                "adaptor": "",
+                "data": {
+                    "&": "$$",
+                    "attachment_classify_id": "${attachment_classify_id|default:undefined}"
+                }
             },
             "bulkActions": [
                 {
@@ -39,7 +46,7 @@
                                         "type": "textarea",
                                         "label": "附件描述",
                                         "name": "description",
-                                        "id": "u:8d97a8303787",
+                                        "id": "u:fd4ed33ea9a6",
                                         "minRows": 5,
                                         "maxRows": 20,
                                         "showCounter": true,
@@ -47,7 +54,7 @@
                                         "required": true
                                     }
                                 ],
-                                "id": "u:7a9e9cad65d8",
+                                "id": "u:153abb429ca9",
                                 "actions": [
                                     {
                                         "type": "submit",
@@ -61,20 +68,20 @@
                             }
                         ],
                         "actionType": "dialog",
-                        "id": "u:1966b06a3f7e",
+                        "id": "u:02ccc9b524e8",
                         "actions": [
                             {
                                 "type": "button",
                                 "actionType": "cancel",
                                 "label": "取消",
-                                "id": "u:fd19a8b713a0"
+                                "id": "u:e8c1c81c3056"
                             },
                             {
                                 "type": "button",
                                 "actionType": "confirm",
                                 "label": "确定",
                                 "primary": true,
-                                "id": "u:e8d2f2067b14"
+                                "id": "u:55916ef329b7"
                             }
                         ],
                         "showCloseButton": true,
@@ -84,7 +91,7 @@
                         "showLoading": true,
                         "draggable": true
                     },
-                    "id": "u:2ba08968852d",
+                    "id": "u:75479c257192",
                     "level": "primary"
                 },
                 {
@@ -103,14 +110,14 @@
                     "editorSetting": {
                         "behavior": "bulkDelete"
                     },
-                    "id": "u:be9e65008ad1"
+                    "id": "u:f2b6614c4794"
                 }
             ],
             "itemActions": [],
             "headerToolbar": [
                 {
                     "type": "button",
-                    "id": "u:832998bacf77",
+                    "id": "u:14387e7a94e0",
                     "align": "right",
                     "label": "新增",
                     "actionType": "dialog",
@@ -139,7 +146,7 @@
                                         "proxy": true,
                                         "uploadType": "asForm",
                                         "name": "files",
-                                        "id": "u:0ff261f13c6f",
+                                        "id": "u:f8fa1273d788",
                                         "btnLabel": "点击上传",
                                         "multiple": true,
                                         "useChunk": false,
@@ -156,7 +163,7 @@
                                         "type": "textarea",
                                         "label": "附件描述",
                                         "name": "description",
-                                        "id": "u:220570fde1c6",
+                                        "id": "u:d87bbb2d7cb8",
                                         "minRows": 1,
                                         "maxRows": 5,
                                         "showCounter": true,
@@ -168,7 +175,7 @@
                                         "type": "select",
                                         "name": "type",
                                         "label": "上传云",
-                                        "id": "u:34152bec7a13",
+                                        "id": "u:985c6a39b88d",
                                         "multiple": false,
                                         "options": [
                                             {
@@ -200,7 +207,7 @@
                                         "value": "local"
                                     }
                                 ],
-                                "id": "u:452b8735e557",
+                                "id": "u:c2955eebd10a",
                                 "actions": [
                                     {
                                         "type": "submit",
@@ -215,20 +222,20 @@
                             }
                         ],
                         "actionType": "dialog",
-                        "id": "u:52455144eacb",
+                        "id": "u:9f5764a2b77f",
                         "actions": [
                             {
                                 "type": "button",
                                 "actionType": "cancel",
                                 "label": "取消",
-                                "id": "u:3e95f22308da"
+                                "id": "u:809b072f621a"
                             },
                             {
                                 "type": "button",
                                 "actionType": "confirm",
                                 "label": "确定",
                                 "primary": true,
-                                "id": "u:956388ade07a"
+                                "id": "u:f8eaa90beecc"
                             }
                         ],
                         "showCloseButton": true,
@@ -243,7 +250,7 @@
                 {
                     "type": "filter-toggler",
                     "align": "left",
-                    "id": "u:264ea9350f91",
+                    "id": "u:beb2c218e646",
                     "tpl": "内容",
                     "wrapperComponent": ""
                 },
@@ -254,11 +261,11 @@
                 {
                     "type": "reload",
                     "align": "right",
-                    "id": "u:8d061607d8a7",
+                    "id": "u:1721dc365fde",
                     "icon": "iconfont icon-refresh"
                 }
             ],
-            "id": "u:9b7d7795e9d1",
+            "id": "u:04f5772e558f",
             "perPageAvailable": [
                 5,
                 10,
@@ -274,61 +281,85 @@
                 "title": "条件搜索",
                 "body": [
                     {
-                        "type": "input-text",
-                        "name": "keyword",
-                        "label": "关键词",
-                        "id": "u:103292a874af",
-                        "labelRemark": {
-                            "icon": "fa fa-question-circle",
-                            "trigger": [
-                                "hover"
-                            ],
-                            "className": "Remark--warning",
-                            "placement": "top",
-                            "title": "",
-                            "content": "搜索附件名字、描述、路径中包含的关键词"
-                        },
-                        "clearable": true,
-                        "row": 0,
-                        "colSize": "1/2"
-                    },
-                    {
-                        "type": "input-datetime-range",
-                        "label": "创建时间",
-                        "name": "createdAtBegin",
-                        "id": "u:96d9529d24a7",
-                        "displayFormat": "YYYY-MM-DD HH:mm:ss",
-                        "placeholder": "请选择日期时间范围",
-                        "valueFormat": "YYYY-MM-DD HH:mm:ss",
-                        "minDate": "",
-                        "maxDate": "",
-                        "shortcuts": [
-                            "yesterday",
-                            "7daysago",
-                            "prevweek",
-                            "thismonth",
-                            "prevmonth",
-                            "prevquarter"
+                        "type": "group",
+                        "body": [
+                            {
+                                "type": "input-text",
+                                "name": "keyword",
+                                "label": "关键词",
+                                "id": "u:a18df54affff",
+                                "labelRemark": {
+                                    "icon": "fa fa-question-circle",
+                                    "trigger": [
+                                        "hover"
+                                    ],
+                                    "className": "Remark--warning",
+                                    "placement": "top",
+                                    "title": "",
+                                    "content": "搜索附件名字、描述、路径中包含的关键词"
+                                },
+                                "clearable": true,
+                                "columnRatio": ""
+                            },
+                            {
+                                "type": "input-datetime-range",
+                                "label": "创建时间",
+                                "name": "createdAtBegin",
+                                "id": "u:8e7fb43fedcf",
+                                "displayFormat": "YYYY-MM-DD HH:mm:ss",
+                                "placeholder": "请选择日期时间范围",
+                                "valueFormat": "YYYY-MM-DD HH:mm:ss",
+                                "minDate": "",
+                                "maxDate": "",
+                                "shortcuts": [
+                                    "yesterday",
+                                    "7daysago",
+                                    "prevweek",
+                                    "thismonth",
+                                    "prevmonth",
+                                    "prevquarter"
+                                ],
+                                "labelRemark": {
+                                    "icon": "fa fa-question-circle",
+                                    "trigger": [
+                                        "hover"
+                                    ],
+                                    "className": "Remark--warning",
+                                    "placement": "top",
+                                    "content": "附件创建时间区间"
+                                },
+                                "extraName": "createdAtEnd"
+                            },
+                            {
+                                "type": "nested-select",
+                                "label": "分类",
+                                "name": "attachment_classify_id",
+                                "onlyChildren": true,
+                                "id": "u:58cb67bc5415",
+                                "searchable": false,
+                                "onlyLeaf": false,
+                                "multiple": false,
+                                "clearable": true,
+                                "source": {
+                                    "url": "/admin/cms/attachment/classifyList",
+                                    "method": "get",
+                                    "requestAdaptor": "",
+                                    "adaptor": "",
+                                    "messages": {}
+                                },
+                                "labelField": "title",
+                                "valueField": "id"
+                            }
                         ],
-                        "labelRemark": {
-                            "icon": "fa fa-question-circle",
-                            "trigger": [
-                                "hover"
-                            ],
-                            "className": "Remark--warning",
-                            "placement": "top",
-                            "content": "附件创建时间区间"
-                        },
-                        "extraName": "createdAtEnd",
-                        "row": 0,
-                        "colSize": "1/2",
-                        "mode": "horizontal"
+                        "id": "u:8fddb592a705",
+                        "mode": "horizontal",
+                        "className": "w-full"
                     },
                     {
                         "type": "input-range",
                         "label": "附件大小",
                         "name": "sizeMin",
-                        "id": "u:6689b8b3930f",
+                        "id": "u:efbe97bf35e1",
                         "step": 1,
                         "unit": "M",
                         "tooltipPlacement": "auto",
@@ -341,131 +372,140 @@
                         "parts": 5,
                         "marks": {
                             "0": "0",
-                            "20%": "2G",
-                            "40%": "4G",
-                            "60%": "6G",
-                            "80%": "8G",
-                            "100%": "10G"
+                            "2048": "2G",
+                            "4096": "4G",
+                            "6144": "6G",
+                            "8192": "8G",
+                            "10240": "10G"
                         },
-                        "showSteps": false,
-                        "row": 1,
-                        "mode": "horizontal"
+                        "showSteps": false
                     },
                     {
-                        "type": "select",
-                        "label": "附件类型",
-                        "name": "mime",
-                        "options": [
+                        "type": "group",
+                        "body": [
                             {
-                                "label": "图片",
-                                "value": 1
+                                "type": "select",
+                                "label": "附件类型",
+                                "name": "mime",
+                                "options": [
+                                    {
+                                        "label": "图片",
+                                        "value": 1
+                                    },
+                                    {
+                                        "label": "音视频",
+                                        "value": 2
+                                    },
+                                    {
+                                        "label": "office文档",
+                                        "value": 3
+                                    },
+                                    {
+                                        "label": "文本文档",
+                                        "value": 4
+                                    },
+                                    {
+                                        "label": "压缩文档",
+                                        "value": 5
+                                    }
+                                ],
+                                "id": "u:0c7109fdf113",
+                                "multiple": true,
+                                "checkAll": true,
+                                "defaultCheckAll": false,
+                                "checkAllLabel": "全选",
+                                "clearable": true,
+                                "columnRatio": ""
                             },
                             {
-                                "label": "音视频",
-                                "value": 2
+                                "type": "select",
+                                "label": "上传云",
+                                "name": "location",
+                                "options": [
+                                    {
+                                        "label": "本地",
+                                        "value": "local"
+                                    },
+                                    {
+                                        "label": "七牛",
+                                        "value": "kodo"
+                                    },
+                                    {
+                                        "label": "华为云",
+                                        "value": "obs"
+                                    },
+                                    {
+                                        "label": "阿里云",
+                                        "value": "oss"
+                                    },
+                                    {
+                                        "label": "腾讯云",
+                                        "value": "cos"
+                                    }
+                                ],
+                                "id": "u:eba0e37fde7a",
+                                "multiple": true,
+                                "clearable": true,
+                                "checkAll": true,
+                                "defaultCheckAll": false,
+                                "checkAllLabel": "全选",
+                                "columnRatio": ""
                             },
                             {
-                                "label": "office文档",
-                                "value": 3
-                            },
-                            {
-                                "label": "文本文档",
-                                "value": 4
-                            },
-                            {
-                                "label": "压缩文档",
-                                "value": 5
+                                "type": "select",
+                                "label": "附件状态",
+                                "name": "status",
+                                "options": [
+                                    {
+                                        "label": "全部",
+                                        "value": 3
+                                    },
+                                    {
+                                        "label": "公开",
+                                        "value": 1
+                                    },
+                                    {
+                                        "label": "私有",
+                                        "value": 0
+                                    }
+                                ],
+                                "id": "u:313ad7348e71",
+                                "multiple": false,
+                                "clearable": false,
+                                "checkAll": true,
+                                "defaultCheckAll": false,
+                                "checkAllLabel": "全选",
+                                "selectFirst": true,
+                                "columnRatio": ""
                             }
                         ],
-                        "id": "u:2a6b130152c1",
-                        "multiple": true,
-                        "checkAll": true,
-                        "defaultCheckAll": false,
-                        "checkAllLabel": "全选",
-                        "clearable": true,
-                        "row": 2,
-                        "colSize": "1/3"
+                        "id": "u:831c456e39d1",
+                        "mode": "horizontal",
+                        "className": "w-full"
                     },
                     {
-                        "type": "select",
-                        "label": "上传云",
-                        "name": "location",
-                        "options": [
+                        "type": "group",
+                        "body": [
                             {
-                                "label": "本地",
-                                "value": "local"
+                                "type": "input-text",
+                                "label": "上传者uuid",
+                                "name": "upload_user_uuid",
+                                "id": "u:4cc6da3a603f",
+                                "clearable": true,
+                                "columnRatio": 4
                             },
                             {
-                                "label": "七牛",
-                                "value": "kodo"
-                            },
-                            {
-                                "label": "华为云",
-                                "value": "obs"
-                            },
-                            {
-                                "label": "阿里云",
-                                "value": "oss"
-                            },
-                            {
-                                "label": "腾讯云",
-                                "value": "cos"
+                                "type": "input-text",
+                                "label": "上传者ip",
+                                "name": "upload_ip",
+                                "id": "u:e160995c4129",
+                                "clearable": true,
+                                "columnRatio": "auto"
                             }
                         ],
-                        "id": "u:e4b83859863d",
-                        "multiple": true,
-                        "clearable": true,
-                        "checkAll": true,
-                        "defaultCheckAll": false,
-                        "checkAllLabel": "全选",
-                        "row": 2,
-                        "colSize": "1/3"
-                    },
-                    {
-                        "type": "select",
-                        "label": "附件状态",
-                        "name": "status",
-                        "options": [
-                            {
-                                "label": "全部",
-                                "value": 3
-                            },
-                            {
-                                "label": "公开",
-                                "value": 1
-                            },
-                            {
-                                "label": "私有",
-                                "value": 0
-                            }
-                        ],
-                        "id": "u:0a23bc7a47f7",
-                        "multiple": false,
-                        "clearable": false,
-                        "checkAll": true,
-                        "defaultCheckAll": false,
-                        "checkAllLabel": "全选",
-                        "row": 2,
-                        "colSize": "1/3",
-                        "selectFirst": true
-                    },
-                    {
-                        "type": "input-text",
-                        "label": "上传者uuid",
-                        "name": "upload_user_uuid",
-                        "id": "u:b9dc4ae06aea",
-                        "clearable": true,
-                        "row": 3,
-                        "colSize": "1/2"
-                    },
-                    {
-                        "type": "input-text",
-                        "label": "上传者ip",
-                        "name": "upload_ip",
-                        "id": "u:24bca8aa9abd",
-                        "clearable": true,
-                        "row": 3,
-                        "colSize": "1/2"
+                        "id": "u:d8142fe4d12e",
+                        "mode": "horizontal",
+                        "className": "w-full"
                     }
                 ],
                 "id": "u:24cefed9dd1e",
@@ -473,20 +513,20 @@
                     {
                         "type": "reset",
                         "label": "重置",
-                        "id": "u:86f854cfb95c",
+                        "id": "u:85e0fe8931e8",
                         "secondary": true
                     },
                     {
                         "type": "submit",
                         "label": "查询",
                         "primary": true,
-                        "id": "u:e993a3a5b0a5"
+                        "id": "u:9cb8315f52e4"
                     }
                 ],
                 "feat": "Insert",
-                "labelAlign": "left",
-                "mode": "flex",
-                "columnCount": 2
+                "labelAlign": "right",
+                "mode": "horizontal",
+                "columnCount": 1
             },
             "filterTogglable": true,
             "filterDefaultVisible": false,
@@ -495,7 +535,7 @@
                     "name": "id",
                     "label": "ID",
                     "type": "text",
-                    "id": "u:c4527a39fbc5",
+                    "id": "u:3ccee42e116f",
                     "placeholder": "-",
                     "sortable": true,
                     "copyable": false
@@ -509,10 +549,11 @@
                                 {
                                     "type": "image",
                                     "name": "url",
+                                    "src": "${url+'?'+RAND()}",
                                     "enlargeAble": true,
                                     "enlargeWithGallary": false,
                                     "showToolbar": true,
-                                    "id": "u:8325dbc709b1"
+                                    "id": "u:24aa481d540c"
                                 }
                             ],
                             "index": 0,
@@ -525,7 +566,8 @@
                             "body": [
                                 {
                                     "type": "video",
-                                    "name": "url"
+                                    "name": "url",
+                                    "aspectRatio": "16:9"
                                 }
                             ],
                             "visibleOn": "${ARRAYINCLUDES([\"video/mp4\",\"video/avi\"],mime)}",
@@ -559,7 +601,7 @@
                     },
                     "name": "url",
                     "label": "附件",
-                    "id": "u:6da0573e0b5c",
+                    "id": "u:12a544e6a25d",
                     "quickEdit": false,
                     "popOver": false,
                     "copyable": false,
@@ -572,7 +614,7 @@
                     "name": "createdAt",
                     "label": "创建时间",
                     "type": "date",
-                    "id": "u:03b2be3f1014",
+                    "id": "u:355efe4d20af",
                     "sortable": true,
                     "format": "YYYY-MM-DD HH:mm:ss"
                 },
@@ -580,14 +622,16 @@
                     "type": "date",
                     "label": "最后修改",
                     "name": "updatedAt",
-                    "id": "u:ed31a85dca4e",
-                    "format": "YYYY-MM-DD HH:mm:ss"
+                    "id": "u:9bd90293f9f0",
+                    "format": "YYYY-MM-DD HH:mm:ss",
+                    "placeholder": "-",
+                    "toggled": false
                 },
                 {
                     "type": "text",
                     "label": "名字",
                     "name": "name",
-                    "id": "u:d0e5802a62da",
+                    "id": "u:d8e222c0d4ca",
                     "placeholder": "-",
                     "copyable": true
                 },
@@ -595,7 +639,7 @@
                     "type": "text",
                     "name": "description",
                     "label": "描述",
-                    "id": "u:e4bdbeaf149f",
+                    "id": "u:b03e6fafdc00",
                     "placeholder": "-",
                     "copyable": true
                 },
@@ -603,16 +647,37 @@
                     "type": "text",
                     "label": "文件路径",
                     "name": "path",
-                    "id": "u:a2f9638030d5",
+                    "id": "u:a797565885fc",
                     "placeholder": "-",
                     "copyable": true,
                     "toggled": false
                 },
                 {
+                    "type": "text",
+                    "label": "分类",
+                    "name": "cms_attachment_classify.title",
+                    "id": "u:ca1db2cb4672",
+                    "placeholder": "根目录",
+                    "popOver": {
+                        "type": "panel",
+                        "title": "查看详情",
+                        "body": [
+                            {
+                                "type": "tpl",
+                                "tpl": "<p>${attachment_classify_id}</p>\n<p>${cms_attachment_classify|json}</p>",
+                                "inline": false,
+                                "id": "u:691506b41466"
+                            }
+                        ],
+                        "id": "u:fc3ab9f13d4d",
+                        "affixFooter": false
+                    }
+                },
+                {
                     "type": "link",
                     "label": "url",
                     "name": "url",
-                    "id": "u:7321e2779ef3",
+                    "id": "u:d976ac1e53e5",
                     "placeholder": "-",
                     "copyable": true
                 },
@@ -623,13 +688,13 @@
                     "placeholder": "-",
                     "copyable": true,
                     "toggled": false,
-                    "id": "u:c85a05e75463"
+                    "id": "u:63f6972d77fc"
                 },
                 {
                     "type": "tpl",
                     "label": "大小",
                     "name": "size",
-                    "id": "u:63107a53875a",
+                    "id": "u:6e7cb7e552b6",
                     "sortable": true,
                     "tpl": "<p>${size|bytes}</p>"
                 },
@@ -637,19 +702,21 @@
                     "type": "text",
                     "label": "类型",
                     "name": "mime",
-                    "id": "u:00475d8b9582"
+                    "id": "u:047078721d83",
+                    "placeholder": "-",
+                    "toggled": false
                 },
                 {
                     "label": "上传备注",
                     "type": "json",
                     "name": "remark",
-                    "id": "u:b8d6d2c69878"
+                    "id": "u:9a3a8f93203d"
                 },
                 {
                     "type": "mapping",
                     "label": "上传云",
                     "name": "location",
-                    "id": "u:106e54a1da7d",
+                    "id": "u:c6604c843116",
                     "map": {
                         "*": "本地",
                         "kodo": "七牛",
@@ -667,13 +734,13 @@
                         "true": "公开",
                         "false": "私有"
                     },
-                    "id": "u:f6dbdd74e256"
+                    "id": "u:124e6fe79e50"
                 },
                 {
                     "type": "text",
                     "label": "上传者uuid",
                     "name": "upload_user_uuid",
-                    "id": "u:a9bb7f0df27a",
+                    "id": "u:8d3214df7298",
                     "placeholder": "-",
                     "toggled": false
                 },
@@ -681,7 +748,7 @@
                     "type": "text",
                     "label": "上传者ip",
                     "name": "upload_ip",
-                    "id": "u:3827d656bb67",
+                    "id": "u:05253d80ee9d",
                     "placeholder": "-",
                     "toggled": false
                 },
@@ -719,7 +786,7 @@
                                             {
                                                 "type": "hidden",
                                                 "name": "id",
-                                                "id": "u:eb8104e8e610"
+                                                "id": "u:28dbf24cc016"
                                             },
                                             {
                                                 "type": "input-file",
@@ -728,7 +795,7 @@
                                                 "proxy": true,
                                                 "uploadType": "fileReceptor",
                                                 "name": "url",
-                                                "id": "u:a1d990e1bdce",
+                                                "id": "u:2644be59b4fc",
                                                 "btnLabel": "点击上传",
                                                 "multiple": false,
                                                 "useChunk": false,
@@ -749,7 +816,7 @@
                                                 "label": "附件",
                                                 "name": "file",
                                                 "type": "input-image",
-                                                "id": "u:5847dbd57492",
+                                                "id": "u:f073ec79f893",
                                                 "accept": ".jpeg, .jpg, .png, .gif",
                                                 "uploadType": "fileReceptor",
                                                 "proxy": true,
@@ -777,7 +844,7 @@
                                                 "label": "附件名字",
                                                 "name": "name",
                                                 "type": "input-text",
-                                                "id": "u:f2b3a734e9d8",
+                                                "id": "u:d56c2ada8f8f",
                                                 "required": true,
                                                 "maxLength": 50
                                             },
@@ -785,7 +852,7 @@
                                                 "type": "textarea",
                                                 "label": "附件描述",
                                                 "name": "description",
-                                                "id": "u:d256e8c8ad6f",
+                                                "id": "u:24c5124fea15",
                                                 "minRows": 2,
                                                 "maxRows": 5,
                                                 "maxLength": 100,
@@ -793,7 +860,7 @@
                                                 "required": true
                                             }
                                         ],
-                                        "id": "u:a6b781195f89",
+                                        "id": "u:d71a1e2069db",
                                         "actions": [
                                             {
                                                 "type": "submit",
@@ -807,20 +874,20 @@
                                     }
                                 ],
                                 "actionType": "dialog",
-                                "id": "u:f155393082d5",
+                                "id": "u:6c280e7e40c8",
                                 "actions": [
                                     {
                                         "type": "button",
                                         "actionType": "cancel",
                                         "label": "取消",
-                                        "id": "u:b2eed88912dc"
+                                        "id": "u:8b3dc0bf2ef2"
                                     },
                                     {
                                         "type": "button",
                                         "actionType": "confirm",
                                         "label": "确定",
                                         "primary": true,
-                                        "id": "u:78d6e04b965d"
+                                        "id": "u:3c23fc591cb4"
                                     }
                                 ],
                                 "showCloseButton": true,
@@ -849,7 +916,7 @@
                                     }
                                 }
                             },
-                            "id": "u:d37b877d0433"
+                            "id": "u:4d0df66320ec"
                         },
                         {
                             "type": "button",
@@ -871,7 +938,7 @@
                                             }
                                         },
                                         {
-                                            "componentId": "u:9b7d7795e9d1",
+                                            "componentId": "u:04f5772e558f",
                                             "ignoreError": false,
                                             "actionType": "reload"
                                         }
@@ -881,7 +948,7 @@
                                     }
                                 }
                             },
-                            "id": "u:ee6f6d70a724",
+                            "id": "u:f8e8cd1a8b20",
                             "level": "link",
                             "confirmText": "${IF(status,'确定将附件变成私有状态吗?变私有后只有管理员和附件上传者才能访问!','确定将附件变成公开状态吗？公开后会被所有用户访问,请谨慎操作,一定要确认附件没有问题!')}"
                         },
@@ -902,10 +969,10 @@
                             "editorSetting": {
                                 "behavior": "delete"
                             },
-                            "id": "u:104a4ae8a8d1"
+                            "id": "u:67bfea9aab0f"
                         }
                     ],
-                    "id": "u:b2c3d76371e2",
+                    "id": "u:1fe8875bb7a1",
                     "placeholder": "-",
                     "fixed": "right"
                 }

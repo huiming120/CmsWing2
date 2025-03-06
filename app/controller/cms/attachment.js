@@ -3,6 +3,7 @@ const Controller = require('../../core/base_controller');
 const { Op } = require('sequelize');
 const fs = require('fs/promises');
 const path = require('path');
+
 /**
 * @controller 附件管理
 */
@@ -22,6 +23,7 @@ class AttachmentController extends Controller {
         const { ctx } = this;
         ctx.validate({
             keyword: 'string?',
+            attachment_classify_id: 'int?',
             createdAtBegin: { type: 'datetime', required: false, allowEmpty: true },
             createdAtEnd: { type: 'datetime', required: false, allowEmpty: true },
             sizeMin: 'number?',
@@ -34,12 +36,13 @@ class AttachmentController extends Controller {
             page: { type: 'int', required: false, default: 1 },
             perPage: { type: 'int', required: false, default: 20 }
         }, ctx.query);
-        const { keyword, createdAtBegin, createdAtEnd, sizeMin, sizeMax, mime, location, upload_user_uuid, upload_ip, status, page, perPage, orderBy, orderDir } = ctx.query;
+        const { keyword, createdAtBegin, createdAtEnd, sizeMin, sizeMax, mime, location, upload_user_uuid, upload_ip, status, page, perPage, orderBy, orderDir, attachment_classify_id } = ctx.query;
         const map = {
             where: {},
             order: [['id', 'DESC']],
             offset: (page - 1) * perPage,
-            limit: perPage
+            limit: perPage,
+            include: [{ model: ctx.model.CmsAttachmentClassify }]
         }
         if (keyword) {
             map.where[Op.or] = {
@@ -47,6 +50,9 @@ class AttachmentController extends Controller {
                 description: { [Op.substring]: keyword },
                 path: { [Op.substring]: keyword }
             }
+        }
+        if (attachment_classify_id > 0) {
+            map.where.attachment_classify_id = attachment_classify_id;
         }
         if (createdAtBegin) {
             map.where.createdAt = { [Op.gte]: createdAtBegin }
@@ -122,9 +128,10 @@ class AttachmentController extends Controller {
         const { ctx } = this;
         ctx.validate({
             description: { type: 'string', required: false, default: '' },
-            type: { type: 'enum', required: false, values: ['local', 'kodo', 'obs', 'oss', 'cos'] }
+            type: { type: 'enum', required: false, values: ['local', 'kodo', 'obs', 'oss', 'cos'] },
+            attachment_classify_id: { type: 'int', required: false, default: 1 },
         }, ctx.request.body);
-        const { description, type } = ctx.request.body;
+        const { description, type, attachment_classify_id } = ctx.request.body;
         const files = ctx.request.files
         if (!files || files.length == 0) {
             return this.fail('请上传文件', 21);
@@ -134,6 +141,7 @@ class AttachmentController extends Controller {
                 const upload = await ctx.service.sys.objectStorage.upload(ctx.request.body, file)
                 if (upload) {
                     await ctx.model.CmsAttachment.create({
+                        attachment_classify_id,
                         name: upload.name,
                         description: description,
                         path: upload.savename,
@@ -148,7 +156,7 @@ class AttachmentController extends Controller {
                     })
                 }
             } catch (error) {
-                
+
             } finally {
                 // 需要删除临时文件
                 fs.unlink(file.filepath);
@@ -285,6 +293,157 @@ class AttachmentController extends Controller {
         } catch (error) {
             ctx.redirect(defaultImgUrl);
         } 
+    }
+
+    /**
+     * @summary 打开分类
+     * @description 打开某个分类,获取分类下的子分类和附件
+     * @router get /admin/cms/attachment/openClassify/:attachment_classify_id
+     * @request query string? [keyword] 搜索关键字
+     * @response 200 baseRes successed
+     */
+    async openClassify() {
+        const { ctx } = this, keyword = ctx.query.keyword, attachment_classify_id = ctx.params.attachment_classify_id, { Sequelize } = this.app;
+        if (attachment_classify_id == 0) {
+            var classifyInfo = { id: 0, title: '根目录', pid: -1  };
+            var parentClassifyList = [];
+        } else {
+            var classifyInfo = await ctx.model.CmsAttachmentClassify.findByPk(attachment_classify_id);
+            if (classifyInfo?.pids) {
+                var parentClassifyList = await ctx.model.CmsAttachmentClassify.findAll({
+                    attributes: ['id', ['title', 'label'], 'pid'],
+                    where: { id: classifyInfo.pids.split(',') },
+                    order: [[Sequelize.literal(`FIELD(id, ${classifyInfo.pids})`)]],
+                    raw: true
+                });
+                parentClassifyList = [{ id: 0, label: '根目录', pid: -1  }].concat(parentClassifyList);
+            } else {
+                var parentClassifyList = [{ id: 0, label: '根目录', pid: -1  }];
+            }
+        }
+        if (!classifyInfo) {
+            return this.fail('分类不存在');
+        }
+        parentClassifyList.push({ id: classifyInfo.id, label: classifyInfo.title, pid: classifyInfo.pid });
+        if (keyword) {
+            // 搜索当前分类和子分类下的附件和分类
+            if (attachment_classify_id == 0) {
+                var classifyList = await ctx.model.CmsAttachmentClassify.findAll({
+                    where: { id: { [Op.ne]: 1 }, title: { [Op.substring]: keyword } }
+                });
+                var attachmentList = await ctx.model.CmsAttachment.findAll({ where: { [Op.or]: [{ name: { [Op.substring]: keyword } }, { description: { [Op.substring]: keyword } }], attachment_classify_id: { [Op.ne]: 1 } } });
+            } else {
+                var classifyList = await ctx.model.CmsAttachmentClassify.findAll({
+                    where: Sequelize.where(Sequelize.fn('FIND_IN_SET', attachment_classify_id, Sequelize.col('pids')), '>', 0)
+                });
+                const cids = classifyList.map(item => item.id);
+                classifyList = classifyList.filter(item => item.title.includes(keyword));
+                cids.push(attachment_classify_id);
+                var attachmentList = await ctx.model.CmsAttachment.findAll({ where: { attachment_classify_id: cids, [Op.or]: [{ name: { [Op.substring]: keyword } }, { description: { [Op.substring]: keyword } }] } });
+            }
+            return this.success({ classifyInfo, items: [...classifyList, ...attachmentList], parentClassifyList });
+        } else {
+            var classifyList = await ctx.model.CmsAttachmentClassify.findAll({
+                where: { [Op.and]: { pid: attachment_classify_id, id: { [Op.ne]: 1 } } }
+            });
+            var attachmentList = await ctx.model.CmsAttachment.findAll({ where: { attachment_classify_id } });
+        }
+        return this.success({ classifyInfo, items: [...classifyList, ...attachmentList], parentClassifyList });
+    }
+
+    /**
+     * @summary 附件分类列表
+     * @description 获取附件分类列表
+     * @router get /admin/cms/attachment/classifyList
+     * @request query [int] excludeIds 搜索关键字
+     * @response 200 baseRes successed
+     */
+    async classifyList() {
+        const { ctx } = this;
+        ctx.validate({
+            excludeIds: { type: 'string', required: false, trim: true, default: '' }
+        }, ctx.query);
+        const excludeIds = ctx.query.excludeIds.split(',').map(id => parseInt(id));
+        var classifyList = await ctx.model.CmsAttachmentClassify.findAll({
+            attributes: ['id', 'title', 'pid'],
+            where: { id: { [Op.ne]: 1 } }
+        });
+        for (const classify of classifyList) {
+            if (excludeIds.includes(classify.id)) {
+                classify.dataValues.disabled = true;
+            }
+        }
+        return this.success({ options: ctx.helper.arr_to_tree(classifyList, 0) });
+    }
+
+    /**
+     * @summary 删除附件分类
+     * @description 删除附件分类
+     * @router post /admin/cms/attachment/delClassify
+     * @request body string ids 附件分类id组
+     * @response 200 baseRes successed
+     */
+    async delClassify() {
+        const { ctx } = this;
+        ctx.validate({
+            ids: { type: 'array', required: true, itemType: 'int' }
+        }, ctx.request.body);
+        const { ids } = ctx.request.body, { Sequelize } = this.app;
+        // 获取所有子分类
+        const op_or = [];
+        for (const id of ids) {
+            op_or.push(Sequelize.where(Sequelize.fn('FIND_IN_SET', id, Sequelize.col('pids')), '>', 0))
+        }
+        const classifyList = await ctx.model.CmsAttachmentClassify.findAll({
+            where: { [Op.or]: op_or }
+        });
+        ids.push(...classifyList.map(item => item.id));
+        // 删除附件
+        const list = await ctx.model.CmsAttachment.findAll({
+            attributes: ['id', 'path', 'location', 'mime', 'status'],
+            where: { attachment_classify_id: ids }
+        })
+        for (const file of list) {
+            await ctx.service.sys.objectStorage.del(file)
+        }
+        await ctx.model.CmsAttachment.destroy({ where: { attachment_classify_id: ids } });
+        // 删除所有分类
+        await ctx.model.CmsAttachmentClassify.destroy({ where: { id:  ids } });
+        return this.success()
+    }
+
+    /**
+     * @summary 附件复制或移动
+     * @description 附件复制或移动操作
+     * @router post /admin/cms/attachment/copyOrMove
+     * @response 200 baseRes successed
+     */
+    async copyOrMove() {
+        const { ctx } = this;
+        ctx.validate({
+            cids: { type: 'array', required: true, itemType: 'int' },
+            aids: { type: 'array', required: true, itemType: 'int' },
+            targetPid: { type: 'int', required: true, min: 0 },
+            type: { type: 'enum', required: false, values: ['copy', 'move'], default: 'move' }
+        }, ctx.request.body);
+        const { cids, aids, targetPid, type } = ctx.request.body;
+        const targetClassify = await ctx.model.CmsAttachmentClassify.findByPk(targetPid);
+        if (!targetClassify) {
+            return ctx.helper.error('分类不存在');
+        }
+        if (cids.length > 0) {
+            const classifyList = await ctx.model.CmsAttachmentClassify.findAll({ where: { id: cids } });
+            for (const classify of classifyList) {
+                await ctx.service.sys.objectStorage.copyOrMoveClassify(classify, targetClassify, type);
+            }
+        }
+        if (aids.length > 0) {
+            const attachmentList = await ctx.model.CmsAttachment.findAll({ where: { id: aids } });
+            for (const attachment of attachmentList) {
+                await ctx.service.sys.objectStorage.copyOrMove(attachment, targetClassify, type);
+            }
+        }
+        return this.success();
     }
 }
 module.exports = AttachmentController;

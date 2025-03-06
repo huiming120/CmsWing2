@@ -844,6 +844,7 @@ module.exports = {
 	},
 	// 附件表
 	cms_attachment_item: {
+		attachment_classify_id: { type: 'string', description: '附件分类id' },
 		compressed_url: { type: 'string', description: '图片压缩地址' },
 		createdAt: { type: 'string', description: '创建时间' },
 		description: { type: 'string', description: '附件描述' },
@@ -862,6 +863,7 @@ module.exports = {
 
 	},
 	cms_attachment_add: {
+		attachment_classify_id: { type: 'string', description: '附件分类id', required: true },
 		compressed_url: { type: 'string', description: '图片压缩地址', required: false },
 		description: { type: 'string', description: '附件描述', required: true },
 		location: { type: 'string', description: '文件上传类型(local、kodo、obs、oss、cos)', required: true },
@@ -876,6 +878,7 @@ module.exports = {
 
 	},
 	cms_attachment_edit: {
+		attachment_classify_id: { type: 'string', description: '附件分类id' },
 		compressed_url: { type: 'string', description: '图片压缩地址' },
 		description: { type: 'string', description: '附件描述' },
 		location: { type: 'string', description: '文件上传类型(local、kodo、obs、oss、cos)' },
@@ -1080,6 +1083,28 @@ module.exports = {
 		data: { type: 'string', description: '用户数据' },
 		openid: { type: 'string', description: '用户微信id' },
 		wall_id: { type: 'string', description: '签到墙活动id' },
+
+	},
+	// 附件分类表
+	cms_attachment_classify_item: {
+		createdAt: { type: 'string', description: '创建时间' },
+		id: { type: 'string', description: '主键' },
+		pid: { type: 'string', description: '上级分类' },
+		pids: { type: 'string', description: '父分类链,逗号分割' },
+		title: { type: 'string', description: '分类名称' },
+		updatedAt: { type: 'string', description: '更新时间' },
+
+	},
+	cms_attachment_classify_add: {
+		pid: { type: 'string', description: '上级分类', required: true },
+		pids: { type: 'string', description: '父分类链,逗号分割', required: true },
+		title: { type: 'string', description: '分类名称', required: true },
+
+	},
+	cms_attachment_classify_edit: {
+		pid: { type: 'string', description: '上级分类' },
+		pids: { type: 'string', description: '父分类链,逗号分割' },
+		title: { type: 'string', description: '分类名称' },
 
 	},
 

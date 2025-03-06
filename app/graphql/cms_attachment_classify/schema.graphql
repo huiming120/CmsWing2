@@ -1,0 +1,172 @@
+
+	type CmsAttachmentClassify {
+		id:ID
+		createdAt:Date
+		updatedAt:Date
+		pid:Int
+		pids:String
+		title:String
+
+		cms_attachment(order:[[String]],limit:Int,offset:Int): [CmsAttachment]
+
+	}
+
+
+	input WhereCmsAttachmentClassify_id {
+		op_eq: ID
+		op_ne: ID
+		op_or: [ID]
+		op_gt: ID
+		op_gte: ID
+		op_lt: ID
+		op_lte: ID
+		op_between: [ID]
+		op_notBetween: [ID]
+		op_in: [ID]
+		op_notIn: [ID]
+		op_like: String
+		op_notLike: String
+		op_startsWith: String
+		op_endsWith: String
+		op_substring: String
+	}
+	input WhereCmsAttachmentClassify_createdAt {
+		op_eq: Date
+		op_ne: Date
+		op_or: [Date]
+		op_gt: Date
+		op_gte: Date
+		op_lt: Date
+		op_lte: Date
+		op_between: [Date]
+		op_notBetween: [Date]
+		op_in: [Date]
+		op_notIn: [Date]
+		op_like: String
+		op_notLike: String
+		op_startsWith: String
+		op_endsWith: String
+		op_substring: String
+	}
+	input WhereCmsAttachmentClassify_updatedAt {
+		op_eq: Date
+		op_ne: Date
+		op_or: [Date]
+		op_gt: Date
+		op_gte: Date
+		op_lt: Date
+		op_lte: Date
+		op_between: [Date]
+		op_notBetween: [Date]
+		op_in: [Date]
+		op_notIn: [Date]
+		op_like: String
+		op_notLike: String
+		op_startsWith: String
+		op_endsWith: String
+		op_substring: String
+	}
+	input WhereCmsAttachmentClassify_pid {
+		op_eq: Int
+		op_ne: Int
+		op_or: [Int]
+		op_gt: Int
+		op_gte: Int
+		op_lt: Int
+		op_lte: Int
+		op_between: [Int]
+		op_notBetween: [Int]
+		op_in: [Int]
+		op_notIn: [Int]
+		op_like: String
+		op_notLike: String
+		op_startsWith: String
+		op_endsWith: String
+		op_substring: String
+	}
+	input WhereCmsAttachmentClassify_pids {
+		op_eq: String
+		op_ne: String
+		op_or: [String]
+		op_gt: String
+		op_gte: String
+		op_lt: String
+		op_lte: String
+		op_between: [String]
+		op_notBetween: [String]
+		op_in: [String]
+		op_notIn: [String]
+		op_like: String
+		op_notLike: String
+		op_startsWith: String
+		op_endsWith: String
+		op_substring: String
+	}
+	input WhereCmsAttachmentClassify_title {
+		op_eq: String
+		op_ne: String
+		op_or: [String]
+		op_gt: String
+		op_gte: String
+		op_lt: String
+		op_lte: String
+		op_between: [String]
+		op_notBetween: [String]
+		op_in: [String]
+		op_notIn: [String]
+		op_like: String
+		op_notLike: String
+		op_startsWith: String
+		op_endsWith: String
+		op_substring: String
+	}
+
+	input WhereFieldCmsAttachmentClassify{
+		id:WhereCmsAttachmentClassify_id
+		createdAt:WhereCmsAttachmentClassify_createdAt
+		updatedAt:WhereCmsAttachmentClassify_updatedAt
+		pid:WhereCmsAttachmentClassify_pid
+		pids:WhereCmsAttachmentClassify_pids
+		title:WhereCmsAttachmentClassify_title
+
+	}
+
+	input WhereCmsAttachmentClassify {
+		id:WhereCmsAttachmentClassify_id
+		createdAt:WhereCmsAttachmentClassify_createdAt
+		updatedAt:WhereCmsAttachmentClassify_updatedAt
+		pid:WhereCmsAttachmentClassify_pid
+		pids:WhereCmsAttachmentClassify_pids
+		title:WhereCmsAttachmentClassify_title
+
+		op_and: [WhereFieldCmsAttachmentClassify]
+		op_or: [WhereFieldCmsAttachmentClassify]
+		op_not: [WhereFieldCmsAttachmentClassify]
+	}
+
+
+	input AddCmsAttachmentClassify {
+		pid: Int!
+		pids: String!
+		title: String!
+
+	}
+
+
+	input EditCmsAttachmentClassify {
+		pid: Int
+		pids: String
+		title: String
+
+	}
+
+	type CountCmsAttachmentClassify {
+		count: Int
+		rows: [CmsAttachmentClassify]
+	}
+	type ResDelCmsAttachmentClassify {
+		count: Int
+	}
+	type ResEditCmsAttachmentClassify {
+		ids: [Int]
+	}

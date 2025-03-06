@@ -62,6 +62,10 @@ module.exports = app => {
 	app.router.get('cms搜索', '/cms/search', 'cms.web.search');
 	app.router.get('获取附件文件', '/cms/attachment/getFile/:id', 'cms.attachment.getFile');
 	app.router.post('切换附件状态', '/admin/cms/attachment/toggleStatus/:id', app.middleware.sys.authAdminToken(), app.middleware.sys.rbac(), 'cms.attachment.toggleStatus');
+	app.router.get('打开附件分类', '/admin/cms/attachment/openClassify/:attachment_classify_id', app.middleware.sys.authAdminToken(), app.middleware.sys.rbac(), 'cms.attachment.openClassify');
+	app.router.post('删除附件分类', '/admin/cms/attachment/delClassify', app.middleware.sys.authAdminToken(), app.middleware.sys.rbac(), 'cms.attachment.delClassify');
+	app.router.get('附件分类列表', '/admin/cms/attachment/classifyList', app.middleware.sys.authAdminToken(), app.middleware.sys.rbac(), 'cms.attachment.classifyList');
+	app.router.post('附件(分类)复制或移动', '/admin/cms/attachment/copyOrMove', app.middleware.sys.authAdminToken(), app.middleware.sys.rbac(), 'cms.attachment.copyOrMove');
 	app.router.get('表单列表', '/admin/form/list', app.middleware.sys.authAdminToken(), app.middleware.sys.rbac(), 'form.admin.list');
 	app.router.post('添加表单', '/admin/form/add', app.middleware.sys.authAdminToken(), app.middleware.sys.rbac(), 'form.admin.add');
 	app.router.post('编辑表单', '/admin/form/edit', app.middleware.sys.authAdminToken(), app.middleware.sys.rbac(), 'form.admin.edit');

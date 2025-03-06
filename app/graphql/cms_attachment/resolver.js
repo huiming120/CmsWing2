@@ -1,6 +1,13 @@
 'use strict';
 module.exports = {
-	
+	CmsAttachment: {
+		async cms_attachment_classify(root, params, ctx) {
+			const map = {};
+			map.where = { id: root.attachment_classify_id };
+			return await ctx.connector.cms_attachment_classify.findOne(map);
+		},
+	},
+
 	Query: {
 		async CmsAttachment_findAll(_root, params, ctx) {
 			return await ctx.connector.cms_attachment.findAll(params);

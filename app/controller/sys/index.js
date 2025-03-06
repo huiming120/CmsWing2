@@ -88,17 +88,17 @@ class IndexController extends Controller {
     async page() {
         const { ctx } = this;
         const lpath = '/' + ctx.params[0];
-        let router = await ctx.model.SysRoutes.findOne({ where: { path: lpath } });
+        let router = await ctx.model.SysRoutes.findOne({ where: { path: lpath, admin: false } });
         const renderData = {};
         if (!router) {
-            router = await ctx.model.SysRoutes.findOne({ where: { path: { [Op.startsWith]: lpath.substring(0, lpath.lastIndexOf('/')) + '/:' } } });
+            router = await ctx.model.SysRoutes.findOne({ where: { path: { [Op.startsWith]: lpath.substring(0, lpath.lastIndexOf('/')) + '/:', admin: false } } });
             if (router) {
                 const paramsName = router.path.split(':')[1];
                 const paramsValue = lpath.substring(lpath.lastIndexOf('/') + 1);
                 renderData.params = { [paramsName]: paramsValue };
             }
         }
-        if (!router || router.admin || router.linkType != 'schemaApi' || !router.link) {
+        if (!router || router.linkType != 'schemaApi' || !router.link) {
             return this.notFound();
         }
         const check = await ctx.service.sys.rbac.check(router.path, ctx.userInfo.uuid);

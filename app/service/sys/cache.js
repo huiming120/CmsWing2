@@ -56,6 +56,7 @@ class cacheService extends Service {
             await this.app.cache.set('navigation:' + key, tree)
         }
     }
+
     // 刷新所有
     async reloadAll() {
         await this.classify();
