@@ -5,7 +5,9 @@
  * @param {Egg.EggAppInfo} appInfo app info
  */
 const path = require('path');
+const fs = require('fs');
 const redisStore = require('cache-manager-ioredis');
+const LRU = require('ylru');
 module.exports = appInfo => {
 	// console.log(appInfo.baseDir)
     const exeDir = process.cwd()
@@ -26,7 +28,14 @@ module.exports = appInfo => {
 	// 静态资源配置
     config.static = {
         prefix: '/public/',
-        dir: path.join(exeDir, 'public')
+        dir: path.join(exeDir, 'public'),
+
+        // buffer: true,
+        // maxAge: 1800,
+        files: new LRU(1000)    // 自定义文件缓存
+    }
+    config.siteFile = {
+        '/favicon.ico': fs.readFileSync(path.join(config.static.dir, 'assets', 'favicon.ico')),
     }
 	// 中间件
 	config.middleware = ['graphql', 'authAdminTokenConmon'];

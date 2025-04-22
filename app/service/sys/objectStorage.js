@@ -473,5 +473,24 @@ class objectStorageService extends Service {
             fs.unlink(targetFilePath);
         }
     }
+    // 删除文件缓存
+    clearFileCache(attachment) {
+        if (attachment.location != 'local' || !attachment.status) {
+            return;
+        }
+        const prefix = this.config.static.prefix;
+        let index = attachment.url.indexOf(prefix);
+        if (index != -1) {
+            const cachePath = attachment.url.substring(index);
+            this.ctx.service.sys.cache.static(path.normalize(cachePath));
+        }
+        if (attachment.compressed_url && attachment.compressed_url != attachment.url) {
+            index = attachment.compressed_url.indexOf(prefix);
+            if (index != -1) {
+                const cachePath = attachment.compressed_url.substring(index);
+                this.ctx.service.sys.cache.static(path.normalize(cachePath));
+            }
+        }
+    }
 }
 module.exports = objectStorageService;

@@ -168,7 +168,8 @@
                                             },
                                             "data": {
                                                 "title": "${name}-中奖名单",
-                                                "graphql": "query(\\$order:[String],\\$keywords:String){WallQdData_findAll(where:{wall_id:{op_eq:${params.wall_id}},op_or: [{data: {op_substring: \\$keywords}},{openid: {op_substring: \\$keywords}}],award_id:{op_eq:${id}}},order: [\\$order]){id,openid,createdAt,award_id,data}}"
+                                                "graphql": "query(\\$order:[String],\\$keywords:String){WallQdData_findAll(where:{wall_id:{op_eq:${params.wall_id}},op_or: [{data: {op_substring: \\$keywords}},{openid: {op_substring: \\$keywords}}],award_id:{op_eq:${id}}},order: [\\$order]){id,openid,createdAt,award_id,data}}",
+                                                "awardMap": "${awardMap}"
                                             }
                                         }
                                     ]
@@ -324,7 +325,7 @@
         },
         "method": "post",
         "requestAdaptor": "",
-        "adaptor": "",
+        "adaptor": "const awardList = payload.data.Wall_findByPk.wall_award;\r\nconst awardMap = {};\r\nfor (const award of awardList) {\r\n    awardMap[parseInt(award.id)] = award;\r\n}\r\npayload.data.awardMap = awardMap;\r\nreturn payload;",
         "messages": {}
     },
     "toolbar": [
@@ -342,7 +343,8 @@
                             },
                             "data": {
                                 "title": "签到数据列表",
-                                "graphql": "query(\\$order:[String],\\$keywords:String){WallQdData_findAll(where:{wall_id:{op_eq:${params.wall_id}},op_or: [{data: {op_substring: \\$keywords}},{openid: {op_substring: \\$keywords}}]},order: [\\$order]){id,openid,createdAt,award_id,data}}"
+                                "graphql": "query(\\$order:[String],\\$keywords:String){WallQdData_findAll(where:{wall_id:{op_eq:${params.wall_id}},op_or: [{data: {op_substring: \\$keywords}},{openid: {op_substring: \\$keywords}}]},order: [\\$order]){id,openid,createdAt,award_id,data}}",
+                                "awardMap": "${awardMap}"
                             }
                         }
                     ]
@@ -732,12 +734,12 @@
                             "query": "${graphql}"
                         },
                         "requestAdaptor": "",
-                        "adaptor": "const data = payload.data.WallQdData_findAll;\r\nfor (const item of data) {\r\n    item.headimgurl = item.data.headimgurl;\r\n    delete item.data.headimgurl;\r\n    item.nickname = item.data.nickname;\r\n    delete item.data.nickname;\r\n    item.name = item.data.name;\r\n    delete item.data.name;\r\n    item.mobile = item.data.mobile;\r\n    delete item.data.mobile;\r\n}\r\nreturn payload;",
+                        "adaptor": "const data = payload.data.WallQdData_findAll;\r\nfor (const item of data) {\r\n    item.headimgurl = item.data.headimgurl;\r\n    delete item.data.headimgurl;\r\n    item.nickname = item.data.nickname;\r\n    delete item.data.nickname;\r\n    item.name = item.data.name;\r\n    delete item.data.name;\r\n    item.mobile = item.data.mobile;\r\n    delete item.data.mobile;\r\n    item.awardName = item.award_id > 0 ? context.awardMap[item.award_id].name : ''\r\n}\r\nreturn payload;",
                         "messages": {}
                     },
                     "bulkActions": [],
                     "itemActions": [],
-                    "id": "u:0ec567c42527",
+                    "id": "u:6bdb39751b41",
                     "perPageAvailable": [
                         5,
                         10,
@@ -747,12 +749,66 @@
                     ],
                     "messages": {},
                     "autoFillHeight": true,
+                    "headerToolbar": [
+                        {
+                            "type": "bulk-actions"
+                        },
+                        {
+                            "type": "tpl",
+                            "tpl": "总共 ${WallQdData_findAll.length} 项",
+                            "wrapperComponent": "",
+                            "id": "u:7ccee336fe3f",
+                            "visibleOn": "${WallQdData_findAll.length>0}"
+                        },
+                        {
+                            "type": "export-excel",
+                            "tpl": "内容",
+                            "wrapperComponent": "",
+                            "id": "u:81d1221f0eae",
+                            "filename": "${title}",
+                            "align": "right"
+                        }
+                    ],
+                    "source": "${WallQdData_findAll}",
+                    "filter": {
+                        "title": "查询条件",
+                        "body": [
+                            {
+                                "type": "input-text",
+                                "name": "keywords",
+                                "label": "",
+                                "id": "u:3a52b5bbfc9f",
+                                "clearable": true,
+                                "maxLength": 20,
+                                "addOn": {
+                                    "label": "搜索",
+                                    "type": "submit",
+                                    "id": "u:e085bb1c3c29"
+                                },
+                                "placeholder": "输入关键词搜索",
+                                "size": "lg"
+                            }
+                        ],
+                        "id": "u:2f47b01cf603",
+                        "actions": [
+                            {
+                                "type": "submit",
+                                "label": "搜索",
+                                "primary": true,
+                                "id": "u:805d1c322255"
+                            }
+                        ],
+                        "feat": "Insert",
+                        "labelAlign": "left",
+                        "wrapWithPanel": false,
+                        "mode": "inline"
+                    },
                     "columns": [
                         {
                             "name": "id",
                             "label": "ID",
                             "type": "text",
-                            "id": "u:591b1cd0eb9c",
+                            "id": "u:792f669879ad",
                             "placeholder": "-",
                             "sortable": true
                         },
@@ -762,49 +818,55 @@
                             "inline": true,
                             "wrapperComponent": "",
                             "label": "签到时间",
-                            "id": "u:a421da7afcec"
+                            "id": "u:ca743c138b9e"
                         },
                         {
                             "type": "text",
                             "label": "用户openid",
                             "name": "openid",
-                            "id": "u:2b09d88ddb7a"
+                            "id": "u:9b59d3b9f822"
                         },
                         {
                             "type": "text",
                             "label": "用户昵称",
                             "name": "nickname",
-                            "id": "u:a18f727f713b"
+                            "id": "u:0f39c8f65c24"
                         },
                         {
                             "type": "image",
                             "label": "用户头像",
                             "name": "headimgurl",
-                            "id": "u:e3a1e16efbf0"
+                            "id": "u:197eda45bdb0"
                         },
                         {
                             "type": "text",
                             "label": "用户姓名",
                             "name": "name",
-                            "id": "u:f805c858d8d5"
+                            "id": "u:568bf26b940b"
                         },
                         {
                             "type": "text",
                             "label": "用户手机号",
                             "name": "mobile",
-                            "id": "u:98754b7be314"
+                            "id": "u:2d5b148e125c"
                         },
                         {
                             "type": "json",
                             "name": "data",
                             "label": "其他签到数据",
-                            "id": "u:ee4e0c8b1f81"
+                            "id": "u:a8265fc91aa0"
                         },
                         {
                             "type": "text",
                             "label": "中奖奖品id",
                             "name": "award_id",
-                            "id": "u:a311f428df0f"
+                            "id": "u:acf56a224dc3"
+                        },
+                        {
+                            "type": "text",
+                            "label": "奖品名字",
+                            "name": "awardName",
+                            "id": "u:316beb11771a"
                         },
                         {
                             "type": "operation",
@@ -831,65 +893,12 @@
                                     "editorSetting": {
                                         "behavior": "delete"
                                     },
-                                    "id": "u:322724a1ee72"
+                                    "id": "u:4142324bf12c"
                                 }
                             ],
-                            "id": "u:e796bdaf0725"
+                            "id": "u:7754bdfc387e"
                         }
-                    ],
-                    "headerToolbar": [
-                        {
-                            "type": "bulk-actions"
-                        },
-                        {
-                            "type": "tpl",
-                            "tpl": "总共 ${WallQdData_findAll.length} 项",
-                            "wrapperComponent": "",
-                            "id": "u:02d22cec984b",
-                            "visibleOn": "${WallQdData_findAll.length>0}"
-                        },
-                        {
-                            "type": "export-excel",
-                            "tpl": "内容",
-                            "wrapperComponent": "",
-                            "id": "u:cc1ee2823bb5",
-                            "align": "right"
-                        }
-                    ],
-                    "source": "${WallQdData_findAll}",
-                    "filter": {
-                        "title": "查询条件",
-                        "body": [
-                            {
-                                "type": "input-text",
-                                "name": "keywords",
-                                "label": "",
-                                "id": "u:aafb418c3508",
-                                "clearable": true,
-                                "maxLength": 20,
-                                "addOn": {
-                                    "label": "搜索",
-                                    "type": "submit",
-                                    "id": "u:aecd3f0c3b1e"
-                                },
-                                "placeholder": "输入关键词搜索",
-                                "size": "lg"
-                            }
-                        ],
-                        "id": "u:2f47b01cf603",
-                        "actions": [
-                            {
-                                "type": "submit",
-                                "label": "搜索",
-                                "primary": true,
-                                "id": "u:ebb3006405e8"
-                            }
-                        ],
-                        "feat": "Insert",
-                        "labelAlign": "left",
-                        "wrapWithPanel": false,
-                        "mode": "inline"
-                    }
+                    ]
                 }
             ],
             "title": "${title}",

@@ -76,10 +76,12 @@ class ServerController extends Controller {
                 break;
             case 'template':
                 await cacheService.template();
-                this.ctx.app.messenger.sendToApp('clear-nunjucks-cache')
                 break;
             case 'navigation':
                 await cacheService.navigation();
+                break;
+            case 'static':
+                cacheService.static();
                 break;
         }
         this.success();

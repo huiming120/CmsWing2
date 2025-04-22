@@ -91,7 +91,7 @@ class IndexController extends Controller {
         let router = await ctx.model.SysRoutes.findOne({ where: { path: lpath, admin: false } });
         const renderData = {};
         if (!router) {
-            router = await ctx.model.SysRoutes.findOne({ where: { path: { [Op.startsWith]: lpath.substring(0, lpath.lastIndexOf('/')) + '/:', admin: false } } });
+            router = await ctx.model.SysRoutes.findOne({ where: { path: { [Op.startsWith]: lpath.substring(0, lpath.lastIndexOf('/')) + '/:' }, admin: false } });
             if (router) {
                 const paramsName = router.path.split(':')[1];
                 const paramsValue = lpath.substring(lpath.lastIndexOf('/') + 1);

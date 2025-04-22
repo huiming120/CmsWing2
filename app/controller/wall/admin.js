@@ -110,7 +110,7 @@ class WallAdminController extends Controller {
             return this.fail('活动不存在');
         }
         const qdDataList = await ctx.model.WallQdData.findAll({ where: { wall_id: id, award_id: [0, award_id] } });
-        const canZJ = [], mustZJ = [], canotZJ = [], hasZJ = [], zj = [];
+        let canZJ = [], mustZJ = [], canotZJ = [], hasZJ = [], zj = [];
         for (const qd of qdDataList) {
             if (qd.award_id != 0) {
                 hasZJ.push(qd);

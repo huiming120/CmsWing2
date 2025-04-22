@@ -220,6 +220,19 @@ class AppBootHook {
         // 清除模板引擎缓存
         app.messenger.on('clear-nunjucks-cache', () => {
             app.nunjucks.cleanCache();
+            app.view.fileMap.clear();
+        })
+
+        // 清除所有静态文件缓存
+        app.messenger.on('clear-static-cache', (path) => {
+            if (path) {
+                const file = app.config.static.files.get(path);
+                if (file) {
+                    app.config.static.files.set(path, null);
+                }
+            } else {
+                app.config.static.files.reset();
+            }
         })
     }
 

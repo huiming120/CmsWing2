@@ -18,6 +18,7 @@ const moment = require('moment');
 moment.locale('zh-cn');
 const utils = require('utility');
 const uuid = require('uuid');
+const { Op, where: SequelizeWhere, fn: Sequelizefn, col: SequelizeCol } = require('sequelize');
 module.exports = {
 	_,
 	moment,
@@ -190,6 +191,91 @@ module.exports = {
 		}
 		return res;
 	},
+    // 从amis condition生成where
+    genWhereFromAmisCondition(condition, where = {}) {
+        if (condition.conjunction == 'or') {
+            if (condition.children && condition.children.length > 0) {
+                const tmpWhere = where[Op.or] = {}
+                for (const con of condition.children) {
+                    this.genWhereFromAmisCondition(con, tmpWhere)
+                }
+            }
+        } else if (condition.conjunction == 'and') {
+            if (condition.children && condition.children.length > 0) {
+                for (const con of condition.children) {
+                    this.genWhereFromAmisCondition(con, where)
+                }
+            }
+        } else {
+            if (condition.right != undefined) {
+                switch (condition.op) {
+                    case 'equal':
+                        where[condition.left.field] = { [Op.eq]: condition.right }
+                        break;
+                    case 'not_equal':
+                        where[condition.left.field] = { [Op.ne]: condition.right }
+                        break;
+                    case 'is_empty':
+                        where[condition.left.field] = { [Op.is]: '' }
+                        break;
+                    case 'is_not_empty':
+                        where[condition.left.field] = { [Op.not]: '' }
+                        break;
+                    case 'like':
+                        where[condition.left.field] = { [Op.substring]: condition.right }
+                        break;
+                    case 'not_like':
+                        where[condition.left.field] = { [Op.notLike]: '%' + condition.right + '%' }
+                        break;
+                    case 'starts_with':
+                        where[condition.left.field] = { [Op.startsWith]: condition.right }
+                        break;
+                    case 'ends_with':
+                        where[condition.left.field] = { [Op.endsWith]: condition.right }
+                        break;
+                    case 'less':
+                        where[condition.left.field] = { [Op.lt]: condition.right }
+                        break;
+                    case 'less_or_equal':
+                        where[condition.left.field] = { [Op.lte]: condition.right }
+                        break;
+                    case 'greater':
+                        where[condition.left.field] = { [Op.gt]: condition.right }
+                        break;
+                    case 'greater_or_equal':
+                        where[condition.left.field] = { [Op.gte]: condition.right }
+                        break;
+                    case 'between':
+                        where[condition.left.field] = { [Op.between]: condition.right }
+                        break;
+                    case 'not_between':
+                        where[condition.left.field] = { [Op.notBetween]: condition.right }
+                        break;
+                    case 'select_equals':
+                    case 'select_any_in':
+                        where[condition.left.field] = condition.right
+                        break;
+                    case 'select_not_equals':
+                    case 'select_not_any_in':
+                        if (_.isArray(condition.right)) {
+                            where[condition.left.field] = { [Op.notIn]: condition.right }
+                        } else {
+                            where[condition.left.field] = { [Op.ne]: condition.right }
+                        }
+                        break;
+                    case 'FIND_IN_SET':
+                        where[Op.and] = [SequelizeWhere(Sequelizefn('FIND_IN_SET', condition.right, SequelizeCol(condition.left.field)), '>', 0)]
+                        break;
+                    case 'IS_NULL':
+                        where[condition.left.field] = { [Op.is]: null }
+                        break;
+                    case 'IS_NOT_NULL':
+                        where[condition.left.field] = { [Op.not]: null }
+                        break;
+                }
+            }
+        }
+    },
 	// 递归创建目录 同步方法
 	mkdirsSync(dirname) {
 		if (fsSync.existsSync(dirname)) {

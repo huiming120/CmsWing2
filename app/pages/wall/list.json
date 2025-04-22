@@ -791,17 +791,18 @@
                                     "label": "抽奖页面模板",
                                     "name": "config.cj_temp",
                                     "searchable": true,
-                                    "description": "模板在/app/view/cms内,命名规则 wall_cj_模板名称.html",
+                                    "description": "模板在/app/view/cms内,命名规则 wall_lottery_模板名称.html",
                                     "source": {
                                         "method": "get",
-                                        "url": "/admin/cms/template/getTemplate?type=wall&name=cj",
+                                        "url": "/admin/cms/template/getTemplate?type=wall&name=lottery",
                                         "requestAdaptor": "",
                                         "adaptor": "",
                                         "messages": {}
                                     },
                                     "placeholder": "",
                                     "selectFirst": true,
-                                    "id": "u:73e1ce1bddb8"
+                                    "id": "u:73e1ce1bddb8",
+                                    "multiple": false
                                 },
                                 {
                                     "type": "select",

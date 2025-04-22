@@ -35,6 +35,7 @@ class cacheService extends Service {
         // const specialIndexUse = await this.ctx.model.CmsTemplateList.findOne({ where: { isu: true, type: 'special', name: 'index', template_uuid: templateInfo.uuid } });
         // templateInfo.specialIndex = specialIndexUse ? specialIndexUse.name : '';
         await this.app.cache.set('templateInfo', templateInfo)
+        this.ctx.app.messenger.sendToApp('clear-nunjucks-cache')
     }
     
     // 导航缓存
@@ -57,11 +58,18 @@ class cacheService extends Service {
         }
     }
 
+    // 静态文件缓存
+    static(path = '') {
+        this.ctx.app.messenger.sendToApp('clear-static-cache', path);
+        // this.config.static.files.reset();
+    }
+
     // 刷新所有
     async reloadAll() {
         await this.classify();
         await this.template();
         await this.navigation();
+        this.static();
     }
 }
 module.exports = cacheService;
